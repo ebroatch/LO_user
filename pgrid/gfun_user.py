@@ -259,11 +259,11 @@ def make_initial_info(gridname=gridname):
         gri_fn = ri_dir / 'river_info.csv'
         with open(gri_fn, 'w') as rf:
             rf.write('rname,usgs,ec,nws,ratio,depth,flow_units,temp_units\n')
-            rf.write('creeksill0,,,,1.0,5.0,m3/s,degC\n')
+            rf.write('creek_sill0,,,,1.0,5.0,m3/s,degC\n')
         # and make a track for the river
         track_dir = ri_dir / 'tracks'
         Lfun.make_dir(track_dir)
-        track_fn = track_dir / 'creeksill0.p'
+        track_fn = track_dir / 'creek_sill0.p'
         track_df = pd.DataFrame()
         NTR = 100
         track_df['lon'] = np.linspace(0,4,NTR) # OK to go past edge of domain

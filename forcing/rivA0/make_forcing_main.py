@@ -119,7 +119,7 @@ for rn in gri_df.index:
         # You could make the transport a function of time, for example by making
         # dti = pd.DatetimeIndex([dt0, dt1]) and then using a function of
         # dti.dayofyear.
-    elif rn == 'creeksill0':
+    elif rn == 'creek_sill0':
         Q_mat[:,ii] = 1500 * np.ones(NT) * gri_df.loc[rn, 'isign'] #river for Erin's idealized model (based on PS river flow values)
     else:
         # You could add other rivers here
