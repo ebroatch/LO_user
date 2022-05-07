@@ -2,12 +2,12 @@
 This is the one place where you set the path structure of the LO code.
 The info is stored in the dict Ldir.
 
-All paths are pathlib.Path objects.
+All paths are pathlib.Path objects
 
 This program is meant to be loaded as a module by Lfun which then adds more
 entries to the Ldir dict based on which model run you are working on.
 
-Users should copy this to LO_user/get_lo_info.py, edit as needed, and make it into
+Users should create LO_user/get_lo_info.py, edit as needed, and make it into
 their own GitHub repo.
 
 """
@@ -54,16 +54,28 @@ except KeyError:
 if str(HOME) == '/Users/pm8':
     lo_env = 'pm_mac'
     which_matlab = '/Applications/MATLAB_R2020a.app/bin/matlab'
+    roms_out2 = parent / 'LiveOcean_roms' / 'output'    # LiveOcean past I
+    roms_out3 = parent / 'LiveOcean_roms' / 'output'    # LiveOcean past II (same as I)
+
+elif (str(HOME) == '/home/parker') & ('boiler' in HOSTNAME):
+    lo_env = 'pm_boiler'
+    roms_out1 = Path('/data1/parker/LiveOcean_roms/output')     # LiveOcean current
+    roms_out2 = Path('/pgdat1/parker/LiveOcean_roms/output')    # LiveOcean past I
+    roms_out3 = Path('/pgdat2/parker/LiveOcean_roms/output')    # LiveOcean past II
 
 elif (str(HOME) == '/home/parker') & ('perigee' in HOSTNAME):
     lo_env = 'pm_perigee'
-    roms_out1 = Path('/agdat1/parker/LO_roms')
-    roms_out2 = Path('/agdat2/parker/LO_roms')
+    roms_out1 = Path('/boildat1/parker/LiveOcean_roms/output')  # LiveOcean current
+    roms_out2 = Path('/data1/parker/LiveOcean_roms/output')     # LiveOcean past I
+    roms_out3 = Path('/data2/parker/LiveOcean_roms/output')     # LiveOcean past II
+    roms_out4 = Path('/boildat1/parker/LO_roms')                # LO boiler
 
 elif (str(HOME) == '/home/parker') & ('apogee' in HOSTNAME):
     lo_env = 'pm_apogee'
-    roms_out1 = Path('/pgdat1/parker/LO_roms')
-    roms_out2 = Path('/pgdat2/parker/LO_roms')
+    roms_out1 = Path('/boildat/parker/LiveOcean_roms/output')  # LiveOcean current
+    roms_out2 = Path('/pgdat1/parker/LiveOcean_roms/output')     # LiveOcean past I
+    roms_out3 = Path('/pgdat2/parker/LiveOcean_roms/output')     # LiveOcean past II
+    roms_out4 = Path('/boildat/parker/LO_roms')                # LO boiler
 
 elif (str(HOME) == '/usr/lusers/pmacc'):
     lo_env = 'pm_mox'
@@ -83,14 +95,22 @@ elif (str(HOME) == '/mmfs1/home/pmacc'):
 
 elif str(HOME) == '/Users/erinbroatch':
     lo_env = 'eb_mac'
-    which_matlab = '/Applications/MATLAB_R2020b.app/toolbox/matlab/general/matlab.m'
+    which_matlab = '/Applications/MATLAB_R2020b.app/toolbox/matlab/general/matlab.m' #not sure about this
+    #roms_out2 = parent / 'LiveOcean_roms' / 'output'    # LiveOcean past I
+    #roms_out3 = parent / 'LiveOcean_roms' / 'output'    # LiveOcean past II (same as I)
 
-#no boiler :(
+elif (str(HOME) == '/home/ebroatch') & ('boiler' in HOSTNAME):
+    lo_env = 'eb_boiler'
+    roms_out1 = Path('/data1/parker/LiveOcean_roms/output')     # LiveOcean current
+    roms_out2 = Path('/pgdat1/parker/LiveOcean_roms/output')    # LiveOcean past I
+    roms_out3 = Path('/pgdat2/parker/LiveOcean_roms/output')    # LiveOcean past II
 
 elif (str(HOME) == '/home/ebroatch') & ('perigee' in HOSTNAME):
     lo_env = 'eb_perigee'
-    roms_out1 = Path('/agdat1/parker/LO_roms')
-    roms_out2 = Path('/agdat2/parker/LO_roms')
+    roms_out1 = Path('/boildat1/parker/LiveOcean_roms/output')  # LiveOcean current
+    roms_out2 = Path('/data1/parker/LiveOcean_roms/output')     # LiveOcean past I
+    roms_out3 = Path('/data2/parker/LiveOcean_roms/output')     # LiveOcean past II
+    roms_out4 = Path('/boildat1/parker/LO_roms')                # LO boiler
 
 elif (str(HOME) == '/mmfs1/home/ebroatch'):
     lo_env = 'eb_klone'
