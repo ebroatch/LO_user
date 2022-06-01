@@ -3,14 +3,14 @@ Module to create dicts for multiple (or single) mooring extractions.
 """
 
 def get_sta_dict(job_name):
-    
+
     # specific job definitions
-    
+
     if job_name == 'willapa_bc': # Willapa Bay Center PCSGA Mooring
         sta_dict = {
-            'wbc': (-123.9516, 46.6290)
-            }
-            
+        'wbc': (-123.9516, 46.6290)
+        }
+        
     elif job_name == 'mickett_1':
         sta_dict = {
         'ORCA_Hansville': (-122.6270, 47.9073),
@@ -19,7 +19,7 @@ def get_sta_dict(job_name):
         'Central_Main_Stem_Hood_Canal': (-122.989507, 47.574352),
         'North_Central_Main_Basin': (-122.440755, 47.825099)
         }
-            
+        
     elif job_name == 'mickett_2':
         sta_dict = {
         'Carr_Inlet_ORCA': (-122 - 43.8/60, 47 + 16.8/60),
@@ -38,9 +38,9 @@ def get_sta_dict(job_name):
         'USNM_92626_Admiralty': (-122.80, 48.1917),
         'USNM_19228_Dungeness': (-123.189, 48.225),
         'USNM_19272_Admiralty': (-122.817, 48.20),
-        'USNM_92620_Lopez': (-122.85, 48.3667),
+        'USNM_92620_Lopez': (-122.85, 48.3667)
         }
-            
+        
     elif job_name == 'stoll_obs':
         sta_dict = {
         'DOE_SJF002': (-123.025, 48.25),
@@ -48,7 +48,7 @@ def get_sta_dict(job_name):
         'DOE_ADM001': ( -122.616715, 48.0300056),
         'WOAC_STN21': (-122.8504, 48.1883),
         'WOAC_STN20': (-122.6848, 48.142),
-        'WOAC_STN19': (-122.6318, 48.0915),
+        'WOAC_STN19': (-122.6318, 48.0915)
         }
             
     elif job_name == 'Kelly':
@@ -58,7 +58,7 @@ def get_sta_dict(job_name):
         'Little_Dewatto': (-123.08612-.005, 47.44489),
         'Red_Bluff': (-123.10438-.007, 47.41625)
         }
-            
+        
     elif job_name == 'jazzy':
         sta_dict = {
         'Middle_Bank': (-123.09651, 48.40935),
@@ -76,7 +76,7 @@ def get_sta_dict(job_name):
             'CE01':(-124.095, 44.6598), # Oregon Inshore (25 m)
             'CE02':(-124.304, 44.6393), # Oregon Shelf (80 m)
             'CE04':(-124.956, 44.3811), # Oregon Offshore (588 m)
-            'PN01A':(-125.3983, 44.5096), # Slope Base (2905 m)
+            'PN01A':(-125.3983, 44.5096) # Slope Base (2905 m)
         }
         
     elif job_name == 'erika_esci491w2022':
@@ -119,7 +119,8 @@ def get_sta_dict(job_name):
         'F_013_VAN': (-123.85335983884296, 49.675097341923546),
         'F_011_SAL': (-123.83316138272168, 49.62136556218934),
         'F_006_NEW': (-123.65810809633727, 49.64795343794384),
-        'E_006_RIV': (-123.5436501783167, 49.693507914816124)}
+        'E_006_RIV': (-123.5436501783167, 49.693507914816124)
+        }
         
     elif job_name == 'orca_eb':
         sta_dict = {
