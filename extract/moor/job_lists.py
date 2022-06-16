@@ -137,6 +137,11 @@ def get_sta_dict(job_name):
         'NB': (-122.6270, 47.9073)
         }
 
+    elif job_name == 'sill0_spinup_teset':
+        sta_dict = {
+        'basin1': (1.78, 45)
+        }
+
     else:
         print('Unsupported job name!')
         a = dict()
