@@ -137,7 +137,7 @@ def get_sta_dict(job_name):
         'NB': (-122.6270, 47.9073)
         }
 
-    elif job_name == 'sill0_spinup_teset':
+    elif job_name == 'sill0_spinup_test':
         sta_dict = {
         'basin1': (1.78, 45)
         }
