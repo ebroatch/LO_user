@@ -139,7 +139,9 @@ def get_sta_dict(job_name):
 
     elif job_name == 'sill0_spinup_test':
         sta_dict = {
-        'basin1': (1.78, 45)
+        'basin1': (1.77859, 45),
+        'basin2': (1.27042, 45),
+        'basin3': (0.76225, 45)
         }
 
     else:
