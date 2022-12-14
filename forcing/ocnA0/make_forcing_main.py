@@ -5,7 +5,7 @@ Designed to run only as backfill.
 
 Testing:
 
-run make_forcing_main.py -g ae0 -t v0 -r backfill -s continuation -d 2020.01.01 -f ocnA0 -test True
+run make_forcing_main.py -g ae0 -r backfill -d 2020.01.01 -f ocnA0 -test True
 
 """
 
@@ -13,7 +13,7 @@ from pathlib import Path
 import sys
 from datetime import datetime, timedelta
 
-from lo_tools import forcing_argfun as ffun
+from lo_tools import forcing_argfun2 as ffun
 
 Ldir = ffun.intro() # this handles all the argument passing
 result_dict = dict()
@@ -35,7 +35,7 @@ else:
     verbose = False
 
 # This directory is created, along with Info and Data subdirectories, by ffun.intro()
-out_dir = Ldir['LOo'] / 'forcing' / Ldir['gtag'] / ('f' + Ldir['date_string']) / Ldir['frc']
+out_dir = Ldir['LOo'] / 'forcing' / Ldir['gridname'] / ('f' + Ldir['date_string']) / Ldir['frc']
 
 # Datetime of the day we are working on
 this_dt = datetime.strptime(Ldir['date_string'], Lfun.ds_fmt)
@@ -106,14 +106,15 @@ ds.close()
 print('- Write clm file: %0.2f sec' % (time()-tt0))
 sys.stdout.flush()
 
-# Write initial condition file
-tt0 = time()
-in_fn = out_dir / 'ocean_clm.nc'
-out_fn = out_dir / 'ocean_ini.nc'
-out_fn.unlink(missing_ok=True)
-Ofun_nc.make_ini_file(in_fn, out_fn)
-print('- Write ini file: %0.2f sec' % (time()-tt0))
-sys.stdout.flush()
+if Ldir['start_type'] == 'new':
+    # Write initial condition file
+    tt0 = time()
+    in_fn = out_dir / 'ocean_clm.nc'
+    out_fn = out_dir / 'ocean_ini.nc'
+    out_fn.unlink(missing_ok=True)
+    Ofun_nc.make_ini_file(in_fn, out_fn)
+    print('- Write ini file: %0.2f sec' % (time()-tt0))
+    sys.stdout.flush()
 
 # Write boundary file
 tt0 = time()
@@ -131,7 +132,10 @@ def print_info(fn):
     ds.close()
 
 # Check results
-nc_list = ['ocean_clm.nc', 'ocean_ini.nc', 'ocean_bry.nc']
+if Ldir['start_type'] == 'new':
+    nc_list = ['ocean_clm.nc', 'ocean_ini.nc', 'ocean_bry.nc']
+else:
+    nc_list = ['ocean_clm.nc', 'ocean_bry.nc']
 if Ldir['testing']:
     # print info about the files to the screen
     for fn in nc_list:
