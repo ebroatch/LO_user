@@ -38,6 +38,7 @@ def x2lon(x,lon0,lat0):
     lon = (180 * x) / (R * clat * np.pi) + lon0
     return lon
 
-moorloc_km = np.array([140, 122, 120, 118, 100, 82, 80, 78, 60, 42, 40, 38, 20])
+#moorloc_km = np.array([140, 122, 120, 118, 100, 82, 80, 78, 60, 42, 40, 38, 20])
+moorloc_km = np.array([68, 48, 44, 40, 20])
 moorloc_meters = moorloc_km*1e3
 moorloc_lon = x2lon(moorloc_meters, 0, 45)

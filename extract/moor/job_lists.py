@@ -161,6 +161,15 @@ def get_sta_dict(job_name):
         'basin4': (0.25450679733618026, 45)
         }
 
+    elif job_name == 'sill1_test':
+        sta_dict = {
+        'innerbasin': (0.8653231109430128, 45), #68km
+        'innersill': (0.6108163136068325, 45), #48km
+        'midsill': (0.5599149541395965, 45), #44km
+        'outersill': (0.5090135946723605, 45), #40km
+        'outerbasin': (0.25450679733618026, 45), #20km
+        }
+
     else:
         print('Unsupported job name!')
         a = dict()
