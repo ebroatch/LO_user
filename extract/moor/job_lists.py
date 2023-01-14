@@ -163,11 +163,11 @@ def get_sta_dict(job_name):
 
     elif job_name == 'sill1_test':
         sta_dict = {
-        'innerbasin': (0.8653231109430128, 45), #68km
-        'innersill': (0.6108163136068325, 45), #48km
-        'midsill': (0.5599149541395965, 45), #44km
+        'innerbasin': (0.8144217514757768, 45), #64km
+        'innersill': (0.5599149541395965, 45), #44km
+        'midsill': (0.5344642744059785, 45), #42km
         'outersill': (0.5090135946723605, 45), #40km
-        'outerbasin': (0.25450679733618026, 45), #20km
+        'outerbasin': (0.25450679733618026, 45) #20km
         }
 
     else:
