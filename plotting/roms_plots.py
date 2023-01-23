@@ -139,7 +139,7 @@ def P_sect_vel_eb(in_dict):
     lon = G['lon_rho']
     lat = G['lat_rho']
     zdeep = -205
-    x = np.linspace(2.03821, -1, 500)
+    x = np.linspace(1, -1, 500)
     y = 45 * np.ones(x.shape)
     v2, v3, dist, idist0 = pfun.get_section(ds, vn, x, y, in_dict)
     
