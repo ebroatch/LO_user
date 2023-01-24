@@ -116,7 +116,7 @@ def P_sect_eb(in_dict):
     else:
         plt.show()
 
-def P_sect_vel_eb(in_dict):
+def P_sect_vel_eb(in_dict): #doesn't work yet
     """
     This plots a map and a section (distance, z), and makes sure
     that the color limits are identical.  If the color limits are
@@ -188,6 +188,62 @@ def P_sect_vel_eb(in_dict):
     ax.set_ylabel('Z (m)')
     ax.set_title('Section %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn]))
     fig.tight_layout()
+    # FINISH
+    ds.close()
+    pfun.end_plot()
+    if len(str(in_dict['fn_out'])) > 0:
+        plt.savefig(in_dict['fn_out'])
+        plt.close()
+    else:
+        plt.show()
+
+def P_vort_eb(in_dict):
+    # START
+    ds = xr.open_dataset(in_dict['fn'])
+    # find aspect ratio of the map
+    aa = pfun.get_aa(ds)
+    # AR is the aspect ratio of the map: Vertical/Horizontal
+    AR = (aa[3] - aa[2]) / (np.sin(np.pi*aa[2]/180)*(aa[1] - aa[0]))
+    fs = 14
+    hgt = 10
+    pfun.start_plot(fs=fs, figsize=(int(hgt*2.5/AR),int(hgt)))
+    fig = plt.figure()
+    
+    # create fields
+    u = ds.u[0,-1,:,:].values
+    v = ds.v[0,-1,:,:].values
+    dx = 1/ds.pm.values
+    dy = 1/ds.pn.values
+    # dive is on the trimmed rho grid
+    dive = np.diff(u[1:-1,:], axis=1)/dx[1:-1,1:-1] + np.diff(v[:,1:-1],axis=0)/dy[1:-1,1:-1]
+    # vort is on the psi grid (plot with lon_rho, lat_rho)
+    vort = np.diff(v,axis=1)/dx[1:,1:] - np.diff(u,axis=0)/dy[1:,1:]
+    
+    # set color limits
+    vv = 2*np.nanstd(vort)
+    
+    # PLOT CODE
+    if in_dict['auto_vlims']:
+        pinfo.vlims_dict['vort'] = (-vv, vv)
+        pinfo.vlims_dict['dive'] = (-vv, vv)
+        
+    vmin = pinfo.vlims_dict['vort'][0]
+    vmax = pinfo.vlims_dict['vort'][1]
+    
+    fig, ax = plt.subplots(1,1)
+    cmap = 'RdYlBu_r'
+    cs = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
+    ax.set_title('Surface Vorticity $[s^{-1}]$', fontsize=1.2*fs)
+    fig.colorbar(cs)
+    pfun.add_coast(ax)
+    ax.axis(aa)
+    pfun.dar(ax)
+    ax.set_xlabel('Longitude')
+    ax.set_ylabel('Latitude')
+    pfun.add_bathy_contours(ax, ds, txt=True)
+    pfun.add_info(ax, in_dict['fn'])
+    pfun.add_bathy_contours(ax, ds, txt=True)
+
     # FINISH
     ds.close()
     pfun.end_plot()
