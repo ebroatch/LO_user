@@ -227,8 +227,8 @@ def P_vort_eb(in_dict):
         pinfo.vlims_dict['vort'] = (-vv, vv)
         pinfo.vlims_dict['dive'] = (-vv, vv)
         
-    vmin = pinfo.vlims_dict['vort'][0]
-    vmax = pinfo.vlims_dict['vort'][1]
+        vmin = pinfo.vlims_dict['vort'][0]
+        vmax = pinfo.vlims_dict['vort'][1]
     
     fig, ax = plt.subplots(1,1)
     cmap = 'RdYlBu_r'
