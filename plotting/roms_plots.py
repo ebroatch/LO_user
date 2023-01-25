@@ -58,7 +58,7 @@ def P_sect_eb(in_dict):
     lon = G['lon_rho']
     lat = G['lat_rho']
     zdeep = -205
-    x = np.linspace(1, -1, 500)
+    x = np.linspace(1.07, -1, 500)
     y = 45 * np.ones(x.shape)
     v2, v3, dist, idist0 = pfun.get_section(ds, vn, x, y, in_dict)
     
@@ -231,7 +231,7 @@ def P_vort_eb(in_dict):
         vmax = pinfo.vlims_dict['vort'][1]
     
     fig, ax = plt.subplots(1,1)
-    cmap = 'RdYlBu_r'
+    cmap = cm.curl
     cs = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
     ax.set_title('Surface Vorticity $[s^{-1}]$', fontsize=1.2*fs)
     fig.colorbar(cs)
