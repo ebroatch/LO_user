@@ -10,8 +10,9 @@ import pandas as pd
 import numpy as np
 import cycler
 plt.rcParams['axes.grid'] = True
-colors = plt.cm.YlGnBu(np.linspace(0.3, 1, 5))
-plt.rcParams['axes.prop_cycle'] = cycler.cycler('color', colors)
+# colors = plt.cm.YlGnBu(np.linspace(0.3, 1, 5))
+# plt.rcParams['axes.prop_cycle'] = cycler.cycler('color', colors)
+plt.rcParams['axes.prop_cycle'] = cycler.cycler(color = ['tab:red', 'tab:orange', 'tab:green', 'tab:blue', 'tab:purple'])
 
 Ldir = Lfun.Lstart()
 
@@ -64,17 +65,22 @@ for i in range(num_fn):
     vn2_list = [item for item in vn2_list if item in ds.data_vars]
     vn3_list = [item for item in vn3_list if item in ds.data_vars]
 
+    lp = True
     # plot time series using a pandas DataFrame
     df = pd.DataFrame(index=ot)
     for vn in vn2_list:
-        #df[vn] = ds[vn].values
-        df[vn] = zfun.lowpass(ds[vn].values, f='godin')
+        if lp == True:
+            df[vn] = zfun.lowpass(ds[vn].values, f='godin')
+        else:
+            df[vn] = ds[vn].values
+        
     for vn in vn3_list:
-        #df[vn] = ds[vn][:, -1]
-        df[vn] = zfun.lowpass(ds[vn][:, -1].values, f='godin')
+        if lp == True:
+            df[vn] = zfun.lowpass(ds[vn][:, -1].values, f='godin')
+        else:
+            df[vn] = ds[vn][:, -1]
 
     axs[0].plot(df['zeta'], label=moor_label)
-    axs[0].set_ylim(bottom=0, top=0.4)
     axs[0].set_ylabel(r'$\zeta$ [m]')
     axs[0].text(.02, .9, 'Sea surface height', c='k', weight='bold', transform=axs[0].transAxes)
 
@@ -83,15 +89,24 @@ for i in range(num_fn):
     axs[1].set_ylabel(r'S [psu]')
     axs[1].text(.02, .9, 'Surface salinity', c='k', weight='bold', transform=axs[1].transAxes)
 
-    axs[2].plot(df['ubar'], label=moor_label)
-    axs[2].set_ylim(bottom=-0.1, top=0.3)
+    axs[2].plot(df['ubar'], label=moor_label) 
     axs[2].set_ylabel(r'u [m/s]')
     axs[2].text(.02, .9, 'ubar', c='k', weight='bold', transform=axs[2].transAxes)
 
     axs[3].plot(df['vbar'], label=moor_label)
-    axs[3].set_ylim(bottom=-0.1, top=0.1)
     axs[3].set_ylabel(r'$\bar{v}$ [m/s]')
+    
     axs[3].text(.02, .9, 'vbar', c='k', weight='bold', transform=axs[3].transAxes)
+
+    if lp == True:
+        axs[0].set_ylim(bottom=0, top=0.4)
+        axs[2].set_ylim(bottom=-0.1, top=0.3)
+        axs[3].set_ylabel(r'$\bar{v}$ [m/s]')
+    else:
+        axs[0].set_ylim(bottom=-2, top=2)
+        axs[2].set_ylim(bottom=-0.3, top=0.7)
+        axs[3].set_ylim(bottom=-0.3, top=0.3)
+
 
     # ax = fig.add_subplot(412)
     # cs = ax.pcolormesh(TT, ZZ, TH, cmap=cm.thermal, vmin=5, vmax=15)
