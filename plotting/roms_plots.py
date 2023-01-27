@@ -226,7 +226,7 @@ def P_vort_eb(in_dict):
     vv = 2*np.nanstd(vort)
 
     fig = plt.figure()
-    gs = fig.add_gridspec(nrows=3, ncols=5)
+    gs = fig.add_gridspec(nrows=3, ncols=5, hspace=0.2, wspace=0.3)
     cmap = cm.curl
 
     # PLOT CODE
