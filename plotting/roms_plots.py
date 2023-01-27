@@ -237,7 +237,7 @@ def P_vort_eb(in_dict):
         vmin = pinfo.vlims_dict['vort'][0]
         vmax = pinfo.vlims_dict['vort'][1]
     
-    ax1 = fig.add_subplot(gs[0:2,0:2])
+    ax1 = fig.add_subplot(gs[0:2,3:]) 
     cs1 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
     ax1.set_title('Plume focus', fontsize=12)
     #fig.colorbar(cs1)
@@ -246,9 +246,9 @@ def P_vort_eb(in_dict):
     ax1.set_xlabel('Longitude')
     ax1.set_ylabel('Latitude')
 
-    ax2 = fig.add_subplot(gs[0:2,2:])
+    ax2 = fig.add_subplot(gs[0:2,0:3])
     cs2 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
-    #ax2.set_title('Surface Vorticity $[s^{-1}]$', fontsize=14)
+    ax2.set_title('Surface Vorticity $[s^{-1}]$', fontsize=14)
     #fig.colorbar(cs2)
     ax2.axis(aa2)
     pfun.dar(ax2)
@@ -268,6 +268,7 @@ def P_vort_eb(in_dict):
 
     fig.colorbar(cs3)
     plt.suptitle('Surface Vorticity $[s^{-1}]$', fontsize=16)
+    plt.tight_layout()
 
     # FINISH
     ds.close()
