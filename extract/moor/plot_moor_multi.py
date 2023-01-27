@@ -31,7 +31,11 @@ if moor_item.is_file() and moor_name[-3:]=='.nc':
     moor_label = input("Enter label for mooring")
 
 fig, axs = plt.subplots(4,1,sharex=True)
-axs[0].set_title('Tidally averaged mooring extractions')
+lp = True
+if lp == True:
+    axs[0].set_title('Tidally averaged mooring extractions')
+else:
+    axs[0].set_title('Mooring extractions')
 
 
 for i in range(num_fn):
@@ -65,7 +69,6 @@ for i in range(num_fn):
     vn2_list = [item for item in vn2_list if item in ds.data_vars]
     vn3_list = [item for item in vn3_list if item in ds.data_vars]
 
-    lp = True
     # plot time series using a pandas DataFrame
     df = pd.DataFrame(index=ot)
     for vn in vn2_list:
@@ -95,17 +98,16 @@ for i in range(num_fn):
 
     axs[3].plot(df['vbar'], label=moor_label)
     axs[3].set_ylabel(r'$\bar{v}$ [m/s]')
-    
     axs[3].text(.02, .9, 'vbar', c='k', weight='bold', transform=axs[3].transAxes)
 
     if lp == True:
-        axs[0].set_ylim(bottom=0, top=0.4)
-        axs[2].set_ylim(bottom=-0.1, top=0.3)
-        axs[3].set_ylabel(r'$\bar{v}$ [m/s]')
+        axs[0].set_ylim(bottom=0, top=0.5)
+        axs[2].set_ylim(bottom=-0.1, top=0.4)
+        axs[3].set_ylim(bottom=-0.08, top=0.08)
     else:
-        axs[0].set_ylim(bottom=-2, top=2)
-        axs[2].set_ylim(bottom=-0.3, top=0.7)
-        axs[3].set_ylim(bottom=-0.3, top=0.3)
+        axs[0].set_ylim(bottom=-2, top=3)
+        axs[2].set_ylim(bottom=-0.8, top=1.4)
+        axs[3].set_ylim(bottom=-0.2, top=0.2)
 
 
     # ax = fig.add_subplot(412)
