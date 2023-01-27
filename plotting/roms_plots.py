@@ -225,7 +225,7 @@ def P_vort_eb(in_dict):
     # set color limits
     vv = 2*np.nanstd(vort)
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(14,10))
     gs = fig.add_gridspec(nrows=3, ncols=6, hspace=0.4, wspace=0.5)
     cmap = cm.curl
 
