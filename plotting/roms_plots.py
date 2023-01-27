@@ -201,7 +201,7 @@ def P_vort_eb(in_dict):
     # START
     ds = xr.open_dataset(in_dict['fn'])
     aa1 = [-2, 0, 44.5, 46.5]
-    aa2 = [-4, 1.5, 43, 47]
+    aa2 = [-4, 4, 43, 47]
     aa3 = [-0.2, 1.3, 44.9, 45.1]
     # find aspect ratio of the map
     # AR is the aspect ratio of the map: Vertical/Horizontal
@@ -266,7 +266,7 @@ def P_vort_eb(in_dict):
     ax3.set_xlabel('Longitude')
     ax3.set_ylabel('Latitude')
 
-    fig.colorbar(cs3, ax=[ax1,ax3])
+    #fig.colorbar(cs3, ax=[ax1,ax3])
     plt.suptitle('Surface Vorticity $[s^{-1}]$', fontsize=16)
     #plt.tight_layout()
 
