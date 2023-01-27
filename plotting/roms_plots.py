@@ -268,7 +268,7 @@ def P_vort_eb(in_dict):
 
     fig.colorbar(cs3, ax=[ax1,ax3])
     plt.suptitle('Surface Vorticity $[s^{-1}]$', fontsize=16)
-    plt.tight_layout()
+    #plt.tight_layout()
 
     # FINISH
     ds.close()
