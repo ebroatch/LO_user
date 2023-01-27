@@ -266,7 +266,7 @@ def P_vort_eb(in_dict):
     ax3.set_xlabel('Longitude')
     ax3.set_ylabel('Latitude')
 
-    #fig.colorbar(cs3, ax=[ax1,ax3])
+    fig.colorbar(cs3, ax=[ax1,ax3])
     plt.suptitle('Surface Vorticity $[s^{-1}]$', fontsize=16)
     plt.tight_layout()
 
