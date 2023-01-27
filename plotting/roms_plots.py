@@ -202,7 +202,7 @@ def P_vort_eb(in_dict):
     ds = xr.open_dataset(in_dict['fn'])
     aa1 = [-2, 0, 44.5, 46.5]
     aa2 = [-4, 2, 43, 47]
-    aa3 = [0, 1.1, 44.9, 45.1]
+    aa3 = [-0.2, 1.3, 44.9, 45.1]
     # find aspect ratio of the map
     # AR is the aspect ratio of the map: Vertical/Horizontal
     # AR = (aa[3] - aa[2]) / (np.sin(np.pi*aa[2]/180)*(aa[1] - aa[0]))
@@ -248,7 +248,7 @@ def P_vort_eb(in_dict):
 
     ax2 = fig.add_subplot(gs[0:2,0:3])
     cs2 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
-    ax2.set_title('Surface Vorticity $[s^{-1}]$', fontsize=14)
+    ax2.set_title('Surface Vorticity $[s^{-1}]$', fontsize=12)
     #fig.colorbar(cs2)
     ax2.axis(aa2)
     pfun.dar(ax2)
@@ -266,7 +266,7 @@ def P_vort_eb(in_dict):
     ax3.set_xlabel('Longitude')
     ax3.set_ylabel('Latitude')
 
-    fig.colorbar(cs3)
+    fig.colorbar(cs3, ax=[ax1,ax3])
     plt.suptitle('Surface Vorticity $[s^{-1}]$', fontsize=16)
     plt.tight_layout()
 
