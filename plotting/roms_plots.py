@@ -225,6 +225,8 @@ def P_vort_eb(in_dict):
     
     # set color limits
     vv = 2*np.nanstd(vort)
+    if vv<=0.00001:
+        vv=0.0002
 
     fig = plt.figure(figsize=(14,8))
     gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
@@ -236,7 +238,7 @@ def P_vort_eb(in_dict):
     if in_dict['auto_vlims']: #MUST USE -avl True SINCE vort IS NOT INCLUDED IN pinfo
         pinfo.vlims_dict['vort'] = (-vv, vv)
         pinfo.vlims_dict['dive'] = (-vv, vv)
-        
+
     vmin = pinfo.vlims_dict['vort'][0]
     vmax = pinfo.vlims_dict['vort'][1]
     
