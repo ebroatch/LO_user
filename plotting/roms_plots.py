@@ -18,6 +18,7 @@ import pickle
 from datetime import datetime, timedelta
 import pandas as pd
 from cmocean import cm
+import copy
 
 from lo_tools import Lfun, zfun, zrfun
 from lo_tools import plotting_functions as pfun
@@ -227,7 +228,9 @@ def P_vort_eb(in_dict):
 
     fig = plt.figure(figsize=(14,8))
     gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
-    cmap = 'RdYlBu'
+    cmap = copy.copy(cm.curl)
+    cmap.set_bad('tab:gray')
+
 
     # PLOT CODE
     if in_dict['auto_vlims']: #MUST USE -avl True SINCE vort IS NOT INCLUDED IN pinfo
