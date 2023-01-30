@@ -202,7 +202,7 @@ def P_vort_eb(in_dict):
     ds = xr.open_dataset(in_dict['fn'])
     aa1 = [-2, 0, 44.5, 46.5]
     aa2 = [-4, 4, 43, 47]
-    aa3 = [-0.2, 1.3, 44.9, 45.1]
+    aa3 = [-0.2, 1.2, 44.9, 45.1]
     # find aspect ratio of the map
     # AR is the aspect ratio of the map: Vertical/Horizontal
     # AR = (aa[3] - aa[2]) / (np.sin(np.pi*aa[2]/180)*(aa[1] - aa[0]))
@@ -226,7 +226,7 @@ def P_vort_eb(in_dict):
     vv = 2*np.nanstd(vort)
 
     fig = plt.figure(figsize=(14,8))
-    gs = fig.add_gridspec(nrows=4, ncols=5, hspace=0.5, wspace=0.4)
+    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
     cmap = 'RdYlBu'
 
     # PLOT CODE
@@ -237,7 +237,7 @@ def P_vort_eb(in_dict):
         vmin = pinfo.vlims_dict['vort'][0]
         vmax = pinfo.vlims_dict['vort'][1]
     
-    ax1 = fig.add_subplot(gs[0:3,3:]) 
+    ax1 = fig.add_subplot(gs[0,1]) 
     cs1 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
     ax1.set_title('Plume focus', fontsize=12)
     #fig.colorbar(cs1)
@@ -246,7 +246,7 @@ def P_vort_eb(in_dict):
     ax1.set_xlabel('Longitude')
     ax1.set_ylabel('Latitude')
 
-    ax2 = fig.add_subplot(gs[0:3,0:3])
+    ax2 = fig.add_subplot(gs[0,0])
     cs2 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
     ax2.set_title('Full model', fontsize=12)
     #fig.colorbar(cs2)
@@ -258,7 +258,7 @@ def P_vort_eb(in_dict):
     # pfun.add_coast(ax2)
     # pfun.add_bathy_contours(ax, ds, txt=True)
 
-    ax3 = fig.add_subplot(gs[3,:])
+    ax3 = fig.add_subplot(gs[1,0:2])
     cs3 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
     ax3.set_title('Estuary focus', fontsize=12)
     ax3.axis(aa3)
@@ -266,9 +266,10 @@ def P_vort_eb(in_dict):
     ax3.set_xlabel('Longitude')
     ax3.set_ylabel('Latitude')
 
-    fig.colorbar(cs3, ax=[ax1,ax3])
+    ax4 = fig.add_subplot(gs[:,2])
+    fig.colorbar(cs3, cax=ax4)
     plt.suptitle('Surface Vorticity $[s^{-1}]$', fontsize=16)
-    plt.tight_layout()
+    #plt.tight_layout()
 
     # FINISH
     ds.close()
