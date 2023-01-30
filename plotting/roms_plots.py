@@ -237,8 +237,8 @@ def P_vort_eb(in_dict):
         pinfo.vlims_dict['vort'] = (-vv, vv)
         pinfo.vlims_dict['dive'] = (-vv, vv)
         
-        vmin = pinfo.vlims_dict['vort'][0]
-        vmax = pinfo.vlims_dict['vort'][1]
+    vmin = pinfo.vlims_dict['vort'][0]
+    vmax = pinfo.vlims_dict['vort'][1]
     
     ax1 = fig.add_subplot(gs[0,1]) 
     cs1 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
