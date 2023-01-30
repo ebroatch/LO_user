@@ -228,8 +228,8 @@ def P_vort_eb(in_dict):
 
     fig = plt.figure(figsize=(14,8))
     gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
-    cmap = copy.copy(cm.curl)
-    cmap.set_bad('tab:gray')
+    cmap = copy.copy(cm.balance)
+    cmap.set_bad('lightgray')
 
 
     # PLOT CODE
