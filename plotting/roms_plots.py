@@ -225,9 +225,9 @@ def P_vort_eb(in_dict):
     # set color limits
     vv = 2*np.nanstd(vort)
 
-    fig = plt.figure(figsize=(14,10))
-    gs = fig.add_gridspec(nrows=3, ncols=6, hspace=0.4, wspace=0.5)
-    cmap = cm.curl
+    fig = plt.figure(figsize=(14,8))
+    gs = fig.add_gridspec(nrows=4, ncols=5, hspace=0.5, wspace=0.4)
+    cmap = 'RdYlBu'
 
     # PLOT CODE
     if in_dict['auto_vlims']: #MUST USE -avl True SINCE vort IS NOT INCLUDED IN pinfo
@@ -237,7 +237,7 @@ def P_vort_eb(in_dict):
         vmin = pinfo.vlims_dict['vort'][0]
         vmax = pinfo.vlims_dict['vort'][1]
     
-    ax1 = fig.add_subplot(gs[0:2,3:]) 
+    ax1 = fig.add_subplot(gs[0:3,3:]) 
     cs1 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
     ax1.set_title('Plume focus', fontsize=12)
     #fig.colorbar(cs1)
@@ -246,7 +246,7 @@ def P_vort_eb(in_dict):
     ax1.set_xlabel('Longitude')
     ax1.set_ylabel('Latitude')
 
-    ax2 = fig.add_subplot(gs[0:2,0:3])
+    ax2 = fig.add_subplot(gs[0:3,0:3])
     cs2 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
     ax2.set_title('Full model', fontsize=12)
     #fig.colorbar(cs2)
@@ -258,7 +258,7 @@ def P_vort_eb(in_dict):
     # pfun.add_coast(ax2)
     # pfun.add_bathy_contours(ax, ds, txt=True)
 
-    ax3 = fig.add_subplot(gs[2,:])
+    ax3 = fig.add_subplot(gs[3,:])
     cs3 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
     ax3.set_title('Estuary focus', fontsize=12)
     ax3.axis(aa3)
