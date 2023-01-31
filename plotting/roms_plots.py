@@ -386,9 +386,10 @@ def P_umap_eb(in_dict):
     u = ds.u[0,-1,:,:].values
 
     # set color limits
-    vv = 2*np.nanstd(u)
-    # if vv<=0.00001:
-    #     vv=0.0002
+    # vv = 2*np.nanstd(u)
+    # if vv<=0.001:
+    #     vv=0.25
+    vv=0.25
 
     fig = plt.figure(figsize=(14,8))
     gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
