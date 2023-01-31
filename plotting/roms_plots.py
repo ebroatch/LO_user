@@ -458,7 +458,7 @@ def P_vmap_eb(in_dict):
     v = ds.v[0,-1,:,:].values
 
     # set color limits
-    vv = 2*np.nanstd(u)
+    vv = 2*np.nanstd(v)
     # if vv<=0.001:
     #     vv=0.25
     # vv=0.25
