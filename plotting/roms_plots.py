@@ -137,7 +137,7 @@ def P_sect_u_eb(in_dict): #doesn't work yet
     G, S, T = zrfun.get_basic_info(in_dict['fn'])
     u = ds.u.values
     u_rho = (u[:,:,:,1:]+u[:,:,:,:-1])/2
-    ds['u_rho']=(['ocean_time', 's_rho' 'lon_rho','lat_rho'],  u_rho)
+    ds['u_rho']=(['ocean_time', 's_rho', 'lon_rho','lat_rho'],  u_rho)
     # CREATE THE SECTION
     # create track by hand
     lon = G['lon_rho']
