@@ -329,7 +329,7 @@ def P_saltmap_eb(in_dict):
     # vmin = pinfo.vlims_dict['vort'][0]
     # vmax = pinfo.vlims_dict['vort'][1]
 
-    vmin=25
+    vmin=20
     vmax=30
     
     ax1 = fig.add_subplot(gs[0,1]) 
