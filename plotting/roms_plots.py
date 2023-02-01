@@ -232,12 +232,12 @@ def P_vort_eb(in_dict):
     
     # set color limits
     vv = 2*np.nanstd(vort)
-    if vv<=0.00001:
+    if vv<=0.0002:
         vv=0.0002
 
     fig = plt.figure(figsize=(14,8))
     gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
-    cmap = copy.copy(plt.cm.PiYG)
+    cmap = copy.copy(plt.cm.PiYG_r)
     cmap.set_bad('lightgray')
 
 
