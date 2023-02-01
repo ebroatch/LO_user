@@ -292,6 +292,95 @@ def P_vort_eb(in_dict):
     else:
         plt.show()
 
+def P_dive_eb(in_dict):
+    # START
+    ds = xr.open_dataset(in_dict['fn'])
+    aa1 = [-2, 0, 44.5, 46.5]
+    aa2 = [-4, 4, 43, 47]
+    aa3 = [-0.2, 1.2, 44.9, 45.1]
+    # find aspect ratio of the map
+    # AR is the aspect ratio of the map: Vertical/Horizontal
+    # AR = (aa[3] - aa[2]) / (np.sin(np.pi*aa[2]/180)*(aa[1] - aa[0]))
+    # fs = 14
+    # hgt = 10
+    #pfun.start_plot(fs=fs, figsize=(int(hgt*2.5/AR),int(hgt)))
+
+    
+    # create fields
+    u = ds.u[0,-1,:,:].values
+    v = ds.v[0,-1,:,:].values
+    dx = 1/ds.pm.values
+    dy = 1/ds.pn.values
+    # vort is on the psi grid (plot with lon_rho, lat_rho)
+    # vort = np.diff(v,axis=1)/dx[1:,1:] - np.diff(u,axis=0)/dy[1:,1:]
+    # dive is on the trimmed rho grid
+    dive = np.diff(u[1:-1,:], axis=1)/dx[1:-1,1:-1] + np.diff(v[:,1:-1],axis=0)/dy[1:-1,1:-1]
+
+    
+    # set color limits
+    vv = 2*np.nanstd(dive)
+    if vv<=0.0002:
+        vv=0.0002
+
+    fig = plt.figure(figsize=(14,8))
+    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
+    cmap = copy.copy(plt.cm.BrBG_r)
+    cmap.set_bad('lightgray')
+
+
+    # PLOT CODE
+    if in_dict['auto_vlims']: #MUST USE -avl True SINCE vort IS NOT INCLUDED IN pinfo
+        pinfo.vlims_dict['dive'] = (-vv, vv)
+
+    vmin = pinfo.vlims_dict['dive'][0]
+    vmax = pinfo.vlims_dict['dive'][1]
+
+    plon, plat = pfun.get_plon_plat(ds.lon_rho[1:-1,1:-1].values, ds.lat_rho[1:-1,1:-1].values)
+    
+    ax1 = fig.add_subplot(gs[0,1]) 
+    cs1 = plt.pcolormesh(plon, plat, dive, cmap=cmap, vmin = vmin, vmax = vmax)
+    ax1.set_title('Plume focus', fontsize=12)
+    #fig.colorbar(cs1)
+    ax1.axis(aa1)
+    pfun.dar(ax1)
+    ax1.set_xlabel('Longitude')
+    ax1.set_ylabel('Latitude')
+
+    ax2 = fig.add_subplot(gs[0,0])
+    cs2 = plt.pcolormesh(plon, plat, dive, cmap=cmap, vmin = vmin, vmax = vmax)
+    ax2.set_title('Full model', fontsize=12)
+    #fig.colorbar(cs2)
+    ax2.axis(aa2)
+    pfun.dar(ax2)
+    ax2.set_xlabel('Longitude')
+    ax2.set_ylabel('Latitude')
+    pfun.add_info(ax2, in_dict['fn'])
+    # pfun.add_coast(ax2)
+    # pfun.add_bathy_contours(ax, ds, txt=True)
+
+    ax3 = fig.add_subplot(gs[1,0:2])
+    cs3 = plt.pcolormesh(plon, plat, dive, cmap=cmap, vmin = vmin, vmax = vmax)
+    ax3.set_title('Estuary focus', fontsize=12)
+    ax3.axis(aa3)
+    pfun.dar(ax3)
+    ax3.set_xlabel('Longitude')
+    ax3.set_ylabel('Latitude')
+
+    ax4 = fig.add_subplot(gs[:,2])
+    fig.colorbar(cs3, cax=ax4)
+    plt.suptitle('Surface Divergence $[s^{-1}]$', fontsize=16)
+    #plt.tight_layout()
+
+    # FINISH
+    ds.close()
+    pfun.end_plot()
+    if len(str(in_dict['fn_out'])) > 0:
+        plt.savefig(in_dict['fn_out'])
+        plt.close()
+    else:
+        plt.show()
+
+
 def P_saltmap_eb(in_dict):
     # START
     ds = xr.open_dataset(in_dict['fn'])
