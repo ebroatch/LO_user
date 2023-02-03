@@ -150,7 +150,8 @@ def P_sect_u_eb(in_dict): #doesn't work yet
     
     # COLOR
     # scaled section data
-    sf = pinfo.fac_dict[vn] * v3['sectvarf']
+    fac_dict =  {'u_rho': 1}
+    sf = fac_dict[vn] * v3['sectvarf']
     # now we use the scaled section as the preferred field for setting the
     # color limits of both figures in the case -avl True
     cmap = copy.copy(cm.balance)
@@ -158,7 +159,6 @@ def P_sect_u_eb(in_dict): #doesn't work yet
     vmin = -0.25
     vmax = 0.25
     vlims_dict = {'u_rho': (vmin, vmax)}
-    fac_dict =  {'u_rho': 1}
     
     # PLOTTING
     # map with section line
