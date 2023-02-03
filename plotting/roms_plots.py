@@ -135,9 +135,10 @@ def P_sect_u_eb(in_dict): #doesn't work yet
     vn = 'u_rho'
     # GET DATA
     G, S, T = zrfun.get_basic_info(in_dict['fn'])
+    u_rho = ds.salt * np.nan
     u = ds.u.values
-    u_rho = (u[:,:,:,1:]+u[:,:,:,:-1])/2
-    ds['u_rho']=(['ocean_time', 's_rho', 'lon_rho','lat_rho'],  u_rho)
+    u_rho[:,:,:,1:-1] = (u[:,:,:,1:]+u[:,:,:,:-1])/2
+    ds['u_rho']=u_rho
     # CREATE THE SECTION
     # create track by hand
     lon = G['lon_rho']
@@ -188,7 +189,7 @@ def P_sect_u_eb(in_dict): #doesn't work yet
     ax.set_xticks([0, 40, 80, 120, 160, 200])
     ax.set_ylim(zdeep, 5)
     # plot section
-    svlims = pinfo.vlims_dict[vn]
+    #svlims = pinfo.vlims_dict[vn]
     cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:],
                        vmin=vmin, vmax=vmax, cmap=cmap)
     fig.colorbar(cs, ax=ax)
