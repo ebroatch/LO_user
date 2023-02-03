@@ -156,8 +156,8 @@ def P_sect_u_eb(in_dict): #doesn't work yet
     # color limits of both figures in the case -avl True
     cmap = copy.copy(cm.balance)
     cmap.set_bad('lightgray')
-    vmin = -0.25
-    vmax = 0.25
+    vmin = -0.5
+    vmax = 0.5
     vlims_dict = {'u_rho': (vmin, vmax)}
     
     # PLOTTING
