@@ -712,7 +712,7 @@ def P_spdmap_eb(in_dict):
     # create fields
     u_rho = (ds.u[0,-1,:,1:].values + ds.u[0,-1,:,:-1].values)/2
     v_rho = (ds.v[0,-1,1:,:].values + ds.v[0,-1,:-1,:].values)/2
-    spd = np.sqrt(u_rho^2+v_rho^2)
+    spd = np.sqrt(u_rho**2+v_rho**2)
 
     # set color limits
     vv=0.25
