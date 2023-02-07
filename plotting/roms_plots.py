@@ -117,7 +117,7 @@ def P_sect_eb(in_dict):
     else:
         plt.show()
 
-def P_sect_u_eb(in_dict): #doesn't work yet
+def P_sect_u_eb(in_dict):
     """
     This plots a map and a section (distance, z), and makes sure
     that the color limits are identical.  If the color limits are
@@ -196,6 +196,95 @@ def P_sect_u_eb(in_dict): #doesn't work yet
     ax.set_xlabel('Distance (km)')
     ax.set_ylabel('Z (m)')
     ax.set_title('Section u velocity [m/s]')
+    fig.tight_layout()
+    # FINISH
+    ds.close()
+    pfun.end_plot()
+    if len(str(in_dict['fn_out'])) > 0:
+        plt.savefig(in_dict['fn_out'])
+        plt.close()
+    else:
+        plt.show()
+
+def P_sect_v_eb(in_dict):
+    """
+    This plots a map and a section (distance, z), and makes sure
+    that the color limits are identical.  If the color limits are
+    set automatically then the section is the preferred field for
+    setting the limits.
+    
+    I think this works best with -avl False (the default).
+    """
+    # START
+    fs = 14
+    pfun.start_plot(fs=fs, figsize=(20,9))
+    fig = plt.figure()
+    ds = xr.open_dataset(in_dict['fn'])
+    # PLOT CODE
+    vn = 'v_rho'
+    # GET DATA
+    G, S, T = zrfun.get_basic_info(in_dict['fn'])
+    v_rho = ds.salt * np.nan
+    v = ds.v.values
+    v_rho[:,:,1:-1,:] = (v[:,:,1:,:]+v[:,:,:-1,:])/2
+    ds['v_rho']=v_rho
+    # CREATE THE SECTION
+    # create track by hand
+    lon = G['lon_rho']
+    lat = G['lat_rho']
+    zdeep = -205
+    x = np.linspace(1.1, -1, 500)
+    y = 45 * np.ones(x.shape)
+    v2, v3, dist, idist0 = pfun.get_section(ds, vn, x, y, in_dict)
+    
+    # COLOR
+    # scaled section data
+    fac_dict =  {'v_rho': 1}
+    sf = fac_dict[vn] * v3['sectvarf']
+    # now we use the scaled section as the preferred field for setting the
+    # color limits of both figures in the case -avl True
+    cmap = copy.copy(cm.balance)
+    cmap.set_bad('lightgray')
+    vmin = -0.5
+    vmax = 0.5
+    vlims_dict = {'v_rho': (vmin, vmax)}
+    
+    # PLOTTING
+    # map with section line
+    ax = fig.add_subplot(1, 3, 1)
+    cs = pfun.add_map_field(ax, ds, vn, vlims_dict,
+            cmap=cmap, fac=fac_dict[vn], do_mask_edges=True)
+    # fig.colorbar(cs, ax=ax) # It is identical to that of the section
+    #pfun.add_coast(ax)
+    aaf = [-4, 4, 43, 47] # focus domain
+    ax.axis(aaf)
+    pfun.dar(ax)
+    pfun.add_info(ax, in_dict['fn'], loc='upper_right')
+    ax.set_title('Surface v velocity [m/s]')
+    ax.set_xlabel('Longitude')
+    ax.set_ylabel('Latitude')
+    # add section track
+    ax.plot(x, y, '-r', linewidth=2)
+    ax.plot(x[idist0], y[idist0], 'r', markersize=5, markerfacecolor='w',
+        markeredgecolor='r', markeredgewidth=2)
+    ax.set_xticks([-4, 0, 4])
+    ax.set_yticks([43, 45, 47])
+    # section
+    ax = fig.add_subplot(1, 3, (2, 3))
+    ax.plot(dist, v2['zbot'], 'k', linewidth=2)
+    ax.plot(dist, v2['zeta'], '-k', linewidth=2)
+    ax.set_xlim(dist.min(), dist.max())
+    ax.invert_xaxis()
+    ax.set_xticks([0, 40, 80, 120, 160, 200])
+    ax.set_ylim(zdeep, 5)
+    # plot section
+    #svlims = pinfo.vlims_dict[vn]
+    cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:],
+                       vmin=vmin, vmax=vmax, cmap=cmap)
+    fig.colorbar(cs, ax=ax)
+    ax.set_xlabel('Distance (km)')
+    ax.set_ylabel('Z (m)')
+    ax.set_title('Section v velocity [m/s]')
     fig.tight_layout()
     # FINISH
     ds.close()
