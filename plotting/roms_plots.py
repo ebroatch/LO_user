@@ -717,7 +717,7 @@ def P_spdmap_eb(in_dict):
     spd = np.sqrt(u_rho**2+v_rho**2)
 
     # set color limits
-    vv=0.25
+    vv=0.5
 
     fig = plt.figure(figsize=(14,8))
     gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
@@ -734,7 +734,7 @@ def P_spdmap_eb(in_dict):
     
     ax1 = fig.add_subplot(gs[0,1]) 
     cs1 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, spd, cmap=cmap, vmin = vmin, vmax = vmax)
-    ax1.quiver(ds.lon_rho[::10,::10].values, ds.lat_rho[::10,::10].values, u_rho[::10,::10], v_rho[::10,::10], color='k', scale=5, scale_units='x')
+    ax1.quiver(ds.lon_rho[::10,::10].values, ds.lat_rho[::10,::10].values, u_rho[::10,::10], v_rho[::10,::10], color='k', scale=20, scale_units='x')
     ax1.set_title('Plume focus', fontsize=12)
     #fig.colorbar(cs1)
     ax1.axis(aa1)
@@ -744,7 +744,7 @@ def P_spdmap_eb(in_dict):
 
     ax2 = fig.add_subplot(gs[0,0])
     cs2 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, spd, cmap=cmap, vmin = vmin, vmax = vmax)
-    ax2.quiver(ds.lon_rho[::20,::20].values, ds.lat_rho[::20,::20].values, u_rho[::20,::20], v_rho[::20,::20], color='k', scale=5, scale_units='x')
+    ax2.quiver(ds.lon_rho[::20,::20].values, ds.lat_rho[::20,::20].values, u_rho[::20,::20], v_rho[::20,::20], color='k', scale=20, scale_units='x')
     ax2.set_title('Full model', fontsize=12)
     #fig.colorbar(cs2)
     ax2.axis(aa2)
@@ -757,7 +757,7 @@ def P_spdmap_eb(in_dict):
 
     ax3 = fig.add_subplot(gs[1,0:2])
     cs3 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, spd, cmap=cmap, vmin = vmin, vmax = vmax)
-    ax3.quiver(ds.lon_rho[::4,::4].values, ds.lat_rho[::4,::4].values, u_rho[::4,::4], v_rho[::4,::4], color='k', scale=5, scale_units='x')
+    ax3.quiver(ds.lon_rho[::4,::4].values, ds.lat_rho[::4,::4].values, u_rho[::4,::4], v_rho[::4,::4], color='k', scale=20, scale_units='x')
     ax3.set_title('Estuary focus', fontsize=12)
     ax3.axis(aa3)
     pfun.dar(ax3)
