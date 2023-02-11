@@ -745,7 +745,7 @@ def P_spdmap_eb(in_dict):
     ax2 = fig.add_subplot(gs[0,0])
     cs2 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, spd, cmap=cmap, vmin = vmin, vmax = vmax)
     q=ax2.quiver(ds.lon_rho[::15,::15].values, ds.lat_rho[::15,::15].values, u_rho[::15,::15], v_rho[::15,::15], color='b', scale=2, scale_units='inches', units='inches', width=0.012)
-    plt.quiverkey(q,0.9,0.9,0.5,'0.5 m/s', angle=45)
+    plt.quiverkey(q,0.95,0.9,0.5,'0.5 m/s', angle=45)
     ax2.set_title('Full model', fontsize=12)
     #fig.colorbar(cs2)
     ax2.axis(aa2)
