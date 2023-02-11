@@ -734,7 +734,7 @@ def P_spdmap_eb(in_dict):
     
     ax1 = fig.add_subplot(gs[0,1]) 
     cs1 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, spd, cmap=cmap, vmin = vmin, vmax = vmax)
-    ax1.quiver(ds.lon_rho[::10,::10].values, ds.lat_rho[::10,::10].values, u_rho[::10,::10], v_rho[::10,::10], color='b', scale=2, scale_units='inches', units='inches', width=0.01)
+    ax1.quiver(ds.lon_rho[::10,::10].values, ds.lat_rho[::10,::10].values, u_rho[::10,::10], v_rho[::10,::10], color='b', scale=2, scale_units='inches', units='inches', width=0.012)
     ax1.set_title('Plume focus', fontsize=12)
     #fig.colorbar(cs1)
     ax1.axis(aa1)
@@ -744,8 +744,8 @@ def P_spdmap_eb(in_dict):
 
     ax2 = fig.add_subplot(gs[0,0])
     cs2 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, spd, cmap=cmap, vmin = vmin, vmax = vmax)
-    q=ax2.quiver(ds.lon_rho[::15,::15].values, ds.lat_rho[::15,::15].values, u_rho[::15,::15], v_rho[::15,::15], color='b', scale=2, scale_units='inches', units='inches', width=0.01)
-    plt.quiverkey(q,0.9,0.8,0.5,'0.5 m/s', angle=45)
+    q=ax2.quiver(ds.lon_rho[::15,::15].values, ds.lat_rho[::15,::15].values, u_rho[::15,::15], v_rho[::15,::15], color='b', scale=2, scale_units='inches', units='inches', width=0.012)
+    plt.quiverkey(q,0.9,0.9,0.5,'0.5 m/s', angle=45)
     ax2.set_title('Full model', fontsize=12)
     #fig.colorbar(cs2)
     ax2.axis(aa2)
@@ -758,7 +758,7 @@ def P_spdmap_eb(in_dict):
 
     ax3 = fig.add_subplot(gs[1,0:2])
     cs3 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, spd, cmap=cmap, vmin = vmin, vmax = vmax)
-    ax3.quiver(ds.lon_rho[::4,::4].values, ds.lat_rho[::4,::4].values, u_rho[::4,::4], v_rho[::4,::4], color='b', scale=2, scale_units='inches', units='inches', width=0.01)
+    ax3.quiver(ds.lon_rho[::4,::4].values, ds.lat_rho[::4,::4].values, u_rho[::4,::4], v_rho[::4,::4], color='b', scale=2, scale_units='inches', units='inches', width=0.012)
     ax3.set_title('Estuary focus', fontsize=12)
     ax3.axis(aa3)
     pfun.dar(ax3)
