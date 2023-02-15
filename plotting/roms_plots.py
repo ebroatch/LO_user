@@ -794,7 +794,7 @@ def P_spdbarmap_eb(in_dict): #not ready to use
     spdbar = np.sqrt(ubar_rho**2+vbar_rho**2)
 
     # set color limits
-    vv=0.5
+    vv=0.25
 
     fig = plt.figure(figsize=(14,8))
     gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
@@ -811,7 +811,7 @@ def P_spdbarmap_eb(in_dict): #not ready to use
     
     ax1 = fig.add_subplot(gs[0,1]) 
     cs1 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, spdbar, cmap=cmap, vmin = vmin, vmax = vmax)
-    ax1.quiver(ds.lon_rho[::10,::10].values, ds.lat_rho[::10,::10].values, ubar_rho[::10,::10], vbar_rho[::10,::10], color='b', scale=2, scale_units='inches', units='inches', width=0.012)
+    ax1.quiver(ds.lon_rho[::10,::10].values, ds.lat_rho[::10,::10].values, ubar_rho[::10,::10], vbar_rho[::10,::10], color='b', scale=1, scale_units='inches', units='inches', width=0.012)
     ax1.set_title('Plume focus', fontsize=12)
     #fig.colorbar(cs1)
     ax1.axis(aa1)
@@ -821,7 +821,7 @@ def P_spdbarmap_eb(in_dict): #not ready to use
 
     ax2 = fig.add_subplot(gs[0,0])
     cs2 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, spdbar, cmap=cmap, vmin = vmin, vmax = vmax)
-    q=ax2.quiver(ds.lon_rho[::15,::15].values, ds.lat_rho[::15,::15].values, ubar_rho[::15,::15], vbar_rho[::15,::15], color='b', scale=2, scale_units='inches', units='inches', width=0.012)
+    q=ax2.quiver(ds.lon_rho[::15,::15].values, ds.lat_rho[::15,::15].values, ubar_rho[::15,::15], vbar_rho[::15,::15], color='b', scale=1, scale_units='inches', units='inches', width=0.012)
     plt.quiverkey(q,0.95,0.9,0.5,'0.5 m/s', angle=45)
     ax2.set_title('Full model', fontsize=12)
     #fig.colorbar(cs2)
@@ -835,7 +835,7 @@ def P_spdbarmap_eb(in_dict): #not ready to use
 
     ax3 = fig.add_subplot(gs[1,0:2])
     cs3 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, spdbar, cmap=cmap, vmin = vmin, vmax = vmax)
-    ax3.quiver(ds.lon_rho[::4,::4].values, ds.lat_rho[::4,::4].values, ubar_rho[::4,::4], vbar_rho[::4,::4], color='b', scale=2, scale_units='inches', units='inches', width=0.012)
+    ax3.quiver(ds.lon_rho[::4,::4].values, ds.lat_rho[::4,::4].values, ubar_rho[::4,::4], vbar_rho[::4,::4], color='b', scale=1, scale_units='inches', units='inches', width=0.012)
     ax3.set_title('Estuary focus', fontsize=12)
     ax3.axis(aa3)
     pfun.dar(ax3)
