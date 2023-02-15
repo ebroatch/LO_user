@@ -806,8 +806,8 @@ def P_spdbarmap_eb(in_dict): #not ready to use
     if in_dict['auto_vlims']: #MUST USE -avl True SINCE u IS NOT INCLUDED IN pinfo
         pinfo.vlims_dict['spdbar'] = (0, vv)
 
-    vmin = pinfo.vlims_dict['spd'][0]
-    vmax = pinfo.vlims_dict['spd'][1]
+    vmin = pinfo.vlims_dict['spdbar'][0]
+    vmax = pinfo.vlims_dict['spdbar'][1]
     
     ax1 = fig.add_subplot(gs[0,1]) 
     cs1 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, spdbar, cmap=cmap, vmin = vmin, vmax = vmax)
