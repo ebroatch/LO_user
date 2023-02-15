@@ -822,7 +822,7 @@ def P_spdbarmap_eb(in_dict): #not ready to use
     ax2 = fig.add_subplot(gs[0,0])
     cs2 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, spdbar, cmap=cmap, vmin = vmin, vmax = vmax)
     q=ax2.quiver(ds.lon_rho[::15,::15].values, ds.lat_rho[::15,::15].values, ubar_rho[::15,::15], vbar_rho[::15,::15], color='b', scale=1, scale_units='inches', units='inches', width=0.012)
-    plt.quiverkey(q,0.95,0.9,0.5,'0.5 m/s', angle=45)
+    plt.quiverkey(q,0.95,0.95,0.25,'0.25 m/s', angle=45)
     ax2.set_title('Full model', fontsize=12)
     #fig.colorbar(cs2)
     ax2.axis(aa2)
