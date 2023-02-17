@@ -17,7 +17,7 @@ import gfun_utility as gfu
 import gfun
 
 # This is the name of the grid that you are working on.
-gridname = 'sill1'
+gridname = 'sill2'
 
 # default s-coordinate info (could override below)
 s_dict = {'THETA_S': 4, 'THETA_B': 2, 'TCLINE': 10, 'N': 30,
@@ -47,6 +47,12 @@ elif gridname in ['sill1']:
     # make_initial_info() below, but we still assign gridname and tag so
     # that they get saved in the right places
     base_gridname = 'sill1'
+    base_tag = 'v0'
+elif gridname in ['sill2']:
+    # for analytical cases we create the river info and track in
+    # make_initial_info() below, but we still assign gridname and tag so
+    # that they get saved in the right places
+    base_gridname = 'sill2'
     base_tag = 'v0'
 
 def make_initial_info(gridname=gridname):
@@ -349,6 +355,83 @@ def make_initial_info(gridname=gridname):
         track_df = pd.DataFrame()
         NTR = 100
         track_df['lon'] = np.linspace(0,4,NTR) # OK to go past edge of domain
+        track_df['lat'] = 45*np.ones(NTR)
+        track_df.to_pickle(track_fn)
+        # NOTE: tracks go from ocean to land
+
+    elif gridname == 'sill2':
+        # analytical model estuary with sills
+        # narrower, longer sill
+        # reduce grid domain on land side
+        dch = gfun.default_choices()
+        lon_list = [-4, 0, 1.5, 2]
+        x_res_list = [2500, 500, 500, 2500]
+        lat_list = [43, 44.9, 45.1, 47]
+        y_res_list = [2500, 500, 500, 2500]
+        Lon_vec, Lat_vec = gfu.stretched_grid(lon_list, x_res_list, lat_list, y_res_list)
+        lon, lat = np.meshgrid(Lon_vec, Lat_vec)
+
+        dch['analytical'] = True
+        dch['nudging_edges'] = ['north', 'south', 'west']
+        dch['use_z_offset'] = False
+        # tidy up dch
+        dch['z_offset'] = 0.0
+        dch['t_dir'] = 'BLANK'
+        dch['t_list'] = ['BLANK']
+
+        # fixed bathymetry parameters
+        L_basin = 40000 #40km long basins
+        W_max = 8000 # 8km wide
+        D_max = 200 # 200m max depth
+        TL_sill = 2000 # steepness of sills (transition length in m, approx 10% slope)
+        TL_side = 2000 # steepness of sides and end (transition length in m, approx 10% slope)
+
+        # variable bathymetry parameters
+        L_sill = 8000 # length of sill (length of flat section)
+        HR_sill = 0.75 # height ratio of sills
+        CR_sill = 0.5 # constriction ratio at sills
+
+        # calculate additional constants
+        L_estuary = (2*L_basin)+L_sill
+        x_sill = L_estuary/2
+        stretch_sill = TL_sill/4
+        shift_sill = L_sill/2
+        stretch_side = TL_side/4
+
+        # make bathymetry by hand
+        #grid
+        x, y = zfun.ll2xy(lon, lat, 0, 45)
+        #end profile
+        D_end = ((D_max/2)*(special.erf((-(x-L_estuary)/stretch_side)-2)))+(D_max/2)
+        #constrictions
+        W_constrict=W_max-(((CR_sill*W_max/2)*(-special.erf(np.abs((x-x_sill)/stretch_sill)-(2+shift_sill/stretch_sill))))+(CR_sill*W_max/2))
+        W_bottom=W_constrict-(2*TL_side)
+        shift_bottom=W_bottom/2
+        #basin shape
+        z_basin=((D_end/2)*(special.erf(np.abs(y/stretch_side)-(2+shift_bottom/stretch_side))))-(D_end/2)
+        #sill shape
+        z_sill=-(((HR_sill*D_max/2)*(special.erf(np.abs((x-x_sill)/stretch_sill)-(2+shift_sill/stretch_sill))))+(D_max*(1-HR_sill/2)))
+        #shelf
+        z_shelf = x * 1e-3
+        #combine surfaces
+        z_estuary=np.maximum(z_basin,z_sill)
+        z=np.minimum(z_estuary,z_shelf)
+
+        # create a river file
+        Ldir = Lfun.Lstart(gridname=base_gridname, tag=base_tag)
+        ri_dir = Ldir['LOo'] / 'pre' / 'river' / Ldir['gtag']
+        Lfun.make_dir(ri_dir)
+        gri_fn = ri_dir / 'river_info.csv'
+        with open(gri_fn, 'w') as rf:
+            rf.write('rname,usgs,ec,nws,ratio,depth,flow_units,temp_units\n')
+            rf.write('creek_sill2,,,,1.0,5.0,m3/s,degC\n')
+        # and make a track for the river
+        track_dir = ri_dir / 'tracks'
+        Lfun.make_dir(track_dir)
+        track_fn = track_dir / 'creek_sill2.p'
+        track_df = pd.DataFrame()
+        NTR = 100
+        track_df['lon'] = np.linspace(0,2,NTR) # OK to go past edge of domain
         track_df['lat'] = 45*np.ones(NTR)
         track_df.to_pickle(track_fn)
         # NOTE: tracks go from ocean to land
