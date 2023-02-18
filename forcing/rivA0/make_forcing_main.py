@@ -123,6 +123,8 @@ for rn in gri_df.index:
         Q_mat[:,ii] = 1500 * np.ones(NT) * gri_df.loc[rn, 'isign'] #river for old idealized model (based on PS river flow values)
     elif rn == 'creek_sill1':
         Q_mat[:,ii] = 1000 * np.ones(NT) * gri_df.loc[rn, 'isign'] #river idealized model with one sill
+    elif rn == 'creek_sill2':
+        Q_mat[:,ii] = 1000 * np.ones(NT) * gri_df.loc[rn, 'isign'] #river idealized model with narrow long sill
     else:
         # You could add other rivers here
         pass
