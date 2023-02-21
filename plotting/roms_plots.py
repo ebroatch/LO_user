@@ -336,7 +336,7 @@ def P_vort_eb(in_dict):
 
     fig = plt.figure(figsize=(14,8))
     # gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1]) #sill1
-    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[13,10,1], height_ratios=[3,1]) #sill2
+    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[14,10,1], height_ratios=[3,1]) #sill2
     cmap = copy.copy(plt.cm.PiYG_r)
     cmap.set_bad('lightgray')
 
@@ -360,7 +360,6 @@ def P_vort_eb(in_dict):
 
     ax2 = fig.add_subplot(gs[0,0])
     cs2 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
-    ax2.vlines(0.56, 44.95, 45.05, linestyles='--') #sill2
     ax2.set_title('Full model', fontsize=12)
     #fig.colorbar(cs2)
     ax2.axis(aa2)
@@ -373,7 +372,6 @@ def P_vort_eb(in_dict):
 
     ax3 = fig.add_subplot(gs[1,0:2])
     cs3 = plt.pcolormesh(ds.lon_rho.values, ds.lat_rho.values, vort, cmap=cmap, vmin = vmin, vmax = vmax)
-    ax3.vlines(0.56, 44.95, 45.05, linestyles='--') #sill2
     ax3.set_title('Estuary focus', fontsize=12)
     ax3.axis(aa3)
     pfun.dar(ax3)
