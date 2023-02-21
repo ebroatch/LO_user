@@ -308,7 +308,8 @@ def P_vort_eb(in_dict):
     # START
     ds = xr.open_dataset(in_dict['fn'])
     aa1 = [-2, 0, 44.5, 46.5]
-    aa2 = [-4, 2, 43, 47]
+    #aa2 = [-4, 4, 43, 47] #sill1
+    aa2 = [-4, 2, 43, 47] #sill2
     aa3 = [-0.2, 1.2, 44.9, 45.1]
     # find aspect ratio of the map
     # AR is the aspect ratio of the map: Vertical/Horizontal
@@ -335,8 +336,8 @@ def P_vort_eb(in_dict):
         vv=0.0002
 
     #fig = plt.figure(figsize=(14,8)) #sill1
-    fig = plt.figure(figsize=(12,8)) #sill2
     # gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1]) #sill1
+    fig = plt.figure(figsize=(12,8)) #sill2
     gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[13,10,1], height_ratios=[3,1]) #sill2
     cmap = copy.copy(plt.cm.PiYG_r)
     cmap.set_bad('lightgray')
@@ -397,7 +398,8 @@ def P_dive_eb(in_dict):
     # START
     ds = xr.open_dataset(in_dict['fn'])
     aa1 = [-2, 0, 44.5, 46.5]
-    aa2 = [-4, 4, 43, 47]
+    # aa2 = [-4, 4, 43, 47] #sill1
+    aa2 = [-4, 2, 43, 47] #sill2
     aa3 = [-0.2, 1.2, 44.9, 45.1]
     # find aspect ratio of the map
     # AR is the aspect ratio of the map: Vertical/Horizontal
@@ -423,8 +425,10 @@ def P_dive_eb(in_dict):
     if vv<=0.0002:
         vv=0.0002
 
-    fig = plt.figure(figsize=(14,8))
-    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
+    #fig = plt.figure(figsize=(14,8)) #sill1
+    #gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1]) #sill1
+    fig = plt.figure(figsize=(12,8)) #sill2
+    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[13,10,1], height_ratios=[3,1]) #sill2
     cmap = copy.copy(plt.cm.BrBG_r)
     cmap.set_bad('lightgray')
 
@@ -486,7 +490,8 @@ def P_saltmap_eb(in_dict):
     # START
     ds = xr.open_dataset(in_dict['fn'])
     aa1 = [-2, 0, 44.5, 46.5]
-    aa2 = [-4, 4, 43, 47]
+    # aa2 = [-4, 4, 43, 47] #sill1
+    aa2 = [-4, 2, 43, 47] #sill2
     aa3 = [-0.2, 1.2, 44.9, 45.1]
     # find aspect ratio of the map
     # AR is the aspect ratio of the map: Vertical/Horizontal
@@ -512,8 +517,10 @@ def P_saltmap_eb(in_dict):
     # if vv<=0.00001:
     #     vv=0.0002
 
-    fig = plt.figure(figsize=(14,8))
-    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
+    #fig = plt.figure(figsize=(14,8)) #sill1
+    #gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1]) #sill1
+    fig = plt.figure(figsize=(12,8)) #sill2
+    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[13,10,1], height_ratios=[3,1]) #sill2
     cmap = copy.copy(cm.haline)
     cmap.set_bad('lightgray')
 
@@ -576,7 +583,8 @@ def P_umap_eb(in_dict):
     # START
     ds = xr.open_dataset(in_dict['fn'])
     aa1 = [-2, 0, 44.5, 46.5]
-    aa2 = [-4, 4, 43, 47]
+    # aa2 = [-4, 4, 43, 47] #sill1
+    aa2 = [-4, 2, 43, 47] #sill2
     aa3 = [-0.2, 1.2, 44.9, 45.1]
     
     # create fields
@@ -588,8 +596,10 @@ def P_umap_eb(in_dict):
     #     vv=0.25
     vv=0.25
 
-    fig = plt.figure(figsize=(14,8))
-    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
+    #fig = plt.figure(figsize=(14,8)) #sill1
+    #gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1]) #sill1
+    fig = plt.figure(figsize=(12,8)) #sill2
+    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[13,10,1], height_ratios=[3,1]) #sill2
     cmap = copy.copy(cm.balance)
     cmap.set_bad('lightgray')
 
@@ -648,7 +658,8 @@ def P_vmap_eb(in_dict):
     # START
     ds = xr.open_dataset(in_dict['fn'])
     aa1 = [-2, 0, 44.5, 46.5]
-    aa2 = [-4, 4, 43, 47]
+    # aa2 = [-4, 4, 43, 47] #sill1
+    aa2 = [-4, 2, 43, 47] #sill2
     aa3 = [-0.2, 1.2, 44.9, 45.1]
     
     # create fields
@@ -657,8 +668,10 @@ def P_vmap_eb(in_dict):
     # set color limits
     vv=0.25
 
-    fig = plt.figure(figsize=(14,8))
-    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
+    #fig = plt.figure(figsize=(14,8)) #sill1
+    #gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1]) #sill1
+    fig = plt.figure(figsize=(12,8)) #sill2
+    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[13,10,1], height_ratios=[3,1]) #sill2
     cmap = copy.copy(cm.balance)
     cmap.set_bad('lightgray')
 
@@ -717,7 +730,8 @@ def P_spdmap_eb(in_dict):
     # START
     ds = xr.open_dataset(in_dict['fn'])
     aa1 = [-2, 0, 44.5, 46.5]
-    aa2 = [-4, 4, 43, 47]
+    # aa2 = [-4, 4, 43, 47] #sill1
+    aa2 = [-4, 2, 43, 47] #sill2
     aa3 = [-0.2, 1.2, 44.9, 45.1]
     
     # create fields
@@ -730,8 +744,10 @@ def P_spdmap_eb(in_dict):
     # set color limits
     vv=0.5
 
-    fig = plt.figure(figsize=(14,8))
-    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
+    #fig = plt.figure(figsize=(14,8)) #sill1
+    #gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1]) #sill1
+    fig = plt.figure(figsize=(12,8)) #sill2
+    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[13,10,1], height_ratios=[3,1]) #sill2
     cmap = copy.copy(plt.cm.YlOrBr)
     cmap.set_bad('lightgray')
 
@@ -790,11 +806,12 @@ def P_spdmap_eb(in_dict):
     else:
         plt.show()
 
-def P_spdbarmap_eb(in_dict): #not ready to use
+def P_spdbarmap_eb(in_dict):
     # START
     ds = xr.open_dataset(in_dict['fn'])
     aa1 = [-2, 0, 44.5, 46.5]
-    aa2 = [-4, 4, 43, 47]
+    # aa2 = [-4, 4, 43, 47] #sill1
+    aa2 = [-4, 2, 43, 47] #sill2
     aa3 = [-0.2, 1.2, 44.9, 45.1]
     
     # create fields
@@ -807,8 +824,10 @@ def P_spdbarmap_eb(in_dict): #not ready to use
     # set color limits
     vv=0.25
 
-    fig = plt.figure(figsize=(14,8))
-    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1])
+    #fig = plt.figure(figsize=(14,8)) #sill1
+    #gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1]) #sill1
+    fig = plt.figure(figsize=(12,8)) #sill2
+    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[13,10,1], height_ratios=[3,1]) #sill2
     cmap = copy.copy(plt.cm.YlOrBr)
     cmap.set_bad('lightgray')
 
