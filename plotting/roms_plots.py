@@ -59,7 +59,9 @@ def P_sect_eb(in_dict):
     lon = G['lon_rho']
     lat = G['lat_rho']
     zdeep = -205
-    x = np.linspace(1.1, -1, 500)
+    #x = np.linspace(1.1, -1, 500) #sill1
+    x = np.linspace(1.2, -1, 500) #sill2
+    xcoast = 94.3 #sill2
     y = 45 * np.ones(x.shape)
     v2, v3, dist, idist0 = pfun.get_section(ds, vn, x, y, in_dict)
     
@@ -98,6 +100,7 @@ def P_sect_eb(in_dict):
     ax.set_xlim(dist.min(), dist.max())
     ax.invert_xaxis()
     ax.set_xticks([0, 40, 80, 120, 160, 200])
+    ax.vlines(xcoast, zdeep, 0, linestyles='dashed') #add coast line
     ax.set_ylim(zdeep, 5)
     # plot section
     svlims = pinfo.vlims_dict[vn]
