@@ -334,7 +334,8 @@ def P_vort_eb(in_dict):
     if vv<=0.0002:
         vv=0.0002
 
-    fig = plt.figure(figsize=(14,8))
+    #fig = plt.figure(figsize=(14,8)) #sill1
+    fig = plt.figure(figsize=(12,8)) #sill2
     # gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1]) #sill1
     gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[13,10,1], height_ratios=[3,1]) #sill2
     cmap = copy.copy(plt.cm.PiYG_r)
