@@ -100,7 +100,7 @@ def P_sect_eb(in_dict):
     ax.set_xlim(dist.min(), dist.max())
     ax.invert_xaxis()
     ax.set_xticks([0, 40, 80, 120, 160, 200])
-    ax.vlines(xcoast, zdeep, 0, linestyles='dashed') #add coast line
+    ax.vlines(xcoast, -200, 0, linestyles='dashed') #add coast line
     ax.set_ylim(zdeep, 5)
     # plot section
     svlims = pinfo.vlims_dict[vn]
