@@ -308,7 +308,7 @@ def P_vort_eb(in_dict):
     # START
     ds = xr.open_dataset(in_dict['fn'])
     aa1 = [-2, 0, 44.5, 46.5]
-    aa2 = [-4, 4, 43, 47]
+    aa2 = [-4, 2, 43, 47]
     aa3 = [-0.2, 1.2, 44.9, 45.1]
     # find aspect ratio of the map
     # AR is the aspect ratio of the map: Vertical/Horizontal
@@ -336,7 +336,7 @@ def P_vort_eb(in_dict):
 
     fig = plt.figure(figsize=(14,8))
     # gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[17,10,1], height_ratios=[3,1]) #sill1
-    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[14,10,1], height_ratios=[3,1]) #sill2
+    gs = fig.add_gridspec(nrows=2,ncols=3, width_ratios=[13,10,1], height_ratios=[3,1]) #sill2
     cmap = copy.copy(plt.cm.PiYG_r)
     cmap.set_bad('lightgray')
 
