@@ -147,7 +147,9 @@ def P_sect_u_eb(in_dict):
     lon = G['lon_rho']
     lat = G['lat_rho']
     zdeep = -205
-    x = np.linspace(1.1, -1, 500)
+    #x = np.linspace(1.1, -1, 500) #sill1
+    x = np.linspace(1.2, -1, 500) #sill2
+    xcoast = 94.3 #sill2
     y = 45 * np.ones(x.shape)
     v2, v3, dist, idist0 = pfun.get_section(ds, vn, x, y, in_dict)
     
@@ -191,6 +193,7 @@ def P_sect_u_eb(in_dict):
     ax.invert_xaxis()
     ax.set_xticks([0, 40, 80, 120, 160, 200])
     ax.set_ylim(zdeep, 5)
+    ax.vlines(xcoast, -200, 0, linestyles='dashed', colors='k') #add coast line
     # plot section
     #svlims = pinfo.vlims_dict[vn]
     cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:],
@@ -236,7 +239,9 @@ def P_sect_v_eb(in_dict):
     lon = G['lon_rho']
     lat = G['lat_rho']
     zdeep = -205
-    x = np.linspace(1.1, -1, 500)
+    #x = np.linspace(1.1, -1, 500) #sill1
+    x = np.linspace(1.2, -1, 500) #sill2
+    xcoast = 94.3 #sill2
     y = 45 * np.ones(x.shape)
     v2, v3, dist, idist0 = pfun.get_section(ds, vn, x, y, in_dict)
     
@@ -280,6 +285,7 @@ def P_sect_v_eb(in_dict):
     ax.invert_xaxis()
     ax.set_xticks([0, 40, 80, 120, 160, 200])
     ax.set_ylim(zdeep, 5)
+    ax.vlines(xcoast, -200, 0, linestyles='dashed', colors='k') #add coast line
     # plot section
     #svlims = pinfo.vlims_dict[vn]
     cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:],
