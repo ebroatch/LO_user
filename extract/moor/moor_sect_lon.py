@@ -38,6 +38,26 @@ def x2lon(x,lon0,lat0):
     lon = (180 * x) / (R * clat * np.pi) + lon0
     return lon
 
+def y2lat(y,lat0):
+    """
+    This converts a distance in meters to a longitude relative to lon0, along lat0.
+    NOTE: lat and lon are in degrees!!
+    """
+    R = earth_rad(lat0)
+    lat = (180 * y) / (R * np.pi) + lat0
+    return lat
+
+def xy2ll(x,y,lon0,lat0):
+    """
+    This converts a position x,y in meters into lon, lat relative to lon0, lat0.
+    NOTE: lat and lon are in degrees!!
+    """
+    R = earth_rad(lat0)
+    clat = np.cos(np.pi*lat0/180)
+    lon = (180 * x) / (R * clat * np.pi) + lon0
+    lat = (180 * y) / (R * np.pi) + lat0
+    return lon, lat
+
 #moorloc_km = np.array([140, 122, 120, 118, 100, 82, 80, 78, 60, 42, 40, 38, 20])
 moorloc_km = np.array([64, 44, 42, 40, 20])
 moorloc_meters = moorloc_km*1e3
