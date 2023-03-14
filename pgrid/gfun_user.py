@@ -447,11 +447,28 @@ def make_initial_info(gridname=gridname):
         # narrower, longer sill
         # reduce grid domain on land side
         dch = gfun.default_choices()
-        lon_list = [-4, 0, 0.48, 0.64, 1.5, 2]
-        x_res_list = [2500, 500, 250, 250, 500, 2500]
-        lat_list = [43, 44.9, 45.1, 47]
-        y_res_list = [2500, 250, 250, 2500]
-        Lon_vec, Lat_vec = gfu.stretched_grid(lon_list, x_res_list, lat_list, y_res_list)
+        # lon_list = [-4, 0, 0.5567336191728942, 0.5630962891062987, 1.5, 2]
+        # x_res_list = [2500, 500, 500, 500, 500, 2500]
+        # lat_list = [43, 44.9, 44.99775045647182, 45.00224954352818, 45.1, 47]
+        # y_res_list = [2500, 500, 500, 500, 500, 2500]
+        # Lon_vec, Lat_vec = gfu.stretched_grid(lon_list, x_res_list, lat_list, y_res_list)
+        lon_list_1 = [-0.553552284206192, 0, 4]
+        x_res_list_1 = [500, 500, 2500]
+        lat_list_1 = [-44.99550091294364, -44.9, -43]
+        y_res_list_1 = [500, 500, 2500]
+        lon_list_2 = [0.566277624073001, 1.5, 2]
+        x_res_list_2 = [500, 500, 2500]
+        lat_list_2 = [45.00449908705636, 45.1, 47]
+        y_res_list_2 = [500, 500, 2500]
+
+        Lon_vec_1, Lat_vec_1 = gfu.stretched_grid(lon_list_1, x_res_list_1, lat_list_1, y_res_list_1)
+        Lon_vec_2, Lat_vec_2 = gfu.stretched_grid(lon_list_2, x_res_list_2, lat_list_2, y_res_list_2)
+        Lon_vec_1=-np.flip(Lon_vec_1)
+        Lat_vec_1=-np.flip(Lat_vec_1)
+
+        Lon_vec = np.concatenate((Lon_vec_1,np.array([0.5599149541395965]),Lon_vec_2), axis=None)
+        Lat_vec = np.concatenate((Lat_vec_1,np.array([45]),Lat_vec_2), axis=None)
+
         lon, lat = np.meshgrid(Lon_vec, Lat_vec)
 
         dch['analytical'] = True
