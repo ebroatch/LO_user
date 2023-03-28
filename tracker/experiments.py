@@ -117,7 +117,7 @@ def get_ic(TR):
     elif exp_name == 'sill3surf': # distribute in sill3 idealized estuary at the surface
         # used by drifters0
         lonvec = np.linspace(0, lxf.x2lon(88e3,0,5), 177)
-        latvec = np.linspace(lxf.x2lon(-4e3,45), lxf.x2lon(4e3,45), 9)
+        latvec = np.linspace(lxf.y2lat(-4e3,45), lxf.y2lat(4e3,45), 9)
         pcs_vec = np.array([0])
         plon00, plat00, pcs00 = ic_from_meshgrid(lonvec, latvec, pcs_vec)
         
