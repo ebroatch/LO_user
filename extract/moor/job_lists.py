@@ -1,6 +1,7 @@
 """
 Module to create dicts for multiple (or single) mooring extractions.
 """
+from lo_user_tools import llxyfun as lxf
 
 def get_sta_dict(job_name):
 
@@ -213,7 +214,52 @@ def get_sta_dict(job_name):
         'inner1': (0.7380697122749227, 44.982003651774555), #58km
         'inner2': (0.8653231109430128, 44.982003651774555), #68km
         'inner3': (0.9925765096111029, 44.982003651774555) #78km
-        }    
+        }
+
+    elif job_name == 'sill3_center':
+        sta_dict = {
+        'outer1': (lxf.x2lon(10e3,0,45), 45), #10km
+        'outer2': (lxf.x2lon(20e3,0,45), 45), #20km
+        'outer3': (lxf.x2lon(30e3,0,45), 45), #30km
+        'sill1': (lxf.x2lon(40e3,0,45), 45), #40km
+        'sill2': (lxf.x2lon(42e3,0,45), 45), #42km
+        'sill3': (lxf.x2lon(44e3,0,45), 45), #44km
+        'sill4': (lxf.x2lon(46e3,0,45), 45), #46km
+        'sill5': (lxf.x2lon(48e3,0,45), 45), #48km
+        'inner1': (lxf.x2lon(58e3,0,45), 45), #58km
+        'inner2': (lxf.x2lon(68e3,0,45), 45), #68km
+        'inner3': (lxf.x2lon(78e3,0,45), 45) #78km
+        }
+
+    elif job_name == 'sill3_north':
+        sta_dict = {
+        'outer1': (lxf.x2lon(10e3,0,45), lxf.y2lat(2e3,45)), #10km
+        'outer2': (lxf.x2lon(20e3,0,45), lxf.y2lat(2e3,45)), #20km
+        'outer3': (lxf.x2lon(30e3,0,45), lxf.y2lat(2e3,45)), #30km
+        'sill1': (lxf.x2lon(40e3,0,45), lxf.y2lat(2e3,45)), #40km
+        'sill2': (lxf.x2lon(42e3,0,45), lxf.y2lat(2e3,45)), #42km
+        'sill3': (lxf.x2lon(44e3,0,45), lxf.y2lat(2e3,45)), #44km
+        'sill4': (lxf.x2lon(46e3,0,45), lxf.y2lat(2e3,45)), #46km
+        'sill5': (lxf.x2lon(48e3,0,45), lxf.y2lat(2e3,45)), #48km
+        'inner1': (lxf.x2lon(58e3,0,45), lxf.y2lat(2e3,45)), #58km
+        'inner2': (lxf.x2lon(68e3,0,45), lxf.y2lat(2e3,45)), #68km
+        'inner3': (lxf.x2lon(78e3,0,45), lxf.y2lat(2e3,45)) #78km
+        }
+
+    elif job_name == 'sill3_south':
+        sta_dict = {
+        'outer1': (lxf.x2lon(10e3,0,45), lxf.y2lat(-2e3,45)), #10km
+        'outer2': (lxf.x2lon(20e3,0,45), lxf.y2lat(-2e3,45)), #20km
+        'outer3': (lxf.x2lon(30e3,0,45), lxf.y2lat(-2e3,45)), #30km
+        'sill1': (lxf.x2lon(40e3,0,45), lxf.y2lat(-2e3,45)), #40km
+        'sill2': (lxf.x2lon(42e3,0,45), lxf.y2lat(-2e3,45)), #42km
+        'sill3': (lxf.x2lon(44e3,0,45), lxf.y2lat(-2e3,45)), #44km
+        'sill4': (lxf.x2lon(46e3,0,45), lxf.y2lat(-2e3,45)), #46km
+        'sill5': (lxf.x2lon(48e3,0,45), lxf.y2lat(-2e3,45)), #48km
+        'inner1': (lxf.x2lon(58e3,0,45), lxf.y2lat(-2e3,45)), #58km
+        'inner2': (lxf.x2lon(68e3,0,45), lxf.y2lat(-2e3,45)), #68km
+        'inner3': (lxf.x2lon(78e3,0,45), lxf.y2lat(-2e3,45)) #78km
+        } 
 
     else:
         print('Unsupported job name!')
