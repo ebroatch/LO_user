@@ -8,6 +8,7 @@ common release patterns.
 """
 
 import numpy as np
+from lo_user_tools import llxyfun as lxf
     
 def get_ic(TR):
     # routines to set particle initial locations, all numpy arrays
@@ -110,6 +111,13 @@ def get_ic(TR):
         # used by drifters0
         lonvec = np.linspace(0, 2.03267, 40)
         latvec = np.linspace(44.96391, 45.03609, 10)
+        pcs_vec = np.array([0])
+        plon00, plat00, pcs00 = ic_from_meshgrid(lonvec, latvec, pcs_vec)
+
+    elif exp_name == 'sill3surf': # distribute in sill3 idealized estuary at the surface
+        # used by drifters0
+        lonvec = np.linspace(0, lxf.x2lon(88e3,0,5), 177)
+        latvec = np.linspace(lxf.x2lon(-4e3,45), lxf.x2lon(4e3,45), 9)
         pcs_vec = np.array([0])
         plon00, plat00, pcs00 = ic_from_meshgrid(lonvec, latvec, pcs_vec)
         
