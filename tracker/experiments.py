@@ -120,6 +120,13 @@ def get_ic(TR):
         latvec = np.linspace(lxf.y2lat(-4e3,45), lxf.y2lat(4e3,45), 9)
         pcs_vec = np.array([0])
         plon00, plat00, pcs00 = ic_from_meshgrid(lonvec, latvec, pcs_vec)
+
+    elif exp_name == 'sill3vol': # evenly distribute in sill3 idealized estuary
+        # used by drifters0
+        lonvec = np.linspace(0, lxf.x2lon(88e3,0,5), 177)
+        latvec = np.linspace(lxf.y2lat(-4e3,45), lxf.y2lat(4e3,45), 9)
+        pcs_vec = np.array([0])
+        plon00, plat00, pcs00 = ic_from_meshgrid(lonvec, latvec, pcs_vec)
         
     return plon00, plat00, pcs00
     
@@ -294,3 +301,56 @@ def ic_sect(fn00, lons, lats, NPmax=10000):
             plat00 = np.concatenate((plat00,yvec[ii]*np.ones(this_np)))
             pcs00 = np.concatenate((pcs00,np.linspace(-1,0,this_np)))
     return plon00, plat00, pcs00
+
+# def ic_from_xybox(fn00, xmin, xmax, ymin, ymax, gridname, res=500, DZ=20, lon0=0, lat0=45,  NPmax=10000):
+#     import pickle
+#     import sys
+#     # select the indir
+#     from lo_tools import Lfun, zrfun
+#     ### Ldir = Lfun.Lstart()
+#     ### indir = Ldir['LOo'] / 'tef' / ('volumes_' + gridname)
+#     # load data
+#     ### j_dict = pickle.load(open(indir / 'j_dict.p', 'rb'))
+#     ### i_dict = pickle.load(open(indir / 'i_dict.p', 'rb'))
+#     G = zrfun.get_basic_info(fn00, only_G=True)
+#     h = G['h']
+#     xp = G['lon_rho']
+#     yp = G['lat_rho']
+#     plon_vec = np.array([])
+#     plat_vec = np.array([])
+#     hh_vec = np.array([])
+#     for seg_name in seg_list:
+#         jjj = j_dict[seg_name]
+#         iii = i_dict[seg_name]
+#         # untested 2021.10.05
+#         hh_vec = np.append(hh_vec, h[jjj,iii])
+#         plon_vec = np.append(plon_vec, xp[jjj,iii])
+#         plat_vec = np.append(plat_vec, yp[jjj,iii])
+#         # ji_seg = ji_dict[seg_name]
+#         # for ji in ji_seg:
+#         #     plon_vec = np.append(plon_vec, xp[ji])
+#         #     plat_vec = np.append(plat_vec, yp[ji])
+#         #     hh_vec = np.append(hh_vec, h[ji])
+#     plon00 = np.array([]); plat00 = np.array([]); pcs00 = np.array([])
+#     for ii in range(len(plon_vec)):
+#         x = plon_vec[ii]
+#         y = plat_vec[ii]
+#         hdz = DZ*np.floor(hh_vec[ii]/DZ) # depth to closest DZ m (above the bottom)
+#         if hdz >= DZ:
+#             zvec = np.arange(-hdz,DZ,DZ) # a vector that goes from -hdz to 0 in steps of DZ m
+#             svec = zvec/hh_vec[ii]
+#             ns = len(svec)
+#             if ns > 0:
+#                 plon00 = np.append(plon00, x*np.ones(ns))
+#                 plat00 = np.append(plat00, y*np.ones(ns))
+#                 pcs00 = np.append(pcs00, svec)
+#     # subsample the I.C. vectors to around max length around NPmax
+#     NP = len(plon00)
+#     print(len(plon00))
+#     nstep = max(1,int(NP/NPmax))
+#     plon00 = plon00[::nstep]
+#     plat00 = plat00[::nstep]
+#     pcs00 = pcs00[::nstep]
+#     print(len(plon00))
+#     sys.stdout.flush()
+#     return plon00, plat00, pcs00
