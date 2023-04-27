@@ -324,7 +324,7 @@ def ic_in_est(fn00, DZ=20, coast_lon=0):
     mr = G['mask_rho']
 
     # get list of indices for cells inside estuary
-    jjj, iii = np.nonzero((mr==False) & (xp>coast_lon))
+    jjj, iii = np.nonzero((mr==True) & (xp>coast_lon))
 
     # set up arrays for the initial positions
     plon_vec = np.array([])
@@ -388,7 +388,7 @@ def ic_in_est_surf(fn00, pcs=0, coast_lon=0):
     mr = G['mask_rho']
 
     # get list of indices for cells inside estuary
-    jjj, iii = np.nonzero((mr==False) & (xp>coast_lon))
+    jjj, iii = np.nonzero((mr==True) & (xp>coast_lon))
 
     # set up arrays for the initial positions
     plon00 = np.array([])
