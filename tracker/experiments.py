@@ -121,7 +121,7 @@ def get_ic(TR):
         plon00, plat00, pcs00 = ic_from_meshgrid(lonvec, latvec, pcs_vec)
 
     elif exp_name == 'sill3est': # evenly distribute in sill3 idealized estuary
-        plon00, plat00, pcs00 = ic_in_est(fn00, DZ=20, coast_lon=0)
+        plon00, plat00, pcs00 = ic_in_est(fn00, DZ=50, coast_lon=0)
 
     elif exp_name == 'sill3estsurf': # one particle per cell in sill3 idealized estuary
         plon00, plat00, pcs00 = ic_in_est_surf(fn00, pcs=0, coast_lon=0)
@@ -344,7 +344,7 @@ def ic_in_est(fn00, DZ=20, coast_lon=0):
         y = plat_vec[ii]
         hdz = DZ*np.floor(hh_vec[ii]/DZ) # depth to closest DZ m (above the bottom)
         if hdz >= DZ:
-            zvec = np.arange(-hdz,DZ,DZ) # a vector that goes from -hdz to 0 in steps of DZ m --> should this go to zero, not DZ??
+            zvec = np.arange(-hdz,DZ,DZ) # a vector that goes from -hdz to 0 in steps of DZ m #change this??
             svec = zvec/hh_vec[ii]
             ns = len(svec)
             if ns > 0:
