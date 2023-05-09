@@ -393,11 +393,10 @@ def ic_in_est_surf(fn00, pcs=0, coast_lon=0):
     # set up arrays for the initial positions
     plon00 = np.array([])
     plat00 = np.array([])
-    pcs00 = np.array([])
     # get the position of cell centers
     plon00 = np.append(plon00, xp[jjj,iii])
     plat00 = np.append(plat00, yp[jjj,iii])
-    pcs00 = np.append(pcs00,np.array([pcs]))
+    pcs00 = pcs*np.ones(plat00.shape)
 
     sys.stdout.flush()
     return plon00, plat00, pcs00
