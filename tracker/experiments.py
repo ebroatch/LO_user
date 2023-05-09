@@ -121,7 +121,7 @@ def get_ic(TR):
         plon00, plat00, pcs00 = ic_from_meshgrid(lonvec, latvec, pcs_vec)
 
     elif exp_name == 'sill3est': # evenly distribute in sill3 idealized estuary
-        plon00, plat00, pcs00 = ic_in_est(fn00, DZ=50, coast_lon=0)
+        plon00, plat00, pcs00 = ic_in_est(fn00, DZ=25, coast_lon=0)
 
     elif exp_name == 'sill3estsurf': # one particle per cell in sill3 idealized estuary
         plon00, plat00, pcs00 = ic_in_est_surf(fn00, pcs=0, coast_lon=0)
@@ -342,9 +342,9 @@ def ic_in_est(fn00, DZ=20, coast_lon=0):
     for ii in range(len(plon_vec)):
         x = plon_vec[ii]
         y = plat_vec[ii]
-        hdz = DZ*np.floor(hh_vec[ii]/DZ) # depth to closest DZ m (above the bottom)
+        hdz = np.maximum(0,(DZ/2)+DZ*np.floor((hh_vec[ii]-(DZ/2))/DZ)) # depth to closest DZ m (above the bottom)
         if hdz >= DZ:
-            zvec = np.arange(-hdz,DZ,DZ) # a vector that goes from -hdz to 0 in steps of DZ m #change this??
+            zvec = np.arange(-hdz,DZ/2,DZ) # a vector that goes from -hdz to DZ/2 in steps of DZ m
             svec = zvec/hh_vec[ii]
             ns = len(svec)
             if ns > 0:
@@ -397,7 +397,7 @@ def ic_in_est_surf(fn00, pcs=0, coast_lon=0):
     # get the position of cell centers
     plon00 = np.append(plon00, xp[jjj,iii])
     plat00 = np.append(plat00, yp[jjj,iii])
-    pcs00 = np.append(pcs00, pcs)
+    pcs00 = np.append(pcs00,np.array([pcs]))
 
     sys.stdout.flush()
     return plon00, plat00, pcs00
