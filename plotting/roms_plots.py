@@ -80,7 +80,7 @@ def P_sect_eb(in_dict):
             cmap=pinfo.cmap_dict[vn], fac=pinfo.fac_dict[vn], do_mask_edges=True)
     # fig.colorbar(cs, ax=ax) # It is identical to that of the section
     #pfun.add_coast(ax)
-    aaf = [-4, 4, 43, 47] # focus domain
+    aaf = [-4, 2, 43, 47] # focus domain
     ax.axis(aaf)
     pfun.dar(ax)
     pfun.add_info(ax, in_dict['fn'], loc='upper_right')
@@ -876,6 +876,71 @@ def P_spdbarmap_eb(in_dict):
     fig.colorbar(cs3, cax=ax4, label=r'$\sqrt{\bar{u}^2+\bar{v}^2}$')
     plt.suptitle('Speed [m/s]', fontsize=16)
     #plt.tight_layout()
+
+    # FINISH
+    ds.close()
+    pfun.end_plot()
+    if len(str(in_dict['fn_out'])) > 0:
+        plt.savefig(in_dict['fn_out'])
+        plt.close()
+    else:
+        plt.show()
+
+
+def P_debug_eb(in_dict):
+    # Focused on debugging
+    vn_list = ['u', 'v', 'zeta']
+    do_wetdry = False
+    
+    # START
+    fs = 10
+    pfun.start_plot(fs=fs, figsize=(8*len(vn_list),10))
+    fig = plt.figure()
+    ds = xr.open_dataset(in_dict['fn'])
+    # PLOT CODE
+    ii = 1
+    for vn in vn_list:
+        if 'lon_rho' in ds[vn].coords:
+            tag = 'rho'
+        if 'lon_u' in ds[vn].coords:
+            tag = 'u'
+        if 'lon_v' in ds[vn].coords:
+            tag = 'v'
+        x = ds['lon_'+tag].values
+        y = ds['lat_'+tag].values
+        px, py = pfun.get_plon_plat(x,y)
+        if vn in ['u', 'v']:
+            v = ds[vn][0,-1,:,:].values
+            vmin = -2
+            vmax = 2
+            cmap='hsv_r'
+        elif vn == 'zeta':
+            v = ds[vn][0,:,:].values
+            h = ds.h.values
+            mr = ds.mask_rho.values
+            v[mr==0] = np.nan
+            h[mr==0] = np.nan
+            v = v + h
+            vn = 'depth'
+            vmin = 2
+            vmax = 4
+            cmap='RdYlGn'
+        else:
+            v = ds[vn][0, -1,:,:].values
+        ax = fig.add_subplot(1, len(vn_list), ii)
+        ax.set_xticks([])
+        ax.set_yticks([])
+        cs = ax.pcolormesh(px, py, v, cmap=cmap, vmin=vmin, vmax=vmax)
+        #pfun.add_coast(ax)
+        ax.axis(pfun.get_aa(ds))
+        pfun.dar(ax)
+        if ii == 1:
+            pfun.add_info(ax, in_dict['fn'], his_num=True)
+        vmax, vjmax, vimax, vmin, vjmin, vimin = pfun.maxmin(v)
+        ax.plot(x[vjmax,vimax], y[vjmax,vimax],'*y', mec='k', markersize=15)
+        ax.plot(x[vjmin,vimin], y[vjmin,vimin],'oy', mec='k', markersize=10)
+        ax.set_title(('%s ((*)max=%0.1f, (o)min=%0.1f)' % (vn, vmax, vmin)))
+        ii += 1
 
     # FINISH
     ds.close()
