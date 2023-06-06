@@ -36,12 +36,14 @@ hh = dsg.h.values
 maskr = dsg.mask_rho.values
 #
 
-# subsample output for plotting
-npmax = 600 # max number of points to plot
-step = max(1,int(np.floor(NP/npmax)))
+# # subsample output for plotting #SKIP SUBSAMPLING
+# npmax = 600 # max number of points to plot
+# step = max(1,int(np.floor(NP/npmax)))
 
-lon = dsr.lon.values[:,::step]
-lat = dsr.lat.values[:,::step]
+# lon = dsr.lon.values[:,::step]
+# lat = dsr.lat.values[:,::step]
+lon = dsr.lon.values
+lat = dsr.lat.values
 
 # make a mask that is False from the time a particle first leaves the domain
 # and onwards
@@ -62,7 +64,7 @@ for pp in range(NPS):
 lon[~ib_mask] = np.nan
 lat[~ib_mask] = np.nan
 
-# PLOTTING
+# PLOTTING - SPAGHETTI PLOT
 plt.close('all')
 pfun.start_plot(figsize=(14,8))
 fig = plt.figure()
@@ -78,46 +80,51 @@ else:
     aa = [np.nanmin(lon) - pad, np.nanmax(lon) + pad,
     np.nanmin(lat) - pad, np.nanmax(lat) + pad]
     
-ax = fig.add_subplot(121)
+#ax = fig.add_subplot(121)
+ax = fig.add_subplot(111)
 zm = -np.ma.masked_where(maskr==0, hh)
-plt.pcolormesh(lonp, latp, zm, vmin=-100, vmax=0,
+plt.pcolormesh(lonp, latp, zm, vmin=-200, vmax=0,
     cmap='terrain', alpha=.25)
 ax.axis(aa)
-#pfun.dar(ax)
+pfun.dar(ax)
 ax.set_xlabel('Longitude')
 ax.set_ylabel('Latitude')
 ax.set_title(exp_name.strip('/'))
 # add the tracks (packed [time, particle])
 # regular spaghetti plots
-ax.plot(lon, lat, '-k', linewidth=.2)
-ax.plot(lon[0,:], lat[0,:], 'og', alpha=.3)
-ax.plot(lon[-1,:], lat[-1,:], 'or', alpha=.3)
+#ax.plot(lon, lat, '-k', linewidth=.2) #DON'T PLOT LINES FOR NOW
+# ax.plot(lon[0,:], lat[0,:], 'og', alpha=.3)
+# ax.plot(lon[-1,:], lat[-1,:], 'or', alpha=.3)
+ax.plot(lon[0,:], lat[0,:], '.g', alpha=.3, markeredgecolor='none')
+ax.plot(lon[-1,:], lat[-1,:], '.r', alpha=.3, markeredgecolor='none')
 
-# time series
-td = (ot_vec - ot_vec[0])/86400
-tv_list = ['z', 'u', 'v']
-#tv_list = ['u', 'v', 'lon', 'lat']
-ntv = len(tv_list)
-for ii in range(ntv):
-    tv = tv_list[ii]
-    NC = 2
-    ax = fig.add_subplot(ntv,NC, (ii+1)*NC)
-    v = dsr[tv].values[:,::step]
-    v[~ib_mask] = np.nan
-    ax.plot(td, v, lw=.5, alpha=.2)
-    ax.text(.05, .05, tv, fontweight='bold', transform=ax.transAxes)
-    if ii == ntv-1:
-        ax.set_xlabel('Time (days)')
+# # time series
+# td = (ot_vec - ot_vec[0])/86400
+# tv_list = ['z', 'u', 'v']
+# #tv_list = ['u', 'v', 'lon', 'lat']
+# ntv = len(tv_list)
+# for ii in range(ntv):
+#     tv = tv_list[ii]
+#     NC = 2
+#     ax = fig.add_subplot(ntv,NC, (ii+1)*NC)
+#     # v = dsr[tv].values[:,::step]
+#     v = dsr[tv].values
+#     v[~ib_mask] = np.nan
+#     ax.plot(td, v, lw=.5, alpha=.2)
+#     ax.text(.05, .05, tv, fontweight='bold', transform=ax.transAxes)
+#     if ii == ntv-1:
+#         ax.set_xlabel('Time (days)')
 
 #plt.show()
 pfun.end_plot()
 
+#PLOTTING - HISTOGRAMS
 fig, axs = plt.subplots(5,1,sharex=True)
 for j in range(5):
-    hour=j*6
+    hour=j*180
     axs[j].set_title('t='+str(hour)+'h')
     axs[j].hist(dsr['lon'].sel(Time=hour),bins=20,alpha=0.5)
-    axs[j].set_ylim(0, 30)
+    #axs[j].set_ylim(0, 30)
 
 plt.show()
 
