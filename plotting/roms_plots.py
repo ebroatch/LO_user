@@ -91,7 +91,7 @@ def P_sect_eb(in_dict):
     ax.plot(x, y, '-r', linewidth=2)
     ax.plot(x[idist0], y[idist0], 'r', markersize=5, markerfacecolor='w',
         markeredgecolor='r', markeredgewidth=2)
-    ax.set_xticks([-4, 0, 4])
+    ax.set_xticks([-4, -2, 0, 2])
     ax.set_yticks([43, 45, 47])
     # section
     ax = fig.add_subplot(1, 3, (2, 3))
