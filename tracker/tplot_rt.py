@@ -88,7 +88,8 @@ pfun.end_plot()
 #     axs[j].hist(dsr['lon'].sel(Time=hour),bins=20,alpha=0.5)
 #     #axs[j].set_ylim(0, 30)
 
-plt.show()
+#plt.show()
+plt.savefig('tplot_rt.png')
 
 dsr.close()
 dsg.close()
