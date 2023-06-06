@@ -37,13 +37,13 @@ maskr = dsg.mask_rho.values
 #
 
 # # subsample output for plotting #SKIP SUBSAMPLING
-# npmax = 600 # max number of points to plot
-# step = max(1,int(np.floor(NP/npmax)))
+npmax = 600 # max number of points to plot
+step = max(1,int(np.floor(NP/npmax)))
 
-# lon = dsr.lon.values[:,::step]
-# lat = dsr.lat.values[:,::step]
-lon = dsr.lon.values
-lat = dsr.lat.values
+lon = dsr.lon.values[:,::step]
+lat = dsr.lat.values[:,::step]
+# lon = dsr.lon.values #use this for no subsampling
+# lat = dsr.lat.values
 
 # make a mask that is False from the time a particle first leaves the domain
 # and onwards
@@ -92,7 +92,7 @@ ax.set_ylabel('Latitude')
 ax.set_title(exp_name.strip('/'))
 # add the tracks (packed [time, particle])
 # regular spaghetti plots
-#ax.plot(lon, lat, '-k', linewidth=.2) #DON'T PLOT LINES FOR NOW
+ax.plot(lon, lat, '-k', linewidth=.2) #DON'T PLOT LINES FOR NOW #comment out to skip lines
 # ax.plot(lon[0,:], lat[0,:], 'og', alpha=.3)
 # ax.plot(lon[-1,:], lat[-1,:], 'or', alpha=.3)
 ax.plot(lon[0,:], lat[0,:], '.g', alpha=.3, markeredgecolor='none')
@@ -116,17 +116,19 @@ ax.plot(lon[-1,:], lat[-1,:], '.r', alpha=.3, markeredgecolor='none')
 #         ax.set_xlabel('Time (days)')
 
 #plt.show()
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_subsample.png'
+plt.savefig(fn_fig)
 pfun.end_plot()
 
-#PLOTTING - HISTOGRAMS
-fig, axs = plt.subplots(5,1,sharex=True)
-for j in range(5):
-    hour=j*180
-    axs[j].set_title('t='+str(hour)+'h')
-    axs[j].hist(dsr['lon'].sel(Time=hour),bins=20,alpha=0.5)
-    #axs[j].set_ylim(0, 30)
+# #PLOTTING - HISTOGRAMS
+# fig, axs = plt.subplots(5,1,sharex=True)
+# for j in range(5):
+#     hour=j*180
+#     axs[j].set_title('t='+str(hour)+'h')
+#     axs[j].hist(dsr['lon'].sel(Time=hour),bins=20,alpha=0.5)
+#     #axs[j].set_ylim(0, 30)
 
-plt.show()
+# plt.show()
 
 dsr.close()
 dsg.close()
