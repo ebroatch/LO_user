@@ -56,7 +56,7 @@ def func(x, a, b, c):
 
 p0=(30000,-0.0005,1)
 #popt, pcov = curve_fit(func, tplot, partest_ta, p0=p0)
-popt, pcov = curve_fit(func, partest.Time, partest, p0=p0)
+#popt, pcov = curve_fit(func, partest.Time, partest, p0=p0) #not working for long run
 #pfit=np.polyfit(tplot,np.log(partest_ta),1)
 
 # PLOTTING - SPAGHETTI PLOT
@@ -72,7 +72,7 @@ ax.plot(partest.Time, partest, '.c', label='Raw particle #') #data
 ax.plot(tplot, partest_ta, '-b', label='Tidally averaged') #data
 # plt.plot(tplot, func(tplot, *popt), '--r', label='fit: a=%5.3f, b=%5.3f' % tuple(popt)) #fit
 # plt.plot(tplot, func(tplot, *popt), '--r', label='fit: a=%5.3f, b=%5.3f, c=%5.3f' % tuple(popt)) #fit
-plt.plot(partest.Time, func(partest.Time, *popt), '--r', label='fit: a=%5.3f, b=%5.3f, c=%5.3f' % tuple(popt)) #fit
+#plt.plot(partest.Time, func(partest.Time, *popt), '--r', label='fit: a=%5.3f, b=%5.3f, c=%5.3f' % tuple(popt)) #fit #not working for long run
 # plt.plot(tplot, np.exp(pfit[1])*np.exp(pfit[0]*tplot), '--r', label='Fit')
 ax.legend(loc='best')
 
