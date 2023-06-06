@@ -46,7 +46,7 @@ maskr = dsg.mask_rho.values
 depths = np.array([-12.5, -37.5, -62.5, -87.5, -112.5, -137.5, -162.5, -187.5])
 #depths = np.array([-12.5, -187.5])
 plt.close('all')
-fig, axs = plt.subplots(2,4, sharex=True, sharey=True)
+fig, axs = plt.subplots(2,4, sharex=True, sharey=True, figsize=(15,10))
 #fig, axs = plt.subplots(1,2, sharex=True, sharey=True)
 for j in range(8):
     depth = depths[j]
@@ -118,22 +118,24 @@ for j in range(8):
     #     ax.text(.05, .05, tv, fontweight='bold', transform=ax.transAxes)
     #     if ii == ntv-1:
     #         ax.set_xlabel('Time (days)')
-    ax.plot(lon[0,:], lat[0,:], '.g', alpha=.3, markeredgecolor='none')
+    # ax.plot(lon[0,:], lat[0,:], '.g', alpha=.3, markeredgecolor='none')
     ax.plot(lon[-1,:], lat[-1,:], '.r', alpha=.3, markeredgecolor='none')
 #plt.suptitle('exp_name.strip('/')')
 
-#plt.show()
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rt.png'
+plt.savefig(fn_fig)
+# plt.show()
 pfun.end_plot()
 
-#PLOTTING - HISTOGRAMS
-fig, axs = plt.subplots(5,1,sharex=True)
-for j in range(5):
-    hour=j*72
-    axs[j].set_title('t='+str(hour)+'h')
-    axs[j].hist(dsr['lon'].sel(Time=hour),bins=20,alpha=0.5)
-    #axs[j].set_ylim(0, 30)
+# #PLOTTING - HISTOGRAMS
+# fig, axs = plt.subplots(5,1,sharex=True)
+# for j in range(5):
+#     hour=j*720
+#     axs[j].set_title('t='+str(hour)+'h')
+#     axs[j].hist(dsr['lon'].sel(Time=hour),bins=20,range=(-0.8,1.2),alpha=0.5)
+#     #axs[j].set_ylim(0, 30)
 
-plt.show()
+# plt.show()
 
 dsr.close()
 dsg.close()
