@@ -89,7 +89,8 @@ pfun.end_plot()
 #     #axs[j].set_ylim(0, 30)
 
 #plt.show()
-plt.savefig('tplot_rt.png')
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rt.png'
+plt.savefig(fn_fig)
 
 dsr.close()
 dsg.close()
