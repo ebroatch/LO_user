@@ -128,6 +128,15 @@ pfun.end_plot()
 #     axs[j].hist(dsr['lon'].sel(Time=hour),bins=20,alpha=0.5)
 #     #axs[j].set_ylim(0, 30)
 
+# #PLOTTING - HISTOGRAMS
+fig, axs = plt.subplots(5,1,sharex=True, figsize=(10,10))
+for j in range(5):
+    hour=j*720
+    axs[j].set_title('t='+str(hour)+'h')
+    axs[j].hist(dsr['lon'].sel(Time=hour),bins=20,range=(-0.8,1.2),alpha=0.5)
+#     #axs[j].set_ylim(0, 30)
+fn_fig2 = Ldir['LOo'] / 'plots' / 'tplot_hist.png'
+plt.savefig(fn_fig2)
 # plt.show()
 
 dsr.close()
