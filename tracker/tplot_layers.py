@@ -125,7 +125,7 @@ for j in range(8):
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_layers.png'
 plt.savefig(fn_fig)
 # plt.show()
-pfun.end_plot()
+#pfun.end_plot()
 
 # #PLOTTING - HISTOGRAMS
 # fig, axs = plt.subplots(5,1,sharex=True)
