@@ -122,7 +122,7 @@ for j in range(8):
     ax.plot(lon[-1,:], lat[-1,:], '.r', alpha=.3, markeredgecolor='none')
 #plt.suptitle('exp_name.strip('/')')
 
-fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rt.png'
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_layers.png'
 plt.savefig(fn_fig)
 # plt.show()
 pfun.end_plot()
