@@ -2,15 +2,14 @@
 Plot results of a particle tracking experiment.
 """
 
-
-import matplotlib.pyplot as plt
-import xarray as xr
-import numpy as np
-
 from lo_tools import Lfun
 from lo_tools import plotting_functions as pfun
 from lo_user_tools import llxyfun
 Ldir = Lfun.Lstart()
+
+import matplotlib.pyplot as plt
+import xarray as xr
+import numpy as np
 
 # Choose an experiment and release to plot.
 in_dir0 = Ldir['LOo'] / 'tracks'
