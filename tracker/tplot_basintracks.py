@@ -91,7 +91,7 @@ lat2[~ib_mask] = np.nan
 
 # PLOTTING - SPAGHETTI PLOT
 plt.close('all')
-pfun.start_plot(figsize=(14,8))
+pfun.start_plot(figsize=(10,10))
 fig = plt.figure()
 
 # MAP
@@ -145,8 +145,8 @@ ax.plot(lon2[-1,:], lat2[-1,:], '.', color='tab:red', alpha=1, markeredgecolor='
 
 #plt.show()
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_basintracks.png'
-#plt.savefig(fn_fig)
-plt.show()
+plt.savefig(fn_fig)
+#plt.show()
 pfun.end_plot()
 
 dsr.close()
