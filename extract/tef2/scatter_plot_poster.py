@@ -64,8 +64,8 @@ fig, ax1 = plt.subplots(1, 1, figsize=(10,10))
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
 # ax3 = plt.subplot2grid((1,3), (0,2)) # map
 
-#for i in range(len(sect_list)):
-for i in [2,7,12]:
+for i in range(len(sect_list)):
+#for i in [2,7,12]:
     sect_name = sect_list[i]
     bulk = pickle.load(open(in_dir / sect_name, 'rb'))
 
@@ -96,7 +96,7 @@ for i in [2,7,12]:
     
     #ax1.scatter(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), c=plot_color[i], linewidth=lw, label=plot_label[i])
     #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
-    ax1.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '.', color=plot_color[i], label=plot_label[i])
+    ax1.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', color=plot_color[i], label=plot_label[i],alpha=0.5,lw=0.5)
 
     # ax1.grid(True)    
     # ax1.set_ylabel(ylab_dict['Q'])
@@ -176,8 +176,8 @@ ax1.grid(True)
 # ax1.set_xlabel(r'$Q_{prism} [10^{3}\ m^{3}s^{-1}]$')
 ax1.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
 ax1.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
-ax1.set_ylim(bottom=0)
-ax1.set_xlim(left=0)
+ax1.set_ylim(bottom=1e3)
+#ax1.set_xlim(left=0)
 ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 plt.savefig(out_dir / ('scatter_plot_poster.png'))
 plt.close()
