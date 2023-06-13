@@ -90,7 +90,8 @@ for i in range(len(sect_list)):
     
     ot = bulk['ot'] # (same as tef_df.index)
     
-    ax1.scatter(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), c=plot_color[i], linewidth=lw, label=plot_label[i])
+    #ax1.scatter(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), c=plot_color[i], linewidth=lw, label=plot_label[i])
+    ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
     # ax1.grid(True)    
     # ax1.set_ylabel(ylab_dict['Q'])
     # ax1.set_ylim(-15,15)
