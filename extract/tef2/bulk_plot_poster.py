@@ -163,7 +163,7 @@ for i in range(len(sect_list)):
     # else:
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
-ax2.legend(loc='right')
+ax2.legend(loc='lower right')
 plt.savefig(out_dir / ('bulk_plot_poster.png'))
 plt.close()
 pfun.end_plot()
