@@ -50,7 +50,7 @@ xv = g.lon_v.values
 yv = g.lat_v.values
 
 # PLOTTING
-plot_color = ['lightblue','tab:cyan','dodgerblue','tab:blue','blue','gold','goldenrod','xkcd:yelloworange','tab:orange','peru','pink','tab:pink','mediumvioletred','tab:red','maroon']
+plot_color = ['lightblue','tab:cyan','dodgerblue','tab:blue','blue','gold','goldenrod','xkcd:yellow orange','tab:orange','peru','pink','tab:pink','mediumvioletred','tab:red','maroon']
 #m_color = ['tab:cyan','xkcd:yellow orange','tab:pink']
 plot_label = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5']
 fs = 12
