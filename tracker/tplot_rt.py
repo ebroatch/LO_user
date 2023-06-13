@@ -1,17 +1,15 @@
 """
 Plot results of a particle tracking experiment.
 """
-
+from lo_tools import Lfun
+from lo_tools import zfun
+from lo_tools import plotting_functions as pfun
+Ldir = Lfun.Lstart()
 
 import matplotlib.pyplot as plt
 import xarray as xr
 import numpy as np
 from scipy.optimize import curve_fit
-
-from lo_tools import Lfun
-from lo_tools import zfun
-from lo_tools import plotting_functions as pfun
-Ldir = Lfun.Lstart()
 
 # Choose an experiment and release to plot.
 in_dir0 = Ldir['LOo'] / 'tracks'
@@ -63,18 +61,19 @@ p0=(30000,-0.0005,1)
 plt.close('all')
 fig, ax = plt.subplots(1,1)
 
-ax.set_xlabel('Hours')
+ax.set_xlabel('Days')
 ax.set_ylabel('Particles in estuary')
 ax.set_title('Whole estuary residence time')
 # add the tracks (packed [time, particle])
 # regular spaghetti plots
-ax.plot(partest.Time, partest, '.c', label='Raw particle #') #data
+ax.plot(partest.Time/24, partest, '.c', label='Raw particle #') #data
 ax.plot(tplot, partest_ta, '-b', label='Tidally averaged') #data
 # plt.plot(tplot, func(tplot, *popt), '--r', label='fit: a=%5.3f, b=%5.3f' % tuple(popt)) #fit
 # plt.plot(tplot, func(tplot, *popt), '--r', label='fit: a=%5.3f, b=%5.3f, c=%5.3f' % tuple(popt)) #fit
 #plt.plot(partest.Time, func(partest.Time, *popt), '--r', label='fit: a=%5.3f, b=%5.3f, c=%5.3f' % tuple(popt)) #fit #not working for long run
-# plt.plot(tplot, np.exp(pfit[1])*np.exp(pfit[0]*tplot), '--r', label='Fit')
+#plt.plot(tplot, np.exp(pfit[1])*np.exp(pfit[0]*tplot), '--r', label='Fit')
 ax.legend(loc='best')
+ax.grid(True)
 
 
 #plt.show()
@@ -89,8 +88,10 @@ pfun.end_plot()
 #     #axs[j].set_ylim(0, 30)
 
 #plt.show()
-fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rt.png'
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtgrid.png'
 plt.savefig(fn_fig)
+plt.close()
+#plt.show()
 
 dsr.close()
 dsg.close()
