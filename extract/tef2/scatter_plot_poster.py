@@ -64,7 +64,8 @@ fig, ax1 = plt.subplots(1, 1, figsize=(10,10))
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
 # ax3 = plt.subplot2grid((1,3), (0,2)) # map
 
-for i in range(len(sect_list)):
+#for i in range(len(sect_list)):
+for i in [2,7,12]:
     sect_name = sect_list[i]
     bulk = pickle.load(open(in_dir / sect_name, 'rb'))
 
