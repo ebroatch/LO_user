@@ -70,10 +70,13 @@ for i in range(len(sect_list)):
 
     tef_df = flux_fun.get_two_layer(in_dir, sect_name)
             
-    # adjust units
-    tef_df['Q_p'] = tef_df['q_p']/1000
-    tef_df['Q_m'] = tef_df['q_m']/1000
-    tef_df['Q_prism'] = tef_df['qabs']/2000
+    # adjust units #leave for loglog plot 
+    # tef_df['Q_p'] = tef_df['q_p']/1000
+    # tef_df['Q_m'] = tef_df['q_m']/1000
+    # tef_df['Q_prism'] = tef_df['qabs']/2000
+    tef_df['Q_p'] = tef_df['q_p']
+    tef_df['Q_m'] = tef_df['q_m']
+    tef_df['Q_prism'] = tef_df['qabs']/2
                     
     # labels and colors
     ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
@@ -91,7 +94,9 @@ for i in range(len(sect_list)):
     ot = bulk['ot'] # (same as tef_df.index)
     
     #ax1.scatter(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), c=plot_color[i], linewidth=lw, label=plot_label[i])
-    ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
+    #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
+    ax1.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '.', color=plot_color[i], label=plot_label[i])
+
     # ax1.grid(True)    
     # ax1.set_ylabel(ylab_dict['Q'])
     # ax1.set_ylim(-15,15)
@@ -166,9 +171,12 @@ for i in range(len(sect_list)):
     #     plt.close()
 # ax2.legend(loc='lower right')
 ax1.grid(True)    
-ax1.set_ylabel(r'$Q_{in} [10^{3}\ m^{3}s^{-1}]$')
-ax1.set_xlabel(r'$Q_{prism} [10^{3}\ m^{3}s^{-1}]$')
-#ax1.set_ylim(-15,15)
+# ax1.set_ylabel(r'$Q_{in} [10^{3}\ m^{3}s^{-1}]$')
+# ax1.set_xlabel(r'$Q_{prism} [10^{3}\ m^{3}s^{-1}]$')
+ax1.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
+ax1.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
+ax1.set_ylim(bottom=0)
+ax1.set_xlim(left=0)
 ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 plt.savefig(out_dir / ('scatter_plot_poster.png'))
 plt.close()
