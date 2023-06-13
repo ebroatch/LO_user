@@ -28,8 +28,8 @@ sect_df_fn = tef2_dir / ('sect_df_' + gctag + '.p')
 sect_df = pd.read_pickle(sect_df_fn)
 
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
-in_dir = out_dir0 / ('bulk_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
-out_dir = out_dir0 / ('bulk_hourly_plots_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+in_dir = out_dir0 / ('bulk_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+out_dir = out_dir0 / ('bulk_poster_plots_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
 # sect_list = [item.name for item in in_dir.glob('*.p')]
@@ -52,6 +52,8 @@ yv = g.lat_v.values
 # PLOTTING
 p_color = ['tab:red','tab:purple','tab:blue']
 m_color = ['tab:pink','xkcd:lavender','tab:cyan']
+label_in = ['a3 in','b3 in','c3 in']
+label_out = ['a3 out','b3 out','c3 out']
 fs = 12
 plt.close('all')
 pfun.start_plot(fs=fs, figsize=(21,10))
@@ -87,10 +89,11 @@ for i in range(len(sect_list)):
     
     ot = bulk['ot'] # (same as tef_df.index)
     
-    ax1.plot(ot,tef_df['Q_p'].to_numpy(), color=p_color[i], linewidth=lw)
-    ax1.plot(ot,tef_df['Q_m'].to_numpy(), color=m_color[i], linewidth=lw)
+    ax1.plot(ot,tef_df['Q_p'].to_numpy(), color=p_color[i], linewidth=lw, label=label_in[i])
+    ax1.plot(ot,tef_df['Q_m'].to_numpy(), color=m_color[i], linewidth=lw, label=label_out[i])
     ax1.grid(True)    
     ax1.set_ylabel(ylab_dict['Q'])
+    ax1.set_ylim(-15,15)
     
     qp = bulk['q'].copy()/1000
     qp[qp<0] = np.nan
@@ -102,16 +105,18 @@ for i in range(len(sect_list)):
     sm[np.isnan(qm)]=np.nan
     
     alpha=.3
-    ax1.plot(bulk['ot'],qp,'or',alpha=alpha)
-    ax1.plot(bulk['ot'],qm,'ob',alpha=alpha)
+    # ax1.plot(bulk['ot'],qp,'or',alpha=alpha)
+    # ax1.plot(bulk['ot'],qm,'ob',alpha=alpha)
     
-    ax2.plot(bulk['ot'],sp,'or',alpha=alpha)
-    ax2.plot(bulk['ot'],sm,'ob',alpha=alpha)
+    # ax2.plot(bulk['ot'],sp,'or',alpha=alpha)
+    # ax2.plot(bulk['ot'],sm,'ob',alpha=alpha)
     
-    ax2.plot(ot,tef_df['salt_p'].to_numpy(), color=p_color[i], linewidth=lw)
-    ax2.plot(ot,tef_df['salt_m'].to_numpy(), color=m_color[i], linewidth=lw)
+    ax2.plot(ot,tef_df['salt_p'].to_numpy(), color=p_color[i], linewidth=lw, label=label_in[i])
+    ax2.plot(ot,tef_df['salt_m'].to_numpy(), color=m_color[i], linewidth=lw, label=label_out[i])
     ax2.grid(True)
     ax2.set_ylabel(ylab_dict['salt'])
+    ax2.set_ylim(0,35)
+    ax2.set_xlim(pd.Timestamp('2020-04-01'), pd.Timestamp('2020-07-31'))
     
     # # map
     # sn = sect_name.replace('.p','')
