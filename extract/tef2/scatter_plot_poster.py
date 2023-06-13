@@ -73,7 +73,7 @@ for i in range(len(sect_list)):
     # adjust units
     tef_df['Q_p'] = tef_df['q_p']/1000
     tef_df['Q_m'] = tef_df['q_m']/1000
-    tef_df['Q_prism'] = tef_df['q_abs']/2000
+    tef_df['Q_prism'] = tef_df['qabs']/2000
                     
     # labels and colors
     ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
