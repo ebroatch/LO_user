@@ -50,8 +50,8 @@ xv = g.lon_v.values
 yv = g.lat_v.values
 
 # PLOTTING
-p_color = ['tab:red','tab:orange','tab:blue']
-m_color = ['tab:pink','xkcd:yellow orange','tab:cyan']
+p_color = ['tab:blue','tab:orange','tab:red']
+m_color = ['tab:cyan','xkcd:yellow orange','tab:pink']
 label_in = ['a3 in','b3 in','c3 in']
 label_out = ['a3 out','b3 out','c3 out']
 fs = 12
@@ -115,7 +115,7 @@ for i in range(len(sect_list)):
     ax2.plot(ot,tef_df['salt_m'].to_numpy(), color=m_color[i], linewidth=lw, label=label_out[i])
     ax2.grid(True)
     ax2.set_ylabel(ylab_dict['salt'])
-    ax2.set_ylim(20,35)
+    ax2.set_ylim(20,32)
     ax2.set_xlim(pd.Timestamp('2020-04-01'), pd.Timestamp('2020-07-31'))
     
     # # map
@@ -163,7 +163,7 @@ for i in range(len(sect_list)):
     # else:
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
-ax2.legend(loc='best')
+ax2.legend(loc='right')
 plt.savefig(out_dir / ('bulk_plot_poster.png'))
 plt.close()
 pfun.end_plot()
