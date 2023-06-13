@@ -59,7 +59,7 @@ p0=(30000,-0.0005,1)
 
 # PLOTTING - SPAGHETTI PLOT
 plt.close('all')
-fig, ax = plt.subplots(1,1)
+fig, ax = plt.subplots(1,1,figsize=(12,18))
 
 ax.set_xlabel('Days')
 ax.set_ylabel('Particles in estuary')
@@ -74,6 +74,8 @@ ax.plot(tplot/24, partest_ta, '--b', label='Tidally averaged') #data
 #plt.plot(tplot, np.exp(pfit[1])*np.exp(pfit[0]*tplot), '--r', label='Fit')
 ax.legend(loc='best')
 ax.grid(True)
+ax.set_xlim(0,125)
+ax.set_ylim(20000,35000)
 
 
 #plt.show()
