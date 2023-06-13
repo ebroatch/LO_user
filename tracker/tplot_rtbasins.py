@@ -57,7 +57,7 @@ par2_in=(lon2>sillmid).astype(int).sum(dim='Particle')
 # tplot = partest.Time.values[35:-35]
 
 plt.close('all')
-fig, [ax1,ax2] = plt.subplots(1,2,figsize=(16,6),sharey=True)
+fig, [ax1,ax2] = plt.subplots(1,2,figsize=(16,6))
 
 ax1.set_xlabel('Days')
 ax1.set_ylabel('Number of particles')
@@ -68,6 +68,7 @@ ax1.plot(par1_in.Time/24, par1_in, '-', color='tab:pink', label='Inner basin')
 ax1.legend(loc='best')
 ax1.grid(True)
 ax1.set_xlim(0,120)
+ax1.set_ylim(0,18000)
 #ax.set_ylim(20000,35000)
 
 ax2.set_xlabel('Days')
