@@ -59,7 +59,7 @@ p0=(30000,-0.0005,1)
 
 # PLOTTING - SPAGHETTI PLOT
 plt.close('all')
-fig, ax = plt.subplots(1,1,figsize=(12,18))
+fig, ax = plt.subplots(1,1,figsize=(9,6))
 
 ax.set_xlabel('Days')
 ax.set_ylabel('Particles in estuary')
