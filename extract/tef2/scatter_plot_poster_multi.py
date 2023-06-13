@@ -55,6 +55,7 @@ yv = g.lat_v.values
 plot_color_out = ['lightblue','tab:cyan','dodgerblue','tab:blue','blue']
 plot_color_sill = ['gold','goldenrod','xkcd:yellow orange','tab:orange','peru']
 plot_color_in = ['pink','tab:pink','mediumvioletred','tab:red','maroon']
+plot_color = ['tab:purple','tab:blue','tab:green','tab:orange','tab:red']
 #m_color = ['tab:cyan','xkcd:yellow orange','tab:pink']
 plot_label_out = ['a1','a2','a3','a4','a5']
 plot_label_sill = ['b1','b2','b3','b4','b5']
@@ -64,7 +65,7 @@ plt.close('all')
 pfun.start_plot(fs=fs, figsize=(21,10))
 
 #fig, [ax1,ax2] = plt.subplots(2, 1, sharex=True,figsize=(15,10))
-fig, [ax1,ax2,ax3] = plt.subplots(1, 3, figsize=(15,6))
+fig, [ax1,ax2,ax3] = plt.subplots(1, 3, figsize=(18,5))
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
@@ -89,7 +90,7 @@ for i in range(len(sect_list_out)):
     
     #ax1.scatter(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), c=plot_color[i], linewidth=lw, label=plot_label[i])
     #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
-    ax1.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', marker='.', lw=0.5, color=plot_color_out[i], label=plot_label_out[i])
+    ax1.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', lw=0.5, color=plot_color[i], label=plot_label_out[i])
 
 for i in range(len(sect_list_sill)):
     sect_name = sect_list_sill[i]
@@ -110,7 +111,7 @@ for i in range(len(sect_list_sill)):
     
     #ax1.scatter(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), c=plot_color[i], linewidth=lw, label=plot_label[i])
     #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
-    ax2.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', marker='.', lw=0.5, color=plot_color_sill[i], label=plot_label_sill[i])
+    ax2.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', lw=0.5, color=plot_color[i], label=plot_label_sill[i])
 
 for i in range(len(sect_list_in)):
     sect_name = sect_list_in[i]
@@ -131,7 +132,7 @@ for i in range(len(sect_list_in)):
     
     #ax1.scatter(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), c=plot_color[i], linewidth=lw, label=plot_label[i])
     #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
-    ax3.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', marker='.', lw=0.5, color=plot_color_in[i], label=plot_label_in[i])
+    ax3.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', lw=0.5, color=plot_color[i], label=plot_label_in[i])
 
 # ax1.grid(True)
 # ax2.grid(True)

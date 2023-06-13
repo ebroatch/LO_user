@@ -96,7 +96,7 @@ for i in range(len(sect_list)):
     
     #ax1.scatter(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), c=plot_color[i], linewidth=lw, label=plot_label[i])
     #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
-    ax1.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', color=plot_color[i], label=plot_label[i],alpha=0.5,lw=0.5)
+    ax1.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', color=plot_color[i], label=plot_label[i],lw=0.5)
 
     # ax1.grid(True)    
     # ax1.set_ylabel(ylab_dict['Q'])
