@@ -66,8 +66,8 @@ ax.set_ylabel('Particles in estuary')
 ax.set_title('Whole estuary residence time')
 # add the tracks (packed [time, particle])
 # regular spaghetti plots
-ax.plot(partest.Time/24, partest, '.c', label='Raw particle #') #data
-ax.plot(tplot/24, partest_ta, '-b', label='Tidally averaged') #data
+ax.plot(partest.Time/24, partest, '-c', label='Raw particle #',linewidth=0.5) #data
+ax.plot(tplot/24, partest_ta, '--b', label='Tidally averaged') #data
 # plt.plot(tplot, func(tplot, *popt), '--r', label='fit: a=%5.3f, b=%5.3f' % tuple(popt)) #fit
 # plt.plot(tplot, func(tplot, *popt), '--r', label='fit: a=%5.3f, b=%5.3f, c=%5.3f' % tuple(popt)) #fit
 #plt.plot(partest.Time, func(partest.Time, *popt), '--r', label='fit: a=%5.3f, b=%5.3f, c=%5.3f' % tuple(popt)) #fit #not working for long run
