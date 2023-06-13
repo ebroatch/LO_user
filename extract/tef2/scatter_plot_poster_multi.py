@@ -89,7 +89,7 @@ for i in range(len(sect_list_out)):
     
     #ax1.scatter(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), c=plot_color[i], linewidth=lw, label=plot_label[i])
     #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
-    ax1.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '.', color=plot_color_out[i], label=plot_label_out[i])
+    ax1.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', marker='.', lw=0.5, color=plot_color_out[i], label=plot_label_out[i])
 
 for i in range(len(sect_list_sill)):
     sect_name = sect_list_sill[i]
@@ -110,7 +110,7 @@ for i in range(len(sect_list_sill)):
     
     #ax1.scatter(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), c=plot_color[i], linewidth=lw, label=plot_label[i])
     #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
-    ax2.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '.', color=plot_color_sill[i], label=plot_label_sill[i])
+    ax2.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', marker='.', lw=0.5, color=plot_color_sill[i], label=plot_label_sill[i])
 
 for i in range(len(sect_list_in)):
     sect_name = sect_list_in[i]
@@ -131,14 +131,14 @@ for i in range(len(sect_list_in)):
     
     #ax1.scatter(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), c=plot_color[i], linewidth=lw, label=plot_label[i])
     #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
-    ax3.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '.', color=plot_color_in[i], label=plot_label_in[i])
+    ax3.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', marker='.', lw=0.5, color=plot_color_in[i], label=plot_label_in[i])
 
-ax1.grid(True)
-ax2.grid(True)
-ax3.grid(True)
-ax1.axis('equal')
-ax2.axis('equal')
-ax3.axis('equal')
+# ax1.grid(True)
+# ax2.grid(True)
+# ax3.grid(True)
+# ax1.axis('equal')
+# ax2.axis('equal')
+# ax3.axis('equal')
 ax1.set_title('Outer basin sections')
 ax2.set_title('Sill sections')
 ax3.set_title('Inner basin sections')
@@ -153,6 +153,8 @@ ax3.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
 # ax1.set_ylim(bottom=0)
 # ax1.set_xlim(left=0)
 ax1.legend(loc='lower right')
+ax2.legend(loc='lower right')
+ax2.legend(loc='lower right')
 plt.savefig(out_dir / ('scatter_plot_poster_multi.png'))
 plt.close()
 pfun.end_plot()
