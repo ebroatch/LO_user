@@ -65,7 +65,7 @@ plt.close('all')
 pfun.start_plot(fs=fs, figsize=(21,10))
 
 #fig, [ax1,ax2] = plt.subplots(2, 1, sharex=True,figsize=(15,10))
-fig, [ax1,ax2,ax3] = plt.subplots(1, 3, figsize=(18,5))
+fig, [ax1,ax2,ax3] = plt.subplots(1, 3, figsize=(18,7))
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
@@ -147,9 +147,9 @@ ax3.set_title('Inner basin sections')
 # ax1.set_xlabel(r'$Q_{prism} [10^{3}\ m^{3}s^{-1}]$')
 ax1.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
 ax1.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
-ax2.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
+# ax2.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
 ax2.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
-ax3.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
+# ax3.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
 ax3.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
 
 ax1.set_xlim(left=1e4,right=5e4)
