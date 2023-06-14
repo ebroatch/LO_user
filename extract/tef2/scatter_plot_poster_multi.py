@@ -134,9 +134,9 @@ for i in range(len(sect_list_in)):
     #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
     ax3.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', lw=0.5, color=plot_color[i], label=plot_label_in[i])
 
-ax1.grid(True)
-ax2.grid(True)
-ax3.grid(True)
+ax1.grid(True, which='both')
+ax2.grid(True, which='both')
+ax3.grid(True, which='both')
 # ax1.axis('equal')
 # ax2.axis('equal')
 # ax3.axis('equal')
