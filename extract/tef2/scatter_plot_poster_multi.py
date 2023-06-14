@@ -71,7 +71,8 @@ fig, [ax1,ax2,ax3] = plt.subplots(1, 3, figsize=(18,7))
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
 # ax3 = plt.subplot2grid((1,3), (0,2)) # map
 
-for i in range(len(sect_list_out)):
+#for i in range(len(sect_list_out)):
+for i in [0,2,4]:
     sect_name = sect_list_out[i]
     bulk = pickle.load(open(in_dir / sect_name, 'rb'))
 
@@ -92,7 +93,8 @@ for i in range(len(sect_list_out)):
     #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
     ax1.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', lw=0.5, color=plot_color[i], label=plot_label_out[i])
 
-for i in range(len(sect_list_sill)):
+#for i in range(len(sect_list_sill)):
+for i in [0,2,4]:
     sect_name = sect_list_sill[i]
     bulk = pickle.load(open(in_dir / sect_name, 'rb'))
 
@@ -113,7 +115,8 @@ for i in range(len(sect_list_sill)):
     #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
     ax2.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', lw=0.5, color=plot_color[i], label=plot_label_sill[i])
 
-for i in range(len(sect_list_in)):
+#for i in range(len(sect_list_in)):
+for i in [0,2,4]:
     sect_name = sect_list_in[i]
     bulk = pickle.load(open(in_dir / sect_name, 'rb'))
 
