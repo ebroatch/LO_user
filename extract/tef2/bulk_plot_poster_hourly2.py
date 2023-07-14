@@ -120,13 +120,13 @@ for i in range(len(sect_list)):
     ax2.plot(ot,tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
     ax2.grid(True)
     ax2.set_ylabel(ylab_dict['deltas'])
-    ax2.set_ylim(0,16)
+    ax2.set_ylim(0,36)
     ax2.set_xlim(pd.Timestamp('2020-04-01'), pd.Timestamp('2020-07-31'))
 
     ax3.plot(ot,tef_df['salt_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
     ax3.grid(True)
     ax3.set_ylabel(ylab_dict['salt'])
-    ax3.set_ylim(28,36)
+    ax3.set_ylim(28,54)
     ax3.set_xlim(pd.Timestamp('2020-04-01'), pd.Timestamp('2020-07-31'))
     
     # # map
