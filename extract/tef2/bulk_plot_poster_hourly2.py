@@ -61,7 +61,7 @@ fs = 12
 plt.close('all')
 pfun.start_plot(fs=fs, figsize=(21,10))
 
-fig, [ax1,ax2,ax3] = plt.subplots(2, 1, sharex=True,figsize=(15,15))
+fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
