@@ -98,10 +98,10 @@ for ext_fn in sect_list:
     s0 = (zfun.lowpass(np.sum(sdA, axis=(1,2)), f='godin')[pad:-pad+1])/A0 #shape NT-72
 
     u1 = (zfun.lowpass(q, f='godin')[pad:-pad+1, :, :])/dA0 - u0[:, np.newaxis, np.newaxis] #shape NT-72,NZ,NX
-    s1 = (zfun.lowpass(sdA, f='godin')[pad:-pad+1, :, :])/dA0 - s0 #shape NT-72,NZ,NX
+    s1 = (zfun.lowpass(sdA, f='godin')[pad:-pad+1, :, :])/dA0 - s0[:, np.newaxis, np.newaxis] #shape NT-72,NZ,NX
 
-    u2 = u[pad:-pad+1, :, :] - u1 - u0 #shape NT-72,NZ,NX
-    s2 = s[pad:-pad+1, :, :] - s1 - s0 #shape NT-72,NZ,NX
+    u2 = u[pad:-pad+1, :, :] - u1 - u0[:, np.newaxis, np.newaxis] #shape NT-72,NZ,NX
+    s2 = s[pad:-pad+1, :, :] - s1 - s0[:, np.newaxis, np.newaxis] #shape NT-72,NZ,NX
     dA2 = dA[pad:-pad+1, :, :] #shape NT-72,NZ,NX
 
     u2L = (np.sum(u2*dz[pad:-pad+1, :, :],axis=1))/(H[pad:-pad+1, :]) #shape NT-72,NX
