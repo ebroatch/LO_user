@@ -104,7 +104,7 @@ for i in range(len(sect_list)):
     axs[i].plot(ot,FTL, linestyle = '--', color='tab:pink', linewidth=lw, label=r'$F_{TL}$')
     axs[i].plot(ot,FTV, linestyle = ':', color='tab:orange', linewidth=lw, label=r'$F_{TV}$')
     axs[i].grid(True)    
-    axs[i].set_ylabel(ylab_dict[r'Salt flux $[m^{3}s^{-1} g\ kg^{-1}]$'])
+    axs[i].set_ylabel(r'Salt flux $[m^{3}s^{-1} g\ kg^{-1}]$')
     axs[i].set_title(plot_title[i])
     #ax1.set_ylim(0,16)
     
