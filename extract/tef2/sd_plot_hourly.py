@@ -106,7 +106,7 @@ for i in range(len(sect_list)):
     axs[i].grid(True)    
     axs[i].set_ylabel(r'Salt flux $[m^{3}s^{-1} g\ kg^{-1}]$')
     axs[i].set_title(plot_title[i])
-    #ax1.set_ylim(0,16)
+    axs[i].set_ylim(-4e4,4e4)
     
     
     
@@ -176,6 +176,7 @@ for i in range(len(sect_list)):
     #     plt.close()
 axs[2].legend(loc='lower right')
 axs[2].set_xlim(pd.Timestamp('2020-04-01'), pd.Timestamp('2020-07-31'))
+plt.suptitle('Standard decomposition')
 plt.savefig(out_dir / ('sd_plot_hourly.png'))
 plt.close()
 pfun.end_plot()
