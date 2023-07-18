@@ -53,6 +53,7 @@ yv = g.lat_v.values
 # PLOTTING
 #plot_color = ['lightblue','tab:cyan','dodgerblue','tab:blue','blue','gold','goldenrod','xkcd:yellow orange','tab:orange','peru','pink','tab:pink','mediumvioletred','tab:red','maroon']
 #plot_label = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5']
+plot_title = ['a3 outer','b3 sill','c3 inner']
 # p_color = ['tab:blue','tab:orange','tab:red']
 # m_color = ['tab:cyan','xkcd:yellow orange','tab:pink']
 # label_in = ['a3 in','b3 in','c3 in']
@@ -104,6 +105,7 @@ for i in range(len(sect_list)):
     axs[i].plot(ot,FTV, linestyle = ':', color='tab:orange', linewidth=lw, label=r'$F_{TV}$')
     axs[i].grid(True)    
     axs[i].set_ylabel(ylab_dict[r'Salt flux $[m^{3}s^{-1} g\ kg^{-1}]$'])
+    axs[i].set_title(plot_title[i])
     #ax1.set_ylim(0,16)
     
     
