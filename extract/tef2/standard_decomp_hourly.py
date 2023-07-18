@@ -58,6 +58,7 @@ print('\nProcessing TEF extraction:')
 print(str(in_dir))
 
 tt00 = time()
+pad=36
 
 for ext_fn in sect_list:
     tt0 = time()
@@ -68,26 +69,83 @@ for ext_fn in sect_list:
 
     # load fields
     ds = xr.open_dataset(in_dir / ext_fn)
-    V = dict()
-    for vn in vn_list:
-        V[vn] = ds[vn].to_numpy()
+    # V = dict()
+    # for vn in vn_list:
+    #     V[vn] = ds[vn].to_numpy()
     # V['salt2'] = V['salt']*V['salt']
-    dA = ds['dd'].to_numpy() * ds['DZ'].to_numpy()
-    q = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['vel'].to_numpy()
-    sdA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['salt'].to_numpy()
-    V['q'] = q
-    ot = ds['time'].to_numpy()
-    zeta = ds['zeta'].to_numpy()
-    ds.close()
 
-    # make arrays of property transport
-    QV = dict()
-    for vn in V.keys():
-        if vn == 'q':
-            QV[vn] = q
-        else:
-            QV[vn] = q*V[vn]
+    ot = ds['time'].to_numpy() #shape NT
+    zeta = ds['zeta'].to_numpy() #shape NT,NX
+    h = ds['h'].to_numpy() #shape NX
+    dd = ds['dd'].to_numpy() #shape NX
+    dz = ds['DZ'].to_numpy() #shape NT,NZ,NX
+    u = ds['vel'].to_numpy() #shape NT,NZ,NX
+    s = ds['salt'].to_numpy() #shape NT,NZ,NX
+    
+    dA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() #shape NT,NZ,NX
+    H = np.sum(ds['DZ'].to_numpy(),axis=1) #shape NT,NX
+    q = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['vel'].to_numpy() #shape NT,NZ,NX
+    sdA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['salt'].to_numpy() #shape NT,NZ,NX
+    # V['q'] = q
+    ds.close()
     NT, NZ, NX = q.shape
+
+    A = np.sum(dA, axis=(1,2)) #shape NT
+    A0 = zfun.lowpass(A, f='godin')[pad:-pad+1] #shape NT-72
+    dA0 = zfun.lowpass(dA, f='godin')[pad:-pad+1, :, :] #shape NT-72,NZ,NX
+
+    u0 = (zfun.lowpass(np.sum(q, axis=(1,2)), f='godin')[pad:-pad+1])/A0 #shape NT-72
+    s0 = (zfun.lowpass(np.sum(sdA, axis=(1,2)), f='godin')[pad:-pad+1])/A0 #shape NT-72
+
+    u1 = (zfun.lowpass(q, f='godin')[pad:-pad+1, :, :])/dA0 - u0 #shape NT-72,NZ,NX
+    s1 = (zfun.lowpass(sdA, f='godin')[pad:-pad+1, :, :])/dA0 - s0 #shape NT-72,NZ,NX
+
+    u2 = u[pad:-pad+1, :, :] - u1 - u0 #shape NT-72,NZ,NX
+    s2 = s[pad:-pad+1, :, :] - s1 - s0 #shape NT-72,NZ,NX
+    dA2 = dA[pad:-pad+1, :, :] #shape NT-72,NZ,NX
+
+    u2L = (np.sum(u2*dz[pad:-pad+1, :, :],axis=1))/(H[pad:-pad+1, :]) #shape NT-72,NX
+    u2V = u2 - u2L #shape NT-72,NZ,NX
+    s2L = (np.sum(s2*dz[pad:-pad+1, :, :],axis=1))/(H[pad:-pad+1, :]) #shape NT-72,NX
+    s2V = s2 - s2L #shape NT-72,NZ,NX
+
+    ssh = np.mean(zeta, axis=1)[pad:-pad+1] #shape NT-72
+    ssh_lp = zfun.lowpass(np.mean(zeta, axis=1), f='godin')[pad:-pad+1] #shape NT-72
+    
+    FR = (u0*s0*A0) #shape NT-72
+    FE = np.sum(u1*s1*dA0, axis=(1,2)) #shape NT-72
+    FT = zfun.lowpass(np.sum(u2*s2*dA2, axis=(1,2)), f='godin')[pad:-pad+1] #shape NT-144
+
+    FTL = zfun.lowpass(np.sum(u2L*s2L*H[pad:-pad+1, :]*dd, axis=1), f='godin')[pad:-pad+1] #shape NT-144
+    FTV = zfun.lowpass(np.sum(u2V*s2V*dA[pad:-pad+1, :, :], axis=(1,2)), f='godin')[pad:-pad+1] #shape NT-144
+
+    F = zfun.lowpass(np.sum(u*s*dA, axis=(1,2)), f='godin')[pad:-pad+1] #shape NT-72
+
+    SD = dict()
+    SD['u0']=u0[pad:-pad+1]
+    SD['s0']=s0[pad:-pad+1]
+    SD['A0']=A0[pad:-pad+1]
+    SD['FR']=FR[pad:-pad+1]
+    SD['FE']=FE[pad:-pad+1]
+    SD['FT']=FT
+    SD['FTL']=FTL
+    SD['FTV']=FTV
+    SD['F']=F[pad:-pad+1]
+    SD['ssh_lp']=ssh[pad:-pad+1]
+    SD['ssh_lp']=ssh_lp[pad:-pad+1]
+    SD['ot']=(ot[pad:-pad+1])[pad:-pad+1]
+    pickle.dump(SD, open(out_dir / out_fn, 'wb'))
+    print('  elapsed time for section = %d seconds' % (time()-tt0))
+    sys.stdout.flush()
+
+    # # make arrays of property transport
+    # QV = dict()
+    # for vn in V.keys():
+    #     if vn == 'q':
+    #         QV[vn] = q
+    #     else:
+    #         QV[vn] = q*V[vn]
+    
     
     # # define salinity bins
     # if Ldir['testing']:
@@ -174,9 +232,6 @@ for ext_fn in sect_list:
     # TEF['qnet'] = qnet
     # TEF['fnet'] = fnet
     # TEF['ssh'] = ssh
-    # pickle.dump(TEF, open(out_dir / out_fn, 'wb'))
-    # print('  elapsed time for section = %d seconds' % (time()-tt0))
-    # sys.stdout.flush()
 
 print('\nTotal elapsed time = %d seconds' % (time()-tt00))
 
