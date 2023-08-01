@@ -46,8 +46,8 @@ out_dir = out_dir0 / ('salt_integral_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
 sect_list = [item.name for item in in_dir.glob('*.nc')]
-# if Ldir['testing']:
-#     sect_list = ['jdf3.nc']
+if Ldir['testing']:
+    sect_list = ['a1.nc','b1.nc','b3.nc','b5.nc']
 
 fn_list = Lfun.get_fn_list('hourly', Ldir, Ldir['ds0'], Ldir['ds1'])
 N = len(fn_list)
@@ -72,12 +72,54 @@ for ext_fn in sect_list:
     out_fn = ext_fn.replace('.nc','.p')
     sect_key = ext_fn.replace('.nc','')
     one_section_df = pd.read_pickle(c_dir / out_fn)
-    sect_lat = one_section_df.loc[0,'x']
+    sect_lon = one_section_df.loc[0,'x']
+
+    ot_list=[]
+    V_list=[]
+    s_int_list=[]
+    s_bar_list=[]
 
     # loop over history files
-    for ii in range(2):
+    for ii in range(N):
         fn = fn_list[ii]
+
+        G, S, T = zrfun.get_basic_info(fn)
+        h = G['h']
+        DA = G['DX'] * G['DY']
+        DA3 = DA.reshape((1,G['M'],G['L']))
+
         ds = xr.open_dataset(fn)
+        ot = ds['ocean_time'][0].to_numpy()
+        h = ds['h'][:].to_numpy()
+        zeta = ds['zeta'][0,:,:].to_numpy()
+        
+
+        z_w = zrfun.get_z(h, zeta, S, only_w=True)
+        dz = np.diff(z_w, axis=0)
+        DV = dz * DA3
+
+        s = ds['salt']
+        sdv = s*DV
+        dv = sdv/s #make DataArray
+        v_int = dv.where(dv.lon_rho>sect_lon).sum()
+        s_int = sdv.where(dv.lon_rho>sect_lon).sum()
+        s_avg = s_int/v_int
+
+        ot_list.append(ot)
+        V_list.append(v_int)
+        s_int_list.append(s_int)
+        s_bar_list.append(s_avg)
+
+
+SI = dict()
+SI['ot']=np.asarray(ot_list)
+SI['V']=np.asarray(V_list)
+SI['s_int']=np.asarray(s_int_list)
+SI['s_bar']=np.asarray(s_bar_list)
+
+pickle.dump(SI, open(out_dir / out_fn, 'wb'))
+print('  elapsed time for section = %d seconds' % (time()-tt0))
+sys.stdout.flush()
 
 
 
