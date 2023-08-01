@@ -110,16 +110,18 @@ for ext_fn in sect_list:
         s_int_list.append(s_int)
         s_bar_list.append(s_avg)
 
+        if ii%25==0:
+            print(ii)
 
-SI = dict()
-SI['ot']=np.asarray(ot_list)
-SI['V']=np.asarray(V_list)
-SI['s_int']=np.asarray(s_int_list)
-SI['s_bar']=np.asarray(s_bar_list)
+    SI = dict()
+    SI['ot']=np.asarray(ot_list)
+    SI['V']=np.asarray(V_list)
+    SI['s_int']=np.asarray(s_int_list)
+    SI['s_bar']=np.asarray(s_bar_list)
 
-pickle.dump(SI, open(out_dir / out_fn, 'wb'))
-print('  elapsed time for section = %d seconds' % (time()-tt0))
-sys.stdout.flush()
+    pickle.dump(SI, open(out_dir / out_fn, 'wb'))
+    print('  elapsed time for section = %d seconds' % (time()-tt0))
+    sys.stdout.flush()
 
 
 
