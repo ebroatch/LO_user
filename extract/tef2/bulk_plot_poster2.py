@@ -86,10 +86,10 @@ for i in range(len(sect_list)):
     # labels and colors
     # ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
     #             'salt': r'Salinity $[g\ kg^{-1}]$'}
-    ylab_dict = {'Qprism': r'$Q_{prism}\n[10^{3}\ m^{3}s^{-1}]$',
-                'Q': r'$Q_{in}\n[10^{3}\ m^{3}s^{-1}]$',
-                'salt': r'$s_{in}\n[g\ kg^{-1}]$',
-                'deltas': r'$\Delta s\n[g\ kg^{-1}]$'}
+    ylab_dict = {'Qprism': r'$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$',
+                'Q': r'$Q_{in}$\n$[10^{3}\ m^{3}s^{-1}]$',
+                'salt': r'$s_{in}$\n$[g\ kg^{-1}]$',
+                'deltas': r'$\Delta s$\n$[g\ kg^{-1}]$'}
     # p_color = 'r'
     # m_color = 'b'
     lw = 2
