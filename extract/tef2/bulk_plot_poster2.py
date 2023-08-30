@@ -106,14 +106,14 @@ for i in range(len(sect_list)):
         ax0.plot(ot,tef_df['Q_prism'].to_numpy(), color=plot_color[i], linewidth=lw)
         ax0.grid(True)
         ax0.set_ylabel(ylab_dict['Qprism'])
-        #ax0.set_ylim(0,14)
+        ax0.set_ylim(20,50)
         ax0.set_xlim(pd.Timestamp('2020-04-01'), pd.Timestamp('2020-07-31'))
     
     ax1.plot(ot,tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
     #ax1.plot(ot,tef_df['Q_m'].to_numpy(), color=m_color[i], linewidth=lw, label=label_out[i])
     ax1.grid(True)    
     ax1.set_ylabel(ylab_dict['Q'])
-    ax1.set_ylim(0,16)
+    ax1.set_ylim(3,15)
     
     qp = bulk['q'].copy()/1000
     qp[qp<0] = np.nan
@@ -134,13 +134,13 @@ for i in range(len(sect_list)):
     ax2.plot(ot,tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
     ax2.grid(True)
     ax2.set_ylabel(ylab_dict['deltas'])
-    ax2.set_ylim(0,14)
+    ax2.set_ylim(2,10)
     ax2.set_xlim(pd.Timestamp('2020-04-01'), pd.Timestamp('2020-07-31'))
 
     ax3.plot(ot,tef_df['salt_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
     ax3.grid(True)
     ax3.set_ylabel(ylab_dict['salt'])
-    ax3.set_ylim(28,32)
+    ax3.set_ylim(29,32)
     ax3.set_xlim(pd.Timestamp('2020-04-01'), pd.Timestamp('2020-07-31'))
     
     # # map
