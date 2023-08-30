@@ -113,8 +113,6 @@ for i in range(len(sect_list)):
     ax1.plot(ot,tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
     #ax1.plot(ot,tef_df['Q_m'].to_numpy(), color=m_color[i], linewidth=lw, label=label_out[i])
     ax1.grid(True)
-    ax1.minorticks_on()
-    ax1.grid(True,which='both',axis='x')
     ax1.set_ylabel(ylab_dict['Q'])
     ax1.set_ylim(0,15)
     
