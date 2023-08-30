@@ -115,6 +115,7 @@ for i in range(len(sect_list)):
     ax1.grid(True)
     ax1.set_ylabel(ylab_dict['Q'])
     ax1.set_ylim(0,15)
+    ax1.set_yticks(ticks=[0,5,10,15])
     
     qp = bulk['q'].copy()/1000
     qp[qp<0] = np.nan
