@@ -43,7 +43,7 @@ Lfun.make_dir(out_dir, clean=True)
 sect_list = ['a1.p','a3.p','b1.p','b2.p','b3.p','b4.p','b5.p','c3.p']
 sect_label = ['a1','a3','b1','b2','b3','b4','b5','c3']
 #plot_color = ['tab:red','tab:orange','tab:olive','tab:green','tab:cyan','tab:blue','tab:purple','tab:pink']
-plot_color = ['k','tab:gray','tab:red','tab:orange','tab:green','tab:cyan','tab:purple','tab:brown']
+plot_color = ['k','tab:gray','tab:red','tab:orange','tab:green','tab:cyan','tab:blue','tab:brown']
 #sect_list = ['a1.p','a2.p','a3.p','a4.p','a5.p','b1.p','b2.p','b3.p','b4.p','b5.p','c1.p','c2.p','c3.p','c4.p','c5.p']
 
 # grid info
@@ -119,7 +119,7 @@ axs[2].grid(True)
 axs[0].set_ylabel(r'$F_{R} [m^{3}s^{-1} g\ kg^{-1}]$')
 axs[1].set_ylabel(r'$F_{E}[m^{3}s^{-1} g\ kg^{-1}]$')
 axs[2].set_ylabel(r'$F_{T}[m^{3}s^{-1} g\ kg^{-1}]$')
-axs[0].set_ylim(-3.2e4,-2.8e4)
+axs[0].set_ylim(-3.3e4,-2.7e4)
 axs[1].set_ylim(-1e4,5e4)
 axs[2].set_ylim(-2e4,4e4)
 axs[2].legend(loc='lower right')
