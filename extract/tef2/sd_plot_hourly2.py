@@ -35,8 +35,10 @@ Lfun.make_dir(out_dir, clean=True)
 # sect_list = [item.name for item in in_dir.glob('*.p')]
 # if Ldir['testing']:
 #     sect_list = ['ss2.p']
-sect_list = ['a1.p','a3.p','b1.p','b3.p','b5.p','c3.p']
-sect_label = ['a1','a3','b1','b3','b5','c3']
+# sect_list = ['a1.p','a3.p','b1.p','b3.p','b5.p','c3.p']
+# sect_label = ['a1','a3','b1','b3','b5','c3']
+sect_list = ['b1.p','b2.p','b3.p','b4.p','b5.p']
+sect_label = ['b1','b2','b3','b4','b5']
 plot_color = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue','tab:purple']
 #sect_list = ['a1.p','a2.p','a3.p','a4.p','a5.p','b1.p','b2.p','b3.p','b4.p','b5.p','c1.p','c2.p','c3.p','c4.p','c5.p']
 
@@ -113,9 +115,9 @@ axs[2].grid(True)
 axs[0].set_ylabel(r'$F_{R} [m^{3}s^{-1} g\ kg^{-1}]$')
 axs[1].set_ylabel(r'$F_{E}[m^{3}s^{-1} g\ kg^{-1}]$')
 axs[2].set_ylabel(r'$F_{T}[m^{3}s^{-1} g\ kg^{-1}]$')
-axs[0].set_ylim(-3.5e4,-2.5e4)
-axs[1].set_ylim(0,5e4)
-axs[2].set_ylim(-2e4,3e4)
+axs[0].set_ylim(-3.25e4,-2.75e4)
+axs[1].set_ylim(-1e4,5e4)
+axs[2].set_ylim(-2e4,4e4)
 axs[2].legend(loc='lower right')
 axs[2].set_xlim(pd.Timestamp('2020-04-01'), pd.Timestamp('2020-07-31'))
 #plt.suptitle('Standard decomposition')
