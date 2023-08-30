@@ -42,7 +42,8 @@ Lfun.make_dir(out_dir, clean=True)
 # plot_color = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue','tab:purple']
 sect_list = ['a1.p','a3.p','b1.p','b2.p','b3.p','b4.p','b5.p','c3.p']
 sect_label = ['a1','a3','b1','b2','b3','b4','b5','c3']
-plot_color = ['tab:red','tab:orange','tab:olive','tab:green','tab:cyan','tab:blue','tab:purple','tab:pink']
+#plot_color = ['tab:red','tab:orange','tab:olive','tab:green','tab:cyan','tab:blue','tab:purple','tab:pink']
+plot_color = ['k','tab:gray','tab:red','tab:orange','tab:green','tab:cyan','tab:purple','tab:brown']
 #sect_list = ['a1.p','a2.p','a3.p','a4.p','a5.p','b1.p','b2.p','b3.p','b4.p','b5.p','c1.p','c2.p','c3.p','c4.p','c5.p']
 
 # grid info
