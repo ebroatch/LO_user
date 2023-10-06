@@ -119,11 +119,11 @@ for sect_name in sect_list:
     # ax2.plot(bulk['ot'],sp,'or',alpha=alpha)
     # ax2.plot(bulk['ot'],sm,'ob',alpha=alpha)
 
-    ax1.scatter(otplot,qp,colors=p_colors,alpha=alpha)
-    ax1.scatter(otplot,qm,colors=m_colors,alpha=alpha)
+    ax1.scatter(otplot,qp,c=p_colors,alpha=alpha)
+    ax1.scatter(otplot,qm,c=m_colors,alpha=alpha)
     
-    ax2.scatter(otplot,sp,colors=p_colors,alpha=alpha)
-    ax2.scatter(otplot,sm,colors=m_colors,alpha=alpha)
+    ax2.scatter(otplot,sp,c=p_colors,alpha=alpha)
+    ax2.scatter(otplot,sm,c=m_colors,alpha=alpha)
     
     # ax2.plot(ot,tef_df['salt_p'].to_numpy(), color=p_color, linewidth=lw) #DON'T PLOT 2-LAYER
     # ax2.plot(ot,tef_df['salt_m'].to_numpy(), color=m_color, linewidth=lw)
