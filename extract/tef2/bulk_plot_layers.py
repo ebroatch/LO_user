@@ -133,7 +133,8 @@ for sect_name in sect_list:
 
     otplot=np.tile(np.expand_dims(bulk['ot'],axis=1),(1,numlay))
     
-    alpha=.3
+    #alpha=.3
+    alpha=1
     # ax1.plot(bulk['ot'],qp,'or',alpha=alpha)
     # ax1.plot(bulk['ot'],qm,'ob',alpha=alpha)
     
