@@ -53,6 +53,18 @@ fs = 12
 plt.close('all')
 pfun.start_plot(fs=fs, figsize=(21,10))
 
+def add_qprism(ax):
+    # add Qprism
+    axqp = ax.twinx()
+    axqp.plot(ot,tef_df['Q_prism'].to_numpy(),'-',
+        color='c',linewidth=3,alpha=.4)
+    axqp.text(.95,.9,r'$Q_{prism}\ [10^{3}\ m^{3}s^{-1}]$', color='c', 
+        transform=ax.transAxes, ha='right',
+        bbox=pfun.bbox)
+    axqp.set_ylim(bottom=0)
+    axqp.xaxis.label.set_color('c')
+    axqp.tick_params(axis='y', colors='c')
+
 for sect_name in sect_list:
     
     bulk = pickle.load(open(in_dir / sect_name, 'rb'))
@@ -64,8 +76,11 @@ for sect_name in sect_list:
     tef_df['Q_m'] = tef_df['q_m']/1000
                     
     # labels and colors
+    # ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
+    #             'salt': r'Salinity $[g\ kg^{-1}]$'}
     ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
-                'salt': r'Salinity $[g\ kg^{-1}]$'}
+                'salt': r'Salinity $[g\ kg^{-1}]$',
+                'QinDS': r'$Q_{in}\Delta S\ [10^{3}\ m^{3}s^{-1}\ g\ kg^{-1}]$'}
     p_color = 'r'
     m_color = 'b'
     lw = 2
