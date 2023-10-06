@@ -74,7 +74,7 @@ for sect_name in sect_list:
     # adjust units
     tef_df['Q_p'] = tef_df['q_p']/1000
     tef_df['Q_m'] = tef_df['q_m']/1000
-    tef_df['Q_prism'] = tef_df['qprism']/1000
+    tef_df['Q_prism'] = tef_df['qabs']/2000 #temporary for old tef extraction
                     
     # labels and colors
     # ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
