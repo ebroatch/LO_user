@@ -91,13 +91,39 @@ for sect_name in sect_list:
     sp[np.isnan(qp)] = np.nan
     sm = bulk['salt'].copy()
     sm[np.isnan(qm)]=np.nan
+
+    #sort the layers from biggest transport to smallest
+    indp = np.argsort(-qp,axis=-1)
+    indm = np.argsort(qm,axis=-1)
+
+    qpsorted=np.take_along_axis(qp,indp,axis=-1)
+    spsorted=np.take_along_axis(sp,indp,axis=-1)
+    qmsorted=np.take_along_axis(qm,indm,axis=-1)
+    smsorted=np.take_along_axis(sm,indm,axis=-1)
+
+    numlay=qp.shape[-1]
+    numtim=qp.shape[0]
+    p_colors_layers=['tab:brown']*numlay
+    p_colors_layers[0:4]=['tab:red','tab:pink','magenta','tab:orange']
+    p_colors=p_colors_layers*numtim
+    m_colors_layers=['tab:grey']*numlay
+    m_colors_layers[0:4]=['blue','dodgerblue','tab:cyan','teal']
+    m_colors=m_colors_layers*numtim
+
+    otplot=np.tile(np.expand_dims(bulk['ot'],axis=1),(1,numlay))
     
     alpha=.3
-    ax1.plot(bulk['ot'],qp,'or',alpha=alpha)
-    ax1.plot(bulk['ot'],qm,'ob',alpha=alpha)
+    # ax1.plot(bulk['ot'],qp,'or',alpha=alpha)
+    # ax1.plot(bulk['ot'],qm,'ob',alpha=alpha)
     
-    ax2.plot(bulk['ot'],sp,'or',alpha=alpha)
-    ax2.plot(bulk['ot'],sm,'ob',alpha=alpha)
+    # ax2.plot(bulk['ot'],sp,'or',alpha=alpha)
+    # ax2.plot(bulk['ot'],sm,'ob',alpha=alpha)
+
+    ax1.scatter(otplot,qp,colors=p_colors,alpha=alpha)
+    ax1.scatter(otplot,qm,colors=m_colors,alpha=alpha)
+    
+    ax2.scatter(otplot,sp,colors=p_colors,alpha=alpha)
+    ax2.scatter(otplot,sm,colors=m_colors,alpha=alpha)
     
     # ax2.plot(ot,tef_df['salt_p'].to_numpy(), color=p_color, linewidth=lw) #DON'T PLOT 2-LAYER
     # ax2.plot(ot,tef_df['salt_m'].to_numpy(), color=m_color, linewidth=lw)
