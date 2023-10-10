@@ -64,8 +64,8 @@ print('\nProcessing standard decomposition:')
 tt00 = time()
 pad=36
 
-t_spring = pd.Timestamp('2020-07-01')
-t_neap = pd.Timestamp('2020-07-08')
+t_spring = pd.Timestamp('2020-07-01 00:00:00')
+t_neap = pd.Timestamp('2020-07-08 00:00:00')
 
 for ext_fn in sect_list:
     tt0 = time()
