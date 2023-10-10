@@ -95,11 +95,11 @@ for ext_fn in sect_list:
     sdA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['salt'].to_numpy() #shape NT,NZ,NX
     # V['q'] = q
 
-    fig, [ax0,ax1,ax2,ax3] = plt.subplots(2, 2,figsize=(15,15))
-    ax0.pcolormesh(ds['vel'].sel(time=t_spring))
-    ax1.pcolormesh(ds['salt'].sel(time=t_spring))
-    ax2.pcolormesh(ds['vel'].sel(time=t_neap))
-    ax3.pcolormesh(ds['salt'].sel(time=t_neap))
+    fig, axs = plt.subplots(2, 2,figsize=(15,15))
+    axs[0,0].pcolormesh(ds['vel'].sel(time=t_spring))
+    axs[0,1].pcolormesh(ds['salt'].sel(time=t_spring))
+    axs[1,0].pcolormesh(ds['vel'].sel(time=t_neap))
+    axs[1,1].pcolormesh(ds['salt'].sel(time=t_neap))
 
     axs[0].set_title('u spring')
     axs[1].set_title('salt spring')
