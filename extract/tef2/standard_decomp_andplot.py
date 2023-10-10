@@ -101,10 +101,10 @@ for ext_fn in sect_list:
     axs[1,0].pcolormesh(ds['vel'].sel(time=t_neap))
     axs[1,1].pcolormesh(ds['salt'].sel(time=t_neap))
 
-    axs[0].set_title('u spring')
-    axs[1].set_title('salt spring')
-    axs[2].set_title('u neap')
-    axs[3].set_title('salt neap')
+    axs[0,0].set_title('u spring')
+    axs[0,1].set_title('salt spring')
+    axs[1,0].set_title('u neap')
+    axs[1,1].set_title('salt neap')
     
     fig.suptitle(Ldir['sect_name'])
     plt.savefig(out_dir / (Ldir['sect_name'] + '.png'))
