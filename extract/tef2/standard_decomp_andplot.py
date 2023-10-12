@@ -98,7 +98,7 @@ for ext_fn in sect_list:
     # V['q'] = q
 
     #fig, axs = plt.subplots(2, 2,figsize=(15,15))
-    fig = plt.figure(figsize=(15,15))
+    fig = plt.figure(figsize=(15,18))
     gs = fig.add_gridspec(nrows=3,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1])
     ax1 = fig.add_subplot(gs[0,0])
     ax2 = fig.add_subplot(gs[0,1])
@@ -110,14 +110,17 @@ for ext_fn in sect_list:
     ax8 = fig.add_subplot(gs[1,3])
     ax9 = fig.add_subplot(gs[2,:])
 
-    cs1=ax1.pcolormesh(ds['vel'].sel(time=t_spring),cmap=cm.balance)
-    cs2=ax2.pcolormesh(ds['vel'].sel(time=t_spring),cmap=cm.balance)
-    cs3=ax3.pcolormesh(ds['vel'].sel(time=t_neap),cmap=cm.balance)
-    cs4=ax4.pcolormesh(ds['vel'].sel(time=t_neap),cmap=cm.balance)
-    cs5=ax5.pcolormesh(ds['salt'].sel(time=t_spring),cmap=cm.haline)
-    cs6=ax6.pcolormesh(ds['salt'].sel(time=t_spring),cmap=cm.haline)
-    cs7=ax7.pcolormesh(ds['salt'].sel(time=t_neap),cmap=cm.haline)
-    cs8=ax8.pcolormesh(ds['salt'].sel(time=t_neap),cmap=cm.haline)
+    ulim=0.8
+    slimmin=20
+    slimmax=34
+    cs1=ax1.pcolormesh(ds['vel'].sel(time=t_spring),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs2=ax2.pcolormesh(ds['vel'].sel(time=t_spring),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs3=ax3.pcolormesh(ds['vel'].sel(time=t_neap),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs4=ax4.pcolormesh(ds['vel'].sel(time=t_neap),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs5=ax5.pcolormesh(ds['salt'].sel(time=t_spring),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs6=ax6.pcolormesh(ds['salt'].sel(time=t_spring),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs7=ax7.pcolormesh(ds['salt'].sel(time=t_neap),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs8=ax8.pcolormesh(ds['salt'].sel(time=t_neap),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
 
     fig.colorbar(cs1, ax=ax1)
     fig.colorbar(cs2, ax=ax2)
@@ -128,20 +131,29 @@ for ext_fn in sect_list:
     fig.colorbar(cs7, ax=ax7)
     fig.colorbar(cs8, ax=ax8)
 
-    ax1.set_title('u spring flood')
-    ax2.set_title('u spring ebb')
-    ax3.set_title('u neap flood')
-    ax4.set_title('u neap ebb')
-    ax5.set_title('salt spring flood')
-    ax6.set_title('salt spring ebb')
-    ax7.set_title('salt neap flood')
-    ax8.set_title('salt neap ebb')
+    ax1.set_title('u spring flood', c='tab:green')
+    ax2.set_title('u spring ebb', c='tab:olive')
+    ax3.set_title('u neap flood', c='tab:blue')
+    ax4.set_title('u neap ebb', c='tab:purple')
+    ax5.set_title('salt spring flood', c='tab:green')
+    ax6.set_title('salt spring ebb', c='tab:olive')
+    ax7.set_title('salt neap flood', c='tab:blue')
+    ax8.set_title('salt neap ebb', c='tab:purple')
 
+    # load fields
+    ds2 = xr.open_dataset(in_dir2 / ext_fn)
+    ax9.plot(ds2['qnet'])
+    ax9.axvline(x=t_spring, c='tab:green')
+    ax9.axvline(x=t_spring, c='tab:olive')
+    ax9.axvline(x=t_neap, c='tab:blue')
+    ax9.axvline(x=t_neap, c='tab:purple')
+    ax9.set_xlim(pd.Timestamp('2020-06-01'), pd.Timestamp('2020-07-31')) #until make new tef extraction
     ax9.set_title('qnet tidal transport')
     
     fig.suptitle(Ldir['sect_name'])
     plt.savefig(out_dir / (Ldir['sect_name'] + '.png'))
     ds.close()
+    ds2.close()
     NT, NZ, NX = q.shape
 
 
