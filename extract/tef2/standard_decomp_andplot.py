@@ -27,6 +27,7 @@ from time import time
 import pandas as pd
 from scipy.stats import binned_statistic
 import matplotlib.pyplot as plt
+from cmocean import cm
 
 from lo_tools import Lfun, zrfun, zfun
 from lo_tools import extract_argfun as exfun
@@ -44,6 +45,7 @@ sect_df = pd.read_pickle(sect_df_fn)
 
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 in_dir = out_dir0 / ('extractions_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+in_dir2 = out_dir0 / ('processed_' + Ldir['ds0'] + '_' + Ldir['ds1']) #in_dir for processed to get qnet
 out_dir = out_dir0 / ('spatial_structure_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
@@ -95,16 +97,47 @@ for ext_fn in sect_list:
     sdA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['salt'].to_numpy() #shape NT,NZ,NX
     # V['q'] = q
 
-    fig, axs = plt.subplots(2, 2,figsize=(15,15))
-    axs[0,0].pcolormesh(ds['vel'].sel(time=t_spring))
-    axs[0,1].pcolormesh(ds['salt'].sel(time=t_spring))
-    axs[1,0].pcolormesh(ds['vel'].sel(time=t_neap))
-    axs[1,1].pcolormesh(ds['salt'].sel(time=t_neap))
+    #fig, axs = plt.subplots(2, 2,figsize=(15,15))
+    fig = plt.figure(figsize=(15,15))
+    gs = fig.add_gridspec(nrows=3,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1])
+    ax1 = fig.add_subplot(gs[0,0])
+    ax2 = fig.add_subplot(gs[0,1])
+    ax3 = fig.add_subplot(gs[0,2])
+    ax4 = fig.add_subplot(gs[0,3])
+    ax5 = fig.add_subplot(gs[1,0])
+    ax6 = fig.add_subplot(gs[1,1])
+    ax7 = fig.add_subplot(gs[1,2])
+    ax8 = fig.add_subplot(gs[1,3])
+    ax9 = fig.add_subplot(gs[2,:])
 
-    axs[0,0].set_title('u spring')
-    axs[0,1].set_title('salt spring')
-    axs[1,0].set_title('u neap')
-    axs[1,1].set_title('salt neap')
+    cs1=ax1.pcolormesh(ds['vel'].sel(time=t_spring),cmap=cm.balance)
+    cs2=ax2.pcolormesh(ds['vel'].sel(time=t_spring),cmap=cm.balance)
+    cs3=ax3.pcolormesh(ds['vel'].sel(time=t_neap),cmap=cm.balance)
+    cs4=ax4.pcolormesh(ds['vel'].sel(time=t_neap),cmap=cm.balance)
+    cs5=ax5.pcolormesh(ds['salt'].sel(time=t_spring),cmap=cm.haline)
+    cs6=ax6.pcolormesh(ds['salt'].sel(time=t_spring),cmap=cm.haline)
+    cs7=ax7.pcolormesh(ds['salt'].sel(time=t_neap),cmap=cm.haline)
+    cs8=ax8.pcolormesh(ds['salt'].sel(time=t_neap),cmap=cm.haline)
+
+    fig.colorbar(cs1, ax=ax1)
+    fig.colorbar(cs2, ax=ax2)
+    fig.colorbar(cs3, ax=ax3)
+    fig.colorbar(cs4, ax=ax4)
+    fig.colorbar(cs5, ax=ax5)
+    fig.colorbar(cs6, ax=ax6)
+    fig.colorbar(cs7, ax=ax7)
+    fig.colorbar(cs8, ax=ax8)
+
+    ax1.set_title('u spring flood')
+    ax2.set_title('u spring ebb')
+    ax3.set_title('u neap flood')
+    ax4.set_title('u neap ebb')
+    ax5.set_title('salt spring flood')
+    ax6.set_title('salt spring ebb')
+    ax7.set_title('salt neap flood')
+    ax8.set_title('salt neap ebb')
+
+    ax9.set_title('qnet tidal transport')
     
     fig.suptitle(Ldir['sect_name'])
     plt.savefig(out_dir / (Ldir['sect_name'] + '.png'))
