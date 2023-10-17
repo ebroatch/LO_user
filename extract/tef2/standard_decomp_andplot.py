@@ -110,8 +110,8 @@ for ext_fn in sect_list:
     ax7 = fig.add_subplot(gs[1,2])
     ax8 = fig.add_subplot(gs[1,3])
     ax9 = fig.add_subplot(gs[2,:])
-    ax10 = fig.add_subplot(gs[2,:])
-    ax11 = fig.add_subplot(gs[2,:])
+    ax10 = fig.add_subplot(gs[3,:])
+    ax11 = fig.add_subplot(gs[4,:])
 
     ulim=0.8
     slimmin=20
