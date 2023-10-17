@@ -99,7 +99,8 @@ for ext_fn in sect_list:
 
     #fig, axs = plt.subplots(2, 2,figsize=(15,15))
     fig = plt.figure(figsize=(15,18))
-    gs = fig.add_gridspec(nrows=3,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1])
+    #gs = fig.add_gridspec(nrows=3,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1])
+    gs = fig.add_gridspec(nrows=5,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1,1,1])
     ax1 = fig.add_subplot(gs[0,0])
     ax2 = fig.add_subplot(gs[0,1])
     ax3 = fig.add_subplot(gs[0,2])
@@ -109,6 +110,8 @@ for ext_fn in sect_list:
     ax7 = fig.add_subplot(gs[1,2])
     ax8 = fig.add_subplot(gs[1,3])
     ax9 = fig.add_subplot(gs[2,:])
+    ax10 = fig.add_subplot(gs[2,:])
+    ax11 = fig.add_subplot(gs[2,:])
 
     ulim=0.8
     slimmin=20
@@ -148,8 +151,28 @@ for ext_fn in sect_list:
     ax9.axvline(x=t_neap, c='tab:blue')
     ax9.axvline(x=t_neap, c='tab:purple')
     ax9.grid(True)
-    ax9.set_xlim(pd.Timestamp('2020-06-27'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
+    # ax9.set_xlim(pd.Timestamp('2020-06-27'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
+    ax9.set_xlim(pd.Timestamp('2020-06-27'), pd.Timestamp('2020-07-03')) #to see tidal cycle zoom
     ax9.set_title('qnet tidal transport')
+
+    ax10.plot(ds2['time'],ds2['qnet'])
+    ax10.axvline(x=t_spring, c='tab:green')
+    ax10.axvline(x=t_spring, c='tab:olive')
+    ax10.axvline(x=t_neap, c='tab:blue')
+    ax10.axvline(x=t_neap, c='tab:purple')
+    ax10.grid(True)
+    ax10.set_xlim(pd.Timestamp('2020-07-05'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
+    ax10.set_title('qnet tidal transport')
+
+    qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin',nanpad=False)), f='godin')/2
+    ax11.plot(ds2['time'],qprism)
+    ax11.axvline(x=t_spring, c='tab:green')
+    ax11.axvline(x=t_spring, c='tab:olive')
+    ax11.axvline(x=t_neap, c='tab:blue')
+    ax11.axvline(x=t_neap, c='tab:purple')
+    ax11.grid(True)
+    ax11.set_xlim(pd.Timestamp('2020-06-27'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
+    ax11.set_title('qprism')
     
     fig.suptitle(Ldir['sect_name'])
     plt.savefig(out_dir / (Ldir['sect_name'] + '.png'))
