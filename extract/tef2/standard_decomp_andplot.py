@@ -143,10 +143,10 @@ for ext_fn in sect_list:
     # load fields
     ds2 = xr.open_dataset(in_dir2 / ext_fn)
     ax9.plot(ds2['time'],ds2['qnet'])
-    # ax9.axvline(x=t_spring, c='tab:green')
-    # ax9.axvline(x=t_spring, c='tab:olive')
-    # ax9.axvline(x=t_neap, c='tab:blue')
-    # ax9.axvline(x=t_neap, c='tab:purple')
+    ax9.axvline(x=t_spring, c='tab:green')
+    ax9.axvline(x=t_spring, c='tab:olive')
+    ax9.axvline(x=t_neap, c='tab:blue')
+    ax9.axvline(x=t_neap, c='tab:purple')
     #ax9.set_xlim(pd.Timestamp('2020-06-01'), pd.Timestamp('2020-07-31')) #until make new tef extraction
     ax9.set_title('qnet tidal transport')
     
