@@ -141,7 +141,7 @@ for ext_fn in sect_list:
     ax8.set_title('salt neap ebb', c='tab:purple')
 
     # load fields
-    ds2 = xr.open_dataset(in_dir2 / out_fn)
+    ds2 = xr.open_dataset(in_dir2 / ext_fn)
     ax9.plot(ds2['qnet'])
     ax9.axvline(x=t_spring, c='tab:green')
     ax9.axvline(x=t_spring, c='tab:olive')
