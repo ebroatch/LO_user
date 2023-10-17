@@ -147,7 +147,8 @@ for ext_fn in sect_list:
     ax9.axvline(x=t_spring, c='tab:olive')
     ax9.axvline(x=t_neap, c='tab:blue')
     ax9.axvline(x=t_neap, c='tab:purple')
-    #ax9.set_xlim(pd.Timestamp('2020-06-01'), pd.Timestamp('2020-07-31')) #until make new tef extraction
+    ax9.grid(True)
+    ax9.set_xlim(pd.Timestamp('2020-06-27'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
     ax9.set_title('qnet tidal transport')
     
     fig.suptitle(Ldir['sect_name'])
