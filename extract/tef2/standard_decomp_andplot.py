@@ -101,7 +101,7 @@ for ext_fn in sect_list:
     # V['q'] = q
 
     #fig, axs = plt.subplots(2, 2,figsize=(15,15))
-    fig = plt.figure(figsize=(15,18))
+    fig = plt.figure(figsize=(20,15))
     gs = fig.add_gridspec(nrows=3,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1])
     #gs = fig.add_gridspec(nrows=5,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1,1,1])
     ax1 = fig.add_subplot(gs[0,0])
@@ -157,7 +157,7 @@ for ext_fn in sect_list:
     ax9.axvline(x=t_neap_ebb, c='tab:purple')
     ax9.axvline(x=t_neap_flood, c='tab:blue')  
     ax9.grid(True)
-    ax9.set_xlim(pd.Timestamp('2020-06-22'), pd.Timestamp('2020-07-15')) #to see tidal cycle zoom
+    ax9.set_xlim(pd.Timestamp('2020-06-25'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
     # ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
     ax9.set_title('qnet tidal transport')
 
