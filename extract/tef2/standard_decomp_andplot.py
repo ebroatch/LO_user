@@ -116,10 +116,13 @@ for ext_fn in sect_list:
     # ax10 = fig.add_subplot(gs[3,:])
     # ax11 = fig.add_subplot(gs[4,:])
 
+    X=ds['dd'].cumsum(dim='p')-ds['dd'].isel(p=0)/2
+    Y=ds['DZ'].cumsum(dim='z')-ds['h']
+
     ulim=0.8
     slimmin=20
     slimmax=34
-    cs1=ax1.pcolormesh(ds['vel'].sel(time=t_spring_ebb),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs1=ax1.pcolormesh(X,Y.sel(time=t_spring_ebb),ds['vel'].sel(time=t_spring_ebb),cmap=cm.balance,vmin=-ulim,vmax=ulim)
     cs2=ax2.pcolormesh(ds['vel'].sel(time=t_spring_flood),cmap=cm.balance,vmin=-ulim,vmax=ulim)
     cs3=ax3.pcolormesh(ds['vel'].sel(time=t_neap_ebb),cmap=cm.balance,vmin=-ulim,vmax=ulim)
     cs4=ax4.pcolormesh(ds['vel'].sel(time=t_neap_flood),cmap=cm.balance,vmin=-ulim,vmax=ulim)
@@ -154,7 +157,7 @@ for ext_fn in sect_list:
     ax9.axvline(x=t_neap_ebb, c='tab:purple')
     ax9.axvline(x=t_neap_flood, c='tab:blue')  
     ax9.grid(True)
-    ax9.set_xlim(pd.Timestamp('2020-06-01'), pd.Timestamp('2020-07-31')) #to see tidal cycle zoom
+    ax9.set_xlim(pd.Timestamp('2020-06-22'), pd.Timestamp('2020-07-15')) #to see tidal cycle zoom
     # ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
     ax9.set_title('qnet tidal transport')
 
