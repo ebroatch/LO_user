@@ -123,13 +123,13 @@ for ext_fn in sect_list:
     slimmin=20
     slimmax=34
     cs1=ax1.pcolormesh(X,Y.sel(time=t_spring_ebb),ds['vel'].sel(time=t_spring_ebb),cmap=cm.balance,vmin=-ulim,vmax=ulim)
-    cs2=ax2.pcolormesh(ds['vel'].sel(time=t_spring_flood),cmap=cm.balance,vmin=-ulim,vmax=ulim)
-    cs3=ax3.pcolormesh(ds['vel'].sel(time=t_neap_ebb),cmap=cm.balance,vmin=-ulim,vmax=ulim)
-    cs4=ax4.pcolormesh(ds['vel'].sel(time=t_neap_flood),cmap=cm.balance,vmin=-ulim,vmax=ulim)
-    cs5=ax5.pcolormesh(ds['salt'].sel(time=t_spring_ebb),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
-    cs6=ax6.pcolormesh(ds['salt'].sel(time=t_spring_flood),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
-    cs7=ax7.pcolormesh(ds['salt'].sel(time=t_neap_ebb),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
-    cs8=ax8.pcolormesh(ds['salt'].sel(time=t_neap_flood),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs2=ax2.pcolormesh(X,Y.sel(time=t_spring_flood),ds['vel'].sel(time=t_spring_flood),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs3=ax3.pcolormesh(X,Y.sel(time=t_neap_ebb),ds['vel'].sel(time=t_neap_ebb),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs4=ax4.pcolormesh(X,Y.sel(time=t_neap_flood),ds['vel'].sel(time=t_neap_flood),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs5=ax5.pcolormesh(X,Y.sel(time=t_spring_ebb),ds['salt'].sel(time=t_spring_ebb),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs6=ax6.pcolormesh(X,Y.sel(time=t_spring_flood),ds['salt'].sel(time=t_spring_flood),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs7=ax7.pcolormesh(X,Y.sel(time=t_neap_ebb),ds['salt'].sel(time=t_neap_ebb),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs8=ax8.pcolormesh(X,Y.sel(time=t_neap_flood),ds['salt'].sel(time=t_neap_flood),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
 
     fig.colorbar(cs1, ax=ax1)
     fig.colorbar(cs2, ax=ax2)
