@@ -162,7 +162,7 @@ for ext_fn in sect_list:
     ax10.axvline(x=t_neap, c='tab:blue')
     ax10.axvline(x=t_neap, c='tab:purple')
     ax10.grid(True)
-    ax10.set_xlim(pd.Timestamp('2020-07-05'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
+    ax10.set_xlim(pd.Timestamp('2020-07-08'), pd.Timestamp('2020-07-09')) #to see tidal cycle zoom
     ax10.set_title('qnet tidal transport')
 
     qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin',nanpad=False)), f='godin')/2
@@ -172,7 +172,7 @@ for ext_fn in sect_list:
     ax11.axvline(x=t_neap, c='tab:blue')
     ax11.axvline(x=t_neap, c='tab:purple')
     ax11.grid(True)
-    ax11.set_xlim(pd.Timestamp('2020-07-08'), pd.Timestamp('2020-07-09')) #to see tidal cycle zoom
+    ax11.set_xlim(pd.Timestamp('2020-07-08T09'), pd.Timestamp('2020-07-08T18')) #to see tidal cycle zoom
     ax11.set_ylim(10000,11000)
     ax11.set_title('qprism')
     
