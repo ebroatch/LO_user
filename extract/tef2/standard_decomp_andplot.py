@@ -142,7 +142,7 @@ for ext_fn in sect_list:
 
     # load fields
     ds2 = xr.open_dataset(in_dir2 / ext_fn)
-    ax9.plot(ds2['qnet'])
+    ax9.plot(ds2['time'],ds2['qnet'])
     # ax9.axvline(x=t_spring, c='tab:green')
     # ax9.axvline(x=t_spring, c='tab:olive')
     # ax9.axvline(x=t_neap, c='tab:blue')
