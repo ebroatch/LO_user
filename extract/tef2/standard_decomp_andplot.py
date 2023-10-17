@@ -167,8 +167,8 @@ for ext_fn in sect_list:
 
     qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin',nanpad=False)), f='godin')/2
     ax11.plot(ds2['time'],qprism)
-    ax11.axvline(x=t_spring, c='tab:green')
-    ax11.axvline(x=t_spring, c='tab:olive')
+    ax11.axvline(x=t_spring_flood, c='tab:green')
+    ax11.axvline(x=t_spring_ebb, c='tab:olive')
     ax11.axvline(x=t_neap, c='tab:blue')
     ax11.axvline(x=t_neap, c='tab:purple')
     ax11.grid(True)
