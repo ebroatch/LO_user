@@ -66,9 +66,11 @@ print('\nProcessing standard decomposition:')
 tt00 = time()
 pad=36
 
-t_spring_flood = pd.Timestamp('2020-07-01 04:00:00')
-t_spring_ebb = pd.Timestamp('2020-07-01 10:00:00')
-t_neap = pd.Timestamp('2020-07-08 00:00:00')
+t_spring_ebb = pd.Timestamp('2020-07-01 04:00:00')
+t_spring_flood = pd.Timestamp('2020-07-01 10:00:00')
+t_neap_ebb = pd.Timestamp('2020-07-08 10:00:00')
+t_neap_flood = pd.Timestamp('2020-07-08 16:00:00')
+
 
 for ext_fn in sect_list:
     tt0 = time()
@@ -100,8 +102,8 @@ for ext_fn in sect_list:
 
     #fig, axs = plt.subplots(2, 2,figsize=(15,15))
     fig = plt.figure(figsize=(15,18))
-    #gs = fig.add_gridspec(nrows=3,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1])
-    gs = fig.add_gridspec(nrows=5,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1,1,1])
+    gs = fig.add_gridspec(nrows=3,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1])
+    #gs = fig.add_gridspec(nrows=5,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1,1,1])
     ax1 = fig.add_subplot(gs[0,0])
     ax2 = fig.add_subplot(gs[0,1])
     ax3 = fig.add_subplot(gs[0,2])
@@ -111,20 +113,20 @@ for ext_fn in sect_list:
     ax7 = fig.add_subplot(gs[1,2])
     ax8 = fig.add_subplot(gs[1,3])
     ax9 = fig.add_subplot(gs[2,:])
-    ax10 = fig.add_subplot(gs[3,:])
-    ax11 = fig.add_subplot(gs[4,:])
+    # ax10 = fig.add_subplot(gs[3,:])
+    # ax11 = fig.add_subplot(gs[4,:])
 
     ulim=0.8
     slimmin=20
     slimmax=34
-    cs1=ax1.pcolormesh(ds['vel'].sel(time=t_spring_flood),cmap=cm.balance,vmin=-ulim,vmax=ulim)
-    cs2=ax2.pcolormesh(ds['vel'].sel(time=t_spring_ebb),cmap=cm.balance,vmin=-ulim,vmax=ulim)
-    cs3=ax3.pcolormesh(ds['vel'].sel(time=t_neap),cmap=cm.balance,vmin=-ulim,vmax=ulim)
-    cs4=ax4.pcolormesh(ds['vel'].sel(time=t_neap),cmap=cm.balance,vmin=-ulim,vmax=ulim)
-    cs5=ax5.pcolormesh(ds['salt'].sel(time=t_spring_flood),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
-    cs6=ax6.pcolormesh(ds['salt'].sel(time=t_spring_ebb),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
-    cs7=ax7.pcolormesh(ds['salt'].sel(time=t_neap),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
-    cs8=ax8.pcolormesh(ds['salt'].sel(time=t_neap),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs1=ax1.pcolormesh(ds['vel'].sel(time=t_spring_ebb),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs2=ax2.pcolormesh(ds['vel'].sel(time=t_spring_flood),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs3=ax3.pcolormesh(ds['vel'].sel(time=t_neap_ebb),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs4=ax4.pcolormesh(ds['vel'].sel(time=t_neap_flood),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs5=ax5.pcolormesh(ds['salt'].sel(time=t_spring_ebb),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs6=ax6.pcolormesh(ds['salt'].sel(time=t_spring_flood),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs7=ax7.pcolormesh(ds['salt'].sel(time=t_neap_ebb),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs8=ax8.pcolormesh(ds['salt'].sel(time=t_neap_flood),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
 
     fig.colorbar(cs1, ax=ax1)
     fig.colorbar(cs2, ax=ax2)
@@ -135,46 +137,46 @@ for ext_fn in sect_list:
     fig.colorbar(cs7, ax=ax7)
     fig.colorbar(cs8, ax=ax8)
 
-    ax1.set_title('u spring flood', c='tab:green')
-    ax2.set_title('u spring ebb', c='tab:olive')
-    ax3.set_title('u neap flood', c='tab:blue')
-    ax4.set_title('u neap ebb', c='tab:purple')
-    ax5.set_title('salt spring flood', c='tab:green')
-    ax6.set_title('salt spring ebb', c='tab:olive')
-    ax7.set_title('salt neap flood', c='tab:blue')
-    ax8.set_title('salt neap ebb', c='tab:purple')
+    ax1.set_title('u spring ebb', c='tab:olive')
+    ax2.set_title('u spring flood', c='tab:green')
+    ax3.set_title('u neap ebb', c='tab:purple')
+    ax4.set_title('u neap flood', c='tab:blue')
+    ax5.set_title('salt spring ebb', c='tab:olive')
+    ax6.set_title('salt spring flood', c='tab:green')
+    ax7.set_title('salt neap ebb', c='tab:purple')
+    ax8.set_title('salt neap flood', c='tab:blue')
 
     # load fields
     ds2 = xr.open_dataset(in_dir2 / ext_fn)
     ax9.plot(ds2['time'],ds2['qnet'])
-    ax9.axvline(x=t_spring_flood, c='tab:green')
     ax9.axvline(x=t_spring_ebb, c='tab:olive')
-    ax9.axvline(x=t_neap, c='tab:blue')
-    ax9.axvline(x=t_neap, c='tab:purple')
+    ax9.axvline(x=t_spring_flood, c='tab:green')
+    ax9.axvline(x=t_neap_ebb, c='tab:purple')
+    ax9.axvline(x=t_neap_flood, c='tab:blue')  
     ax9.grid(True)
-    # ax9.set_xlim(pd.Timestamp('2020-06-27'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
-    ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
+    ax9.set_xlim(pd.Timestamp('2020-06-01'), pd.Timestamp('2020-07-31')) #to see tidal cycle zoom
+    # ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
     ax9.set_title('qnet tidal transport')
 
-    ax10.plot(ds2['time'],ds2['qnet'])
-    ax10.axvline(x=t_spring_flood, c='tab:green')
-    ax10.axvline(x=t_spring_ebb, c='tab:olive')
-    ax10.axvline(x=t_neap, c='tab:blue')
-    ax10.axvline(x=t_neap, c='tab:purple')
-    ax10.grid(True)
-    ax10.set_xlim(pd.Timestamp('2020-07-08'), pd.Timestamp('2020-07-09')) #to see tidal cycle zoom
-    ax10.set_title('qnet tidal transport')
+    # ax10.plot(ds2['time'],ds2['qnet'])
+    # ax10.axvline(x=t_spring_flood, c='tab:green')
+    # ax10.axvline(x=t_spring_ebb, c='tab:olive')
+    # ax10.axvline(x=t_neap, c='tab:blue')
+    # ax10.axvline(x=t_neap, c='tab:purple')
+    # ax10.grid(True)
+    # ax10.set_xlim(pd.Timestamp('2020-07-08'), pd.Timestamp('2020-07-09')) #to see tidal cycle zoom
+    # ax10.set_title('qnet tidal transport')
 
-    qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin',nanpad=False)), f='godin')/2
-    ax11.plot(ds2['time'],qprism)
-    ax11.axvline(x=t_spring_flood, c='tab:green')
-    ax11.axvline(x=t_spring_ebb, c='tab:olive')
-    ax11.axvline(x=t_neap, c='tab:blue')
-    ax11.axvline(x=t_neap, c='tab:purple')
-    ax11.grid(True)
-    ax11.set_xlim(pd.Timestamp('2020-07-08T12'), pd.Timestamp('2020-07-08T16')) #to see tidal cycle zoom
-    ax11.set_ylim(10850,10950)
-    ax11.set_title('qprism')
+    # qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin',nanpad=False)), f='godin')/2
+    # ax11.plot(ds2['time'],qprism)
+    # ax11.axvline(x=t_spring_flood, c='tab:green')
+    # ax11.axvline(x=t_spring_ebb, c='tab:olive')
+    # ax11.axvline(x=t_neap, c='tab:blue')
+    # ax11.axvline(x=t_neap, c='tab:purple')
+    # ax11.grid(True)
+    # ax11.set_xlim(pd.Timestamp('2020-07-08T12'), pd.Timestamp('2020-07-08T16')) #to see tidal cycle zoom
+    # ax11.set_ylim(10850,10950)
+    # ax11.set_title('qprism')
     
     fig.suptitle(Ldir['sect_name'])
     plt.savefig(out_dir / (Ldir['sect_name'] + '.png'))
