@@ -171,8 +171,8 @@ for ext_fn in sect_list:
     ax11.axvline(x=t_neap, c='tab:blue')
     ax11.axvline(x=t_neap, c='tab:purple')
     ax11.grid(True)
-    ax11.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
-    ax11.set_ylim(21500,22500)
+    ax11.set_xlim(pd.Timestamp('2020-07-01'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
+    ax11.set_ylim(22200,22500)
     ax11.set_title('qprism')
     
     fig.suptitle(Ldir['sect_name'])
