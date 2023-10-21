@@ -116,7 +116,7 @@ for ext_fn in sect_list:
     # ax10 = fig.add_subplot(gs[3,:])
     # ax11 = fig.add_subplot(gs[4,:])
 
-    X=ds['dd'].cumsum(dim='p')-ds['dd'].isel(p=0)/2
+    X=ds['dd'].cumsum(dim='p')-ds['dd'].isel(p=-1)/2
     Y=ds['DZ'].cumsum(dim='z')-ds['h']
 
     ulim=0.8
