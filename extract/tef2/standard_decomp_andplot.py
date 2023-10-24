@@ -190,9 +190,9 @@ for ext_fn in sect_list:
     plt.savefig(out_dir / (Ldir['sect_name'] + '.png'))
 
     #MAKE LOWPASSED PLOTS
-    DZ_ta = xr.DataArray(zfun.lowpass(ds['DZ'].to_numpy,f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
-    vel_ta = xr.DataArray(zfun.lowpass(ds['vel'].to_numpy,f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
-    salt_ta = xr.DataArray(zfun.lowpass(ds['salt'].to_numpy,f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
+    DZ_ta = xr.DataArray(zfun.lowpass(ds['DZ'].to_numpy(),f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
+    vel_ta = xr.DataArray(zfun.lowpass(ds['vel'].to_numpy(),f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
+    salt_ta = xr.DataArray(zfun.lowpass(ds['salt'].to_numpy(),f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
 
     ds_ta=xr.Dataset(dict(DZ=DZ_ta,vel=vel_ta,salt=salt_ta))
 
