@@ -209,7 +209,7 @@ for ext_fn in sect_list:
     ax4 = fig.add_subplot(gs[1,1])
     ax5 = fig.add_subplot(gs[2,:])
 
-    ulim=0.8
+    ulim=0.3
     slimmin=20
     slimmax=34
     cs1=ax1.pcolormesh(X,Y_ta.sel(time=t_spring),ds_ta['vel'].sel(time=t_spring),cmap=cm.balance)#,vmin=-ulim,vmax=ulim)
@@ -232,7 +232,7 @@ for ext_fn in sect_list:
     ax5.axvline(x=t_spring, c='tab:green', linewidth=3)
     ax5.axvline(x=t_neap, c='tab:purple', linewidth=3) 
     ax5.grid(True)
-    ax5.set_xlim(pd.Timestamp('2020-06-25'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
+    #ax5.set_xlim(pd.Timestamp('2020-06-25'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
     # ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
     ax5.set_title('qprism')
 
