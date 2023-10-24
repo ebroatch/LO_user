@@ -116,9 +116,12 @@ for ext_fn in sect_list:
     # ax10 = fig.add_subplot(gs[3,:])
     # ax11 = fig.add_subplot(gs[4,:])
 
-    X=ds['dd'].cumsum(dim='p')-ds['dd'].isel(p=-1)/2
-    Y=ds['DZ'].cumsum(dim='z')-ds['h']
-
+    X=xr.DataArray(np.concatenate((np.array([0]),ds['dd'].cumsum(dim='p').to_numpy())), dims='p')
+    X=X-X.isel(p=-1)/2
+    Ydata=(ds['DZ'].cumsum(dim='z')-ds['h']).to_numpy()
+    Ydata=(np.concatenate((Ydata[:,:,0,None],Ydata), axis=2) + np.concatenate((Ydata,Ydata[:,:,-1,None]), axis=2))/2
+    Y=xr.DataArray(Ydata, coords={'time':ds.time}, dims=['time','z','p'])
+    
     ulim=0.8
     slimmin=20
     slimmax=34
