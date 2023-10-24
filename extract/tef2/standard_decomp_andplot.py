@@ -118,7 +118,7 @@ for ext_fn in sect_list:
 
     X=xr.DataArray(np.concatenate((np.array([0]),ds['dd'].cumsum(dim='p').to_numpy())), dims='p')
     X=X-X.isel(p=-1)/2
-    Ydata=(ds['DZ'].cumsum(dim='z')-ds['h']).to_numpy()
+    Ydata=np.concatenate((np.expand_dims((xr.ones_like(ds['DZ'].isel(z=0))*ds['h']).to_numpy(), axis=1) , (ds['DZ'].cumsum(dim='z')-ds['h']).to_numpy()),axis=1)
     Ydata=(np.concatenate((Ydata[:,:,0,None],Ydata), axis=2) + np.concatenate((Ydata,Ydata[:,:,-1,None]), axis=2))/2
     Y=xr.DataArray(Ydata, coords={'time':ds.time}, dims=['time','z','p'])
     
