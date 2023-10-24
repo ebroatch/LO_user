@@ -128,10 +128,10 @@ for ext_fn in sect_list:
     ulim=0.8
     slimmin=20
     slimmax=34
-    cs1=ax1.pcolormesh(X,Y.sel(time=t_spring_ebb),ds['vel'].sel(time=t_spring_ebb),cmap=cm.balance,vmin=-ulim,vmax=ulim)
-    cs2=ax2.pcolormesh(X,Y.sel(time=t_spring_flood),ds['vel'].sel(time=t_spring_flood),cmap=cm.balance,vmin=-ulim,vmax=ulim)
-    cs3=ax3.pcolormesh(X,Y.sel(time=t_neap_ebb),ds['vel'].sel(time=t_neap_ebb),cmap=cm.balance,vmin=-ulim,vmax=ulim)
-    cs4=ax4.pcolormesh(X,Y.sel(time=t_neap_flood),ds['vel'].sel(time=t_neap_flood),cmap=cm.balance,vmin=-ulim,vmax=ulim)
+    cs1=ax1.pcolormesh(X,Y.sel(time=t_spring_ebb),ds['vel'].sel(time=t_spring_ebb),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs2=ax2.pcolormesh(X,Y.sel(time=t_spring_flood),ds['vel'].sel(time=t_spring_flood),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs3=ax3.pcolormesh(X,Y.sel(time=t_neap_ebb),ds['vel'].sel(time=t_neap_ebb),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs4=ax4.pcolormesh(X,Y.sel(time=t_neap_flood),ds['vel'].sel(time=t_neap_flood),cmap=cm.balance,norm=colors.CenteredNorm())
     cs5=ax5.pcolormesh(X,Y.sel(time=t_spring_ebb),ds['salt'].sel(time=t_spring_ebb),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
     cs6=ax6.pcolormesh(X,Y.sel(time=t_spring_flood),ds['salt'].sel(time=t_spring_flood),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
     cs7=ax7.pcolormesh(X,Y.sel(time=t_neap_ebb),ds['salt'].sel(time=t_neap_ebb),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
@@ -233,7 +233,7 @@ for ext_fn in sect_list:
     ax5.axvline(x=t_spring, c='tab:green', linewidth=3)
     ax5.axvline(x=t_neap, c='tab:purple', linewidth=3) 
     ax5.grid(True)
-    #ax5.set_xlim(pd.Timestamp('2020-06-25'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
+    ax5.set_xlim(pd.Timestamp('2020-06-25'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
     # ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
     ax5.set_title('qprism')
 
