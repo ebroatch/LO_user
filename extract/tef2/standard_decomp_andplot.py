@@ -71,6 +71,8 @@ t_spring_flood = pd.Timestamp('2020-07-01 10:00:00')
 t_neap_ebb = pd.Timestamp('2020-07-08 10:00:00')
 t_neap_flood = pd.Timestamp('2020-07-08 16:00:00')
 
+t_spring = pd.Timestamp('2020-07-01 07:00:00')
+t_neap = pd.Timestamp('2020-07-08 14:00:00')
 
 for ext_fn in sect_list:
     tt0 = time()
@@ -86,18 +88,18 @@ for ext_fn in sect_list:
     #     V[vn] = ds[vn].to_numpy()
     # V['salt2'] = V['salt']*V['salt']
 
-    ot = ds['time'].to_numpy() #shape NT
-    zeta = ds['zeta'].to_numpy() #shape NT,NX
-    h = ds['h'].to_numpy() #shape NX
-    dd = ds['dd'].to_numpy() #shape NX
-    dz = ds['DZ'].to_numpy() #shape NT,NZ,NX
-    u = ds['vel'].to_numpy() #shape NT,NZ,NX
-    s = ds['salt'].to_numpy() #shape NT,NZ,NX
+    # ot = ds['time'].to_numpy() #shape NT
+    # zeta = ds['zeta'].to_numpy() #shape NT,NX
+    # h = ds['h'].to_numpy() #shape NX
+    # dd = ds['dd'].to_numpy() #shape NX
+    # dz = ds['DZ'].to_numpy() #shape NT,NZ,NX
+    # u = ds['vel'].to_numpy() #shape NT,NZ,NX
+    # s = ds['salt'].to_numpy() #shape NT,NZ,NX
     
-    dA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() #shape NT,NZ,NX
-    H = np.sum(ds['DZ'].to_numpy(),axis=1) #shape NT,NX
-    q = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['vel'].to_numpy() #shape NT,NZ,NX
-    sdA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['salt'].to_numpy() #shape NT,NZ,NX
+    # dA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() #shape NT,NZ,NX
+    # H = np.sum(ds['DZ'].to_numpy(),axis=1) #shape NT,NX
+    # q = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['vel'].to_numpy() #shape NT,NZ,NX
+    # sdA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['salt'].to_numpy() #shape NT,NZ,NX
     # V['q'] = q
 
     #fig, axs = plt.subplots(2, 2,figsize=(15,15))
@@ -186,9 +188,61 @@ for ext_fn in sect_list:
     
     fig.suptitle(Ldir['sect_name'])
     plt.savefig(out_dir / (Ldir['sect_name'] + '.png'))
+
+    #MAKE LOWPASSED PLOTS
+    DZ_ta = xr.DataArray(zfun.lowpass(ds['DZ'].to_numpy,f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
+    vel_ta = xr.DataArray(zfun.lowpass(ds['vel'].to_numpy,f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
+    salt_ta = xr.DataArray(zfun.lowpass(ds['salt'].to_numpy,f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
+
+    ds_ta=xr.Dataset(dict(DZ=DZ_ta,vel=vel_ta,salt=salt_ta))
+
+    Ydata_ta=np.concatenate((np.expand_dims((xr.ones_like(ds_ta['DZ'].isel(z=0))*(-ds['h'])).to_numpy(), axis=1) , (ds_ta['DZ'].cumsum(dim='z')-ds['h']).to_numpy()),axis=1)
+    Ydata_ta=(np.concatenate((Ydata_ta[:,:,0,None],Ydata_ta), axis=2) + np.concatenate((Ydata_ta,Ydata_ta[:,:,-1,None]), axis=2))/2
+    Y_ta=xr.DataArray(Ydata_ta, coords={'time':ds.time}, dims=['time','z','p'])
+
+    fig = plt.figure(figsize=(20,15))
+    gs = fig.add_gridspec(nrows=3,ncols=2,width_ratios=[1,1],height_ratios=[2,2,1])
+    #gs = fig.add_gridspec(nrows=5,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1,1,1])
+    ax1 = fig.add_subplot(gs[0,0])
+    ax2 = fig.add_subplot(gs[0,1])
+    ax3 = fig.add_subplot(gs[1,0])
+    ax4 = fig.add_subplot(gs[1,1])
+    ax5 = fig.add_subplot(gs[2,:])
+
+    ulim=0.8
+    slimmin=20
+    slimmax=34
+    cs1=ax1.pcolormesh(X,Y_ta.sel(time=t_spring),ds_ta['vel'].sel(time=t_spring),cmap=cm.balance)#,vmin=-ulim,vmax=ulim)
+    cs2=ax2.pcolormesh(X,Y_ta.sel(time=t_neap),ds_ta['vel'].sel(time=t_neap),cmap=cm.balance)#,vmin=-ulim,vmax=ulim)
+    cs3=ax3.pcolormesh(X,Y_ta.sel(time=t_spring),ds_ta['salt'].sel(time=t_spring),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs4=ax4.pcolormesh(X,Y_ta.sel(time=t_neap),ds_ta['salt'].sel(time=t_neap),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+
+    fig.colorbar(cs1, ax=ax1)
+    fig.colorbar(cs2, ax=ax2)
+    fig.colorbar(cs3, ax=ax3)
+    fig.colorbar(cs4, ax=ax4)
+
+    ax1.set_title('u spring', c='tab:green', fontweight='bold')
+    ax2.set_title('u neap', c='tab:purple', fontweight='bold')
+    ax3.set_title('salt spring', c='tab:green', fontweight='bold')
+    ax4.set_title('salt neap', c='tab:purple', fontweight='bold')
+
+    qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin',nanpad=False)), f='godin')/2
+    ax5.plot(ds2['time'],qprism)
+    ax5.axvline(x=t_spring, c='tab:green', linewidth=3)
+    ax5.axvline(x=t_neap, c='tab:purple', linewidth=3) 
+    ax5.grid(True)
+    ax5.set_xlim(pd.Timestamp('2020-06-25'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
+    # ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
+    ax5.set_title('qprism')
+
+    fig.suptitle(Ldir['sect_name']+' tidal average')
+    plt.savefig(out_dir / (Ldir['sect_name'] + '_ta.png'))
+
     ds.close()
     ds2.close()
-    NT, NZ, NX = q.shape
+    ds_ta.close()
+    #NT, NZ, NX = q.shape
 
 
 
