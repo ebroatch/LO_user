@@ -27,6 +27,7 @@ from time import time
 import pandas as pd
 from scipy.stats import binned_statistic
 import matplotlib.pyplot as plt
+import matplotlib.colors as colors
 from cmocean import cm
 
 from lo_tools import Lfun, zrfun, zfun
@@ -209,11 +210,11 @@ for ext_fn in sect_list:
     ax4 = fig.add_subplot(gs[1,1])
     ax5 = fig.add_subplot(gs[2,:])
 
-    ulim=0.3
+    #ulim=0.3
     slimmin=20
     slimmax=34
-    cs1=ax1.pcolormesh(X,Y_ta.sel(time=t_spring),ds_ta['vel'].sel(time=t_spring),cmap=cm.balance)#,vmin=-ulim,vmax=ulim)
-    cs2=ax2.pcolormesh(X,Y_ta.sel(time=t_neap),ds_ta['vel'].sel(time=t_neap),cmap=cm.balance)#,vmin=-ulim,vmax=ulim)
+    cs1=ax1.pcolormesh(X,Y_ta.sel(time=t_spring),ds_ta['vel'].sel(time=t_spring),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs2=ax2.pcolormesh(X,Y_ta.sel(time=t_neap),ds_ta['vel'].sel(time=t_neap),cmap=cm.balance,norm=colors.CenteredNorm())
     cs3=ax3.pcolormesh(X,Y_ta.sel(time=t_spring),ds_ta['salt'].sel(time=t_spring),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
     cs4=ax4.pcolormesh(X,Y_ta.sel(time=t_neap),ds_ta['salt'].sel(time=t_neap),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
 
