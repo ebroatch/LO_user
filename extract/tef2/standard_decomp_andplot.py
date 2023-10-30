@@ -84,25 +84,8 @@ for ext_fn in sect_list:
 
     # load fields
     ds = xr.open_dataset(in_dir / ext_fn)
-    # V = dict()
-    # for vn in vn_list:
-    #     V[vn] = ds[vn].to_numpy()
-    # V['salt2'] = V['salt']*V['salt']
 
-    # ot = ds['time'].to_numpy() #shape NT
-    # zeta = ds['zeta'].to_numpy() #shape NT,NX
-    # h = ds['h'].to_numpy() #shape NX
-    # dd = ds['dd'].to_numpy() #shape NX
-    # dz = ds['DZ'].to_numpy() #shape NT,NZ,NX
-    # u = ds['vel'].to_numpy() #shape NT,NZ,NX
-    # s = ds['salt'].to_numpy() #shape NT,NZ,NX
-    
-    # dA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() #shape NT,NZ,NX
-    # H = np.sum(ds['DZ'].to_numpy(),axis=1) #shape NT,NX
-    # q = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['vel'].to_numpy() #shape NT,NZ,NX
-    # sdA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['salt'].to_numpy() #shape NT,NZ,NX
-    # V['q'] = q
-
+    #PLOT SALT AND VELOCITY FIELDS
     #fig, axs = plt.subplots(2, 2,figsize=(15,15))
     fig = plt.figure(figsize=(20,15))
     gs = fig.add_gridspec(nrows=3,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1])
@@ -190,7 +173,7 @@ for ext_fn in sect_list:
     fig.suptitle(Ldir['sect_name'])
     plt.savefig(out_dir / (Ldir['sect_name'] + '.png'))
 
-    #MAKE LOWPASSED PLOTS
+    #PLOT TIDALLY AVERAGED SALT AND VELOCITY FIELDS
     DZ_ta = xr.DataArray(zfun.lowpass(ds['DZ'].to_numpy(),f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
     vel_ta = xr.DataArray(zfun.lowpass(ds['vel'].to_numpy(),f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
     salt_ta = xr.DataArray(zfun.lowpass(ds['salt'].to_numpy(),f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
@@ -240,38 +223,57 @@ for ext_fn in sect_list:
     fig.suptitle(Ldir['sect_name']+' tidal average')
     plt.savefig(out_dir / (Ldir['sect_name'] + '_ta.png'))
 
-    ds.close()
-    ds2.close()
-    ds_ta.close()
-    #NT, NZ, NX = q.shape
+    #MAKE STANDARD DECOMPOSITION
+    #use nanpadding and put back into dataset
+    # V = dict()
+    # for vn in vn_list:
+    #     V[vn] = ds[vn].to_numpy()
+    # V['salt2'] = V['salt']*V['salt']
 
+    # ot = ds['time'].to_numpy() #shape NT
+    # zeta = ds['zeta'].to_numpy() #shape NT,NX
+    # h = ds['h'].to_numpy() #shape NX
+    # dd = ds['dd'].to_numpy() #shape NX
+    dz = ds['DZ'].to_numpy() #shape NT,NZ,NX
+    u = ds['vel'].to_numpy() #shape NT,NZ,NX
+    s = ds['salt'].to_numpy() #shape NT,NZ,NX
+    
+    dA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() #shape NT,NZ,NX
+    H = np.sum(ds['DZ'].to_numpy(),axis=1) #shape NT,NX
+    q = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['vel'].to_numpy() #shape NT,NZ,NX
+    sdA = ds['dd'].to_numpy() * ds['DZ'].to_numpy() * ds['salt'].to_numpy() #shape NT,NZ,NX
+    # V['q'] = q
+    NT, NZ, NX = q.shape
 
+    A = np.sum(dA, axis=(1,2)) #shape NT
+    A0 = zfun.lowpass(A, f='godin') #shape NT
+    dA0 = zfun.lowpass(dA, f='godin') #shape NT,NZ,NX
 
-    # A = np.sum(dA, axis=(1,2)) #shape NT
-    # A0 = zfun.lowpass(A, f='godin')[pad:-pad+1] #shape NT-72
-    # dA0 = zfun.lowpass(dA, f='godin')[pad:-pad+1, :, :] #shape NT-72,NZ,NX
+    u0 = (zfun.lowpass(np.sum(q, axis=(1,2)), f='godin'))/A0 #shape NT
+    s0 = (zfun.lowpass(np.sum(sdA, axis=(1,2)), f='godin'))/A0 #shape NT
 
-    # u0 = (zfun.lowpass(np.sum(q, axis=(1,2)), f='godin')[pad:-pad+1])/A0 #shape NT-72
-    # s0 = (zfun.lowpass(np.sum(sdA, axis=(1,2)), f='godin')[pad:-pad+1])/A0 #shape NT-72
+    u1 = (zfun.lowpass(q, f='godin'))/dA0 - u0[:, np.newaxis, np.newaxis] #shape NT,NZ,NX newaxis for broadcasting
+    s1 = (zfun.lowpass(sdA, f='godin'))/dA0 - s0[:, np.newaxis, np.newaxis] #shape NT,NZ,NX newaxis for broadcasting
 
-    # u1 = (zfun.lowpass(q, f='godin')[pad:-pad+1, :, :])/dA0 - u0[:, np.newaxis, np.newaxis] #shape NT-72,NZ,NX newaxis for broadcasting
-    # s1 = (zfun.lowpass(sdA, f='godin')[pad:-pad+1, :, :])/dA0 - s0[:, np.newaxis, np.newaxis] #shape NT-72,NZ,NX newaxis for broadcasting
+    u2 = u - u1 - u0[:, np.newaxis, np.newaxis] #shape NT,NZ,NX
+    s2 = s - s1 - s0[:, np.newaxis, np.newaxis] #shape NT,NZ,NX
+    dA2 = dA #shape NT,NZ,NX
 
-    # u2 = u[pad:-pad+1, :, :] - u1 - u0[:, np.newaxis, np.newaxis] #shape NT-72,NZ,NX
-    # s2 = s[pad:-pad+1, :, :] - s1 - s0[:, np.newaxis, np.newaxis] #shape NT-72,NZ,NX
-    # dA2 = dA[pad:-pad+1, :, :] #shape NT-72,NZ,NX
+    u2L = (np.sum(u2*dz,axis=1))/(H) #shape NT,NX
+    u2V = u2 - np.expand_dims(u2L,axis=1) #shape NT,NZ,NX expand_dims for broadcasting
+    s2L = (np.sum(s2*dz,axis=1))/(H[pad:-pad+1, :]) #shape NT,NX
+    s2V = s2 - np.expand_dims(s2L,axis=1) #shape NT,NZ,NX expand_dims for broadcasting
 
-    # u2L = (np.sum(u2*dz[pad:-pad+1, :, :],axis=1))/(H[pad:-pad+1, :]) #shape NT-72,NX
-    # u2V = u2 - np.expand_dims(u2L,axis=1) #shape NT-72,NZ,NX expand_dims for broadcasting
-    # s2L = (np.sum(s2*dz[pad:-pad+1, :, :],axis=1))/(H[pad:-pad+1, :]) #shape NT-72,NX
-    # s2V = s2 - np.expand_dims(s2L,axis=1) #shape NT-72,NZ,NX expand_dims for broadcasting
+    u1da = xr.DataArray(u1, coords={'time':ds.time}, dims=['time','z','p'])
+    s1da = xr.DataArray(s1, coords={'time':ds.time}, dims=['time','z','p'])
+    u2s2_ta = xr.DataArray(zfun.lowpass(u2*s2,f='godin',nanpad=True), coords={'time':ds.time}, dims=['time','z','p'])
 
     # ssh = np.mean(zeta, axis=1)[pad:-pad+1] #shape NT-72
     # ssh_lp = zfun.lowpass(np.mean(zeta, axis=1), f='godin')[pad:-pad+1] #shape NT-72
     
     # FR = (u0*s0*A0) #shape NT-72
     # FE = np.sum(u1*s1*dA0, axis=(1,2)) #shape NT-72
-    # FT = zfun.lowpass(np.sum(u2*s2*dA2, axis=(1,2)), f='godin')[pad:-pad+1] #shape NT-144
+    # FT = zfun.lowpass(np.sum(u2*s2*dA2, axis=(1,2)), f='godin')[pad:-pad+1] #shape NT-144 #replace with dA2??
 
     # FTL = zfun.lowpass(np.sum(u2L*s2L*H[pad:-pad+1, :]*dd, axis=1), f='godin')[pad:-pad+1] #shape NT-144
     # FTV = zfun.lowpass(np.sum(u2V*s2V*dA[pad:-pad+1, :, :], axis=(1,2)), f='godin')[pad:-pad+1] #shape NT-144
@@ -292,8 +294,78 @@ for ext_fn in sect_list:
     # SD['ssh_lp']=ssh_lp[pad:-pad+1]
     # SD['ot']=(ot[pad:-pad+1])[pad:-pad+1]
     # #pickle.dump(SD, open(out_dir / out_fn, 'wb'))
+
+    #PLOT STANDARD DECOMPOSITION FIELDS
+    #fig, axs = plt.subplots(2, 2,figsize=(15,15))
+    fig = plt.figure(figsize=(20,15))
+    gs = fig.add_gridspec(nrows=4,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1,1])
+    #gs = fig.add_gridspec(nrows=5,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1,1,1])
+    ax1 = fig.add_subplot(gs[0,0])
+    ax2 = fig.add_subplot(gs[0,1])
+    ax3 = fig.add_subplot(gs[0,2])
+    ax4 = fig.add_subplot(gs[0,3])
+    ax5 = fig.add_subplot(gs[1,0])
+    ax6 = fig.add_subplot(gs[1,1])
+    ax7 = fig.add_subplot(gs[1,2])
+    ax8 = fig.add_subplot(gs[1,3])
+    ax9 = fig.add_subplot(gs[2,:])
+    ax10 = fig.add_subplot(gs[3,:])
+    # ax11 = fig.add_subplot(gs[4,:])
+
+    cs1=ax1.pcolormesh(X,Y_ta.sel(time=t_spring),u1da.sel(time=t_spring),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs2=ax2.pcolormesh(X,Y_ta.sel(time=t_spring),s1da.sel(time=t_spring),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs3=ax3.pcolormesh(X,Y_ta.sel(time=t_spring),u1da.sel(time=t_spring)*s1da.sel(time=t_spring),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs4=ax4.pcolormesh(X,Y_ta.sel(time=t_spring),u2s2_ta.sel(time=t_spring),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs5=ax5.pcolormesh(X,Y_ta.sel(time=t_neap),u1da.sel(time=t_neap),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs6=ax6.pcolormesh(X,Y_ta.sel(time=t_neap),s1da.sel(time=t_neap),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs7=ax7.pcolormesh(X,Y_ta.sel(time=t_neap),u1da.sel(time=t_neap)*s1da.sel(time=t_neap),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs8=ax8.pcolormesh(X,Y_ta.sel(time=t_neap),u2s2_ta.sel(time=t_neap),cmap=cm.balance,norm=colors.CenteredNorm())
+
+    fig.colorbar(cs1, ax=ax1)
+    fig.colorbar(cs2, ax=ax2)
+    fig.colorbar(cs3, ax=ax3)
+    fig.colorbar(cs4, ax=ax4)
+    fig.colorbar(cs5, ax=ax5)
+    fig.colorbar(cs6, ax=ax6)
+    fig.colorbar(cs7, ax=ax7)
+    fig.colorbar(cs8, ax=ax8)
+
+    ax1.set_title('u1 spring', c='tab:green', fontweight='bold')
+    ax2.set_title('s1 spring', c='tab:green', fontweight='bold')
+    ax3.set_title('u1 s1 spring', c='tab:green', fontweight='bold')
+    ax4.set_title('<u2 s2> spring', c='tab:green', fontweight='bold')
+    ax5.set_title('u1 neap', c='tab:purple', fontweight='bold')
+    ax6.set_title('s1 neap', c='tab:purple', fontweight='bold')
+    ax7.set_title('u1 s1 neap', c='tab:purple', fontweight='bold')
+    ax8.set_title('<u2 s2> neap', c='tab:purple', fontweight='bold')
+
+    ax9.plot(ds2['time'],u0)
+    ax9.plot(ds2['time'],s0)
+    ax9.plot(ds2['time'],u0*s0)
+    ax9.grid(True)
+    ax9.set_xlim(pd.Timestamp('2020-06-25'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
+    # ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
+    ax9.set_title('u0, s0, u0s0')
+
+    ax10.plot(ds2['time'],qprism)
+    ax10.axvline(x=t_spring, c='tab:green', linewidth=3)
+    ax10.axvline(x=t_neap, c='tab:purple', linewidth=3) 
+    ax10.grid(True)
+    ax10.set_xlim(pd.Timestamp('2020-06-25'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
+    # ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
+    ax10.set_title('qprism')
+
+    fig.suptitle(Ldir['sect_name']+' standard decomposition')
+    plt.savefig(out_dir / (Ldir['sect_name'] + '_sd.png'))
+
+    ds.close()
+    ds2.close()
+    ds_ta.close()
+
     print('  elapsed time for section = %d seconds' % (time()-tt0))
     sys.stdout.flush()
+
+
 
 
 #print('\nTotal elapsed time for standard decomp = %d seconds' % (time()-tt00))
