@@ -261,7 +261,7 @@ for ext_fn in sect_list:
 
     u2L = (np.sum(u2*dz,axis=1))/(H) #shape NT,NX
     u2V = u2 - np.expand_dims(u2L,axis=1) #shape NT,NZ,NX expand_dims for broadcasting
-    s2L = (np.sum(s2*dz,axis=1))/(H[pad:-pad+1, :]) #shape NT,NX
+    s2L = (np.sum(s2*dz,axis=1))/(H) #shape NT,NX
     s2V = s2 - np.expand_dims(s2L,axis=1) #shape NT,NZ,NX expand_dims for broadcasting
 
     u1da = xr.DataArray(u1, coords={'time':ds.time}, dims=['time','z','p'])
