@@ -297,8 +297,8 @@ for ext_fn in sect_list:
 
     #PLOT STANDARD DECOMPOSITION FIELDS
     #fig, axs = plt.subplots(2, 2,figsize=(15,15))
-    fig = plt.figure(figsize=(20,15))
-    gs = fig.add_gridspec(nrows=4,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1,1])
+    fig = plt.figure(figsize=(20,20))
+    gs = fig.add_gridspec(nrows=6,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1,1,1,1])
     #gs = fig.add_gridspec(nrows=5,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1,1,1])
     ax1 = fig.add_subplot(gs[0,0])
     ax2 = fig.add_subplot(gs[0,1])
@@ -310,14 +310,16 @@ for ext_fn in sect_list:
     ax8 = fig.add_subplot(gs[1,3])
     ax9 = fig.add_subplot(gs[2,:])
     ax10 = fig.add_subplot(gs[3,:])
+    ax11 = fig.add_subplot(gs[4,:])
+    ax12 = fig.add_subplot(gs[5,:])
     # ax11 = fig.add_subplot(gs[4,:])
 
     cs1=ax1.pcolormesh(X,Y_ta.sel(time=t_spring),u1da.sel(time=t_spring),cmap=cm.balance,norm=colors.CenteredNorm())
-    cs2=ax2.pcolormesh(X,Y_ta.sel(time=t_spring),s1da.sel(time=t_spring),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs2=ax2.pcolormesh(X,Y_ta.sel(time=t_spring),s1da.sel(time=t_spring),cmap=cm.delta,norm=colors.CenteredNorm())
     cs3=ax3.pcolormesh(X,Y_ta.sel(time=t_spring),u1da.sel(time=t_spring)*s1da.sel(time=t_spring),cmap=cm.balance,norm=colors.CenteredNorm())
     cs4=ax4.pcolormesh(X,Y_ta.sel(time=t_spring),u2s2_ta.sel(time=t_spring),cmap=cm.balance,norm=colors.CenteredNorm())
     cs5=ax5.pcolormesh(X,Y_ta.sel(time=t_neap),u1da.sel(time=t_neap),cmap=cm.balance,norm=colors.CenteredNorm())
-    cs6=ax6.pcolormesh(X,Y_ta.sel(time=t_neap),s1da.sel(time=t_neap),cmap=cm.haline,vmin=slimmin,vmax=slimmax)
+    cs6=ax6.pcolormesh(X,Y_ta.sel(time=t_neap),s1da.sel(time=t_neap),cmap=cm.delta,norm=colors.CenteredNorm())
     cs7=ax7.pcolormesh(X,Y_ta.sel(time=t_neap),u1da.sel(time=t_neap)*s1da.sel(time=t_neap),cmap=cm.balance,norm=colors.CenteredNorm())
     cs8=ax8.pcolormesh(X,Y_ta.sel(time=t_neap),u2s2_ta.sel(time=t_neap),cmap=cm.balance,norm=colors.CenteredNorm())
 
@@ -340,20 +342,30 @@ for ext_fn in sect_list:
     ax8.set_title('<u2 s2> neap', c='tab:purple', fontweight='bold')
 
     ax9.plot(ds2['time'],u0)
-    ax9.plot(ds2['time'],s0)
-    ax9.plot(ds2['time'],u0*s0)
     ax9.grid(True)
     ax9.set_xlim(pd.Timestamp('2020-06-25'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
     # ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
-    ax9.set_title('u0, s0, u0s0')
+    ax9.set_title('u0')
 
-    ax10.plot(ds2['time'],qprism)
-    ax10.axvline(x=t_spring, c='tab:green', linewidth=3)
-    ax10.axvline(x=t_neap, c='tab:purple', linewidth=3) 
+    ax10.plot(ds2['time'],s0)
     ax10.grid(True)
     ax10.set_xlim(pd.Timestamp('2020-06-25'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
     # ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
-    ax10.set_title('qprism')
+    ax10.set_title('s0')
+
+    ax11.plot(ds2['time'],u0*s0)
+    ax11.grid(True)
+    ax11.set_xlim(pd.Timestamp('2020-06-25'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
+    # ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
+    ax11.set_title('u0 s0')
+
+    ax12.plot(ds2['time'],qprism)
+    ax12.axvline(x=t_spring, c='tab:green', linewidth=3)
+    ax12.axvline(x=t_neap, c='tab:purple', linewidth=3) 
+    ax12.grid(True)
+    ax12.set_xlim(pd.Timestamp('2020-06-25'), pd.Timestamp('2020-07-10')) #to see tidal cycle zoom
+    # ax9.set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
+    ax12.set_title('qprism')
 
     fig.suptitle(Ldir['sect_name']+' standard decomposition')
     plt.savefig(out_dir / (Ldir['sect_name'] + '_sd.png'))
