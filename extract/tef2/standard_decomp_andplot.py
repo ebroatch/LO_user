@@ -297,7 +297,7 @@ for ext_fn in sect_list:
 
     #PLOT STANDARD DECOMPOSITION FIELDS
     #fig, axs = plt.subplots(2, 2,figsize=(15,15))
-    fig = plt.figure(figsize=(20,20))
+    fig = plt.figure(figsize=(30,20))
     gs = fig.add_gridspec(nrows=6,ncols=4,width_ratios=[1,1,1,1],height_ratios=[4,4,1,1,1,1])
     #gs = fig.add_gridspec(nrows=5,ncols=4,width_ratios=[1,1,1,1],height_ratios=[2,2,1,1,1])
     ax1 = fig.add_subplot(gs[0,0])
