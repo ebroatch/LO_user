@@ -147,7 +147,8 @@ for i in range(len(sect_list)):
     F = SD['F']
     ot = SD['ot']
 
-    ds2 = xr.open_dataset(in_dir2 / sect_ncname)
+    ds2= pickle.load(open(in_dir2 / sect_name, 'rb'))
+    #ds2 = xr.open_dataset(in_dir2 / sect_name) #change in future
     qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin')), f='godin')/2
     pad=36
     qprism=(qprism[pad:-pad+1])[pad:-pad+1]
