@@ -115,10 +115,10 @@ for ext_fn in sect_list:
     cs2=ax2.pcolormesh(X,Y.sel(time=t_spring_flood),ds['vel'].sel(time=t_spring_flood),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
     cs3=ax3.pcolormesh(X,Y.sel(time=t_neap_ebb),ds['vel'].sel(time=t_neap_ebb),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
     cs4=ax4.pcolormesh(X,Y.sel(time=t_neap_flood),ds['vel'].sel(time=t_neap_flood),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs5=ax5.pcolormesh(X,Y.sel(time=t_spring_ebb),ds['salt'].sel(time=t_spring_ebb),cmap='spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
-    cs6=ax6.pcolormesh(X,Y.sel(time=t_spring_flood),ds['salt'].sel(time=t_spring_flood),cmap='spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
-    cs7=ax7.pcolormesh(X,Y.sel(time=t_neap_ebb),ds['salt'].sel(time=t_neap_ebb),cmap='spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
-    cs8=ax8.pcolormesh(X,Y.sel(time=t_neap_flood),ds['salt'].sel(time=t_neap_flood),cmap='spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
+    cs5=ax5.pcolormesh(X,Y.sel(time=t_spring_ebb),ds['salt'].sel(time=t_spring_ebb),cmap='Spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
+    cs6=ax6.pcolormesh(X,Y.sel(time=t_spring_flood),ds['salt'].sel(time=t_spring_flood),cmap='Spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
+    cs7=ax7.pcolormesh(X,Y.sel(time=t_neap_ebb),ds['salt'].sel(time=t_neap_ebb),cmap='Spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
+    cs8=ax8.pcolormesh(X,Y.sel(time=t_neap_flood),ds['salt'].sel(time=t_neap_flood),cmap='Spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
 
     cb1=fig.colorbar(cs1, ax=ax1)
     cb2=fig.colorbar(cs2, ax=ax2)
@@ -203,8 +203,8 @@ for ext_fn in sect_list:
     slimmax=34
     cs1=ax1.pcolormesh(X,Y_ta.sel(time=t_spring),ds_ta['vel'].sel(time=t_spring),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0)) #try twoslopenorm instead of colors.CenteredNorm()
     cs2=ax2.pcolormesh(X,Y_ta.sel(time=t_neap),ds_ta['vel'].sel(time=t_neap),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs3=ax3.pcolormesh(X,Y_ta.sel(time=t_spring),ds_ta['salt'].sel(time=t_spring),cmap='spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
-    cs4=ax4.pcolormesh(X,Y_ta.sel(time=t_neap),ds_ta['salt'].sel(time=t_neap),cmap='spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
+    cs3=ax3.pcolormesh(X,Y_ta.sel(time=t_spring),ds_ta['salt'].sel(time=t_spring),cmap='Spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
+    cs4=ax4.pcolormesh(X,Y_ta.sel(time=t_neap),ds_ta['salt'].sel(time=t_neap),cmap='Spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
 
     cb1=fig.colorbar(cs1, ax=ax1)
     cb2=fig.colorbar(cs2, ax=ax2)
