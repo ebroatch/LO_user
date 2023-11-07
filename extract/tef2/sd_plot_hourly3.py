@@ -142,7 +142,7 @@ plt.close()
 fig, ax = plt.subplots(1, 1, figsize=(10,10))
 for i in range(len(sect_list)):
     sect_name = sect_list[i]
-    sect_ncname = sect_nclist[i]
+    #sect_ncname = sect_nclist[i]
     SD = pickle.load(open(in_dir / sect_name, 'rb'))
 
     FR = SD['FR']
