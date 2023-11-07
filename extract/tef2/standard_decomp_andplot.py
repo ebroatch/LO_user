@@ -111,10 +111,10 @@ for ext_fn in sect_list:
     ulim=0.8
     slimmin=20
     slimmax=34
-    cs1=ax1.pcolormesh(X,Y.sel(time=t_spring_ebb),ds['vel'].sel(time=t_spring_ebb),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0)) #try twoslopenorm instead of colors.CenteredNorm()
-    cs2=ax2.pcolormesh(X,Y.sel(time=t_spring_flood),ds['vel'].sel(time=t_spring_flood),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs3=ax3.pcolormesh(X,Y.sel(time=t_neap_ebb),ds['vel'].sel(time=t_neap_ebb),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs4=ax4.pcolormesh(X,Y.sel(time=t_neap_flood),ds['vel'].sel(time=t_neap_flood),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
+    cs1=ax1.pcolormesh(X,Y.sel(time=t_spring_ebb),ds['vel'].sel(time=t_spring_ebb),cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+    cs2=ax2.pcolormesh(X,Y.sel(time=t_spring_flood),ds['vel'].sel(time=t_spring_flood),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs3=ax3.pcolormesh(X,Y.sel(time=t_neap_ebb),ds['vel'].sel(time=t_neap_ebb),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs4=ax4.pcolormesh(X,Y.sel(time=t_neap_flood),ds['vel'].sel(time=t_neap_flood),cmap=cm.balance,norm=colors.CenteredNorm())
     cs5=ax5.pcolormesh(X,Y.sel(time=t_spring_ebb),ds['salt'].sel(time=t_spring_ebb),cmap='Spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
     cs6=ax6.pcolormesh(X,Y.sel(time=t_spring_flood),ds['salt'].sel(time=t_spring_flood),cmap='Spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
     cs7=ax7.pcolormesh(X,Y.sel(time=t_neap_ebb),ds['salt'].sel(time=t_neap_ebb),cmap='Spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
@@ -201,8 +201,8 @@ for ext_fn in sect_list:
     #ulim=0.3
     slimmin=20
     slimmax=34
-    cs1=ax1.pcolormesh(X,Y_ta.sel(time=t_spring),ds_ta['vel'].sel(time=t_spring),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0)) #try twoslopenorm instead of colors.CenteredNorm()
-    cs2=ax2.pcolormesh(X,Y_ta.sel(time=t_neap),ds_ta['vel'].sel(time=t_neap),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
+    cs1=ax1.pcolormesh(X,Y_ta.sel(time=t_spring),ds_ta['vel'].sel(time=t_spring),cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+    cs2=ax2.pcolormesh(X,Y_ta.sel(time=t_neap),ds_ta['vel'].sel(time=t_neap),cmap=cm.balance,norm=colors.CenteredNorm())
     cs3=ax3.pcolormesh(X,Y_ta.sel(time=t_spring),ds_ta['salt'].sel(time=t_spring),cmap='Spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
     cs4=ax4.pcolormesh(X,Y_ta.sel(time=t_neap),ds_ta['salt'].sel(time=t_neap),cmap='Spectral_r',vmin=slimmin,vmax=slimmax) #change colormap from cm.haline
 
@@ -324,14 +324,14 @@ for ext_fn in sect_list:
     ax12 = fig.add_subplot(gs[5,:])
     # ax11 = fig.add_subplot(gs[4,:])
 
-    cs1=ax1.pcolormesh(X,Y_ta.sel(time=t_spring),u1da.sel(time=t_spring),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs2=ax2.pcolormesh(X,Y_ta.sel(time=t_spring),s1da.sel(time=t_spring),cmap=cm.delta,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs3=ax3.pcolormesh(X,Y_ta.sel(time=t_spring),u1da.sel(time=t_spring)*s1da.sel(time=t_spring),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs4=ax4.pcolormesh(X,Y_ta.sel(time=t_spring),u2s2_ta.sel(time=t_spring),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs5=ax5.pcolormesh(X,Y_ta.sel(time=t_neap),u1da.sel(time=t_neap),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs6=ax6.pcolormesh(X,Y_ta.sel(time=t_neap),s1da.sel(time=t_neap),cmap=cm.delta,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs7=ax7.pcolormesh(X,Y_ta.sel(time=t_neap),u1da.sel(time=t_neap)*s1da.sel(time=t_neap),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs8=ax8.pcolormesh(X,Y_ta.sel(time=t_neap),u2s2_ta.sel(time=t_neap),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
+    cs1=ax1.pcolormesh(X,Y_ta.sel(time=t_spring),u1da.sel(time=t_spring),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs2=ax2.pcolormesh(X,Y_ta.sel(time=t_spring),s1da.sel(time=t_spring),cmap='Spectral_r',norm=colors.CenteredNorm())
+    cs3=ax3.pcolormesh(X,Y_ta.sel(time=t_spring),u1da.sel(time=t_spring)*s1da.sel(time=t_spring),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs4=ax4.pcolormesh(X,Y_ta.sel(time=t_spring),u2s2_ta.sel(time=t_spring),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs5=ax5.pcolormesh(X,Y_ta.sel(time=t_neap),u1da.sel(time=t_neap),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs6=ax6.pcolormesh(X,Y_ta.sel(time=t_neap),s1da.sel(time=t_neap),cmap='Spectral_r',norm=colors.CenteredNorm())
+    cs7=ax7.pcolormesh(X,Y_ta.sel(time=t_neap),u1da.sel(time=t_neap)*s1da.sel(time=t_neap),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs8=ax8.pcolormesh(X,Y_ta.sel(time=t_neap),u2s2_ta.sel(time=t_neap),cmap=cm.balance,norm=colors.CenteredNorm())
 
     cb1=fig.colorbar(cs1, ax=ax1)
     cb2=fig.colorbar(cs2, ax=ax2)
@@ -408,18 +408,18 @@ for ext_fn in sect_list:
     ax12 = fig.add_subplot(gs[2,3])
     ax13 = fig.add_subplot(gs[3,:])
 
-    cs1=ax1.pcolormesh(X,Y.sel(time=t_spring_ebb),u2da.sel(time=t_spring_ebb),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0)) #try twoslopenorm instead of colors.CenteredNorm()
-    cs2=ax2.pcolormesh(X,Y.sel(time=t_spring_flood),u2da.sel(time=t_spring_flood),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs3=ax3.pcolormesh(X,Y.sel(time=t_neap_ebb),u2da.sel(time=t_neap_ebb),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs4=ax4.pcolormesh(X,Y.sel(time=t_neap_flood),u2da.sel(time=t_neap_flood),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs5=ax5.pcolormesh(X,Y.sel(time=t_spring_ebb),s2da.sel(time=t_spring_ebb),cmap=cm.delta,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs6=ax6.pcolormesh(X,Y.sel(time=t_spring_flood),s2da.sel(time=t_spring_flood),cmap=cm.delta,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs7=ax7.pcolormesh(X,Y.sel(time=t_neap_ebb),s2da.sel(time=t_neap_ebb),cmap=cm.delta,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs8=ax8.pcolormesh(X,Y.sel(time=t_neap_flood),s2da.sel(time=t_neap_flood),cmap=cm.delta,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs9=ax9.pcolormesh(X,Y.sel(time=t_spring_ebb),u2da.sel(time=t_spring_ebb)*s2da.sel(time=t_spring_ebb),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0)) #try twoslopenorm instead of colors.CenteredNorm()
-    cs10=ax10.pcolormesh(X,Y.sel(time=t_spring_flood),u2da.sel(time=t_spring_flood)*s2da.sel(time=t_spring_flood),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs11=ax11.pcolormesh(X,Y.sel(time=t_neap_ebb),u2da.sel(time=t_neap_ebb)*s2da.sel(time=t_neap_ebb),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
-    cs12=ax12.pcolormesh(X,Y.sel(time=t_neap_flood),u2da.sel(time=t_neap_flood)*s2da.sel(time=t_neap_flood),cmap=cm.balance,norm=colors.TwoSlopeNorm(vcenter=0))
+    cs1=ax1.pcolormesh(X,Y.sel(time=t_spring_ebb),u2da.sel(time=t_spring_ebb),cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+    cs2=ax2.pcolormesh(X,Y.sel(time=t_spring_flood),u2da.sel(time=t_spring_flood),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs3=ax3.pcolormesh(X,Y.sel(time=t_neap_ebb),u2da.sel(time=t_neap_ebb),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs4=ax4.pcolormesh(X,Y.sel(time=t_neap_flood),u2da.sel(time=t_neap_flood),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs5=ax5.pcolormesh(X,Y.sel(time=t_spring_ebb),s2da.sel(time=t_spring_ebb),cmap='Spectral_r',norm=colors.CenteredNorm())
+    cs6=ax6.pcolormesh(X,Y.sel(time=t_spring_flood),s2da.sel(time=t_spring_flood),cmap='Spectral_r',norm=colors.CenteredNorm())
+    cs7=ax7.pcolormesh(X,Y.sel(time=t_neap_ebb),s2da.sel(time=t_neap_ebb),cmap='Spectral_r',norm=colors.CenteredNorm())
+    cs8=ax8.pcolormesh(X,Y.sel(time=t_neap_flood),s2da.sel(time=t_neap_flood),cmap='Spectral_r',norm=colors.CenteredNorm())
+    cs9=ax9.pcolormesh(X,Y.sel(time=t_spring_ebb),u2da.sel(time=t_spring_ebb)*s2da.sel(time=t_spring_ebb),cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+    cs10=ax10.pcolormesh(X,Y.sel(time=t_spring_flood),u2da.sel(time=t_spring_flood)*s2da.sel(time=t_spring_flood),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs11=ax11.pcolormesh(X,Y.sel(time=t_neap_ebb),u2da.sel(time=t_neap_ebb)*s2da.sel(time=t_neap_ebb),cmap=cm.balance,norm=colors.CenteredNorm())
+    cs12=ax12.pcolormesh(X,Y.sel(time=t_neap_flood),u2da.sel(time=t_neap_flood)*s2da.sel(time=t_neap_flood),cmap=cm.balance,norm=colors.CenteredNorm())
 
     cb1=fig.colorbar(cs1, ax=ax1)
     cb2=fig.colorbar(cs2, ax=ax2)
