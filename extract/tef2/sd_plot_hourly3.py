@@ -52,9 +52,9 @@ plot_color = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue','tab:purp
 g = xr.open_dataset(Ldir['grid'] / 'grid.nc')
 h = g.h.values
 h[g.mask_rho.values==0] = np.nan
-xr = g.lon_rho.values
-yr = g.lat_rho.values
-xp, yp = pfun.get_plon_plat(xr,yr)
+xrho = g.lon_rho.values
+yrho = g.lat_rho.values
+xp, yp = pfun.get_plon_plat(xrho,yrho)
 xu = g.lon_u.values
 yu = g.lat_u.values
 xv = g.lon_v.values
