@@ -133,7 +133,7 @@ plt.savefig(out_dir / ('sd_plot_hourly3.png'))
 plt.close()
 
 #scatter plot
-fig, axs = plt.subplots(1, 1, figsize=(10,10))
+fig, ax = plt.subplots(1, 1, figsize=(10,10))
 for i in range(len(sect_list)):
     sect_name = sect_list[i]
     sect_ncname = sect_nclist[i]
@@ -154,12 +154,12 @@ for i in range(len(sect_list)):
     pad=36
     qprism=(qprism[pad:-pad+1])[pad:-pad+1]
 
-    axs[0].plot(qprism, FT/(FE+FT), color=plot_color[i], linewidth=lw, label=sect_label[i])
+    ax.plot(qprism, FT/(FE+FT), color=plot_color[i], linewidth=lw, label=sect_label[i])
 
-axs[0].grid(True)
-axs[0].set_ylabel('FT/(FE+FT)')
-axs[0].set_xlabel('Qprism')
-axs[0].legend(loc='lower right')
+ax.grid(True)
+ax.set_ylabel('FT/(FE+FT)')
+ax.set_xlabel('Qprism')
+ax.legend(loc='lower right')
 
 plt.savefig(out_dir / ('sd_plot_scatter.png'))
 plt.close()
