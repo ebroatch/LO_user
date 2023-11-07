@@ -281,14 +281,14 @@ for ext_fn in sect_list:
     # ssh = np.mean(zeta, axis=1)[pad:-pad+1] #shape NT-72
     # ssh_lp = zfun.lowpass(np.mean(zeta, axis=1), f='godin')[pad:-pad+1] #shape NT-72
     
-    # FR = (u0*s0*A0) #shape NT-72
-    # FE = np.sum(u1*s1*dA0, axis=(1,2)) #shape NT-72
-    # FT = zfun.lowpass(np.sum(u2*s2*dA2, axis=(1,2)), f='godin')[pad:-pad+1] #shape NT-144 #replace with dA2??
+    # FR = (u0*s0*A0) #shape NT
+    # FE = np.sum(u1*s1*dA0, axis=(1,2)) #shape NT
+    # FT = zfun.lowpass(np.sum(u2*s2*dA2, axis=(1,2)), f='godin') #shape NT #replace with dA2??
 
-    # FTL = zfun.lowpass(np.sum(u2L*s2L*H[pad:-pad+1, :]*dd, axis=1), f='godin')[pad:-pad+1] #shape NT-144
-    # FTV = zfun.lowpass(np.sum(u2V*s2V*dA[pad:-pad+1, :, :], axis=(1,2)), f='godin')[pad:-pad+1] #shape NT-144
+    # FTL = zfun.lowpass(np.sum(u2L*s2L*H*dd, axis=1), f='godin') #shape NT
+    # FTV = zfun.lowpass(np.sum(u2V*s2V*dA, axis=(1,2)), f='godin') #shape NT
 
-    # F = zfun.lowpass(np.sum(u*s*dA, axis=(1,2)), f='godin')[pad:-pad+1] #shape NT-72
+    # F = zfun.lowpass(np.sum(u*s*dA, axis=(1,2)), f='godin') #shape NT
 
     # SD = dict()
     # SD['u0']=u0[pad:-pad+1]
