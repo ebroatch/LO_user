@@ -305,14 +305,13 @@ for ext_fn in sect_list:
     u2s2int = xr.DataArray(np.sum(u2*s2*dA2, axis=(1,2)), coords={'time':ds.time}, dims=['time'])
 
     #PLOT LATERAL AND VERTICAL COMPONENTS
-    fig, axs = plt.subplots(2, 1,figsize=(10,20),sharex=True)
+    fig, axs = plt.subplots(2, 1,figsize=(20,10),sharex=True)
     axs[0].plot(ds['time'],FE,color='k',label='Total')
     axs[0].plot(ds['time'],FEV,linestyle=':',color='k',label='Vertical')
     axs[0].plot(ds['time'],FEL,linestyle='--',color='k',label='Lateral')
     axs[0].legend(loc='lower right')
     axs[0].set_title('Exchange')
     axs[0].grid(True)
-    axs[0].set_ylim(top=1000)
     axs[1].plot(ds['time'],FT,color='k',label='Total')
     axs[1].plot(ds['time'],FTV,linestyle=':',color='k',label='Vertical')
     axs[1].plot(ds['time'],FTL,linestyle='--',color='k',label='Lateral')
@@ -326,17 +325,17 @@ for ext_fn in sect_list:
     plt.close()
 
     #PLOT U2, S2, U2S2 over tidal cycle
-    fig, axs = plt.subplots(3, 1,figsize=(10,20),sharex=True)
-    axs[0].plot(u2mean,color='k')
+    fig, axs = plt.subplots(3, 1,figsize=(20,10),sharex=True)
+    axs[0].plot(ds['time'],u2mean,color='k')
     axs[0].set_ylabel('Section average u2')
     axs[0].grid(True)
-    axs[1].plot(s2mean,color='k')
+    axs[1].plot(ds['time'],s2mean,color='k')
     axs[1].set_ylabel('Section average s2')
     axs[1].grid(True)
-    axs[2].plot(u2s2int,color='k')
+    axs[2].plot(ds['time'],u2s2int,color='k')
     axs[2].set_ylabel('Integrated u2s2')
     axs[2].grid(True)
-    #axs[2].set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
+    axs[2].set_xlim(pd.Timestamp('2020-06-30'), pd.Timestamp('2020-07-02')) #to see tidal cycle zoom
     
     fig.suptitle(Ldir['sect_name']+' tidal')
     plt.savefig(out_dir / (Ldir['sect_name'] + '_sdu2s2.png'))
