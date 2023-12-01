@@ -127,31 +127,40 @@ def P_sect_zoom_eb(in_dict):
     set automatically then the section is the preferred field for
     setting the limits.
     
-    I think this works best with -avl False (the default).
+    Uses the new pfun.get_sect() function.
     """
     # START
     fs = 14
     pfun.start_plot(fs=fs, figsize=(20,9))
     fig = plt.figure()
     ds = xr.open_dataset(in_dict['fn'])
+
     # PLOT CODE
     vn = 'salt'
+    # if vn == 'salt':
+    #     pinfo.cmap_dict[vn] = 'Spectral_r'
+
     # GET DATA
     G, S, T = zrfun.get_basic_info(in_dict['fn'])
+
     # CREATE THE SECTION
     # create track by hand
     lon = G['lon_rho']
     lat = G['lat_rho']
     zdeep = -205
     #x = np.linspace(1.1, -1, 500) #sill1
-    x = np.linspace(0.45, 0.675, 100) #use less points for shorter section
+    x_e = np.linspace(0.45, 0.675, 100) #use less points for shorter section?
     #xcoast = 94.3 #sill2
-    y = 45 * np.ones(x.shape)
-    v2, v3, dist, idist0 = pfun.get_section(ds, vn, x, y, in_dict)
-    
+    y_e = 45 * np.ones(x_e.shape)
+
+    #v2, v3, dist, idist0 = pfun.get_section(ds, vn, x, y, in_dict) #old section function
+    x, y, dist, dist_e, zbot, ztop, dist_se, zw_se, fld_s, lon, lat = pfun.get_sect(in_dict['fn'], vn, x_e, y_e)
+
     # COLOR
     # scaled section data
-    sf = pinfo.fac_dict[vn] * v3['sectvarf']
+    #sf = pinfo.fac_dict[vn] * v3['sectvarf'] #old
+    sf = pinfo.fac_dict[vn] * fld_s #new
+
     # now we use the scaled section as the preferred field for setting the
     # color limits of both figures in the case -avl True
     if in_dict['auto_vlims']:
@@ -174,8 +183,10 @@ def P_sect_zoom_eb(in_dict):
     ax.set_ylabel('Latitude')
     # add section track
     ax.plot(x, y, '-r', linewidth=2)
-    ax.plot(x[idist0], y[idist0], 'r', markersize=5, markerfacecolor='w',
-        markeredgecolor='r', markeredgewidth=2)
+    # ax.plot(x[idist0], y[idist0], 'r', markersize=5, markerfacecolor='w',
+    #     markeredgecolor='r', markeredgewidth=2) #old
+    ax.plot(x[0], y[0], 'or', markersize=5, markerfacecolor='w',
+        markeredgecolor='r', markeredgewidth=2) #new
     ax.set_xticks([0.45, 0.475, 0.5, 0.525, 0.55, 0.575, 0.6, 0.625, 0.65, 0.675])
     ax.set_yticks([44.95, 45, 45.05])
     # ax.set_xticks([-4, -2, 0, 2])
@@ -183,17 +194,21 @@ def P_sect_zoom_eb(in_dict):
 
     # section
     ax = fig.add_subplot(1, 3, (2, 3))
-    ax.plot(dist, v2['zbot'], 'k', linewidth=2)
-    ax.plot(dist, v2['zeta'], '-k', linewidth=2)
+    # ax.plot(dist, v2['zbot'], 'k', linewidth=2)
+    # ax.plot(dist, v2['zeta'], '-k', linewidth=2)
+    ax.plot(dist, zbot, '-k', linewidth=2)
+    ax.plot(dist, ztop, '-b', linewidth=1)
     ax.set_xlim(dist.min(), dist.max())
-    ax.invert_xaxis()
-    ax.set_xticks([0, 2, 4, 6, 8, 10, 12])
-    #ax.vlines(xcoast, -200, 0, linestyles='dashed') #add coast line
+    #ax.invert_xaxis() #not sure if this needs to be changed?
+    #ax.set_xticks([0, 2, 4, 6, 8, 10, 12]) #comment out for now
+    #ax.vlines(xcoast, -200, 0, linestyles='dashed') #add coast line #don't need since zoomed in
     ax.set_ylim(zdeep, 5)
     # plot section
     svlims = pinfo.vlims_dict[vn]
-    cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:],
-                       vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn])
+    # cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:],
+    #                    vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #old
+    cs = ax.pcolormesh(dist_se,zw_se,sf,
+                       vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #new
     fig.colorbar(cs, ax=ax)
     ax.set_xlabel('Distance (km)')
     ax.set_ylabel('Z (m)')
