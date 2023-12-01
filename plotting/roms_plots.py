@@ -223,6 +223,112 @@ def P_sect_zoom_eb(in_dict):
     else:
         plt.show()
 
+def P_sect_contour_eb(in_dict):
+    """
+    This plots a section (distance, z) with line contours, and makes sure
+    that the color limits are identical.
+    
+    Uses the new pfun.get_sect() function.
+    """
+    # START
+    fs = 14
+    pfun.start_plot(fs=fs, figsize=(20,9))
+    fig = plt.figure()
+    ds = xr.open_dataset(in_dict['fn'])
+
+    # PLOT CODE
+    vn = 'salt'
+    if vn == 'salt':
+        pinfo.cmap_dict[vn] = 'Spectral_r'
+
+    # GET DATA
+    G, S, T = zrfun.get_basic_info(in_dict['fn'])
+
+    # CREATE THE SECTION
+    # create track by hand
+    lon = G['lon_rho']
+    lat = G['lat_rho']
+    zdeep = -205
+    #x = np.linspace(1.1, -1, 500) #sill1
+    x_e = np.linspace(0.45, 0.675, 100) #use less points for shorter section?
+    #xcoast = 94.3 #sill2
+    y_e = 45 * np.ones(x_e.shape)
+
+    #v2, v3, dist, idist0 = pfun.get_section(ds, vn, x, y, in_dict) #old section function
+    x, y, dist, dist_e, zbot, ztop, dist_se, zw_se, fld_s, lon, lat = pfun.get_sect(in_dict['fn'], vn, x_e, y_e)
+
+    # COLOR
+    # scaled section data
+    #sf = pinfo.fac_dict[vn] * v3['sectvarf'] #old
+    sf = pinfo.fac_dict[vn] * fld_s #new
+
+    # now we use the scaled section as the preferred field for setting the
+    # color limits of both figures in the case -avl True
+    if in_dict['auto_vlims']:
+        pinfo.vlims_dict[vn] = pfun.auto_lims(sf)
+    
+    # PLOTTING
+    # # map with section line
+    # ax = fig.add_subplot(1, 3, 1)
+    # cs = pfun.add_map_field(ax, ds, vn, pinfo.vlims_dict,
+    #         cmap=pinfo.cmap_dict[vn], fac=pinfo.fac_dict[vn], do_mask_edges=True)
+    # # fig.colorbar(cs, ax=ax) # It is identical to that of the section
+    # #pfun.add_coast(ax)
+    # aaf = [0.45, 0.675, 44.95, 45.05] # focus domain
+    # #aaf = [-4, 2, 43, 47] # focus domain
+    # ax.axis(aaf)
+    # pfun.dar(ax)
+    # pfun.add_info(ax, in_dict['fn'], loc='upper_right')
+    # ax.set_title('Surface %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn]))
+    # ax.set_xlabel('Longitude')
+    # ax.set_ylabel('Latitude')
+    # # add section track
+    # ax.plot(x, y, '-r', linewidth=2)
+    # # ax.plot(x[idist0], y[idist0], 'r', markersize=5, markerfacecolor='w',
+    # #     markeredgecolor='r', markeredgewidth=2) #old
+    # ax.plot(x[0], y[0], 'or', markersize=5, markerfacecolor='w',
+    #     markeredgecolor='r', markeredgewidth=2) #new
+    # ax.set_xticks([0.45, 0.475, 0.5, 0.525, 0.55, 0.575, 0.6, 0.625, 0.65, 0.675])
+    # ax.set_yticks([44.95, 45, 45.05])
+    # # ax.set_xticks([-4, -2, 0, 2])
+    # # ax.set_yticks([43, 45, 47])
+
+    # section
+    ax = fig.add_subplot(1, 1, 1) #no map, only contour section
+    # ax.plot(dist, v2['zbot'], 'k', linewidth=2)
+    # ax.plot(dist, v2['zeta'], '-k', linewidth=2)
+    ax.plot(dist, zbot, '-k', linewidth=2)
+    ax.plot(dist, ztop, '-b', linewidth=1)
+    ax.set_xlim(dist.min(), dist.max())
+    #ax.invert_xaxis() #not sure if this needs to be changed?
+    #ax.set_xticks([0, 2, 4, 6, 8, 10, 12]) #comment out for now
+    #ax.vlines(xcoast, -200, 0, linestyles='dashed') #add coast line #don't need since zoomed in
+    ax.set_ylim(zdeep, 5)
+    # plot section
+    svlims = pinfo.vlims_dict[vn]
+    svlims[0]=20 #set manually
+    svlims[1]=34
+    # cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:],
+    #                    vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #old
+    # cs = ax.pcolormesh(dist_se,zw_se,sf,
+    #                    vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #new
+    cs = ax.contour(dist_se,zw_se,sf,
+                       vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #contour
+    ax.clabel(cs, inline=True, fontsize=12)
+    #fig.colorbar(cs, ax=ax)
+    ax.set_xlabel('Distance (km)')
+    ax.set_ylabel('Z (m)')
+    ax.set_title('Section %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn]))
+    fig.tight_layout()
+    # FINISH
+    ds.close()
+    pfun.end_plot()
+    if len(str(in_dict['fn_out'])) > 0:
+        plt.savefig(in_dict['fn_out'])
+        plt.close()
+    else:
+        plt.show()
+
 def P_sect_u_eb(in_dict):
     """
     This plots a map and a section (distance, z), and makes sure
