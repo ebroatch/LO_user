@@ -65,7 +65,7 @@ plt.close('all')
 pfun.start_plot(fs=fs, figsize=(21,10))
 
 #fig, [ax1,ax2] = plt.subplots(2, 1, sharex=True,figsize=(15,10))
-fig, [ax1,ax2,ax3] = plt.subplots(1, 3, figsize=(20,7))
+fig, [ax1,ax2,ax3] = plt.subplots(1, 3, figsize=(18,7))
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
@@ -91,9 +91,9 @@ for i in range(len(sect_list_sill)):
     
     #ax1.scatter(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), c=plot_color[i], linewidth=lw, label=plot_label[i])
     #ax1.plot(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=plot_label[i])
-    ax1.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy(), '-', lw=0.5, color=plot_color[i], label=plot_label_sill[i])
-    ax2.loglog(tef_df['Q_prism'].to_numpy(),tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy(), '-', lw=0.5, color=plot_color[i], label=plot_label_sill[i])
-    ax3.loglog(tef_df['Q_prism'].to_numpy(),tef_df['Q_p'].to_numpy()*(tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy()), '-', lw=0.5, color=plot_color[i], label=plot_label_sill[i])
+    ax1.loglog(tef_df['Q_prism'][60:].to_numpy(),tef_df['Q_p'][60:].to_numpy(), '-', lw=0.5, color=plot_color[i], label=plot_label_sill[i]) #CUT OUT FIRST 2 MONTHS
+    ax2.loglog(tef_df['Q_prism'][60:].to_numpy(),tef_df['salt_p'][60:].to_numpy()-tef_df['salt_m'][60:].to_numpy(), '-', lw=0.5, color=plot_color[i], label=plot_label_sill[i])
+    ax3.loglog(tef_df['Q_prism'][60:].to_numpy(),tef_df['Q_p'][60:].to_numpy()*(tef_df['salt_p'][60:].to_numpy()-tef_df['salt_m'][60:].to_numpy()), '-', lw=0.5, color=plot_color[i], label=plot_label_sill[i])
 
 # #for i in range(len(sect_list_sill)):
 # for i in [0,2,4]:
@@ -148,16 +148,16 @@ ax3.grid(True, which='both')
 ax1.set_box_aspect(1)
 ax2.set_box_aspect(1)
 ax3.set_box_aspect(1)
-ax1.set_title(r'$Q_{in} [m^{3}s^{-1}]$')
-ax2.set_title('Sill sections')
-ax3.set_title('Inner basin sections')
+# ax1.set_title(r'$Q_{in} [m^{3}s^{-1}]$')
+# ax2.set_title('Sill sections')
+# ax3.set_title('Inner basin sections')
 # ax1.set_ylabel(r'$Q_{in} [10^{3}\ m^{3}s^{-1}]$')
 # ax1.set_xlabel(r'$Q_{prism} [10^{3}\ m^{3}s^{-1}]$')
-ax1.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
+ax1.set_title(r'$Q_{in} [m^{3}s^{-1}]$')
 ax1.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
-ax2.set_ylabel(r'$\Delta s [g kg^{-1}]$')
+ax2.set_title(r'$\Delta s [g kg^{-1}]$')
 ax2.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
-ax3.set_ylabel(r'$Q_{in} \Delta s [m^{3}s^{-1}g kg^{-1}]$')
+ax3.set_title(r'$Q_{in} \Delta s [m^{3}s^{-1}g kg^{-1}]$')
 ax3.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
 
 ax1.set_xlim(left=1e4,right=3e4)
