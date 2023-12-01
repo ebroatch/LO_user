@@ -306,14 +306,14 @@ def P_sect_contour_eb(in_dict):
     ax.set_ylim(zdeep, 5)
     # plot section
     svlims = pinfo.vlims_dict[vn]
-    svlims[0]=20 #set manually
-    svlims[1]=34
     # cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:],
     #                    vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #old
     # cs = ax.pcolormesh(dist_se,zw_se,sf,
     #                    vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #new
+    # cs = ax.contour(dist_se,zw_se,sf,
+    #                    vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #contour
     cs = ax.contour(dist_se,zw_se,sf,
-                       vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #contour
+                       vmin=20, vmax=34, cmap=pinfo.cmap_dict[vn]) #contour with manual vmax/vmin
     ax.clabel(cs, inline=True, fontsize=12)
     #fig.colorbar(cs, ax=ax)
     ax.set_xlabel('Distance (km)')
