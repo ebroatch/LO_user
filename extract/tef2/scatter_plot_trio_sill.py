@@ -65,7 +65,7 @@ plt.close('all')
 pfun.start_plot(fs=fs, figsize=(21,10))
 
 #fig, [ax1,ax2] = plt.subplots(2, 1, sharex=True,figsize=(15,10))
-fig, [ax1,ax2,ax3] = plt.subplots(1, 3, figsize=(18,7))
+fig, [ax1,ax2,ax3] = plt.subplots(1, 3, figsize=(20,7))
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
@@ -160,12 +160,10 @@ ax2.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
 ax3.set_ylabel(r'$Q_{in} \Delta s [m^{3}s^{-1}g kg^{-1}]$')
 ax3.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
 
-ax1.set_xlim(left=1e4,right=5e4)
-ax1.set_ylim(bottom=4e3, top=2e4)
+ax1.set_xlim(left=1e4,right=3e4)
+ax1.set_ylim(bottom=3e3, top=9e3)
 ax2.set_xlim(left=1e4,right=3e4)
-#ax2.set_ylim(bottom=3e3, top=9e3)
-ax3.set_xlim(left=8e2,right=4e4)
-#ax3.set_ylim(bottom=4e2, top=2e4)
+ax3.set_xlim(left=1e4,right=3e4)
 
 # ax1.set_xlim(left=0)
 ax1.legend(loc='lower right')
