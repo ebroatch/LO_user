@@ -137,8 +137,8 @@ def P_sect_zoom_eb(in_dict):
 
     # PLOT CODE
     vn = 'salt'
-    # if vn == 'salt':
-    #     pinfo.cmap_dict[vn] = 'Spectral_r'
+    if vn == 'salt':
+        pinfo.cmap_dict[vn] = 'Spectral_r'
 
     # GET DATA
     G, S, T = zrfun.get_basic_info(in_dict['fn'])
