@@ -98,8 +98,10 @@ for ext_fn in sect_list:
         DV = dz * DA3
 
         s = ds['salt']
-        sdv = s*DV
-        dv = sdv/s #make DataArray
+        #sdv = s*DV
+        #dv = sdv/s #make DataArray
+        dv = xr.ones_like(s)*DV
+        sdv = s*dv
         v_int = dv.where(dv.lon_rho>sect_lon).sum()
         s_int = sdv.where(dv.lon_rho>sect_lon).sum()
         s_avg = s_int/v_int
@@ -117,9 +119,11 @@ for ext_fn in sect_list:
     # SI['V']=np.asarray(V_list)
     # SI['s_int']=np.asarray(s_int_list)
     # SI['s_bar']=np.asarray(s_bar_list)
-
     # pickle.dump(SI, open(out_dir / out_fn, 'wb'))
-    
+
+    si_ds=xr.Dataset(data_vars = dict(V=('time', np.asarray(V_list)), s_int=('time', np.asarray(s_int_list)), s_bar=('time', np.asarray(s_bar_list))), coords = dict(time=np.asarray(ot_list)))
+    si_ds.to_netcdf(out_dir / out_fn)
+
     print('  elapsed time for section = %d seconds' % (time()-tt0))
     sys.stdout.flush()
 
