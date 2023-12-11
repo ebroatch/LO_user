@@ -47,7 +47,7 @@ Lfun.make_dir(out_dir, clean=True)
 
 sect_list = [item.name for item in in_dir.glob('*.nc')]
 if Ldir['testing']:
-    sect_list = ['a1.nc','b1.nc','b3.nc','b5.nc']
+    sect_list = ['a1.nc','b3.nc']
 
 fn_list = Lfun.get_fn_list('hourly', Ldir, Ldir['ds0'], Ldir['ds1'])
 N = len(fn_list)
@@ -93,7 +93,6 @@ for ext_fn in sect_list:
         h = ds['h'][:].to_numpy()
         zeta = ds['zeta'][0,:,:].to_numpy()
         
-
         z_w = zrfun.get_z(h, zeta, S, only_w=True)
         dz = np.diff(z_w, axis=0)
         DV = dz * DA3
@@ -113,13 +112,14 @@ for ext_fn in sect_list:
         if ii%25==0:
             print(ii)
 
-    SI = dict()
-    SI['ot']=np.asarray(ot_list)
-    SI['V']=np.asarray(V_list)
-    SI['s_int']=np.asarray(s_int_list)
-    SI['s_bar']=np.asarray(s_bar_list)
+    # SI = dict()
+    # SI['ot']=np.asarray(ot_list)
+    # SI['V']=np.asarray(V_list)
+    # SI['s_int']=np.asarray(s_int_list)
+    # SI['s_bar']=np.asarray(s_bar_list)
 
-    pickle.dump(SI, open(out_dir / out_fn, 'wb'))
+    # pickle.dump(SI, open(out_dir / out_fn, 'wb'))
+    
     print('  elapsed time for section = %d seconds' % (time()-tt0))
     sys.stdout.flush()
 
