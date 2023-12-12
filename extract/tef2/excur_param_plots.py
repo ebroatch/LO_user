@@ -178,8 +178,9 @@ for ext_fn in sect_list:
     sys.stdout.flush()
 
 #axes limits to match G&M 2014 plot
-ax.set_xlim(1.5,2)
-ax.set_ylim(1e-4,1e0)
+#remove axes limits temporarily
+# ax.set_xlim(1.5,2)
+# ax.set_ylim(1e-4,1e0)
 
 ax.set_xlabel(r'$M$')
 ax.set_ylabel(r'$Fr_f$')
@@ -199,6 +200,8 @@ fig, ax = plt.subplots(1, 1)
 xplot=np.arange(0,len(TE_spring))
 ax.plot(xplot,TE_spring/1000,'-o',c='tab:green')
 ax.plot(xplot,TE_neap/1000,'-o',c='tab:purple')
+ax.set_ylim(bottom=0)
+ax.set_xlim(np.min(xplot),np.max(xplot))
 ax.set_xticks(xplot,sect_tick)
 
 #ax.set_xlim(1.5,2)
@@ -207,12 +210,13 @@ ax.set_xticks(xplot,sect_tick)
 ax.grid(True)
 ax.set_xlabel('Section')
 ax.set_ylabel('Tidal excursion [km]')
+ax.legend(loc='upper right')
 
 fig.suptitle('Tidal excursion along estuary')
 plt.savefig(out_dir / ('excur_plot.png'))
 plt.close()
 
-print('\nTotal elapsed time for standard decomp = %d seconds' % (time()-tt00))
+print('\nTotal elapsed time for calculation and plotting = %d seconds' % (time()-tt00))
 
 
 
