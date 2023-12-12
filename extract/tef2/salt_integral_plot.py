@@ -64,7 +64,7 @@ for i in range(len(sect_list)):
         smin=np.nanmin(ds.s_bar.values[j-180:j+181])
         tplot.append(ds.time.values[j])
         snrange.append(smax-smin)
-        p = np.polyfit(np.arange(0,361),ds.s_bar.values[j-180,j+181],1)
+        p = np.polyfit(np.arange(0,361),ds.s_bar.values[j-180:j+181],1)
         slope15d.append(p[0])
     tplot=np.asarray(tplot)
     snrange=np.asarray(snrange)
