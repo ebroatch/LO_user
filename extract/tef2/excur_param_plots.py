@@ -199,7 +199,7 @@ fig, ax = plt.subplots(1, 1)
 xplot=np.arange(0,len(TE_spring))
 ax.plot(xplot,TE_spring/1000,'-o',c='tab:green')
 ax.plot(xplot,TE_neap/1000,'-o',c='tab:purple')
-ax.xticks(xplot,sect_tick)
+ax.set_xticks(xplot,sect_tick)
 
 #ax.set_xlim(1.5,2)
 #ax.set_ylim(1e-4,1e0)
