@@ -166,9 +166,9 @@ for ext_fn in sect_list:
     # A = np.sum(dA, axis=(1,2)) #shape NT
 
     #PLOT ON PARAM SPACE
-    ax.scatter(M_spring,Frf,'c=tab:green')
+    ax.scatter(M_spring,Frf,s=None,c='tab:green')
     ax.text(M_spring,Frf,sect_label+' S', ha='center',va='top',fontsize=8,c='tab:green')
-    ax.scatter(M_neap,Frf,c='tab:purple')
+    ax.scatter(M_neap,Frf,s=None,c='tab:purple')
     ax.text(M_spring,Frf,sect_label+' N', ha='center',va='top',fontsize=8,c='tab:purple')
 
     ds.close()
