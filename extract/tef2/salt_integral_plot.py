@@ -129,7 +129,7 @@ axs[2].set_title(r'15 day salinity trend $[g\ kg^{-1}]$') #change this
 # axs[1].set_ylim(-2e4,4e4)
 axs[0].legend(loc='lower right')
 axs[1].legend(loc='upper right')
-axs[1].legend(loc='upper right')
+axs[2].legend(loc='upper right')
 
 if Ldir['testing']:
     axs[2].set_xlim(pd.Timestamp('2020-01-01'), pd.Timestamp('2020-07-31'))
