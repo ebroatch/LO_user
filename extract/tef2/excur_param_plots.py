@@ -54,8 +54,8 @@ out_dir = out_dir0 / ('excur_param_plots_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
 sect_list = [item.name for item in in_dir.glob('*.nc')]
-# if Ldir['testing']:
-#     sect_list = ['jdf3.nc']
+if Ldir['testing']:
+    sect_list = ['b1.nc','b2.nc','b3.nc','b4.nc','b5.nc']
 #sect_list = [Ldir['sect_name']+'.nc'] #section to plot #not sure if this syntax is correct
     
 # make vn_list by inspecting the first section
@@ -99,7 +99,7 @@ sect_tick=[]
 #start parameter space plot
 plt.close('all')
 fs = 14
-pfun.start_plot(fs=fs, figsize=(10,10))
+pfun.start_plot(fs=fs, figsize=(15,15))
 fig, ax = plt.subplots(1, 1)
 ax.set_yscale('log')
 ax.set_xscale('log')
@@ -171,8 +171,12 @@ for ext_fn in sect_list:
     ax.scatter(M_neap,Frf,s=None,c='tab:purple',label='Spring')
     ax.text(M_neap,Frf,sect_label, ha='left',va='top',fontsize=14,c='tab:purple')
 
-    if sect_label=='a1':
-        ax.legend(loc='upper left')
+    if Ldir['testing']:
+        if sect_label=='b1':
+            ax.legend(loc='upper left')
+    else:
+        if sect_label=='a1':
+            ax.legend(loc='upper left')
 
     ds.close()
     ds2.close()
@@ -187,6 +191,7 @@ for ext_fn in sect_list:
 
 ax.set_xlabel(r'$M$')
 ax.set_ylabel(r'$Fr_f$')
+ax.grid(True)
 
 fig.suptitle('Idealized model sections in estuarine parameter space')
 plt.savefig(out_dir / ('param_plot.png'))
