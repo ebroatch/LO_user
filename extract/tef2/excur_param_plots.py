@@ -101,8 +101,6 @@ plt.close('all')
 fs = 14
 pfun.start_plot(fs=fs, figsize=(15,15))
 fig, ax = plt.subplots(1, 1)
-ax.set_yscale('log')
-ax.set_xscale('log')
 
 for ext_fn in sect_list:
     tt0 = time()
@@ -189,6 +187,8 @@ for ext_fn in sect_list:
 # ax.set_xlim(1.5,2)
 # ax.set_ylim(1e-4,1e0)
 
+ax.set_yscale('log')
+ax.set_xscale('log')
 ax.set_xlabel(r'$M$')
 ax.set_ylabel(r'$Fr_f$')
 ax.grid(True)
