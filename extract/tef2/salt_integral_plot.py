@@ -39,7 +39,7 @@ plot_color2 = ['tab:blue','tab:red']
 
 plt.close('all')
 fs = 14
-pfun.start_plot(fs=fs, figsize=(10,15))
+pfun.start_plot(fs=fs, figsize=(15,15))
 
 fig, axs = plt.subplots(3, 1, sharex=True,figsize=(15,10),gridspec_kw={'height_ratios': [2,2,2]})
 
@@ -50,10 +50,10 @@ for i in range(len(sect_list)):
     ds = xr.open_dataset(fn)
 
     #Plot salinity
-    axs[0].plot(ds.time, ds.s_bar, color=plot_color[i], linewidth=1, label=sect_label[i] + r'$\bar{s}$')
+    axs[0].plot(ds.time, ds.s_bar, color=plot_color[i], linewidth=1, label=sect_label[i] + r'\ $\bar{s}$')
 
     #Plot tidally averaged salinity
-    axs[0].plot(ds.time, zfun.lowpass(ds.s_bar.values,f='godin'), color=plot_color2[i], linewidth=2, label=sect_label[i] + r'$\langle \bar{s} \rangle$')
+    axs[0].plot(ds.time, zfun.lowpass(ds.s_bar.values,f='godin'), color=plot_color2[i], linewidth=1, label=sect_label[i] + r'\ $\langle \bar{s} \rangle$')
     
     #Calculate spring-neap p2p and 15 day trend (best-fit slope over 15 days)
     snrange=[]
@@ -74,11 +74,11 @@ for i in range(len(sect_list)):
     #tspin=tplot[np.argmax(np.where(snrange>(10*360*slope15d)))] #find first time where spring-neap range is 10x greater than 15 day trend
 
     #Plot spring-neap p2p
-    axs[1].plot(tplot,snrange, color=plot_color2[i], linewidth=2, label=sect_label[i])
+    axs[1].plot(tplot,snrange, color=plot_color2[i], linewidth=1, label=sect_label[i])
     #axs[1].axvline(x=tspin, color=plot_color[i], linestyle='--', label=sect_label[i] + ' spinup')
     
     #Plot best fit slope * 15 days (360h)
-    axs[2].plot(tplot, slope15d*360, color=plot_color2[i], linewidth=2, label=sect_label[i])
+    axs[2].plot(tplot, slope15d*360, color=plot_color2[i], linewidth=1, label=sect_label[i])
     #axs[2].axvline(x=tspin, color=plot_color[i], linestyle='--')
 
     #SD = pickle.load(open(in_dir / sect_name, 'rb'))
@@ -120,15 +120,29 @@ for i in range(len(sect_list)):
 axs[0].grid(True)
 axs[1].grid(True) 
 axs[2].grid(True)   
-axs[0].set_ylabel(r'Salinity $[g\ kg^{-1}]$')
+axs[0].set_title(r'Salinity $[g\ kg^{-1}]$')
 #axs[1].set_ylabel(r'$\langle \bar{s} \rangle [g\ kg^{-1}]$')
-axs[1].set_ylabel(r'Spring-neap salinity difference $[g\ kg^{-1}]$') #change this
-axs[2].set_ylabel(r'15 day salinity trend $[g\ kg^{-1}]$') #change this
+axs[1].set_title(r'Spring-neap salinity difference $[g\ kg^{-1}]$') #change this
+axs[2].set_title(r'15 day salinity trend $[g\ kg^{-1}]$') #change this
 # axs[2].set_ylim(-3.2e4,-2.8e4)
 # axs[0].set_ylim(-1e4,5e4)
 # axs[1].set_ylim(-2e4,4e4)
 axs[0].legend(loc='lower right')
-axs[2].set_xlim(pd.Timestamp('2020-01-01'), pd.Timestamp('2020-07-31'))
+axs[1].legend(loc='upper right')
+axs[1].legend(loc='upper right')
+
+if Ldir['testing']:
+    axs[2].set_xlim(pd.Timestamp('2020-01-01'), pd.Timestamp('2020-07-31'))
+    axs[0].set_ylim(0,34)
+    axs[1].set_ylim(0,34)
+    axs[2].set_ylim(0,34)
+
+else:
+    axs[2].set_xlim(pd.Timestamp('2020-02-01'), pd.Timestamp('2020-07-31'))
+    axs[0].set_ylim(29,31)
+    axs[1].set_ylim(0,1)
+    axs[2].set_ylim(0,1)
+
 #plt.suptitle('Standard decomposition')
 plt.savefig(out_dir / ('si_plot.png'))
 plt.close()
