@@ -99,7 +99,7 @@ sect_tick=[]
 #start parameter space plot
 plt.close('all')
 fs = 14
-pfun.start_plot(fs=fs, figsize=(15,15))
+pfun.start_plot(fs=fs, figsize=(10,10))
 fig, ax = plt.subplots(1, 1)
 ax.set_yscale('log')
 ax.set_xscale('log')
@@ -169,7 +169,7 @@ for ext_fn in sect_list:
     ax.scatter(M_spring,Frf,s=None,c='tab:green',label='Neap')
     ax.text(M_spring,Frf,sect_label, ha='left',va='top',fontsize=14,c='tab:green')
     ax.scatter(M_neap,Frf,s=None,c='tab:purple',label='Spring')
-    ax.text(M_spring,Frf,sect_label, ha='left',va='top',fontsize=14,c='tab:purple')
+    ax.text(M_neap,Frf,sect_label, ha='left',va='top',fontsize=14,c='tab:purple')
 
     if sect_label=='a1':
         ax.legend(loc='upper left')
