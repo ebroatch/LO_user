@@ -137,8 +137,8 @@ for ext_fn in sect_list:
 
     # calculate Utidal
     unet=ds2['qnet']/A_sect
-    UT_spring=(ds2['qnet'].sel(time=t_spring_flood)-ds2['qnet'].sel(time=t_spring_ebb))/2
-    UT_neap=(ds2['qnet'].sel(time=t_neap_flood)-ds2['qnet'].sel(time=t_neap_ebb))/2
+    UT_spring=(unet.sel(time=t_spring_flood)-unet.sel(time=t_spring_ebb))/2
+    UT_neap=(unet.sel(time=t_neap_flood)-unet.sel(time=t_neap_ebb))/2
     
     # calculate M
     N0=np.sqrt((beta*g*socn)/H_thalweg)
