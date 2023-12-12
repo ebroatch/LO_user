@@ -114,6 +114,8 @@ for ext_fn in sect_list:
         if ii%25==0:
             print(ii)
 
+        ds.close()
+
     # SI = dict()
     # SI['ot']=np.asarray(ot_list)
     # SI['V']=np.asarray(V_list)
@@ -123,6 +125,7 @@ for ext_fn in sect_list:
 
     si_ds=xr.Dataset(data_vars = dict(V=('time', np.asarray(V_list)), s_int=('time', np.asarray(s_int_list)), s_bar=('time', np.asarray(s_bar_list))), coords = dict(time=np.asarray(ot_list)))
     si_ds.to_netcdf(out_dir / out_fn)
+    si_ds.close()
 
     print('  elapsed time for section = %d seconds' % (time()-tt0))
     sys.stdout.flush()
