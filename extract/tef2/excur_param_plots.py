@@ -50,7 +50,7 @@ c_dir = Ldir['LOo'] / 'extract' / 'tef2' / ('sections' + '_' + gctag)
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 in_dir = out_dir0 / ('extractions_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 in_dir2 = out_dir0 / ('processed_' + Ldir['ds0'] + '_' + Ldir['ds1']) #in_dir for processed to get qnet
-out_dir = out_dir0 / ('excur_param_plots' + Ldir['ds0'] + '_' + Ldir['ds1'])
+out_dir = out_dir0 / ('excur_param_plots_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
 sect_list = [item.name for item in in_dir.glob('*.nc')]
@@ -64,7 +64,7 @@ vn_list = [item for item in ds.data_vars \
     if (len(ds[item].dims) == 3) and (item not in ['vel','DZ'])]
 ds.close()
 
-print('\nProcessing standard decomposition:')
+print('\nCalculating parameters:')
 #print(str(in_dir))
 
 tt00 = time()
