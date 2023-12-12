@@ -45,7 +45,8 @@ fig, axs = plt.subplots(3, 1, sharex=True,figsize=(15,10),gridspec_kw={'height_r
 
 for i in range(len(sect_list)):
     sect_name = sect_list[i]
-    fn = in_dir / sect_name
+    fn = in_dir / sect_name.replace('.nc','.p')
+    #fn = in_dir / sect_name #change to this once filenames are fixed
     ds = xr.open_dataset(fn)
 
     #Plot salinity
