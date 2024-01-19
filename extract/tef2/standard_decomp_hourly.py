@@ -131,7 +131,7 @@ for ext_fn in sect_list:
     SD['FTL']=FTL
     SD['FTV']=FTV
     SD['F']=F[pad:-pad+1]
-    SD['ssh_lp']=ssh[pad:-pad+1]
+    SD['ssh']=ssh[pad:-pad+1] #fix typo
     SD['ssh_lp']=ssh_lp[pad:-pad+1]
     SD['ot']=(ot[pad:-pad+1])[pad:-pad+1]
     pickle.dump(SD, open(out_dir / out_fn, 'wb'))
