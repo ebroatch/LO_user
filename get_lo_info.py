@@ -99,6 +99,13 @@ elif (str(HOME) == '/mmfs1/home/ebroatch'):
     remote_dir0 = '/data1/ebroatch'
     local_user = 'ebroatch'
 
+elif (str(HOME) == '/usr/lusers/ebroatch'):
+    lo_env = 'eb_mox'
+    remote_user = 'ebroatch'
+    remote_machine = 'perigee.ocean.washington.edu'
+    remote_dir0 = '/data1/ebroatch'
+    local_user = 'ebroatch'
+
 Ldir0 = dict()
 Ldir0['lo_env'] = lo_env
 Ldir0['parent'] = parent
