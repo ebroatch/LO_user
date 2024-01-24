@@ -3,6 +3,8 @@ This makes the ocn forcing files for an analytical run.
 
 Designed to run only as backfill.
 
+You would want to run with -st new to get the ini file for a new run.
+
 Testing:
 
 run make_forcing_main.py -g ae0 -r backfill -d 2020.01.01 -f ocnA0 -test True
