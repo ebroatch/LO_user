@@ -121,7 +121,7 @@ Q_mat = np.zeros((NT, NRIV))
 rr = 0
 for rn in gri_df.index:
     if rn == 'creek0':
-        Q_mat[:,ii] = 1000 * np.ones(NT) * gri_df.loc[rn, 'isign']
+        Q_mat[:,rr] = 1000 * np.ones(NT) * gri_df.loc[rn, 'isign']
         # You could make the transport a function of time, for example by making
         # dti = pd.DatetimeIndex([dt0, dt1]) and then using a function of
         # dti.dayofyear.
