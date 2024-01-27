@@ -65,20 +65,33 @@ elif Ldir['run_type'] == 'forecast':
     days_to_run = float(Ldir['forecast_days'])
 
 # time step in seconds (should fit evenly into 3600 sec)
-if Ldir['blow_ups'] == 0:
+# if Ldir['blow_ups'] == 0:
+#     dtsec = 40
+# elif Ldir['blow_ups'] == 1:
+#     dtsec = 30
+# elif Ldir['blow_ups'] == 2:
+#     dtsec = 25
+# elif Ldir['blow_ups'] == 3:
+#     dtsec = 20
+# elif Ldir['blow_ups'] == 4:
+#     dtsec = 15
+# elif Ldir['blow_ups'] == 5:
+#     dtsec = 10
+# else:
+#     print('Unsupported number of blow ups: %d' % (Ldir['blow_ups']))
+
+if Ldir['blow_ups'] == 0: #new shorter time step options
     dtsec = 40
 elif Ldir['blow_ups'] == 1:
     dtsec = 30
 elif Ldir['blow_ups'] == 2:
-    dtsec = 25
-elif Ldir['blow_ups'] == 3:
     dtsec = 20
-elif Ldir['blow_ups'] == 4:
-    dtsec = 15
-elif Ldir['blow_ups'] == 5:
+elif Ldir['blow_ups'] == 3:
     dtsec = 10
-elif Ldir['blow_ups'] == 6:
+elif Ldir['blow_ups'] == 4:
     dtsec = 5
+elif Ldir['blow_ups'] == 5:
+    dtsec = 2
 else:
     print('Unsupported number of blow ups: %d' % (Ldir['blow_ups']))
 
