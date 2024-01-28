@@ -91,7 +91,7 @@ elif Ldir['blow_ups'] == 3:
 elif Ldir['blow_ups'] == 4:
     dtsec = 5
 elif Ldir['blow_ups'] == 5:
-    dtsec = 2
+    dtsec = 1 #try 1 instead of 2 for very fast speeds
 else:
     print('Unsupported number of blow ups: %d' % (Ldir['blow_ups']))
 
