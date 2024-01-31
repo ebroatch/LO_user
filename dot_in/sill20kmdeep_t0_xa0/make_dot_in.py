@@ -80,18 +80,33 @@ elif Ldir['run_type'] == 'forecast':
 # else:
 #     print('Unsupported number of blow ups: %d' % (Ldir['blow_ups']))
 
-if Ldir['blow_ups'] == 0: #new shorter time step options
-    dtsec = 40
-elif Ldir['blow_ups'] == 1:
+# if Ldir['blow_ups'] == 0: #new shorter time step options
+#     dtsec = 40
+# elif Ldir['blow_ups'] == 1:
+#     dtsec = 30
+# elif Ldir['blow_ups'] == 2:
+#     dtsec = 20
+# elif Ldir['blow_ups'] == 3:
+#     dtsec = 10
+# elif Ldir['blow_ups'] == 4:
+#     dtsec = 5
+# elif Ldir['blow_ups'] == 5:
+#     dtsec = 1 #try 1 instead of 2 for very fast speeds
+# else:
+#     print('Unsupported number of blow ups: %d' % (Ldir['blow_ups']))
+
+if Ldir['blow_ups'] == 0: #start with 30s instead of 40s
     dtsec = 30
+elif Ldir['blow_ups'] == 1:
+    dtsec = 25
 elif Ldir['blow_ups'] == 2:
     dtsec = 20
 elif Ldir['blow_ups'] == 3:
-    dtsec = 10
+    dtsec = 15
 elif Ldir['blow_ups'] == 4:
-    dtsec = 5
+    dtsec = 10
 elif Ldir['blow_ups'] == 5:
-    dtsec = 1 #try 1 instead of 2 for very fast speeds
+    dtsec = 5 #try 1 instead of 2 for very fast speeds
 else:
     print('Unsupported number of blow ups: %d' % (Ldir['blow_ups']))
 
