@@ -147,6 +147,9 @@ if multi_core:
     elif Ldir['np_num'] == 84: # mox 3*28 = 84
         ntilei = '6' # number of tiles in I-direction
         ntilej = '14' # number of tiles in J-direction
+    elif Ldir['np_num'] == 112: # mox 4*28 = 84 (actually using 2*28 core and 2*32 core nodes)
+        ntilei = '8' # number of tiles in I-direction
+        ntilej = '14' # number of tiles in J-direction
     elif Ldir['np_num'] == 4: # klone
         ntilei = '2' # number of tiles in I-direction
         ntilej = '2' # number of tiles in J-direction
