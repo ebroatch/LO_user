@@ -129,8 +129,10 @@ axs[1].grid(True)
 axs[1].set_ylabel(r'$FR [m^{3}s^{-1} g\ kg^{-1}]$')
 axs[0].set_ylabel(r'$Salt\ flux [m^{3}s^{-1} g\ kg^{-1}]$')
 #axs[2].set_ylabel(r'$F_{T}[m^{3}s^{-1} g\ kg^{-1}]$')
-axs[1].set_ylim(-3.2e4,-2.8e4)
-axs[0].set_ylim(-2e4,5e4)
+
+# axs[1].set_ylim(-3.2e4,-2.8e4)
+# axs[0].set_ylim(-2e4,5e4)
+
 #axs[2].set_ylim(-2e4,4e4)
 axs[0].legend(loc='lower right')
 axs[1].set_xlim(pd.Timestamp('2020-06-01'), pd.Timestamp('2020-07-31'))
