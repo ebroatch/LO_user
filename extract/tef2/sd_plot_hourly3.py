@@ -142,9 +142,10 @@ plt.close()
 fig, ax = plt.subplots(1, 1, figsize=(10,10))
 for i in range(len(sect_list)):
     sect_name = sect_list[i]
-    #sect_ncname = sect_nclist[i]
+    sect_ncname = sect_nclist[i] #change to netcdf
+    
     SD = pickle.load(open(in_dir / sect_name, 'rb'))
-
+    
     FR = SD['FR']
     FE = SD['FE']
     FT = SD['FT']
@@ -153,8 +154,9 @@ for i in range(len(sect_list)):
     F = SD['F']
     ot = SD['ot']
 
-    ds2= pickle.load(open(in_dir2 / sect_name, 'rb'))
-    #ds2 = xr.open_dataset(in_dir2 / sect_name) #change in future
+    #ds2= pickle.load(open(in_dir2 / sect_name, 'rb'))
+    ds2 = xr.open_dataset(in_dir2 / sect_ncname) #changed to netcdf open in xarray
+
     #qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin')), f='godin')/2
     qprism=zfun.lowpass(np.abs(ds2['qnet']-zfun.lowpass(ds2['qnet'], f='godin')), f='godin')/2
     pad=36
