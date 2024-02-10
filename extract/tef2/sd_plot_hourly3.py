@@ -135,7 +135,7 @@ axs[0].set_ylabel(r'$Salt\ flux [m^{3}s^{-1} g\ kg^{-1}]$')
 
 #axs[2].set_ylim(-2e4,4e4)
 axs[0].legend(loc='lower right')
-axs[1].set_xlim(pd.Timestamp('2020-06-01'), pd.Timestamp('2020-07-31'))
+#axs[1].set_xlim(pd.Timestamp('2020-06-01'), pd.Timestamp('2020-07-31'))
 #plt.suptitle('Standard decomposition')
 plt.savefig(out_dir / ('sd_plot_hourly3.png'))
 plt.close()
