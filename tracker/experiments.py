@@ -125,6 +125,15 @@ def get_ic(TR):
 
     elif exp_name == 'sill3estsurf': # one particle per cell in sill3 idealized estuary
         plon00, plat00, pcs00 = ic_in_est_surf(fn00, pcs=0, coast_lon=0)
+
+    elif exp_name == 'sill5kmest': # evenly distribute in sill5km idealized estuary
+        plon00, plat00, pcs00 = ic_in_est(fn00, DZ=25, coast_lon=0)
+
+    elif exp_name == 'sill20kmdeepest': # evenly distribute in sill5km idealized estuary
+        plon00, plat00, pcs00 = ic_in_est(fn00, DZ=25, coast_lon=0)
+
+    elif exp_name == 'sill80kmest': # evenly distribute in sill5km idealized estuary
+        plon00, plat00, pcs00 = ic_in_est(fn00, DZ=25, coast_lon=0)
         
     return plon00, plat00, pcs00
     
