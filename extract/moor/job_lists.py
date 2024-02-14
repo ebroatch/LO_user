@@ -259,7 +259,52 @@ def get_sta_dict(job_name):
         'inner1': (lxf.x2lon(58e3,0,45), lxf.y2lat(-2e3,45)), #58km
         'inner2': (lxf.x2lon(68e3,0,45), lxf.y2lat(-2e3,45)), #68km
         'inner3': (lxf.x2lon(78e3,0,45), lxf.y2lat(-2e3,45)) #78km
-        } 
+        }
+
+    elif job_name == 'sill5km_center':
+        sta_dict = {
+        'outer1': (lxf.x2lon(10e3,0,45), 45), #10km
+        'outer2': (lxf.x2lon(20e3,0,45), 45), #20km
+        'outer3': (lxf.x2lon(30e3,0,45), 45), #30km
+        'sill1': (lxf.x2lon(40e3,0,45), 45), #40km
+        'sill2': (lxf.x2lon(41.25e3,0,45), 45), #41.25km
+        'sill3': (lxf.x2lon(42.5e3,0,45), 45), #42.5km
+        'sill4': (lxf.x2lon(43.75e3,0,45), 45), #43.75km
+        'sill5': (lxf.x2lon(45e3,0,45), 45), #45km
+        'inner1': (lxf.x2lon(55e3,0,45), 45), #55km
+        'inner2': (lxf.x2lon(65e3,0,45), 45), #65km
+        'inner3': (lxf.x2lon(75e3,0,45), 45) #75km
+        }
+
+    elif job_name == 'sill20kmdeep_center':
+        sta_dict = {
+        'outer1': (lxf.x2lon(10e3,0,45), 45), #10km
+        'outer2': (lxf.x2lon(20e3,0,45), 45), #20km
+        'outer3': (lxf.x2lon(30e3,0,45), 45), #30km
+        'sill1': (lxf.x2lon(40e3,0,45), 45), #40km
+        'sill2': (lxf.x2lon(45e3,0,45), 45), #45km
+        'sill3': (lxf.x2lon(50e3,0,45), 45), #50km
+        'sill4': (lxf.x2lon(55e3,0,45), 45), #55km
+        'sill5': (lxf.x2lon(60e3,0,45), 45), #60km
+        'inner1': (lxf.x2lon(70e3,0,45), 45), #70km
+        'inner2': (lxf.x2lon(80e3,0,45), 45), #80km
+        'inner3': (lxf.x2lon(90e3,0,45), 45) #90km
+        }
+
+    elif job_name == 'sill80km_center':
+        sta_dict = {
+        'outer1': (lxf.x2lon(10e3,0,45), 45), #10km
+        'outer2': (lxf.x2lon(20e3,0,45), 45), #20km
+        'outer3': (lxf.x2lon(30e3,0,45), 45), #30km
+        'sill1': (lxf.x2lon(40e3,0,45), 45), #40km
+        'sill2': (lxf.x2lon(60e3,0,45), 45), #60km
+        'sill3': (lxf.x2lon(80e3,0,45), 45), #80km
+        'sill4': (lxf.x2lon(100e3,0,45), 45), #100km
+        'sill5': (lxf.x2lon(120e3,0,45), 45), #120km
+        'inner1': (lxf.x2lon(130e3,0,45), 45), #130km
+        'inner2': (lxf.x2lon(140e3,0,45), 45), #140km
+        'inner3': (lxf.x2lon(150e3,0,45), 45) #150km
+        }
 
     else:
         print('Unsupported job name!')
