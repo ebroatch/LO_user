@@ -15,7 +15,7 @@ from scipy.optimize import curve_fit
 plt.close('all')
 fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
 
-for i in range(1):
+for i in range(3):
     # Choose an experiment and release to plot.
     in_dir0 = Ldir['LOo'] / 'tracks'
     exp_name = Lfun.choose_item(in_dir0, tag='', exclude_tag='.csv',
