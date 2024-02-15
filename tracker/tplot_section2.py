@@ -50,7 +50,7 @@ fig, [ax,ax2] = plt.subplots(2,1,figsize=(12,10))
 seclat = 45
 #depths = np.array([-12.5, -37.5, -62.5, -87.5, -112.5, -137.5, -162.5, -187.5])
 #depth = -12.5
-sillmid = llxyfun.x2lon(44e3,0,45)
+sillmid = llxyfun.x2lon(50e3,0,45)
 # lon = dsr.lon.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)<sillmid),drop=True).values
 # z = dsr.z.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)<sillmid),drop=True).values
 # lon2 = dsr.lon.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)>sillmid),drop=True).values
@@ -121,11 +121,11 @@ ax.set_title('Tracks starting at 45 degree latitude')
 # regular spaghetti plots
 step = 50 #step for subsampling lines
 ax.plot(lon[:,::step], z[:,::step], '-', color='tab:cyan', linewidth=.1, label='Track')
-ax.plot(lon[0,:], z[0,:], '.', color='tab:blue', label='Start')
-ax.plot(lon[-1,:], z[-1,:], '*', color='b', label='End')
+ax.plot(lon[0,::step], z[0,::step], '.', color='tab:blue', label='Start')
+ax.plot(lon[-1,::step], z[-1,::step], '*', color='b', label='End')
 ax2.plot(lon2[:,::step], z2[:,::step], '-', color='tab:pink', linewidth=.1, label='Track')
-ax2.plot(lon2[0,:], z2[0,:], '.', color='m', label='Start')
-ax2.plot(lon2[-1,:], z2[-1,:], '*', color='r', label='End')
+ax2.plot(lon2[0,::step], z2[0,::step], '.', color='m', label='Start')
+ax2.plot(lon2[-1,::step], z2[-1,::step], '*', color='r', label='End')
 # ax.plot(lon[0,:], z[0,:], '.g', alpha=.3, markeredgecolor='none')
 # ax.plot(lon[-1,:], z[-1,:], '.r', alpha=.3, markeredgecolor='none')
 # ax.legend()
