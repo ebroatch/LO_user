@@ -46,7 +46,7 @@ maskr = dsg.mask_rho.values
 # select particles originating in a single layer
 plt.close('all')
 #fig, ax = plt.subplots(1,1)
-fig, [ax,ax2] = plt.subplots(2,1)
+fig, [ax,ax2] = plt.subplots(2,1,figsize=(12,10))
 seclat = 45
 #depths = np.array([-12.5, -37.5, -62.5, -87.5, -112.5, -137.5, -162.5, -187.5])
 #depth = -12.5
@@ -128,12 +128,16 @@ ax2.plot(lon2[0,:], z2[0,:], '.', color='m', label='Start')
 ax2.plot(lon2[-1,:], z2[-1,:], '*', color='r', label='End')
 # ax.plot(lon[0,:], z[0,:], '.g', alpha=.3, markeredgecolor='none')
 # ax.plot(lon[-1,:], z[-1,:], '.r', alpha=.3, markeredgecolor='none')
-ax.legend()
-ax2.legend()
+# ax.legend()
+# ax2.legend()
 
 # add the bottom bathymetry
 ax.plot(long45,-hg45,'-k')
 ax2.plot(long45,-hg45,'-k')
+ax.plot([0,0],[-200,0],'--k')
+ax2.plot([0,0],[-200,0],'--k')
+ax.plot([-0.2,0],[-15.72,0],':k')
+ax2.plot([-0.2,0],[-15.72,0],':k')
 
 # axis limits
 ax.set_ylim(-205,5)
