@@ -140,6 +140,9 @@ for ext_fn in sect_list:
     Frf=UR/c
 
     # calculate Utidal
+    qnet=ds2['qnet'] #for making poster
+    qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin')), f='godin')/2
+    ds2time=ds2.time
     unet=ds2['qnet']/A_sect
     UT_spring=(unet.sel(time=t_spring_flood)-unet.sel(time=t_spring_ebb))/2
     UT_neap=(unet.sel(time=t_neap_flood)-unet.sel(time=t_neap_ebb))/2
