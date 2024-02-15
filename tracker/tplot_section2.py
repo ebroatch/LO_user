@@ -115,29 +115,31 @@ lon2[~ib_mask2] = np.nan
 ax2.set_xlabel('Longitude')
 ax.set_ylabel('z')
 ax2.set_ylabel('z')
-ax.set_title('Tracks starting at 45 degree latitude (10 days)')
+ax.set_title('Tracks starting at 45 degree latitude')
 
 # add the tracks (packed [time, particle])
 # regular spaghetti plots
 step = 50 #step for subsampling lines
-ax.plot(lon[:,::step], z[:,::step], '-', color='tab:cyan', linewidth=.2)
-ax.plot(lon[0,:], z[0,:], '.', color='tab:blue')
-#ax.plot(lon[-1,:], z[-1,:], 'or', alpha=.3)
-ax2.plot(lon2[:,::step], z2[:,::step], '-', color='tab:pink', linewidth=.2)
-ax2.plot(lon2[0,:], z2[0,:], '.', color='tab:red')
-#ax2.plot(lon2[-1,:], z2[-1,:], 'or', alpha=.3)
+ax.plot(lon[:,::step], z[:,::step], '-', color='tab:cyan', linewidth=.1, label='Track')
+ax.plot(lon[0,:], z[0,:], '.', color='tab:blue', label='Start')
+ax.plot(lon[-1,:], z[-1,:], '*', color='b', label='End')
+ax2.plot(lon2[:,::step], z2[:,::step], '-', color='tab:pink', linewidth=.1, label='Track')
+ax2.plot(lon2[0,:], z2[0,:], '.', color='m', label='Start')
+ax2.plot(lon2[-1,:], z2[-1,:], '*', color='r', label='End')
 # ax.plot(lon[0,:], z[0,:], '.g', alpha=.3, markeredgecolor='none')
 # ax.plot(lon[-1,:], z[-1,:], '.r', alpha=.3, markeredgecolor='none')
+ax.legend()
+ax2.legend()
 
 # add the bottom bathymetry
-ax.plot(long45,-hg45,'-b')
-ax2.plot(long45,-hg45,'-b')
+ax.plot(long45,-hg45,'-k')
+ax2.plot(long45,-hg45,'-k')
 
 # axis limits
 ax.set_ylim(-205,5)
 ax.set_xlim(-0.2,1.1)
 ax2.set_ylim(-205,5)
-ax2.set_xlim(-1.5,1.1)
+ax2.set_xlim(-0.2,1.1)
 
 # time series
 # td = (ot_vec - ot_vec[0])/86400
