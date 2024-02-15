@@ -15,7 +15,7 @@ from scipy.optimize import curve_fit
 plt.close('all')
 fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
 
-for i in range(3):
+for i in range(1):
     # Choose an experiment and release to plot.
     in_dir0 = Ldir['LOo'] / 'tracks'
     exp_name = Lfun.choose_item(in_dir0, tag='', exclude_tag='.csv',
@@ -119,28 +119,28 @@ for i in range(3):
 
 #plt.show()
 ax1.set_xlabel('Days')
-ax1.set_ylabel('%% of particles')
+ax1.set_ylabel('Fraction of particles')
 ax1.set_title('Particles released in outer basin')
-ax1.legend(loc='best')
+#ax1.legend(loc='best')
 ax1.grid(True)
 ax1.set_xlim(0,120)
-ax1.set_ylim(0,100)
+ax1.set_ylim(0,1)
 
 ax2.set_xlabel('Days')
 #ax1.set_ylabel('Number of particles')
 ax2.set_title('Particles released on sill')
-ax2.legend(loc='best')
+#ax2.legend(loc='best')
 ax2.grid(True)
 ax2.set_xlim(0,120)
-ax2.set_ylim(0,100)
+ax2.set_ylim(0,1)
 
 ax3.set_xlabel('Days')
 #ax3.set_ylabel('Number of particles')
 ax3.set_title('Particles released in inner basin')
-ax3.legend(loc='best')
+#ax3.legend(loc='best')
 ax3.grid(True)
 ax3.set_xlim(0,120)
-ax3.set_ylim(0,100)
+ax3.set_ylim(0,1)
 
 
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_osm.png'
