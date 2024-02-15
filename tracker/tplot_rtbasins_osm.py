@@ -102,6 +102,9 @@ for i in range(3):
     ax3.plot(par3_sill.Time/24, zfun.lowpass((par3_sill/par3_in.sel(Time=0)).values, f='godin'), linestyle=linst, color='tab:purple', label='Sill')
     ax3.plot(par3_in.Time/24, zfun.lowpass((par3_in/par3_in.sel(Time=0)).values, f='godin'), linestyle=linst, color='tab:pink', label='Inner basin')
 
+    dsr.close()
+    dsg.close()
+
 
 #plt.show()
 #pfun.end_plot()
@@ -145,5 +148,3 @@ plt.savefig(fn_fig)
 plt.close()
 #plt.show()
 
-dsr.close()
-dsg.close()
