@@ -128,7 +128,8 @@ for i in range(len(sect_list)):
 
 axs[0].grid(True)
 axs[1].grid(True) 
-axs[2].grid(True)   
+axs[2].grid(True)
+axs[3].grid(True)
 
 axs[2].set_ylim(-4e4,-2e4)
 axs[0].set_ylim(-2e4,8e4)
@@ -136,6 +137,7 @@ axs[1].set_ylim(-5e4,5e4)
 axs[1].legend(loc='lower right')
 axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-12-01'))
 #axs[3].set_xticks(ticks=[pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-15'), pd.Timestamp('2020-11-01'), pd.Timestamp('2020-11-15')])
+plt.xticks(rotation=90)
 axs[2].set_ylabel('$F_{R}$')#\n$[m^{3}s^{-1} g\ kg^{-1}]$')
 axs[0].set_ylabel('$F_{E}\ [m^{3}s^{-1} g\ kg^{-1}]$')
 axs[1].set_ylabel('$F_{T}\ [m^{3}s^{-1} g\ kg^{-1}]$')
