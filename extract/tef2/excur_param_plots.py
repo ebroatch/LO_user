@@ -55,7 +55,8 @@ Lfun.make_dir(out_dir, clean=True)
 
 sect_list = [item.name for item in in_dir.glob('*.nc')]
 if Ldir['testing']:
-    sect_list = ['b1.nc','b2.nc','b3.nc','b4.nc','b5.nc']
+    #sect_list = ['b1.nc','b2.nc','b3.nc','b4.nc','b5.nc']
+    sect_list=['b3.nc']
 #sect_list = [Ldir['sect_name']+'.nc'] #section to plot #not sure if this syntax is correct
     
 # make vn_list by inspecting the first section
