@@ -83,13 +83,18 @@ T=(T_M2+T_S2)/2
 Ts=T*3600 #period in seconds
 
 #spring and neap times
-t_spring_ebb = pd.Timestamp('2020-07-01 04:00:00')
-t_spring_flood = pd.Timestamp('2020-07-01 10:00:00')
-t_neap_ebb = pd.Timestamp('2020-07-08 10:00:00')
-t_neap_flood = pd.Timestamp('2020-07-08 16:00:00')
+# t_spring_ebb = pd.Timestamp('2020-07-01 04:00:00') #old sill3 model
+# t_spring_flood = pd.Timestamp('2020-07-01 10:00:00')
+# t_neap_ebb = pd.Timestamp('2020-07-08 10:00:00')
+# t_neap_flood = pd.Timestamp('2020-07-08 16:00:00')
 
-t_spring = pd.Timestamp('2020-07-01 07:00:00')
-t_neap = pd.Timestamp('2020-07-08 14:00:00')
+# t_spring = pd.Timestamp('2020-07-01 07:00:00')
+# t_neap = pd.Timestamp('2020-07-08 14:00:00')
+
+t_spring_ebb = pd.Timestamp('2020-10-12 17:00:00') #20km model
+t_spring_flood = pd.Timestamp('2020-10-12 10:00:00')
+t_neap_ebb = pd.Timestamp('2020-10-05 11:00:00')
+t_neap_flood = pd.Timestamp('2020-10-05 04:00:00')
 
 #list for tidal excursion
 TE_spring=[]
