@@ -50,15 +50,17 @@ fig, [ax,ax2] = plt.subplots(2,1,figsize=(12,10))
 seclat = 45
 #depths = np.array([-12.5, -37.5, -62.5, -87.5, -112.5, -137.5, -162.5, -187.5])
 #depth = -12.5
-sillmid = llxyfun.x2lon(50e3,0,45)
+#sillmid = llxyfun.x2lon(50e3,0,45) #cut out particles starting on sill, use sillsea and sillland instead
+sillsea = llxyfun.x2lon(40e3,0,45)
+sillland = llxyfun.x2lon(60e3,0,45)
 # lon = dsr.lon.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)<sillmid),drop=True).values
 # z = dsr.z.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)<sillmid),drop=True).values
 # lon2 = dsr.lon.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)>sillmid),drop=True).values
 # z2 = dsr.z.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)>sillmid),drop=True).values
-lon = dsr.lon.where((dsr.lat.sel(Time=0)==seclat) & (dsr.lon.sel(Time=0)<sillmid),drop=True).values
-z = dsr.z.where((dsr.lat.sel(Time=0)==seclat) & (dsr.lon.sel(Time=0)<sillmid),drop=True).values
-lon2 = dsr.lon.where((dsr.lat.sel(Time=0)==seclat) & (dsr.lon.sel(Time=0)>sillmid),drop=True).values
-z2 = dsr.z.where((dsr.lat.sel(Time=0)==seclat) & (dsr.lon.sel(Time=0)>sillmid),drop=True).values
+lon = dsr.lon.where((dsr.lat.sel(Time=0)==seclat) & (dsr.lon.sel(Time=0)<sillsea),drop=True).values
+z = dsr.z.where((dsr.lat.sel(Time=0)==seclat) & (dsr.lon.sel(Time=0)<sillsea),drop=True).values
+lon2 = dsr.lon.where((dsr.lat.sel(Time=0)==seclat) & (dsr.lon.sel(Time=0)>sillland),drop=True).values
+z2 = dsr.z.where((dsr.lat.sel(Time=0)==seclat) & (dsr.lon.sel(Time=0)>sillland),drop=True).values
 hg45 = dsg.h.where(dsg.lat_rho==seclat, drop=True).values.squeeze() #profile of bottom bathymetry
 long45 = dsg.lon_rho.where(dsg.lat_rho==seclat, drop=True).values.squeeze()
 
