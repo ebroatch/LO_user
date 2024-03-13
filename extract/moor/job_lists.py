@@ -315,7 +315,7 @@ def get_sta_dict(job_name):
         'mouth': (lxf.x2lon(0,0,45), 45), #0km (mouth)
         'outer': (lxf.x2lon(20e3,0,45), 45), #20km (middle of outer basin)
         'sill': (lxf.x2lon(80e3,0,45), 45), #80km (middle of sill)
-        'inner': (lxf.x2lon(1400e3,0,45), 45) #1400km (middle of inner basin)
+        'inner': (lxf.x2lon(140e3,0,45), 45) #140km (middle of inner basin)
         }
 
     else:
