@@ -280,6 +280,25 @@ def get_sta_dict(job_name):
         'inner': (lxf.x2lon(65e3,0,45), 45) #65km (middle of inner basin)
         }
 
+    elif job_name == 'sill5km_sectcenter': #mooring extractions to match tef2 section definitions at center of section
+        sta_dict = {
+        'a1': (lxf.x2lon(0,0,45), 45),
+        'a2': (lxf.x2lon(10e3,0,45), 45),
+        'a3': (lxf.x2lon(20e3,0,45), 45),
+        'a4': (lxf.x2lon(30e3,0,45), 45),
+        'a5': (lxf.x2lon(38e3,0,45), 45),
+        'b1': (lxf.x2lon(40e3,0,45), 45),
+        'b2': (lxf.x2lon(41.25e3,0,45), 45),
+        'b3': (lxf.x2lon(42.5e3,0,45), 45),
+        'b4': (lxf.x2lon(43.75e3,0,45), 45),
+        'b5': (lxf.x2lon(45e3,0,45), 45),
+        'c1': (lxf.x2lon(47e3,0,45), 45),
+        'c2': (lxf.x2lon(55e3,0,45), 45),
+        'c3': (lxf.x2lon(65e3,0,45), 45),
+        'c4': (lxf.x2lon(75e3,0,45), 45),
+        'c5': (lxf.x2lon(83e3,0,45), 45)
+        }
+
     elif job_name == 'sill20kmdeep_center':
         sta_dict = {
         # 'outer1': (lxf.x2lon(10e3,0,45), 45), #10km
@@ -297,6 +316,25 @@ def get_sta_dict(job_name):
         'outer': (lxf.x2lon(20e3,0,45), 45), #20km (middle of outer basin)
         'sill': (lxf.x2lon(50e3,0,45), 45), #50km (middle of sill)
         'inner': (lxf.x2lon(80e3,0,45), 45) #80km (middle of inner basin)
+        }
+    
+    elif job_name == 'sill20kmdeep_sectcenter': #mooring extractions to match tef2 section definitions at center of section
+        sta_dict = {
+        'a1': (lxf.x2lon(0,0,45), 45),
+        'a2': (lxf.x2lon(10e3,0,45), 45),
+        'a3': (lxf.x2lon(20e3,0,45), 45),
+        'a4': (lxf.x2lon(30e3,0,45), 45),
+        'a5': (lxf.x2lon(38e3,0,45), 45),
+        'b1': (lxf.x2lon(40e3,0,45), 45),
+        'b2': (lxf.x2lon(45e3,0,45), 45),
+        'b3': (lxf.x2lon(50e3,0,45), 45),
+        'b4': (lxf.x2lon(55e3,0,45), 45),
+        'b5': (lxf.x2lon(60e3,0,45), 45),
+        'c1': (lxf.x2lon(62e3,0,45), 45),
+        'c2': (lxf.x2lon(70e3,0,45), 45),
+        'c3': (lxf.x2lon(80e3,0,45), 45),
+        'c4': (lxf.x2lon(90e3,0,45), 45),
+        'c5': (lxf.x2lon(98e3,0,45), 45)
         }
 
     elif job_name == 'sill80km_center':
@@ -316,6 +354,25 @@ def get_sta_dict(job_name):
         'outer': (lxf.x2lon(20e3,0,45), 45), #20km (middle of outer basin)
         'sill': (lxf.x2lon(80e3,0,45), 45), #80km (middle of sill)
         'inner': (lxf.x2lon(140e3,0,45), 45) #140km (middle of inner basin)
+        }
+
+    elif job_name == 'sill80km_sectcenter': #mooring extractions to match tef2 section definitions at center of section
+        sta_dict = {
+        'a1': (lxf.x2lon(0,0,45), 45),
+        'a2': (lxf.x2lon(10e3,0,45), 45),
+        'a3': (lxf.x2lon(20e3,0,45), 45),
+        'a4': (lxf.x2lon(30e3,0,45), 45),
+        'a5': (lxf.x2lon(38e3,0,45), 45),
+        'b1': (lxf.x2lon(40e3,0,45), 45),
+        'b2': (lxf.x2lon(60e3,0,45), 45),
+        'b3': (lxf.x2lon(80e3,0,45), 45),
+        'b4': (lxf.x2lon(100e3,0,45), 45),
+        'b5': (lxf.x2lon(120e3,0,45), 45),
+        'c1': (lxf.x2lon(122e3,0,45), 45),
+        'c2': (lxf.x2lon(130e3,0,45), 45),
+        'c3': (lxf.x2lon(140e3,0,45), 45),
+        'c4': (lxf.x2lon(150e3,0,45), 45),
+        'c5': (lxf.x2lon(158e3,0,45), 45)
         }
 
     else:
