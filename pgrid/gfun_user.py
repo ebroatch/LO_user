@@ -20,7 +20,7 @@ import gfun_utility as gfu
 import gfun
 
 # This is the name of the grid that you are working on.
-gridname = 'sill40km'
+gridname = 'sill10km'
 
 # default s-coordinate info (could override below)
 s_dict = {'THETA_S': 4, 'THETA_B': 2, 'TCLINE': 10, 'N': 30,
@@ -822,7 +822,7 @@ def make_initial_info(gridname=gridname):
         TL_sill = 2000 # steepness of sills (transition length in m, approx 10% slope)
         TL_side = 2000 # steepness of sides and end (transition length in m, approx 10% slope)
         # variable bathymetry parameters
-        L_sill = 40000 # length of sill (length of flat section)
+        L_sill = 10000 # length of sill (length of flat section)
         HR_sill = 0.75 # height ratio of sills
         CR_sill = 0.5 # constriction ratio at sills
         # calculate additional constants
