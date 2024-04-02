@@ -41,7 +41,7 @@ sect_df = pd.read_pickle(sect_df_fn)
 
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 in_dir = out_dir0 / ('extractions_' + Ldir['ds0'] + '_' + Ldir['ds1'])
-out_dir = out_dir0 / ('standard_decomp_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+out_dir = out_dir0 / ('dvdk_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
 sect_list = [item.name for item in in_dir.glob('*.nc')]
@@ -54,7 +54,7 @@ vn_list = [item for item in ds.data_vars \
     if (len(ds[item].dims) == 3) and (item not in ['vel','DZ'])]
 ds.close()
 
-print('\nProcessing TEF extraction:')
+print('\nProcessing DvdK extraction:')
 print(str(in_dir))
 
 tt00 = time()

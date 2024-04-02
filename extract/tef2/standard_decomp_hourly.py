@@ -54,7 +54,7 @@ vn_list = [item for item in ds.data_vars \
     if (len(ds[item].dims) == 3) and (item not in ['vel','DZ'])]
 ds.close()
 
-print('\nProcessing TEF extraction:')
+print('\nProcessing standard decomposition extraction:')
 print(str(in_dir))
 
 tt00 = time()
@@ -122,7 +122,7 @@ for ext_fn in sect_list:
 
     F = zfun.lowpass(np.sum(u*s*dA, axis=(1,2)), f='godin')[pad:-pad+1] #shape NT-72
 
-    #here change to .nc
+    #dict of variables with compatible padding removal
     SD = dict()
     SD['u0']=u0[pad:-pad+1]
     SD['s0']=s0[pad:-pad+1]
@@ -140,7 +140,7 @@ for ext_fn in sect_list:
     # print('  elapsed time for section = %d seconds' % (time()-tt0))
     # sys.stdout.flush()
 
-    #Saving as dataset based on bulk_calc
+    #Saving as .nc dataset based on bulk_calc
     sdlist=['u0','s0','A0','FR','FE','FT','FTL','FTV','F','ssh','ssh_lp']
     # Pack results in a Dataset and then save to NetCDF
     ds = xr.Dataset(coords={'time': SD['ot']})
