@@ -65,7 +65,8 @@ for ext_fn in sect_list:
     print(ext_fn)
 
     # name output file
-    out_fn = ext_fn.replace('.nc','.p')
+    #out_fn = ext_fn.replace('.nc','.p')
+    out_fn=ext_fn #output is now also a .nc file
 
     # load fields
     ds = xr.open_dataset(in_dir / ext_fn)
@@ -121,6 +122,7 @@ for ext_fn in sect_list:
 
     F = zfun.lowpass(np.sum(u*s*dA, axis=(1,2)), f='godin')[pad:-pad+1] #shape NT-72
 
+    #here change to .nc
     SD = dict()
     SD['u0']=u0[pad:-pad+1]
     SD['s0']=s0[pad:-pad+1]
@@ -134,7 +136,22 @@ for ext_fn in sect_list:
     SD['ssh']=ssh[pad:-pad+1] #fix typo
     SD['ssh_lp']=ssh_lp[pad:-pad+1]
     SD['ot']=(ot[pad:-pad+1])[pad:-pad+1]
-    pickle.dump(SD, open(out_dir / out_fn, 'wb'))
+    # pickle.dump(SD, open(out_dir / out_fn, 'wb'))
+    # print('  elapsed time for section = %d seconds' % (time()-tt0))
+    # sys.stdout.flush()
+
+    #Saving as dataset based on bulk_calc
+    sdlist=['u0','s0','A0','FR','FE','FT','FTL','FTV','F','ssh','ssh_lp']
+    # Pack results in a Dataset and then save to NetCDF
+    ds = xr.Dataset(coords={'time': SD['ot']})
+    for vn in sdlist:
+        ds[vn] = (('time'), SD[vn])
+    # save it to NetCDF
+    ds.to_netcdf(out_dir / out_fn)
+    if Ldir['testing']:
+        pass
+    else:
+        ds.close()
     print('  elapsed time for section = %d seconds' % (time()-tt0))
     sys.stdout.flush()
 
