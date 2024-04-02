@@ -135,8 +135,8 @@ for ext_fn in sect_list:
     dvdk['u0']=u0[pad:-pad+1]
     dvdk['u1']=u1[pad:-pad+1]
     dvdk['Q']=(Q[pad:-pad+1])[pad:-pad+1]
-    dvdk['Q0']=u0[pad:-pad+1]
-    dvdk['Q1']=u1[pad:-pad+1]
+    dvdk['Q0']=Q0[pad:-pad+1]
+    dvdk['Q1']=Q1[pad:-pad+1]
     dvdk['F0']=F0[pad:-pad+1]
     dvdk['F1']=F1
     dvdk['F2']=F2
