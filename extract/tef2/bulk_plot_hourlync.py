@@ -196,6 +196,7 @@ for i in range(len(sect_list)):
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
 ax1.legend(loc='lower right')
+ax0.set_title(Ldir['gtagex'])
 plt.savefig(out_dir / ('bulk_plot_hourlync.png'))
 plt.close()
 pfun.end_plot()
