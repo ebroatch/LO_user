@@ -119,7 +119,7 @@ for i in range(len(sect_list)):
     #ax1.plot(ot,tef_df['Q_m'].to_numpy(), color=m_color[i], linewidth=lw, label=label_out[i])
     ax1.grid(True)
     ax1.set_ylabel(ylab_dict['Q'])
-    ax1.set_ylim(0,16)
+    #ax1.set_ylim(0,16)
     ax1.set_yticks(ticks=[0,4,8,12,16])
     
     # qp = bulk['q'].copy()/1000
@@ -141,13 +141,13 @@ for i in range(len(sect_list)):
     ax2.plot(ot,tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
     ax2.grid(True)
     ax2.set_ylabel(ylab_dict['deltas'])
-    ax2.set_ylim(0,10)
+    #ax2.set_ylim(0,10)
     ax2.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
 
     ax3.plot(ot,tef_df['salt_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
     ax3.grid(True)
     ax3.set_ylabel(ylab_dict['salt'])
-    ax3.set_ylim(29,32)
+    #ax3.set_ylim(29,32)
     ax3.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
     
     # # map
@@ -195,7 +195,7 @@ for i in range(len(sect_list)):
     # else:
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
-ax3.legend(loc='lower right')
+ax1.legend(loc='lower right')
 plt.savefig(out_dir / ('bulk_plot_hourlync.png'))
 plt.close()
 pfun.end_plot()
