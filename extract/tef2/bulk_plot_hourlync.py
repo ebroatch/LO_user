@@ -50,9 +50,9 @@ plot_color = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue']
 g = xr.open_dataset(Ldir['grid'] / 'grid.nc')
 h = g.h.values
 h[g.mask_rho.values==0] = np.nan
-xr = g.lon_rho.values
-yr = g.lat_rho.values
-xp, yp = pfun.get_plon_plat(xr,yr)
+xrho = g.lon_rho.values
+yrho = g.lat_rho.values
+xp, yp = pfun.get_plon_plat(xrho,yrho)
 xu = g.lon_u.values
 yu = g.lat_u.values
 xv = g.lon_v.values
@@ -122,14 +122,14 @@ for i in range(len(sect_list)):
     ax1.set_ylim(0,16)
     ax1.set_yticks(ticks=[0,4,8,12,16])
     
-    qp = bulk['q'].copy()/1000
-    qp[qp<0] = np.nan
-    qm = bulk['q'].copy()/1000
-    qm[qm>0]=np.nan
-    sp = bulk['salt'].copy()
-    sp[np.isnan(qp)] = np.nan
-    sm = bulk['salt'].copy()
-    sm[np.isnan(qm)]=np.nan
+    # qp = bulk['q'].copy()/1000
+    # qp[qp<0] = np.nan
+    # qm = bulk['q'].copy()/1000
+    # qm[qm>0]=np.nan
+    # sp = bulk['salt'].copy()
+    # sp[np.isnan(qp)] = np.nan
+    # sm = bulk['salt'].copy()
+    # sm[np.isnan(qm)]=np.nan
     
     alpha=.3
     # ax1.plot(bulk['ot'],qp,'or',alpha=alpha)
