@@ -108,11 +108,11 @@ for i in range(len(sect_list)):
     ot = bulk.time.values
 
     if i==0:
-        ax0.plot(ot,tef_df['Q_prism'].to_numpy(), color=plot_color[i], linewidth=lw)
+        ax0.plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=lw)
         ax0.grid(True)
         ax0.set_ylabel(ylab_dict['Qprism'])
-        ax0.set_ylim(20,50)
-        ax0.set_yticks(ticks=[20,30,40,50])
+        #ax0.set_ylim(20,50)
+        #ax0.set_yticks(ticks=[20,30,40,50])
         ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
     
     ax1.plot(ot,tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
@@ -120,7 +120,7 @@ for i in range(len(sect_list)):
     ax1.grid(True)
     ax1.set_ylabel(ylab_dict['Q'])
     #ax1.set_ylim(0,16)
-    ax1.set_yticks(ticks=[0,4,8,12,16])
+    #ax1.set_yticks(ticks=[0,4,8,12,16])
     
     # qp = bulk['q'].copy()/1000
     # qp[qp<0] = np.nan
