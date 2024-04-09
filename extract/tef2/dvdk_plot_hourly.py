@@ -145,7 +145,7 @@ axs[3].set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
 axs[3].set_ylabel('$F_{0}\ [m^{3}s^{-1} g\ kg^{-1}]$')
 axs[1].set_ylabel('$F_{1}\ [m^{3}s^{-1} g\ kg^{-1}]$')
 axs[2].set_ylabel('$F_{2}\ [m^{3}s^{-1} g\ kg^{-1}]$')
-axs[0].set_ylabel('$Q_{prism} \n[10^{3}\ m^{3}s^{-1}]$')
+axs[0].set_ylabel('$Q_{prism}$')#$\n$[10^{3}\ m^{3}s^{-1}]$')
 
 # if Ldir['gridname']=='sill20kmdeep':
 #     axs[0].set_title('20km sill')
