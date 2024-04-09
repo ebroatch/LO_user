@@ -159,6 +159,37 @@ axs[0].set_title(Ldir['gtagex'])
 plt.savefig(out_dir / ('dvdk_plot_hourly.png'))
 plt.close()
 pfun.end_plot()
+
+
+#scatter plot
+fig, ax = plt.subplots(1, 1, figsize=(10,10))
+for i in range(len(sect_list)):
+    sect_name = sect_list[i]
+    sect_ncname = sect_nclist[i] #change to netcdf
+    
+    dvdk = xr.open_dataset(in_dir / sect_ncname)
+    # FR = SD['FR']
+    F1 = dvdk['F1']
+    F2 = dvdk['F2']
+    # FTL = SD['FTL']
+    # FTV = SD['FTV']
+    # F = SD['F']
+    # ot = SD['time']
+
+    #ds2= pickle.load(open(in_dir2 / sect_name, 'rb'))
+    #qprism=zfun.lowpass(np.abs(ds2['qnet']-zfun.lowpass(ds2['qnet'], f='godin')), f='godin')/2
+    ds2 = xr.open_dataset(in_dir2 / sect_ncname) #changed to netcdf open in xarray
+    qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin')), f='godin')/2 #for netcdf
+    pad=36
+    qprism=(qprism[pad:-pad+1])[pad:-pad+1]
+
+    ax.plot(qprism, F2/(F1+F2), color=plot_color[i], linewidth=lw, label=sect_label[i])
+
+ax.grid(True)
+ax.set_ylabel('F2/(F1+F2)')
+ax.set_xlabel('Qprism')
+ax.legend(loc='lower right')
+ax.set_title(Ldir['gtagex'])
     
     
     
