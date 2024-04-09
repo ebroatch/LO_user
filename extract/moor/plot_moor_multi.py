@@ -31,7 +31,8 @@ if moor_item.is_file() and moor_name[-3:]=='.nc':
     moor_label = input("Enter label for mooring")
 
 fig, axs = plt.subplots(4,1,sharex=True)
-lp = True
+#lp = True
+lp=False
 if lp == True:
     axs[0].set_title('Tidally averaged mooring extractions')
 else:
@@ -88,12 +89,13 @@ for i in range(num_fn):
     axs[0].text(.02, .9, 'Sea surface height', c='k', weight='bold', transform=axs[0].transAxes)
 
     axs[1].plot(df['salt'], label=moor_label)
-    axs[1].set_ylim(bottom=0,top=30)
+    #axs[1].set_ylim(bottom=0,top=30)
+    axs[1].set_ylim(bottom=28,top=34)
     axs[1].set_ylabel(r'S [psu]')
     axs[1].text(.02, .9, 'Surface salinity', c='k', weight='bold', transform=axs[1].transAxes)
 
     axs[2].plot(df['ubar'], label=moor_label) 
-    axs[2].set_ylabel(r'u [m/s]')
+    axs[2].set_ylabel(r'$\bar{u}$ [m/s]')
     axs[2].text(.02, .9, 'ubar', c='k', weight='bold', transform=axs[2].transAxes)
 
     axs[3].plot(df['vbar'], label=moor_label)
@@ -105,7 +107,7 @@ for i in range(num_fn):
         axs[2].set_ylim(bottom=-0.1, top=0.4)
         axs[3].set_ylim(bottom=-0.08, top=0.08)
     else:
-        axs[0].set_ylim(bottom=-2, top=3)
+        axs[0].set_ylim(bottom=-4, top=4)
         axs[2].set_ylim(bottom=-0.8, top=1.4)
         axs[3].set_ylim(bottom=-0.2, top=0.2)
 
@@ -137,5 +139,7 @@ axs[0].legend(loc='best')
 # axs[1].legend(loc='best')
 # axs[2].legend(loc='best')
 # axs[3].legend(loc='best')
-axs[0].set_xlim(left=pd.Timestamp('2020-01-01'), right=pd.Timestamp('2020-04-01'))
+#axs[0].set_xlim(left=pd.Timestamp('2020-01-01'), right=pd.Timestamp('2020-12-31'))
+axs[0].set_xlim(left=pd.Timestamp('2020-12-01'), right=pd.Timestamp('2020-12-31'))
+
 plt.show()
