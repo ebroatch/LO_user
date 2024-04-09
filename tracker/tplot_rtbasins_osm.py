@@ -6,6 +6,7 @@ from lo_tools import zfun
 from lo_tools import plotting_functions as pfun
 from lo_user_tools import llxyfun
 Ldir = Lfun.Lstart()
+import sys
 
 import matplotlib.pyplot as plt
 import xarray as xr
@@ -17,23 +18,39 @@ fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
 
 for i in range(3):
     # Choose an experiment and release to plot.
-    in_dir0 = Ldir['LOo'] / 'tracks'
-    exp_name = Lfun.choose_item(in_dir0, tag='', exclude_tag='.csv',
-        itext='** Choose experiment from list **', last=False)
-    rel = Lfun.choose_item(in_dir0 / exp_name, tag='.nc', exclude_tag='grid',
-        itext='** Choose item from list **', last=False)
+    # in_dir0 = Ldir['LOo'] / 'tracks'
+    # exp_name = Lfun.choose_item(in_dir0, tag='', exclude_tag='.csv',
+    #     itext='** Choose experiment from list **', last=False)
+    # rel = Lfun.choose_item(in_dir0 / exp_name, tag='.nc', exclude_tag='grid',
+    #     itext='** Choose item from list **', last=False)
+
+    if i==0:
+        sillsea = llxyfun.x2lon(40e3,0,45)
+        sillland = llxyfun.x2lon(45e3,0,45)
+        linst = ':'
+        fn = '/data1/ebroatch/LO_output/tracks/sill5kmest_3d/release_2020.09.01.nc'
+    elif i==1:
+        sillsea = llxyfun.x2lon(40e3,0,45)
+        sillland = llxyfun.x2lon(60e3,0,45)
+        linst = '-'
+        fn = '/data1/ebroatch/LO_output/tracks/sill20kmdeepest_3d/release_2020.09.01.nc'
+    elif i==2:
+        sillsea = llxyfun.x2lon(40e3,0,45)
+        sillland = llxyfun.x2lon(120e3,0,45)
+        linst = '--'
+        fn = '/data1/ebroatch/LO_output/tracks/sill80kmest_3d/release_2020.09.01.nc'
 
     # get Datasets
-    fn = in_dir0 / exp_name / rel
-    fng = in_dir0 / exp_name / 'grid.nc'
+    #fn = in_dir0 / exp_name / rel
+    #fng = in_dir0 / exp_name / 'grid.nc'
     dsr = xr.open_dataset(fn, decode_times=False)
-    dsg = xr.open_dataset(fng)
+    #dsg = xr.open_dataset(fng)
 
     NT, NP = dsr.lon.shape
 
     # get a list of datetimes
-    ot_vec = dsr.ot.values
-    dt_list = [Lfun.modtime_to_datetime(ot) for ot in ot_vec]
+    # ot_vec = dsr.ot.values
+    # dt_list = [Lfun.modtime_to_datetime(ot) for ot in ot_vec]
 
     # # subsample output for plotting #SKIP SUBSAMPLING
     # npmax = 600 # max number of points to plot
@@ -43,38 +60,41 @@ for i in range(3):
     # lat = dsr.lat.values[:,::step]
     # lon = dsr.lon
 
-    if i==0:
-        sillsea = llxyfun.x2lon(40e3,0,45)
-        sillland = llxyfun.x2lon(45e3,0,45)
-        linst = ':'
-    elif i==1:
-        sillsea = llxyfun.x2lon(40e3,0,45)
-        sillland = llxyfun.x2lon(60e3,0,45)
-        linst = '-'
-    elif i==2:
-        sillsea = llxyfun.x2lon(40e3,0,45)
-        sillland = llxyfun.x2lon(120e3,0,45)
-        linst = '--'
+
 
 
     lon1 = dsr.lon.where((dsr.lon.sel(Time=0)<sillsea),drop=True)
+    print('got lon1\n')
+    sys.stdout.flush()
     lon2 = dsr.lon.where((dsr.lon.sel(Time=0)>=sillsea) & (dsr.lon.sel(Time=0)<sillland),drop=True)
+    print('got lon2\n')
+    sys.stdout.flush()
     lon3 = dsr.lon.where((dsr.lon.sel(Time=0)>=sillland),drop=True)
+    print('got lon3\n')
+    sys.stdout.flush()
+
+    dsr.close()
 
     par1_ocn=(lon1<0).astype(int).sum(dim='Particle')
     par1_out=((lon1>=0) & (lon1<sillsea)).astype(int).sum(dim='Particle')
     par1_sill=((lon1>=sillsea) & (lon1<sillland)).astype(int).sum(dim='Particle')
     par1_in=(lon1>=sillland).astype(int).sum(dim='Particle')
+    print('got par1\n')
+    sys.stdout.flush()
 
     par2_ocn=(lon2<0).astype(int).sum(dim='Particle')
     par2_out=((lon2>=0) & (lon2<sillsea)).astype(int).sum(dim='Particle')
     par2_sill=((lon2>=sillsea) & (lon2<sillland)).astype(int).sum(dim='Particle')
     par2_in=(lon2>=sillland).astype(int).sum(dim='Particle')
+    print('got par2\n')
+    sys.stdout.flush()
 
     par3_ocn=(lon3<0).astype(int).sum(dim='Particle')
     par3_out=((lon3>=0) & (lon3<sillsea)).astype(int).sum(dim='Particle')
     par3_sill=((lon3>=sillsea) & (lon3<sillland)).astype(int).sum(dim='Particle')
     par3_in=(lon3>=sillland).astype(int).sum(dim='Particle')
+    print('got par3\n')
+    sys.stdout.flush()
 
     # lonest = (lon>0)
     # lonest = lonest.astype(int)
@@ -101,9 +121,10 @@ for i in range(3):
     ax3.plot(par3_out.Time/24, zfun.lowpass((par3_out/par3_in.sel(Time=0)).values, f='godin'), linestyle=linst, color='tab:cyan', label='Outer basin')
     ax3.plot(par3_sill.Time/24, zfun.lowpass((par3_sill/par3_in.sel(Time=0)).values, f='godin'), linestyle=linst, color='tab:purple', label='Sill')
     ax3.plot(par3_in.Time/24, zfun.lowpass((par3_in/par3_in.sel(Time=0)).values, f='godin'), linestyle=linst, color='tab:pink', label='Inner basin')
-
-    dsr.close()
-    dsg.close()
+    print('plotted\n')
+    sys.stdout.flush()
+    
+    #dsg.close()
 
 
 #plt.show()
@@ -143,7 +164,7 @@ ax3.set_xlim(0,120)
 ax3.set_ylim(0,1)
 
 
-fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_osm.png'
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_osm2.png'
 plt.savefig(fn_fig)
 plt.close()
 #plt.show()
