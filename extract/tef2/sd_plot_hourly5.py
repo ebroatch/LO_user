@@ -228,3 +228,34 @@ pfun.end_plot()
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
 
+#scatter plot
+fig, ax = plt.subplots(1, 1, figsize=(10,10))
+for i in range(len(sect_list)):
+    sect_name = sect_list[i]
+    sect_ncname = sect_nclist[i] #change to netcdf
+    
+    SD = xr.open_dataset(in_dir / sect_ncname)
+    # FR = SD['FR']
+    FE = SD['FE']
+    FT = SD['FT']
+    # FTL = SD['FTL']
+    # FTV = SD['FTV']
+    # F = SD['F']
+    # ot = SD['time']
+
+    #ds2= pickle.load(open(in_dir2 / sect_name, 'rb'))
+    #qprism=zfun.lowpass(np.abs(ds2['qnet']-zfun.lowpass(ds2['qnet'], f='godin')), f='godin')/2
+    ds2 = xr.open_dataset(in_dir2 / sect_ncname) #changed to netcdf open in xarray
+    qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin')), f='godin')/2 #for netcdf
+    pad=36
+    qprism=(qprism[pad:-pad+1])[pad:-pad+1]
+
+    ax.plot(qprism, FT/(FE+FT), color=plot_color[i], linewidth=lw, label=sect_label[i])
+
+ax.grid(True)
+ax.set_ylabel('FT/(FE+FT)')
+ax.set_xlabel('Qprism')
+ax.legend(loc='lower right')
+
+plt.savefig(out_dir / ('sd_plot_scatter.png'))
+plt.close()
