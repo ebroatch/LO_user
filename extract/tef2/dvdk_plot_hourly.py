@@ -190,6 +190,8 @@ ax.set_ylabel('F2/(F1+F2)')
 ax.set_xlabel('Qprism')
 ax.legend(loc='lower right')
 ax.set_title(Ldir['gtagex'])
+plt.savefig(out_dir / ('dvdk_plot_scatter.png'))
+plt.close()
     
     
     
