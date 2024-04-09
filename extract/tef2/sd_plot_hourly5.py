@@ -256,6 +256,7 @@ ax.grid(True)
 ax.set_ylabel('FT/(FE+FT)')
 ax.set_xlabel('Qprism')
 ax.legend(loc='lower right')
+ax.set_title(Ldir['gtagex'])
 
 plt.savefig(out_dir / ('sd_plot_scatter.png'))
 plt.close()
