@@ -243,7 +243,7 @@ ax2.grid(True)
 ax3.grid(True)
 
 ax3.legend(loc='lower right')
-plt.suptitle(Ldir['gtagex'])
+ax2.set_title(Ldir['gtagex'])
 plt.savefig(out_dir / ('tef_plot_scatter.png'))
 plt.close()
 pfun.end_plot()
