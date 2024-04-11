@@ -227,15 +227,23 @@ for i in range(len(sect_list)):
     ax2.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy(), '-', lw=0.5, color=plot_color[i], label=sect_name)
     ax3.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy()*(tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy()), '-', lw=0.5, color=plot_color[i], label=sect_name)
 
-ax1.set_title(r'$Q_{in} [m^{3}s^{-1}]$')
+ax1.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
 ax1.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
-ax2.set_title(r'$\Delta s [g kg^{-1}]$')
+ax2.set_ylabel(r'$\Delta s [g kg^{-1}]$')
 ax2.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
-ax3.set_title(r'$Q_{in} \Delta s [m^{3}s^{-1}g kg^{-1}]$')
+ax3.set_ylabel(r'$Q_{in} \Delta s [m^{3}s^{-1}g kg^{-1}]$')
 ax3.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
 
+ax1.set_box_aspect(1)
+ax2.set_box_aspect(1)
+ax3.set_box_aspect(1)
+
+ax1.grid(True)
+ax2.grid(True)
+ax3.grid(True)
+
 ax3.legend(loc='lower right')
-ax2.set_title(Ldir['gtagex'])
+plt.suptitle(Ldir['gtagex'])
 plt.savefig(out_dir / ('tef_plot_scatter.png'))
 plt.close()
 pfun.end_plot()
