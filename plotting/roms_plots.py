@@ -250,7 +250,8 @@ def P_sect_contour_eb(in_dict):
     lat = G['lat_rho']
     zdeep = -205
     #x = np.linspace(1.1, -1, 500) #sill1
-    x_e = np.linspace(0.45, 0.675, 100) #use less points for shorter section?
+    #x_e = np.linspace(0.45, 0.675, 100) #use less points for shorter section?
+    x_e = np.linspace(0, 1, 500) #use less points for shorter section?
     #xcoast = 94.3 #sill2
     y_e = 45 * np.ones(x_e.shape)
 
