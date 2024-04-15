@@ -314,7 +314,7 @@ def P_sect_contour_eb(in_dict):
     #                    vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #contour
     
     cs = ax.contour((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf,
-                        vmin=22, vmax=34, levels=25, cmap=pinfo.cmap_dict[vn]) #contour with manual vmax/vmin
+                        levels=[22,22.5,23,23.5,24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29,29.5,30,30.5,31,31.5,32,32.5,33,33.5,34], cmap=pinfo.cmap_dict[vn]) #contour with manual vmax/vmin
     #cs = ax.contourf((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf,
     #                   vmin=22, vmax=34, levels=25, cmap=pinfo.cmap_dict[vn]) #contour with manual vmax/vmin
     
