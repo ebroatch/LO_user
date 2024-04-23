@@ -365,8 +365,8 @@ def P_sect_contourzoom_eb(in_dict):
     zdeep = -205
     #x = np.linspace(1.1, -1, 500) #sill1
     #x_e = np.linspace(0.45, 0.675, 100) #use less points for shorter section?
-    x_e = np.linspace(0, 2.1, 500) #use less points for shorter section? 1.1 for 5km model, 1.3 for 20km, 2.1 for 80km
-    aaf = [0, 2.1, 44.9, 45.1] # focus domain
+    x_e = np.linspace(0, 1.3, 500) #use less points for shorter section? 1.1 for 5km model, 1.3 for 20km, 2.1 for 80km
+    aaf = [0, 1.3, 44.9, 45.1] # focus domain
     #xcoast = 94.3 #sill2
     y_e = 45 * np.ones(x_e.shape)
 
