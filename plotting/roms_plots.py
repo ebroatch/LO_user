@@ -348,7 +348,7 @@ def P_sect_contourzoom_eb(in_dict):
     # fs = 14
     # pfun.start_plot(fs=fs, figsize=(20,9))
     # fig = plt.figure()
-    fig, axs = plt.subplots(2,1,height_ratios=[4,1], figsize=(10,12)) #sill2
+    fig, axs = plt.subplots(2, 1, figsize=(10,12),gridspec_kw={'height_ratios': [4,1]}) #sill2
     ds = xr.open_dataset(in_dict['fn'])
 
     # PLOT CODE
