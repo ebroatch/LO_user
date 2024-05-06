@@ -388,7 +388,7 @@ def P_sect_contourzoom_eb(in_dict):
     # PLOTTING
     # map with section line
     #ax = fig.add_subplot(1, 3, 1)
-    cs = pfun.add_map_field(ax, ds, vn, pinfo.vlims_dict,
+    cs = pfun.add_map_field(axs[1], ds, vn, pinfo.vlims_dict,
             cmap=pinfo.cmap_dict[vn], fac=pinfo.fac_dict[vn], do_mask_edges=True)
     # fig.colorbar(cs, ax=ax) # It is identical to that of the section
     #pfun.add_coast(ax)
