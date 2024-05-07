@@ -130,13 +130,15 @@ ax2.set_title('Tracks ending on sill 12h later')
 
 # add the tracks (packed [time, particle])
 # regular spaghetti plots
-step = 40 #step for subsampling lines
+#step = 40 #step for subsampling lines
+step = 1 #no subsmaple
 ax.plot(lon[:13,::step], z[:13,::step], '-', color='tab:cyan', linewidth=.1, label='Track') #plot hours 0 to 12
-ax.plot(lon[0,:], z[0,:], '.', color='tab:blue', label='Start')
-ax.plot(lon[12,:], z[12,:], '*', color='b', label='End') #end point is after 12 hours
+ax.plot(lon[12,:], z[12,:], '.', color='tab:blue', label='End')
+# ax.plot(lon[0,:], z[0,:], '.', color='tab:blue', label='Start')
+# ax.plot(lon[12,:], z[12,:], '*', color='b', label='End') #end point is after 12 hours
 ax2.plot(lon2[:13,::step], z2[:13,::step], '-', color='tab:pink', linewidth=.1, label='Track') #plot hours 0 to 12
 ax2.plot(lon2[0,:], z2[0,:], '.', color='m', label='Start')
-ax2.plot(lon2[12,:], z2[12,:], '*', color='r', label='End')
+#ax2.plot(lon2[12,:], z2[12,:], '*', color='r', label='End')
 # ax.plot(lon[0,:], z[0,:], '.g', alpha=.3, markeredgecolor='none')
 # ax.plot(lon[-1,:], z[-1,:], '.r', alpha=.3, markeredgecolor='none')
 # ax.legend()
@@ -155,6 +157,8 @@ ax.set_ylim(-205,5)
 ax.set_xlim(-0.2,1.1)
 ax2.set_ylim(-205,5)
 ax2.set_xlim(-0.2,1.1)
+ax.legend()
+ax2.legend()
 
 # time series
 # td = (ot_vec - ot_vec[0])/86400
