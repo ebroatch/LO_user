@@ -440,7 +440,7 @@ def P_sect_contourzoom_eb(in_dict):
     cs2 = ax0.contour((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf,
                         levels=[24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29,29.5,30,30.5,31,31.5,32,32.5,33,33.5,34], colors='k') #contour with manual vmax/vmin
     
-    ax0.colorbar(cs, ax=ax2)
+    fig.colorbar(cs, cax=ax2)
     ax0.set_xlabel('Distance (km)')
     ax0.set_ylabel('Z (m)')
     ax0.set_title('Section %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn]))
