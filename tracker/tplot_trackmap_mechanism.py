@@ -103,7 +103,7 @@ fig, [ax,ax2] = plt.subplots(2,1,figsize=(20,10))
 #     pad = .02
 #     aa = [np.nanmin(lon1) - pad, np.nanmax(lon1) + pad,
 #     np.nanmin(lat1) - pad, np.nanmax(lat1) + pad]
-aa=[-0.2,1.1,44.95,45.05] #estuary focus limits
+aa=[0,1.3,44.95,45.05] #estuary focus limits
     
 #ax = fig.add_subplot(121)
 #ax = fig.add_subplot(111)
