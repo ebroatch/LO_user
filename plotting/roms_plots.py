@@ -352,8 +352,8 @@ def P_sect_contourzoom_eb(in_dict):
     fig = plt.figure(figsize=(12,12)) #sill2
     gs = fig.add_gridspec(nrows=2,ncols=2, width_ratios=[20,1], height_ratios=[3,1])
     ax0 = fig.add_subplot(gs[0,0])
-    ax1 = fig.add_subplot(gs[0,1])
-    ax2 = fig.add_subplot(gs[1,0:2])
+    ax1 = fig.add_subplot(gs[1,0])
+    ax2 = fig.add_subplot(gs[0:2,1])
     ds = xr.open_dataset(in_dict['fn'])
 
     # PLOT CODE
@@ -444,7 +444,7 @@ def P_sect_contourzoom_eb(in_dict):
     ax0.set_xlabel('Distance (km)')
     ax0.set_ylabel('Z (m)')
     ax0.set_title('Section %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn]))
-    pfun.add_info(ax0, in_dict['fn'], loc='upper_right')
+    pfun.add_info(ax0, in_dict['fn'], loc='lower_right')
     fig.tight_layout()
     # FINISH
     ds.close()
