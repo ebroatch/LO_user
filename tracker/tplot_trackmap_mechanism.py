@@ -40,8 +40,8 @@ sillmid = llxyfun.x2lon(44e3,0,45)
 sillsea = llxyfun.x2lon(40e3,0,45)
 sillland = llxyfun.x2lon(60e3,0,45)
 lon1 = dsr.lon.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea),drop=True).values
-lon2 = dsr.lon.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea),drop=True).values
-lat1 = dsr.lat.where((dsr.lon.sel(Time=12)<sillland) & (dsr.lon.sel(Time=12)>sillsea),drop=True).values
+lat1 = dsr.lat.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea),drop=True).values
+lon2 = dsr.lon.where((dsr.lon.sel(Time=12)<sillland) & (dsr.lon.sel(Time=12)>sillsea),drop=True).values
 lat2 = dsr.lat.where((dsr.lon.sel(Time=12)<sillland) & (dsr.lon.sel(Time=12)>sillsea),drop=True).values
 
 # lon = dsr.lon.values[:,::step]
