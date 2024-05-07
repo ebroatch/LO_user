@@ -43,17 +43,17 @@ maskr = dsg.mask_rho.values
 #grid='20kmdeep'
 sillsea = llxyfun.x2lon(40e3,0,45)
 #if grid=='5km':
-if exp_name=='sill5kmest':
+if exp_name.split('_')[0]=='sill5kmest':
     sillland = llxyfun.x2lon(45e3,0,45)
     #xlonlim=1.1
     aa=[0,1.1,44.95,45.05] #estuary focus limits
 #elif grid=='20kmdeep':
-elif exp_name=='sill20kmdeepest':
+elif exp_name.split('_')[0]=='sill20kmdeepest':
     sillland = llxyfun.x2lon(60e3,0,45)
     #xlonlim=1.3
     aa=[0,1.3,44.95,45.05] #estuary focus limits
 # elif grid=='80km':
-elif exp_name=='sill80kmest':
+elif exp_name.split('_')[0]=='sill80kmest':
     sillland = llxyfun.x2lon(120e3,0,45)
     #xlonlim=2.1
     aa=[0,2.1,44.95,45.05] #estuary focus limits
