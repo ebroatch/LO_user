@@ -36,9 +36,27 @@ hh = dsg.h.values
 maskr = dsg.mask_rho.values
 #
 
-sillmid = llxyfun.x2lon(44e3,0,45)
+#sillmid = llxyfun.x2lon(44e3,0,45)
+# sillsea = llxyfun.x2lon(40e3,0,45)
+# sillland = llxyfun.x2lon(60e3,0,45)
+
+#grid='20kmdeep'
 sillsea = llxyfun.x2lon(40e3,0,45)
-sillland = llxyfun.x2lon(60e3,0,45)
+#if grid=='5km':
+if exp_name=='sill5kmest':
+    sillland = llxyfun.x2lon(45e3,0,45)
+    #xlonlim=1.1
+    aa=[0,1.1,44.95,45.05] #estuary focus limits
+#elif grid=='20kmdeep':
+elif exp_name=='sill20kmdeepest':
+    sillland = llxyfun.x2lon(60e3,0,45)
+    #xlonlim=1.3
+    aa=[0,1.3,44.95,45.05] #estuary focus limits
+# elif grid=='80km':
+elif exp_name=='sill80kmest':
+    sillland = llxyfun.x2lon(120e3,0,45)
+    #xlonlim=2.1
+    aa=[0,2.1,44.95,45.05] #estuary focus limits
 lon1 = dsr.lon.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea),drop=True).values
 lat1 = dsr.lat.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea),drop=True).values
 lon2 = dsr.lon.where((dsr.lon.sel(Time=12)<sillland) & (dsr.lon.sel(Time=12)>sillsea),drop=True).values
@@ -103,7 +121,7 @@ fig, [ax,ax2] = plt.subplots(2,1,figsize=(20,10))
 #     pad = .02
 #     aa = [np.nanmin(lon1) - pad, np.nanmax(lon1) + pad,
 #     np.nanmin(lat1) - pad, np.nanmax(lat1) + pad]
-aa=[0,1.3,44.95,45.05] #estuary focus limits
+# aa=[0,1.3,44.95,45.05] #estuary focus limits
     
 #ax = fig.add_subplot(121)
 #ax = fig.add_subplot(111)

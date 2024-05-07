@@ -51,8 +51,20 @@ seclat = 45
 #depths = np.array([-12.5, -37.5, -62.5, -87.5, -112.5, -137.5, -162.5, -187.5])
 #depth = -12.5
 #sillmid = llxyfun.x2lon(50e3,0,45) #cut out particles starting on sill, use sillsea and sillland instead
+#grid='20kmdeep'
 sillsea = llxyfun.x2lon(40e3,0,45)
-sillland = llxyfun.x2lon(60e3,0,45)
+#if grid=='5km':
+if exp_name=='sill5kmest':
+    sillland = llxyfun.x2lon(45e3,0,45)
+    xlonlim=1.1
+#elif grid=='20kmdeep':
+elif exp_name=='sill20kmdeepest':
+    sillland = llxyfun.x2lon(60e3,0,45)
+    xlonlim=1.3
+# elif grid=='80km':
+elif exp_name=='sill80kmest':
+    sillland = llxyfun.x2lon(120e3,0,45)
+    xlonlim=2.1
 # lon = dsr.lon.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)<sillmid),drop=True).values
 # z = dsr.z.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)<sillmid),drop=True).values
 # lon2 = dsr.lon.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)>sillmid),drop=True).values
@@ -155,10 +167,10 @@ ax2.plot([-0.2,0],[-15.72,0],':k')
 # axis limits
 ax.set_ylim(-205,5)
 #ax.set_xlim(-0.2,1.3)
-ax.set_xlim(0,1.3)
+ax.set_xlim(0,xlonlim)
 ax2.set_ylim(-205,5)
 #ax2.set_xlim(-0.2,1.3)
-ax2.set_xlim(0,1.3)
+ax2.set_xlim(0,xlonlim)
 # ax.legend()
 # ax2.legend()
 
