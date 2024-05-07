@@ -125,8 +125,8 @@ lon2[~ib_mask2] = np.nan
 ax2.set_xlabel('Longitude')
 ax.set_ylabel('z')
 ax2.set_ylabel('z')
-ax.set_title('Tracks starting on sill at start of flood')
-ax2.set_title('Tracks ending on sill 12h later')
+ax.set_title('12h tracks starting on sill')
+ax2.set_title('12h tracks ending on sill')
 
 # add the tracks (packed [time, particle])
 # regular spaghetti plots
@@ -157,8 +157,8 @@ ax.set_ylim(-205,5)
 ax.set_xlim(-0.2,1.1)
 ax2.set_ylim(-205,5)
 ax2.set_xlim(-0.2,1.1)
-ax.legend()
-ax2.legend()
+# ax.legend()
+# ax2.legend()
 
 # time series
 # td = (ot_vec - ot_vec[0])/86400
