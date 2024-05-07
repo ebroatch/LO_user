@@ -91,7 +91,7 @@ lat2[~ib_mask] = np.nan
 plt.close('all')
 pfun.start_plot(figsize=(10,10))
 # fig = plt.figure()
-fig, [ax,ax2] = plt.subplots(2,1,figsize=(12,10))
+fig, [ax,ax2] = plt.subplots(2,1,figsize=(20,10))
 
 # MAP
 # set domain limits
@@ -108,15 +108,15 @@ aa=[-0.2,1.1,44.95,45.05] #estuary focus limits
 #ax = fig.add_subplot(121)
 #ax = fig.add_subplot(111)
 zm = -np.ma.masked_where(maskr==0, hh)
-ax.pcolormesh(lonp, latp, zm, vmin=-200, vmax=20,
-    cmap='bone')
+ax.pcolormesh(lonp, latp, zm, vmin=-300, vmax=20,
+    cmap='Greys_r')
 ax.axis(aa)
 pfun.dar(ax)
 ax.set_xlabel('Longitude')
 ax.set_ylabel('Latitude')
 ax.set_title('12h tracks starting on sill')
-ax2.pcolormesh(lonp, latp, zm, vmin=-200, vmax=20,
-    cmap='bone')
+ax2.pcolormesh(lonp, latp, zm, vmin=-300, vmax=20,
+    cmap='Greys_r') #change vmin to -300 to cut out blackest part of cmap
 ax2.axis(aa)
 pfun.dar(ax2)
 ax2.set_xlabel('Longitude')

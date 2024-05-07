@@ -154,9 +154,9 @@ ax2.plot([-0.2,0],[-15.72,0],':k')
 
 # axis limits
 ax.set_ylim(-205,5)
-ax.set_xlim(-0.2,1.1)
+ax.set_xlim(-0.2,1.3)
 ax2.set_ylim(-205,5)
-ax2.set_xlim(-0.2,1.1)
+ax2.set_xlim(-0.2,1.3)
 # ax.legend()
 # ax2.legend()
 
