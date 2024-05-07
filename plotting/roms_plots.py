@@ -348,7 +348,12 @@ def P_sect_contourzoom_eb(in_dict):
     # fs = 14
     # pfun.start_plot(fs=fs, figsize=(20,9))
     # fig = plt.figure()
-    fig, axs = plt.subplots(2, 1, figsize=(10,12),gridspec_kw={'height_ratios': [4,1]}) #sill2
+    # fig, axs = plt.subplots(2, 1, figsize=(10,12),gridspec_kw={'height_ratios': [4,1]})
+    fig = plt.figure(figsize=(12,12)) #sill2
+    gs = fig.add_gridspec(nrows=2,ncols=2, width_ratios=[20,1], height_ratios=[3,1])
+    ax0 = fig.add_subplot(gs[0,0])
+    ax1 = fig.add_subplot(gs[0,1])
+    ax2 = fig.add_subplot(gs[1,0:2])
     ds = xr.open_dataset(in_dict['fn'])
 
     # PLOT CODE
@@ -388,22 +393,25 @@ def P_sect_contourzoom_eb(in_dict):
     # PLOTTING
     # map with section line
     #ax = fig.add_subplot(1, 3, 1)
-    cs = pfun.add_map_field(axs[1], ds, vn, pinfo.vlims_dict,
-            cmap=pinfo.cmap_dict[vn], fac=pinfo.fac_dict[vn], do_mask_edges=True)
+    # cs = pfun.add_map_field(ax1, ds, vn, pinfo.vlims_dict,
+    #         cmap=pinfo.cmap_dict[vn], fac=pinfo.fac_dict[vn], do_mask_edges=True)
+    ax1.contourf(lon,lat,ds[vn][0, -1,:,:].values,
+                        levels=[24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29,29.5,30,30.5,31,31.5,32,32.5,33,33.5,34], cmap=pinfo.cmap_dict[vn],extend='both') #contour with manual vmax/vmin
+    ax1.contour(lon,lat,ds[vn][0, -1,:,:].values,
+                        levels=[24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29,29.5,30,30.5,31,31.5,32,32.5,33,33.5,34], colors='k') #contour with manual vmax/vmin
     # fig.colorbar(cs, ax=ax) # It is identical to that of the section
     #pfun.add_coast(ax)
     #aaf = [-4, 2, 43, 47] # focus domain
-    axs[1].axis(aaf)
-    pfun.dar(axs[1])
-    pfun.add_info(axs[1], in_dict['fn'], loc='upper_right')
-    axs[1].set_title('Surface %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn]))
-    axs[1].set_xlabel('Longitude')
-    axs[1].set_ylabel('Latitude')
+    ax1.axis(aaf)
+    pfun.dar(ax1)
+    ax1.set_title('Surface %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn]))
+    ax1.set_xlabel('Longitude')
+    ax1.set_ylabel('Latitude')
     # add section track
-    axs[1].plot(x, y, '-r', linewidth=2)
+    ax1.plot(x, y, '-r', linewidth=2)
     # ax.plot(x[idist0], y[idist0], 'r', markersize=5, markerfacecolor='w',
     #     markeredgecolor='r', markeredgewidth=2) #old
-    axs[1].plot(x[0], y[0], 'or', markersize=5, markerfacecolor='w',
+    ax1.plot(x[0], y[0], 'or', markersize=5, markerfacecolor='w',
         markeredgecolor='r', markeredgewidth=2) #new
     # ax.set_xticks([0.45, 0.475, 0.5, 0.525, 0.55, 0.575, 0.6, 0.625, 0.65, 0.675])
     # ax.set_yticks([44.95, 45, 45.05])
@@ -414,28 +422,29 @@ def P_sect_contourzoom_eb(in_dict):
     #ax = fig.add_subplot(1, 3, (2, 3))
     # ax.plot(dist, v2['zbot'], 'k', linewidth=2)
     # ax.plot(dist, v2['zeta'], '-k', linewidth=2)
-    axs[0].plot(dist, zbot, '-k', linewidth=2)
-    axs[0].plot(dist, ztop, '-b', linewidth=1)
-    axs[0].set_xlim(dist.min(), dist.max())
+    ax0.plot(dist, zbot, '-k', linewidth=2)
+    ax0.plot(dist, ztop, '-b', linewidth=1)
+    ax0.set_xlim(dist.min(), dist.max())
     #ax.invert_xaxis() #not sure if this needs to be changed?
     #ax.set_xticks([0, 2, 4, 6, 8, 10, 12]) #comment out for now
     #ax.vlines(xcoast, -200, 0, linestyles='dashed') #add coast line #don't need since zoomed in
-    axs[0].set_ylim(zdeep, 5)
+    ax0.set_ylim(zdeep, 5)
     # plot section
     svlims = pinfo.vlims_dict[vn]
     # cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:],
     #                    vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #old
     # cs = ax.pcolormesh(dist_se,zw_se,sf,
     #                    vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #new
-    cs = axs[0].contourf((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf,
+    cs = ax0.contourf((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf,
                         levels=[24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29,29.5,30,30.5,31,31.5,32,32.5,33,33.5,34], cmap=pinfo.cmap_dict[vn],extend='both') #contour with manual vmax/vmin
-    cs2 = axs[0].contour((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf,
+    cs2 = ax0.contour((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf,
                         levels=[24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29,29.5,30,30.5,31,31.5,32,32.5,33,33.5,34], colors='k') #contour with manual vmax/vmin
     
-    fig.colorbar(cs, ax=axs[0])
-    axs[0].set_xlabel('Distance (km)')
-    axs[0].set_ylabel('Z (m)')
-    axs[0].set_title('Section %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn]))
+    ax0.colorbar(cs, ax=ax2)
+    ax0.set_xlabel('Distance (km)')
+    ax0.set_ylabel('Z (m)')
+    ax0.set_title('Section %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn]))
+    pfun.add_info(ax0, in_dict['fn'], loc='upper_right')
     fig.tight_layout()
     # FINISH
     ds.close()
