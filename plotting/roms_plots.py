@@ -349,11 +349,11 @@ def P_sect_contourzoom_eb(in_dict):
     # pfun.start_plot(fs=fs, figsize=(20,9))
     # fig = plt.figure()
     # fig, axs = plt.subplots(2, 1, figsize=(10,12),gridspec_kw={'height_ratios': [4,1]})
-    fig = plt.figure(figsize=(12,12)) #sill2
-    gs = fig.add_gridspec(nrows=2,ncols=2, width_ratios=[20,1], height_ratios=[3,1])
+    fig = plt.figure(figsize=(15,12)) #sill2
+    gs = fig.add_gridspec(nrows=2,ncols=2, width_ratios=[25,1], height_ratios=[3,1])
     ax0 = fig.add_subplot(gs[0,0])
     ax1 = fig.add_subplot(gs[1,0])
-    ax2 = fig.add_subplot(gs[0:2,1])
+    ax2 = fig.add_subplot(gs[0,1])
     ds = xr.open_dataset(in_dict['fn'])
 
     # PLOT CODE
@@ -371,8 +371,21 @@ def P_sect_contourzoom_eb(in_dict):
     zdeep = -205
     #x = np.linspace(1.1, -1, 500) #sill1
     #x_e = np.linspace(0.45, 0.675, 100) #use less points for shorter section?
-    x_e = np.linspace(0, 1.3, 500) #use less points for shorter section? 1.1 for 5km model, 1.3 for 20km, 2.1 for 80km
-    aaf = [0, 1.3, 44.95, 45.05] # focus domain
+    #set east x limit based on length of model 1.1 for 5km model, 1.3 for 20km, 2.1 for 80km
+    gridname=(str(in_dict['fn']).split('/')[-3]).split('_')[0]
+    if gridname=='sill5km':
+        xlonlim=1.1
+    elif gridname=='sill10km':
+        xlonlim=1.2
+    elif gridname=='sill20kmdeep':
+        xlonlim=1.3
+    elif gridname=='sill40km':
+        xlonlim=1.6
+    elif gridname=='sill80km':
+        xlonlim=2.1
+
+    x_e = np.linspace(0, xlonlim, 500) #use less points for shorter section? 
+    aaf = [0, xlonlim, 44.95, 45.05] # focus domain
     #xcoast = 94.3 #sill2
     y_e = 45 * np.ones(x_e.shape)
 
@@ -398,7 +411,7 @@ def P_sect_contourzoom_eb(in_dict):
     ax1.contourf(lon,lat,ds[vn][0, -1,:,:].values,
                         levels=[24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29,29.5,30,30.5,31,31.5,32,32.5,33,33.5,34], cmap=pinfo.cmap_dict[vn],extend='both') #contour with manual vmax/vmin
     ax1.contour(lon,lat,ds[vn][0, -1,:,:].values,
-                        levels=[24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29,29.5,30,30.5,31,31.5,32,32.5,33,33.5,34], colors='k') #contour with manual vmax/vmin
+                        levels=[24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29,29.5,30,30.5,31,31.5,32,32.5,33,33.5,34], colors='k', linewidths=1) #contour with manual vmax/vmin
     # fig.colorbar(cs, ax=ax) # It is identical to that of the section
     #pfun.add_coast(ax)
     #aaf = [-4, 2, 43, 47] # focus domain
@@ -408,11 +421,11 @@ def P_sect_contourzoom_eb(in_dict):
     ax1.set_xlabel('Longitude')
     ax1.set_ylabel('Latitude')
     # add section track
-    ax1.plot(x, y, '-r', linewidth=2)
+    ax1.plot(x, y, '-r', linewidth=1)
     # ax.plot(x[idist0], y[idist0], 'r', markersize=5, markerfacecolor='w',
     #     markeredgecolor='r', markeredgewidth=2) #old
-    ax1.plot(x[0], y[0], 'or', markersize=5, markerfacecolor='w',
-        markeredgecolor='r', markeredgewidth=2) #new
+    #ax1.plot(x[0], y[0], 'or', markersize=5, markerfacecolor='w',
+        #markeredgecolor='r', markeredgewidth=2) #new
     # ax.set_xticks([0.45, 0.475, 0.5, 0.525, 0.55, 0.575, 0.6, 0.625, 0.65, 0.675])
     # ax.set_yticks([44.95, 45, 45.05])
     # ax.set_xticks([-4, -2, 0, 2])
