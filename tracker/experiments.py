@@ -129,8 +129,13 @@ def get_ic(TR):
     elif exp_name == 'sill5kmest': # evenly distribute in sill5km idealized estuary
         plon00, plat00, pcs00 = ic_in_est(fn00, DZ=25, coast_lon=0)
 
+    elif exp_name == 'sill5kmdz5m': # evenly distribute in sill5km idealized estuary
+        plon00, plat00, pcs00 = ic_in_est(fn00, DZ=5, coast_lon=0)
+
     elif exp_name == 'sill20kmdeepest': # evenly distribute in sill20kmdeep idealized estuary
         plon00, plat00, pcs00 = ic_in_est(fn00, DZ=25, coast_lon=0)
+
+    #maybe should add extra experiments here to avoid naming conflicts with residence time and e.f. mechanism experiments
 
     elif exp_name == 'sill80kmest': # evenly distribute in sill80km idealized estuary
         plon00, plat00, pcs00 = ic_in_est(fn00, DZ=25, coast_lon=0)
