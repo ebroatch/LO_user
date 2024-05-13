@@ -242,8 +242,8 @@ ax2.set_ylabel('z')
 ax3.set_ylabel('z')
 ax0.set_title('12h tracks starting and ending on sill')
 ax1.set_title('12h tracks starting on sill and ending off sill')
-ax1.set_title('12h tracks starting off sill and ending on sill')
-ax1.set_title('12h tracks switching basins')
+ax2.set_title('12h tracks starting off sill and ending on sill')
+ax3.set_title('12h tracks switching basins')
 
 ax0.plot(lon0[:13,::step], z0[:13,::step], '-', color='tab:blue', linewidth=.1, label='Track') #plot hours 0 to 12
 ax0.plot(lon0[0,:], z0[0,:], '.', color='tab:green', label='Start')
