@@ -47,6 +47,10 @@ if exp_name.split('_')[0]=='sill5kmest':
     sillland = llxyfun.x2lon(45e3,0,45)
     #xlonlim=1.1
     aa=[0,1.1,44.95,45.05] #estuary focus limits
+elif exp_name.split('_')[0]=='sill5kmdz5m':
+    sillland = llxyfun.x2lon(45e3,0,45)
+    #xlonlim=1.1
+    aa=[0,1.1,44.95,45.05] #estuary focus limits
 #elif grid=='20kmdeep':
 elif exp_name.split('_')[0]=='sill20kmdeepest':
     sillland = llxyfun.x2lon(60e3,0,45)

@@ -57,7 +57,7 @@ sillsea = llxyfun.x2lon(40e3,0,45)
 if exp_name.split('_')[0]=='sill5kmest':
     sillland = llxyfun.x2lon(45e3,0,45)
     xlonlim=1.1
-if exp_name.split('_')[0]=='sill5kmdz5m':
+elif exp_name.split('_')[0]=='sill5kmdz5m':
     sillland = llxyfun.x2lon(45e3,0,45)
     xlonlim=1.1
 #elif grid=='20kmdeep':
