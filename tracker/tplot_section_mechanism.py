@@ -57,6 +57,9 @@ sillsea = llxyfun.x2lon(40e3,0,45)
 if exp_name.split('_')[0]=='sill5kmest':
     sillland = llxyfun.x2lon(45e3,0,45)
     xlonlim=1.1
+if exp_name.split('_')[0]=='sill5kmdz5m':
+    sillland = llxyfun.x2lon(45e3,0,45)
+    xlonlim=1.1
 #elif grid=='20kmdeep':
 elif exp_name.split('_')[0]=='sill20kmdeepest':
     sillland = llxyfun.x2lon(60e3,0,45)
@@ -199,5 +202,74 @@ pfun.end_plot()
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_section_mechanism.png'
 plt.savefig(fn_fig)
 plt.close()
+
+#DIFFERENT SORTING PLOT
+fig, [ax0,ax1,ax2,ax3] = plt.subplots(4,1,figsize=(12,20))
+
+#particles that start and end on the sill
+lon0 = dsr.lon.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea) & (dsr.lon.sel(Time=12)<sillland) & (dsr.lon.sel(Time=12)>sillsea),drop=True).values
+z0 = dsr.z.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea) & (dsr.lon.sel(Time=12)<sillland) & (dsr.lon.sel(Time=12)>sillsea),drop=True).values
+#particles that start on sill and end off sill
+lon1 = dsr.lon.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea) & ( (dsr.lon.sel(Time=12)>sillland) | (dsr.lon.sel(Time=12)<sillsea) ),drop=True).values
+z1 = dsr.z.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea) & ( (dsr.lon.sel(Time=12)>sillland) | (dsr.lon.sel(Time=12)<sillsea) ),drop=True).values
+#particles that start off sill and end on sill
+lon2 = dsr.lon.where(( (dsr.lon.sel(Time=0)>sillland) | (dsr.lon.sel(Time=0)<sillsea) ) & (dsr.lon.sel(Time=12)<sillland) & (dsr.lon.sel(Time=12)>sillsea),drop=True).values
+z2 = dsr.z.where(( (dsr.lon.sel(Time=0)>sillland) | (dsr.lon.sel(Time=0)<sillsea) ) & (dsr.lon.sel(Time=12)<sillland) & (dsr.lon.sel(Time=12)>sillsea),drop=True).values
+#particles that switch basins
+lon3 = dsr.lon.where(( (dsr.lon.sel(Time=0)>sillland) & (dsr.lon.sel(Time=12)<sillsea) ) | (  (dsr.lon.sel(Time=0)<sillsea) & (dsr.lon.sel(Time=12)>sillland) ),drop=True).values
+z3 = dsr.z.where(( (dsr.lon.sel(Time=0)>sillland) & (dsr.lon.sel(Time=12)<sillsea) ) | (  (dsr.lon.sel(Time=0)<sillsea) & (dsr.lon.sel(Time=12)>sillland) ),drop=True).values
+
+#skip masking for now
+
+# add the bottom bathymetry
+ax0.plot(long45,-hg45,'-k')
+ax1.plot(long45,-hg45,'-k')
+ax2.plot(long45,-hg45,'-k')
+ax3.plot(long45,-hg45,'-k')
+ax0.plot([0,0],[-200,0],'--k')
+ax1.plot([0,0],[-200,0],'--k')
+ax2.plot([0,0],[-200,0],'--k')
+ax3.plot([0,0],[-200,0],'--k')
+ax0.plot([-0.2,0],[-15.72,0],':k')
+ax1.plot([-0.2,0],[-15.72,0],':k')
+ax2.plot([-0.2,0],[-15.72,0],':k')
+ax3.plot([-0.2,0],[-15.72,0],':k')
+
+ax3.set_xlabel('Longitude')
+ax0.set_ylabel('z')
+ax1.set_ylabel('z')
+ax2.set_ylabel('z')
+ax3.set_ylabel('z')
+ax0.set_title('12h tracks starting and ending on sill')
+ax1.set_title('12h tracks starting on sill and ending off sill')
+ax1.set_title('12h tracks starting off sill and ending on sill')
+ax1.set_title('12h tracks switching basins')
+
+ax0.plot(lon0[:13,::step], z0[:13,::step], '-', color='tab:blue', linewidth=.1, label='Track') #plot hours 0 to 12
+ax0.plot(lon0[0,:], z0[0,:], '.', color='tab:green', label='Start')
+ax0.plot(lon0[12,:], z0[12,:], '.', color='tab:red', label='End')
+ax1.plot(lon1[:13,::step], z1[:13,::step], '-', color='tab:blue', linewidth=.1, label='Track') #plot hours 0 to 12
+ax1.plot(lon1[0,:], z1[0,:], '.', color='tab:green', label='Start')
+ax1.plot(lon1[12,:], z1[12,:], '.', color='tab:red', label='End')
+ax2.plot(lon2[:13,::step], z2[:13,::step], '-', color='tab:blue', linewidth=.1, label='Track') #plot hours 0 to 12
+ax2.plot(lon2[0,:], z2[0,:], '.', color='tab:green', label='Start')
+ax2.plot(lon2[12,:], z2[12,:], '.', color='tab:red', label='End')
+ax3.plot(lon3[:13,::step], z3[:13,::step], '-', color='tab:blue', linewidth=.1, label='Track') #plot hours 0 to 12
+ax3.plot(lon3[0,:], z3[0,:], '.', color='tab:green', label='Start')
+ax3.plot(lon3[12,:], z3[12,:], '.', color='tab:red', label='End')
+
+ax0.set_ylim(-205,5)
+ax0.set_xlim(0,xlonlim)
+ax1.set_ylim(-205,5)
+ax1.set_xlim(0,xlonlim)
+ax2.set_ylim(-205,5)
+ax2.set_xlim(0,xlonlim)
+ax3.set_ylim(-205,5)
+ax3.set_xlim(0,xlonlim)
+
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_section_mechanism2.png'
+plt.savefig(fn_fig)
+plt.close()
+
 dsr.close()
 dsg.close()
