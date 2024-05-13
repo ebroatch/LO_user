@@ -179,5 +179,66 @@ plt.savefig(fn_fig)
 #plt.show()
 pfun.end_plot()
 
+
+#NEW PLOT DIFFERENT SORTING
+fig, [ax0,ax1,ax2,ax3] = plt.subplots(4,1,figsize=(20,20))
+
+#particles that start and end on the sill
+lon0 = dsr.lon.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea) & (dsr.lon.sel(Time=12)<sillland) & (dsr.lon.sel(Time=12)>sillsea),drop=True).values
+lat0 = dsr.lat.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea) & (dsr.lon.sel(Time=12)<sillland) & (dsr.lon.sel(Time=12)>sillsea),drop=True).values
+#particles that start on sill and end off sill
+lon1 = dsr.lon.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea) & ( (dsr.lon.sel(Time=12)>sillland) | (dsr.lon.sel(Time=12)<sillsea) ),drop=True).values
+lat1 = dsr.lat.where((dsr.lon.sel(Time=0)<sillland) & (dsr.lon.sel(Time=0)>sillsea) & ( (dsr.lon.sel(Time=12)>sillland) | (dsr.lon.sel(Time=12)<sillsea) ),drop=True).values
+#particles that start off sill and end on sill
+lon2 = dsr.lon.where(( (dsr.lon.sel(Time=0)>sillland) | (dsr.lon.sel(Time=0)<sillsea) ) & (dsr.lon.sel(Time=12)<sillland) & (dsr.lon.sel(Time=12)>sillsea),drop=True).values
+lat2 = dsr.lat.where(( (dsr.lon.sel(Time=0)>sillland) | (dsr.lon.sel(Time=0)<sillsea) ) & (dsr.lon.sel(Time=12)<sillland) & (dsr.lon.sel(Time=12)>sillsea),drop=True).values
+#particles that switch basins
+lon3 = dsr.lon.where(( (dsr.lon.sel(Time=0)>sillland) & (dsr.lon.sel(Time=12)<sillsea) ) | (  (dsr.lon.sel(Time=0)<sillsea) & (dsr.lon.sel(Time=12)>sillland) ),drop=True).values
+lat3 = dsr.lat.where(( (dsr.lon.sel(Time=0)>sillland) & (dsr.lon.sel(Time=12)<sillsea) ) | (  (dsr.lon.sel(Time=0)<sillsea) & (dsr.lon.sel(Time=12)>sillland) ),drop=True).values
+
+zm = -np.ma.masked_where(maskr==0, hh)
+ax0.pcolormesh(lonp, latp, zm, vmin=-300, vmax=20, cmap='Greys_r')
+ax1.pcolormesh(lonp, latp, zm, vmin=-300, vmax=20, cmap='Greys_r')
+ax2.pcolormesh(lonp, latp, zm, vmin=-300, vmax=20, cmap='Greys_r')
+ax3.pcolormesh(lonp, latp, zm, vmin=-300, vmax=20, cmap='Greys_r')
+
+ax0.set_xlabel('Longitude')
+ax0.set_ylabel('Latitude')
+ax1.set_xlabel('Longitude')
+ax1.set_ylabel('Latitude')
+ax2.set_xlabel('Longitude')
+ax2.set_ylabel('Latitude')
+ax3.set_xlabel('Longitude')
+ax3.set_ylabel('Latitude')
+ax0.set_title('12h tracks starting and ending on sill')
+ax1.set_title('12h tracks starting on sill and ending off sill')
+ax2.set_title('12h tracks starting off sill and ending on sill')
+ax3.set_title('12h tracks switching basins')
+
+ax0.plot(lon0[:13,::step], lat0[:13,::step], '-', color='tab:blue', linewidth=.1, label='Track') #plot hours 0 to 12
+ax0.plot(lon0[0,:], lat0[0,:], '.', color='tab:green', label='Start')
+ax0.plot(lon0[12,:], lat0[12,:], '.', color='tab:red', label='End')
+ax1.plot(lon1[:13,::step], lat1[:13,::step], '-', color='tab:blue', linewidth=.1, label='Track') #plot hours 0 to 12
+ax1.plot(lon1[0,:], lat1[0,:], '.', color='tab:green', label='Start')
+ax1.plot(lon1[12,:], lat1[12,:], '.', color='tab:red', label='End')
+ax2.plot(lon2[:13,::step], lat2[:13,::step], '-', color='tab:blue', linewidth=.1, label='Track') #plot hours 0 to 12
+ax2.plot(lon2[0,:], lat2[0,:], '.', color='tab:green', label='Start')
+ax2.plot(lon2[12,:], lat2[12,:], '.', color='tab:red', label='End')
+ax3.plot(lon3[:13,::step], lat3[:13,::step], '-', color='tab:blue', linewidth=.1, label='Track') #plot hours 0 to 12
+ax3.plot(lon3[0,:], lat3[0,:], '.', color='tab:green', label='Start')
+ax3.plot(lon3[12,:], lat3[12,:], '.', color='tab:red', label='End')
+
+ax0.axis(aa)
+ax1.axis(aa)
+ax2.axis(aa)
+ax3.axis(aa)
+pfun.dar(ax0)
+pfun.dar(ax1)
+pfun.dar(ax2)
+pfun.dar(ax3)
+
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_trackmap_mechanism2.png'
+plt.savefig(fn_fig)
+
 dsr.close()
 dsg.close()
