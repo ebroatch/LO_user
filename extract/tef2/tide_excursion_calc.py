@@ -42,7 +42,7 @@ Ldir = exfun.intro() # this handles the argument passing
 
 #choose closest date to save peaks from
 neardayinput = input("Enter nearest date to use (YYYY-MM-DD): ")
-nearday = pd.Timestamp(neardayinput)
+nearday = np.datetime64(neardayinput)
 
 #get extractions and processed sections, and set directories to save to
 gctag = Ldir['gridname'] + '_' + Ldir['collection_tag']
@@ -243,7 +243,7 @@ for ext_fn in sect_list:
     ax2.axvline(t_neap_flood,c='tab:purple',linestyle='--',label='Neap flood')
     ax2.axvline(t_neap_ebb,c='tab:purple',linestyle=':',label='Neap ebb')
     ax2.set_title('qnet')
-    ax1.set_xlim(nearday-pd.Timedelta(weeks=2),nearday+pd.Timedelta(weeks=2))
+    ax1.set_xlim(nearday-np.timedelta64(14,'D'),nearday+np.timedelta64(14,'D'))
 
     ax1.legend()
     ax2.legend()
