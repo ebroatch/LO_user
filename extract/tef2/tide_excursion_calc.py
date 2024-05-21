@@ -151,10 +151,10 @@ for ext_fn in sect_list:
     ot_pf=(ot[pad:-pad+1])[pad:-pad+1]
 
     #find peaks
-    [spring_peaks, spring_properties]=find_peaks(qprism_pf)
-    [neap_peaks, neap_properties]=find_peaks(-qprism_pf)
-    [flood_peaks, flood_properties]=find_peaks(qnet_pf)
-    [ebb_peaks, ebb_properties]=find_peaks(-qnet_pf)
+    [spring_peaks, spring_properties]=find_peaks(qprism_pf, height=0) #need to use height kwarg (only include peaks above 0) so that the properties will include heights of peaks
+    [neap_peaks, neap_properties]=find_peaks(-qprism_pf, height=0)
+    [flood_peaks, flood_properties]=find_peaks(qnet_pf, height=0)
+    [ebb_peaks, ebb_properties]=find_peaks(-qnet_pf, height=0)
 
     #locate closest spring and neap to nearday, and closest flood and ebb to spring and neap
     spring_times = ot_pf[spring_peaks]
@@ -169,16 +169,80 @@ for ext_fn in sect_list:
     t_neap_flood = flood_times[np.argmin(np.abs(flood_times-t_neap))]
     t_neap_ebb = ebb_times[np.argmin(np.abs(ebb_times-t_neap))]
 
-    #NEED TO ADD FINDING START OF FLOOD AND EBB TIMES HERE
+    #FINDING BIGGEST UT NEAR CHOSEN SPRING TIDE
+    flood_heights=flood_properties['peak_heights']
+    ebb_heights=ebb_properties['peak_heights']
+    if flood_times[0]<ebb_times[0]:
+        if len(flood_times)==len(ebb_times):
+            QT1=(flood_heights+ebb_heights)/2 #QT1 is flood first pairs
+            QT2=(flood_heights[1:]+ebb_heights[:-1])/2 #QT2 is ebb first pairs
+            t_QT1=(flood_times+ebb_times)/2 #average time of QT1 flood and ebb
+            t_QT2=(flood_times[1:]+ebb_times[:-1])/2 #average time of QT2 ebb and flood
+        elif len(flood_times)==len(ebb_times)+1:
+            QT1=(flood_heights[:-1]+ebb_heights)/2
+            QT2=(flood_heights[1:]+ebb_heights)/2
+            t_QT1=(flood_times[:-1]+ebb_times)/2
+            t_QT2=(flood_times[1:]+ebb_times)/2
+        else:
+            print('problem with lengths of flood and ebb peak arrays')
+    elif flood_times[0]>ebb_times[0]:
+        if len(flood_times)==len(ebb_times):
+            QT1=(flood_heights[:-1]+ebb_heights[1:])/2
+            QT2=(flood_heights+ebb_heights)/2
+            t_QT1=(flood_times[:-1]+ebb_times[1:])/2
+            t_QT2=(flood_times+ebb_times)/2
+        elif len(flood_times)==len(ebb_times)-1:
+            QT1=(flood_heights+ebb_heights[1:])/2
+            QT2=(flood_heights+ebb_heights[:-1])/2
+            t_QT1=(flood_times+ebb_times[1:])/2
+            t_QT2=(flood_times+ebb_times[:-1])/2
+        else:
+            print('problem with lengths of flood and ebb peak arrays')
+    #now pick the bigger of QT1 and QT2 and find the corresponding time
+    #want to choose only in a range of 1 spring-neap centered around t_spring
+    if np.max(QT1[np.abs(t_QT1-t_spring)<np.timedelta64(8,'D')])>np.max(QT2[np.abs(t_QT2-t_spring)<np.timedelta64(8,'D')]): #choose between QT1 and QT2
+        t_nearmax=t_QT1[np.abs(t_QT1-t_spring)<np.timedelta64(8,'D')] #select around t_spring
+        QT_nearmax=QT1[np.abs(t_QT1-t_spring)<np.timedelta64(8,'D')] #select around t_spring
+        t_max=t_nearmax[np.argmax(QT_nearmax)]
+    else:
+        t_nearmax=t_QT2[np.abs(t_QT2-t_spring)<np.timedelta64(8,'D')] #select around t_spring
+        QT_nearmax=QT2[np.abs(t_QT2-t_spring)<np.timedelta64(8,'D')] #select around t_spring
+        t_max=t_nearmax[np.argmax(QT_nearmax)]
+    t_max_flood = flood_times[np.argmin(np.abs(flood_times-t_max))]
+    t_max_ebb = ebb_times[np.argmin(np.abs(ebb_times-t_max))]
+
+    #FINDING START OF FLOOD AND EBB (to use for particle tracking releases)
+    qnet_pre_spring_flood=qnet_pf[((t_spring_flood-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_spring_flood)] #select qnet for 7h before max flood
+    ot_pre_spring_flood=ot_pf[((t_spring_flood-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_spring_flood)] #select times for 7h before max flood
+    t_start_spring_flood=ot_pre_spring_flood[np.argmax(qnet_pre_spring_flood>0)] #pick first positive time
+    qnet_start_spring_flood=qnet_pre_spring_flood[np.argmax(qnet_pre_spring_flood>0)] #pick corresponding qnet (useful for plotting)
+
+    qnet_pre_spring_ebb=qnet_pf[((t_spring_ebb-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_spring_ebb)]
+    ot_pre_spring_ebb=ot_pf[((t_spring_ebb-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_spring_ebb)]
+    t_start_spring_ebb=ot_pre_spring_ebb[np.argmax(qnet_pre_spring_ebb<0)] #for ebb pick first negative time
+    qnet_start_spring_ebb=qnet_pre_spring_ebb[np.argmax(qnet_pre_spring_ebb<0)]
+
+    qnet_pre_neap_flood=qnet_pf[((t_neap_flood-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_neap_flood)]
+    ot_pre_neap_flood=ot_pf[((t_neap_flood-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_neap_flood)]
+    t_start_neap_flood=ot_pre_neap_flood[np.argmax(qnet_pre_neap_flood>0)]
+    qnet_start_neap_flood=qnet_pre_neap_flood[np.argmax(qnet_pre_neap_flood>0)]
+
+    qnet_pre_neap_ebb=qnet_pf[((t_neap_ebb-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_neap_ebb)]
+    ot_pre_neap_ebb=ot_pf[((t_neap_ebb-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_neap_ebb)]
+    t_start_neap_ebb=ot_pre_neap_ebb[np.argmax(qnet_pre_neap_ebb<0)]
+    qnet_start_neap_ebb=qnet_pre_neap_ebb[np.argmax(qnet_pre_neap_ebb<0)]
 
     #calculate velocities and excursion
     unet_spring_flood=unet[ot==t_spring_flood]
     unet_spring_ebb=unet[ot==t_spring_ebb]
     unet_neap_flood=unet[ot==t_neap_flood]
     unet_neap_ebb=unet[ot==t_neap_ebb]
+    unet_max_flood=unet[ot==t_max_flood]
+    unet_max_ebb=unet[ot==t_max_ebb]
 
     UT_spring=(unet_spring_flood-unet_spring_ebb)/2
     UT_neap=(unet_neap_flood-unet_neap_ebb)/2
+    UT_max=(unet_max_flood-unet_max_ebb)/2
 
     # calculate freshwater Froude number
     UR=QR/A_sect
@@ -201,6 +265,7 @@ for ext_fn in sect_list:
     # calculate tidal excursion
     TE_spring = (UT_spring*Ts)/np.pi
     TE_neap = (UT_neap*Ts)/np.pi
+    TE_max = (UT_max*Ts)/np.pi
 
     # get section longitude
     # out_fn = ext_fn.replace('.nc','.p')
@@ -234,14 +299,20 @@ for ext_fn in sect_list:
     #PLOT TIME TIMESERIES
     fig1, [ax1,ax2] = plt.subplots(2, 1, sharex=True)
     ax1.plot(ot_pf, qprism_pf)
-    ax1.axvline(t_spring,c='tab:green')
-    ax1.axvline(t_neap,c='tab:purple')
+    ax1.axvline(t_spring,c='tab:green',label='Spring')
+    ax1.axvline(t_neap,c='tab:purple',label='Neap')
     ax1.set_title('Qprism')
     ax2.plot(ot_pf,qnet_pf)
     ax2.axvline(t_spring_flood,c='tab:green',linestyle='--',label='Spring flood')
     ax2.axvline(t_spring_ebb,c='tab:green',linestyle=':',label='Spring ebb')
     ax2.axvline(t_neap_flood,c='tab:purple',linestyle='--',label='Neap flood')
     ax2.axvline(t_neap_ebb,c='tab:purple',linestyle=':',label='Neap ebb')
+    ax2.axvline(t_neap_flood,c='tab:orange',linestyle='--',label='Max UT flood')
+    ax2.axvline(t_neap_ebb,c='tab:orange',linestyle=':',label='Max UT ebb')
+    ax2.scatter(t_start_spring_flood, qnet_start_spring_flood, c='tab:green', marker='s', label='Start of spring flood')
+    ax2.scatter(t_start_spring_ebb, qnet_start_spring_ebb, c='tab:green', marker='^', label='Start of spring ebb')
+    ax2.scatter(t_start_neap_flood, qnet_start_neap_flood, c='tab:purple', marker='s', label='Start of neap flood')
+    ax2.scatter(t_start_neap_ebb, qnet_start_neap_ebb, c='tab:purple', marker='^', label='Start of neap ebb')
     ax2.set_title('qnet')
     ax1.set_xlim(nearday-np.timedelta64(14,'D'),nearday+np.timedelta64(14,'D'))
 
@@ -255,18 +326,29 @@ for ext_fn in sect_list:
     TE = dict()
     TE['t_spring']=t_spring
     TE['t_neap']=t_neap
+    TE['t_max']
     TE['t_spring_flood']=t_spring_flood
     TE['t_spring_ebb']=t_spring_ebb
     TE['t_neap_flood']=t_neap_flood
     TE['t_neap_ebb']=t_neap_ebb
+    TE['t_max_flood']=t_max_flood
+    TE['t_max_ebb']=t_max_ebb
+    TE['t_start_spring_flood']=t_start_spring_flood
+    TE['t_start_spring_ebb']=t_start_spring_ebb
+    TE['t_start_neap_flood']=t_start_neap_flood
+    TE['t_start_neap_ebb']=t_start_neap_ebb
     TE['unet_spring_flood']=unet_spring_flood
     TE['unet_spring_ebb']=unet_spring_ebb
     TE['unet_neap_flood']=unet_neap_flood
     TE['unet_neap_ebb']=unet_neap_ebb
+    TE['unet_max_flood']=unet_max_flood
+    TE['unet_max_ebb']=unet_max_ebb
     TE['UT_spring']=UT_spring
     TE['UT_neap']=UT_neap
+    TE['UT_max']=UT_max
     TE['TE_spring']=TE_spring
     TE['TE_neap']=TE_neap
+    TE['TE_max']=TE_max
     
     TE['UR']=UR
     TE['c']=c
@@ -283,6 +365,8 @@ for ext_fn in sect_list:
     print(t_spring)
     print('t_neap=')
     print(t_neap)
+    print('t_max=')
+    print(t_max)
     print('t_spring_flood=')
     print(t_spring_flood)
     print('t_spring_ebb=')
@@ -295,10 +379,14 @@ for ext_fn in sect_list:
     print(UT_spring)
     print('UT_neap=')
     print(UT_neap)
+    print('UT_max=')
+    print(UT_max)
     print('TE_spring (km)=')
     print(TE_spring/1000)
     print('TE_neap (km)=')
     print(TE_neap/1000)
+    print('TE_max (km)=')
+    print(TE_max/1000)
 
 
     print('  elapsed time for section = %d seconds' % (time()-tt0))
