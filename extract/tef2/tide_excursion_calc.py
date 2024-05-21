@@ -296,8 +296,8 @@ for ext_fn in sect_list:
         if sect_label=='a1':
             ax.legend(loc='upper left')
 
-    #PLOT TIME TIMESERIES
-    fig1, [ax1,ax2] = plt.subplots(2, 1, sharex=True)
+    #PLOT TIDE TIMESERIES
+    fig1, [ax1,ax2] = plt.subplots(2, 1, sharex=True, figsize=(20,10))
     ax1.plot(ot_pf, qprism_pf)
     ax1.axvline(t_spring,c='tab:green',label='Spring')
     ax1.axvline(t_neap,c='tab:purple',label='Neap')
@@ -307,8 +307,8 @@ for ext_fn in sect_list:
     ax2.axvline(t_spring_ebb,c='tab:green',linestyle=':',label='Spring ebb')
     ax2.axvline(t_neap_flood,c='tab:purple',linestyle='--',label='Neap flood')
     ax2.axvline(t_neap_ebb,c='tab:purple',linestyle=':',label='Neap ebb')
-    ax2.axvline(t_neap_flood,c='tab:orange',linestyle='--',label='Max UT flood')
-    ax2.axvline(t_neap_ebb,c='tab:orange',linestyle=':',label='Max UT ebb')
+    ax2.axvline(t_max_flood,c='tab:orange',linestyle='--',label='Max UT flood')
+    ax2.axvline(t_max_ebb,c='tab:orange',linestyle=':',label='Max UT ebb')
     ax2.scatter(t_start_spring_flood, qnet_start_spring_flood, c='tab:green', marker='s', label='Start of spring flood')
     ax2.scatter(t_start_spring_ebb, qnet_start_spring_ebb, c='tab:green', marker='^', label='Start of spring ebb')
     ax2.scatter(t_start_neap_flood, qnet_start_neap_flood, c='tab:purple', marker='s', label='Start of neap flood')
