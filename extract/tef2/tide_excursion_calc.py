@@ -392,6 +392,8 @@ for ext_fn in sect_list:
     print(UT_neap)
     print('UT_max=')
     print(UT_max)
+    print('UT_max_v2=')
+    print(UT_max_v2)
     print('TE_spring (km)=')
     print(TE_spring/1000)
     print('TE_neap (km)=')
