@@ -176,26 +176,26 @@ for ext_fn in sect_list:
         if len(flood_times)==len(ebb_times):
             QT1=(flood_heights+ebb_heights)/2 #QT1 is flood first pairs
             QT2=(flood_heights[1:]+ebb_heights[:-1])/2 #QT2 is ebb first pairs
-            t_QT1=(flood_times+ebb_times)/2 #average time of QT1 flood and ebb
-            t_QT2=(flood_times[1:]+ebb_times[:-1])/2 #average time of QT2 ebb and flood
+            t_QT1=flood_times+((ebb_times-flood_times)/2) #average time of QT1 flood and ebb
+            t_QT2=flood_times[1:]+((ebb_times[:-1]-flood_times[1:])/2) #average time of QT2 ebb and flood
         elif len(flood_times)==len(ebb_times)+1:
             QT1=(flood_heights[:-1]+ebb_heights)/2
             QT2=(flood_heights[1:]+ebb_heights)/2
-            t_QT1=(flood_times[:-1]+ebb_times)/2
-            t_QT2=(flood_times[1:]+ebb_times)/2
+            t_QT1=flood_times[:-1]+((ebb_times-flood_times[:-1])/2)
+            t_QT2=flood_times[1:]+((ebb_times-flood_times[1:])/2)
         else:
             print('problem with lengths of flood and ebb peak arrays')
     elif flood_times[0]>ebb_times[0]:
         if len(flood_times)==len(ebb_times):
             QT1=(flood_heights[:-1]+ebb_heights[1:])/2
             QT2=(flood_heights+ebb_heights)/2
-            t_QT1=(flood_times[:-1]+ebb_times[1:])/2
-            t_QT2=(flood_times+ebb_times)/2
+            t_QT1=flood_times[:-1]+((ebb_times[1:]-flood_times[:-1])/2)
+            t_QT2=flood_times+((ebb_times-flood_times)/2)
         elif len(flood_times)==len(ebb_times)-1:
             QT1=(flood_heights+ebb_heights[1:])/2
             QT2=(flood_heights+ebb_heights[:-1])/2
-            t_QT1=(flood_times+ebb_times[1:])/2
-            t_QT2=(flood_times+ebb_times[:-1])/2
+            t_QT1=flood_times+((ebb_times[1:]-flood_times)/2)
+            t_QT2=flood_times+((ebb_times[:-1]-flood_times)/2)
         else:
             print('problem with lengths of flood and ebb peak arrays')
     #now pick the bigger of QT1 and QT2 and find the corresponding time
