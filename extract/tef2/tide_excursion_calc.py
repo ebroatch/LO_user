@@ -212,23 +212,23 @@ for ext_fn in sect_list:
     t_max_ebb = ebb_times[np.argmin(np.abs(ebb_times-t_max))]
 
     #FINDING START OF FLOOD AND EBB (to use for particle tracking releases)
-    qnet_pre_spring_flood=qnet_pf[((t_spring_flood-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_spring_flood)] #select qnet for 7h before max flood
-    ot_pre_spring_flood=ot_pf[((t_spring_flood-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_spring_flood)] #select times for 7h before max flood
+    qnet_pre_spring_flood=qnet_pf[((t_spring_flood-ot_pf)<np.timedelta64(7,'h')) & (ot_pf<=t_spring_flood)] #select qnet for 7h before max flood
+    ot_pre_spring_flood=ot_pf[((t_spring_flood-ot_pf)<np.timedelta64(7,'h')) & (ot_pf<=t_spring_flood)] #select times for 7h before max flood
     t_start_spring_flood=ot_pre_spring_flood[np.argmax(qnet_pre_spring_flood>0)] #pick first positive time
     qnet_start_spring_flood=qnet_pre_spring_flood[np.argmax(qnet_pre_spring_flood>0)] #pick corresponding qnet (useful for plotting)
 
-    qnet_pre_spring_ebb=qnet_pf[((t_spring_ebb-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_spring_ebb)]
-    ot_pre_spring_ebb=ot_pf[((t_spring_ebb-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_spring_ebb)]
+    qnet_pre_spring_ebb=qnet_pf[((t_spring_ebb-ot_pf)<np.timedelta64(7,'h')) & (ot_pf<=t_spring_ebb)]
+    ot_pre_spring_ebb=ot_pf[((t_spring_ebb-ot_pf)<np.timedelta64(7,'h')) & (ot_pf<=t_spring_ebb)]
     t_start_spring_ebb=ot_pre_spring_ebb[np.argmax(qnet_pre_spring_ebb<0)] #for ebb pick first negative time
     qnet_start_spring_ebb=qnet_pre_spring_ebb[np.argmax(qnet_pre_spring_ebb<0)]
 
-    qnet_pre_neap_flood=qnet_pf[((t_neap_flood-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_neap_flood)]
-    ot_pre_neap_flood=ot_pf[((t_neap_flood-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_neap_flood)]
+    qnet_pre_neap_flood=qnet_pf[((t_neap_flood-ot_pf)<np.timedelta64(7,'h')) & (ot_pf<=t_neap_flood)]
+    ot_pre_neap_flood=ot_pf[((t_neap_flood-ot_pf)<np.timedelta64(7,'h')) & (ot_pf<=t_neap_flood)]
     t_start_neap_flood=ot_pre_neap_flood[np.argmax(qnet_pre_neap_flood>0)]
     qnet_start_neap_flood=qnet_pre_neap_flood[np.argmax(qnet_pre_neap_flood>0)]
 
-    qnet_pre_neap_ebb=qnet_pf[((t_neap_ebb-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_neap_ebb)]
-    ot_pre_neap_ebb=ot_pf[((t_neap_ebb-ot_pf)<np.timedelta64(7,'H')) & (ot_pf<=t_neap_ebb)]
+    qnet_pre_neap_ebb=qnet_pf[((t_neap_ebb-ot_pf)<np.timedelta64(7,'h')) & (ot_pf<=t_neap_ebb)]
+    ot_pre_neap_ebb=ot_pf[((t_neap_ebb-ot_pf)<np.timedelta64(7,'h')) & (ot_pf<=t_neap_ebb)]
     t_start_neap_ebb=ot_pre_neap_ebb[np.argmax(qnet_pre_neap_ebb<0)]
     qnet_start_neap_ebb=qnet_pre_neap_ebb[np.argmax(qnet_pre_neap_ebb<0)]
 
