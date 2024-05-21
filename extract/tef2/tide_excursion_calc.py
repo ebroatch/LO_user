@@ -326,7 +326,7 @@ for ext_fn in sect_list:
     TE = dict()
     TE['t_spring']=t_spring
     TE['t_neap']=t_neap
-    TE['t_max']
+    TE['t_max']=t_max
     TE['t_spring_flood']=t_spring_flood
     TE['t_spring_ebb']=t_spring_ebb
     TE['t_neap_flood']=t_neap_flood
