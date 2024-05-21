@@ -148,6 +148,7 @@ for ext_fn in sect_list:
     #cut off nans for peak finding - scipy find_peaks can't handle nans
     qprism_pf=(qprism[pad:-pad+1])[pad:-pad+1]
     qnet_pf=(qnet[pad:-pad+1])[pad:-pad+1]
+    unet_pf=(unet[pad:-pad+1])[pad:-pad+1]
     ot_pf=(ot[pad:-pad+1])[pad:-pad+1]
 
     #find peaks
@@ -170,46 +171,53 @@ for ext_fn in sect_list:
     t_neap_ebb = ebb_times[np.argmin(np.abs(ebb_times-t_neap))]
 
     #FINDING BIGGEST UT NEAR CHOSEN SPRING TIDE
-    flood_heights=flood_properties['peak_heights']
-    ebb_heights=ebb_properties['peak_heights']
-    if flood_times[0]<ebb_times[0]:
-        if len(flood_times)==len(ebb_times):
-            QT1=(flood_heights+ebb_heights)/2 #QT1 is flood first pairs
-            QT2=(flood_heights[1:]+ebb_heights[:-1])/2 #QT2 is ebb first pairs
-            t_QT1=flood_times+((ebb_times-flood_times)/2) #average time of QT1 flood and ebb
-            t_QT2=flood_times[1:]+((ebb_times[:-1]-flood_times[1:])/2) #average time of QT2 ebb and flood
-        elif len(flood_times)==len(ebb_times)+1:
-            QT1=(flood_heights[:-1]+ebb_heights)/2
-            QT2=(flood_heights[1:]+ebb_heights)/2
-            t_QT1=flood_times[:-1]+((ebb_times-flood_times[:-1])/2)
-            t_QT2=flood_times[1:]+((ebb_times-flood_times[1:])/2)
+    #change to use unet and not qnet
+    [u_flood_peaks, u_flood_properties]=find_peaks(unet_pf, height=0) #need to use height kwarg (only include peaks above 0) so that the properties will include heights of peaks
+    [u_ebb_peaks, u_ebb_properties]=find_peaks(-unet_pf, height=0)
+    u_flood_times = ot_pf[u_flood_peaks]
+    u_ebb_times = ot_pf[u_ebb_peaks]
+    u_flood_heights=u_flood_properties['peak_heights']
+    u_ebb_heights=u_ebb_properties['peak_heights']
+    if u_flood_times[0]<u_ebb_times[0]:
+        if len(u_flood_times)==len(u_ebb_times):
+            UT1=(u_flood_heights+u_ebb_heights)/2 #UT1 is flood first pairs
+            UT2=(u_flood_heights[1:]+u_ebb_heights[:-1])/2 #UT2 is ebb first pairs
+            t_UT1=u_flood_times+((u_ebb_times-u_flood_times)/2) #average time of UT1 flood and ebb
+            t_UT2=u_flood_times[1:]+((u_ebb_times[:-1]-u_flood_times[1:])/2) #average time of UT2 ebb and flood
+        elif len(u_flood_times)==len(u_ebb_times)+1:
+            UT1=(u_flood_heights[:-1]+u_ebb_heights)/2
+            UT2=(u_flood_heights[1:]+u_ebb_heights)/2
+            t_UT1=u_flood_times[:-1]+((u_ebb_times-u_flood_times[:-1])/2)
+            t_UT2=u_flood_times[1:]+((u_ebb_times-u_flood_times[1:])/2)
         else:
             print('problem with lengths of flood and ebb peak arrays')
-    elif flood_times[0]>ebb_times[0]:
-        if len(flood_times)==len(ebb_times):
-            QT1=(flood_heights[:-1]+ebb_heights[1:])/2
-            QT2=(flood_heights+ebb_heights)/2
-            t_QT1=flood_times[:-1]+((ebb_times[1:]-flood_times[:-1])/2)
-            t_QT2=flood_times+((ebb_times-flood_times)/2)
-        elif len(flood_times)==len(ebb_times)-1:
-            QT1=(flood_heights+ebb_heights[1:])/2
-            QT2=(flood_heights+ebb_heights[:-1])/2
-            t_QT1=flood_times+((ebb_times[1:]-flood_times)/2)
-            t_QT2=flood_times+((ebb_times[:-1]-flood_times)/2)
+    elif u_flood_times[0]>u_ebb_times[0]:
+        if len(u_flood_times)==len(u_ebb_times):
+            UT1=(u_flood_heights[:-1]+u_ebb_heights[1:])/2
+            UT2=(u_flood_heights+u_ebb_heights)/2
+            t_UT1=u_flood_times[:-1]+((u_ebb_times[1:]-u_flood_times[:-1])/2)
+            t_UT2=u_flood_times+((u_ebb_times-u_flood_times)/2)
+        elif len(u_flood_times)==len(u_ebb_times)-1:
+            UT1=(u_flood_heights+u_ebb_heights[1:])/2
+            UT2=(u_flood_heights+u_ebb_heights[:-1])/2
+            t_UT1=u_flood_times+((u_ebb_times[1:]-u_flood_times)/2)
+            t_UT2=u_flood_times+((u_ebb_times[:-1]-u_flood_times)/2)
         else:
             print('problem with lengths of flood and ebb peak arrays')
-    #now pick the bigger of QT1 and QT2 and find the corresponding time
+    #now pick the bigger of UT1 and UT2 and find the corresponding time
     #want to choose only in a range of 1 spring-neap centered around t_spring
-    if np.max(QT1[np.abs(t_QT1-t_spring)<np.timedelta64(8,'D')])>np.max(QT2[np.abs(t_QT2-t_spring)<np.timedelta64(8,'D')]): #choose between QT1 and QT2
-        t_nearmax=t_QT1[np.abs(t_QT1-t_spring)<np.timedelta64(8,'D')] #select around t_spring
-        QT_nearmax=QT1[np.abs(t_QT1-t_spring)<np.timedelta64(8,'D')] #select around t_spring
-        t_max=t_nearmax[np.argmax(QT_nearmax)]
+    if np.max(UT1[np.abs(t_UT1-t_spring)<np.timedelta64(8,'D')])>np.max(UT2[np.abs(t_UT2-t_spring)<np.timedelta64(8,'D')]): #choose between UT1 and UT2
+        t_nearmax=t_UT1[np.abs(t_UT1-t_spring)<np.timedelta64(8,'D')] #select around t_spring
+        UT_nearmax=UT1[np.abs(t_UT1-t_spring)<np.timedelta64(8,'D')] #select around t_spring
+        t_max=t_nearmax[np.argmax(UT_nearmax)]
+        UT_max_v2=UT_nearmax[np.argmax(UT_nearmax)]
     else:
-        t_nearmax=t_QT2[np.abs(t_QT2-t_spring)<np.timedelta64(8,'D')] #select around t_spring
-        QT_nearmax=QT2[np.abs(t_QT2-t_spring)<np.timedelta64(8,'D')] #select around t_spring
-        t_max=t_nearmax[np.argmax(QT_nearmax)]
-    t_max_flood = flood_times[np.argmin(np.abs(flood_times-t_max))]
-    t_max_ebb = ebb_times[np.argmin(np.abs(ebb_times-t_max))]
+        t_nearmax=t_UT2[np.abs(t_UT2-t_spring)<np.timedelta64(8,'D')] #select around t_spring
+        UT_nearmax=UT2[np.abs(t_UT2-t_spring)<np.timedelta64(8,'D')] #select around t_spring
+        t_max=t_nearmax[np.argmax(UT_nearmax)]
+        UT_max_v2=UT_nearmax[np.argmax(UT_nearmax)]
+    t_max_flood = u_flood_times[np.argmin(np.abs(u_flood_times-t_max))]
+    t_max_ebb = u_ebb_times[np.argmin(np.abs(u_ebb_times-t_max))]
 
     #FINDING START OF FLOOD AND EBB (to use for particle tracking releases)
     qnet_pre_spring_flood=qnet_pf[((t_spring_flood-ot_pf)<np.timedelta64(7,'h')) & (ot_pf<=t_spring_flood)] #select qnet for 7h before max flood
@@ -318,6 +326,8 @@ for ext_fn in sect_list:
 
     ax1.legend()
     ax2.legend()
+    ax1.grid(True)
+    ax2.grid(True)
     fig1.savefig(out_dir / ('tide_plot.png'))
 
     ds.close()
@@ -346,6 +356,7 @@ for ext_fn in sect_list:
     TE['UT_spring']=UT_spring
     TE['UT_neap']=UT_neap
     TE['UT_max']=UT_max
+    TE['UT_max_v2']=UT_max_v2
     TE['TE_spring']=TE_spring
     TE['TE_neap']=TE_neap
     TE['TE_max']=TE_max
