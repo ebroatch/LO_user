@@ -151,9 +151,9 @@ for ext_fn in sect_list:
     ot_pf=(ot[pad:-pad+1])[pad:-pad+1]
 
     #find peaks
-    [spring_peaks, spring_properties]=find_peaks(qprism_pf, height=0) #need to use height kwarg (only include peaks above 0) so that the properties will include heights of peaks
-    [neap_peaks, neap_properties]=find_peaks(-qprism_pf, height=0)
-    [flood_peaks, flood_properties]=find_peaks(qnet_pf, height=0)
+    [spring_peaks, spring_properties]=find_peaks(qprism_pf) 
+    [neap_peaks, neap_properties]=find_peaks(-qprism_pf)
+    [flood_peaks, flood_properties]=find_peaks(qnet_pf, height=0) #need to use height kwarg (only include peaks above 0) so that the properties will include heights of peaks
     [ebb_peaks, ebb_properties]=find_peaks(-qnet_pf, height=0)
 
     #locate closest spring and neap to nearday, and closest flood and ebb to spring and neap
