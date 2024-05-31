@@ -143,7 +143,7 @@ for i in range(len(sect_list)):
     ax2.plot(ot,tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
     ax2.grid(True)
     ax2.set_ylabel(ylab_dict['deltas'])
-    ax2.set_ylim(0,6)
+    ax2.set_ylim(0,8)
     #ax2.set_ylim(0,10)
     #ax2.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
 
