@@ -136,9 +136,9 @@ axs[2].grid(True)
 axs[3].grid(True)
 
 axs[0].set_ylim(20,80)
-axs[2].set_ylim(-2e4,10e4) #to match when placed side by side
-axs[0].set_ylim(-6e4,6e4)
-axs[1].set_ylim(-3.5e4,-2.5e4)
+axs[1].set_ylim(-2e4,10e4) #to match when placed side by side
+axs[2].set_ylim(-6e4,6e4)
+axs[3].set_ylim(-3.5e4,-2.5e4)
 axs[1].legend(loc='lower right')
 
 # axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-15'))
