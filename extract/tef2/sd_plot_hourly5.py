@@ -69,7 +69,9 @@ yv = g.lat_v.values
 # label_out = ['a3 out','b3 out','c3 out']
 fs = 12
 plt.close('all')
-pfun.start_plot(fs=fs, figsize=(21,10))
+#pfun.start_plot(fs=fs, figsize=(21,10))
+pfun.start_plot(fs=fs, figsize=(7,10)) #narrower plot with one month xlim
+
 
 #fig, axs = plt.subplots(4, 1, sharex=True,figsize=(10,10),gridspec_kw={'height_ratios': [5,5,1,1]})
 fig, axs = plt.subplots(4, 1, sharex=True,figsize=(15,10),gridspec_kw={'height_ratios': [1,5,5,1]})
@@ -140,7 +142,8 @@ axs[1].legend(loc='lower right')
 
 # axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-15'))
 # axs[3].set_xticks(ticks=[pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-15'), pd.Timestamp('2020-11-01'), pd.Timestamp('2020-11-15')])
-axs[3].set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
+#axs[3].set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
+axs[3].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 #plt.xticks(rotation=90)
 
 axs[3].set_ylabel('$F_{R}\ [m^{3}s^{-1} g\ kg^{-1}]$')
