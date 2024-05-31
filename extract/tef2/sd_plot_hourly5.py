@@ -70,11 +70,11 @@ yv = g.lat_v.values
 fs = 12
 plt.close('all')
 #pfun.start_plot(fs=fs, figsize=(21,10))
-pfun.start_plot(fs=fs, figsize=(7,10)) #narrower plot with one month xlim
+#pfun.start_plot(fs=fs, figsize=(7,10)) #narrower plot with one month xlim
 
 
 #fig, axs = plt.subplots(4, 1, sharex=True,figsize=(10,10),gridspec_kw={'height_ratios': [5,5,1,1]})
-fig, axs = plt.subplots(4, 1, sharex=True,figsize=(15,10),gridspec_kw={'height_ratios': [1,5,5,1]})
+fig, axs = plt.subplots(4, 1, sharex=True,figsize=(8,10),gridspec_kw={'height_ratios': [1,6,6,1]})
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
@@ -135,9 +135,10 @@ axs[1].grid(True)
 axs[2].grid(True)
 axs[3].grid(True)
 
-# axs[2].set_ylim(-4e4,-2e4) #to match when placed side by side
-# axs[0].set_ylim(-2e4,8e4)
-# axs[1].set_ylim(-5e4,5e4)
+axs[0].set_ylim(20,80)
+axs[2].set_ylim(-2e4,10e4) #to match when placed side by side
+axs[0].set_ylim(-6e4,6e4)
+axs[1].set_ylim(-3.5e4,-2.5e4)
 axs[1].legend(loc='lower right')
 
 # axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-15'))
