@@ -71,7 +71,7 @@ pfun.start_plot(fs=fs, figsize=(21,10))
 
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
-fig, [ax0,ax1,ax2,ax3,ax4] = plt.subplots(5, 1, sharex=True,figsize=(8,10),gridspec_kw={'height_ratios': [1,4,2,2,2]})
+fig, [ax0,ax1,ax2,ax3,ax4,ax5] = plt.subplots(6, 1, sharex=True,figsize=(8,10),gridspec_kw={'height_ratios': [1,4,2,2,2,2]})
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
@@ -93,7 +93,8 @@ for i in range(len(sect_list)):
     #             'salt': r'Salinity $[g\ kg^{-1}]$'}
     ylab_dict = {'Qprism': '$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$',
                 'Q': '$Q_{in}$\n$[10^{3}\ m^{3}s^{-1}]$',
-                'salt': '$s_{in}$\n$[g\ kg^{-1}]$',
+                'sin': '$s_{in}$\n$[g\ kg^{-1}]$',
+                'sout': '$s_{out}$\n$[g\ kg^{-1}]$',
                 'deltas': '$\Delta s$\n$[g\ kg^{-1}]$'}
     # p_color = 'r'
     # m_color = 'b'
@@ -139,25 +140,32 @@ for i in range(len(sect_list)):
     
     # ax2.plot(bulk['ot'],sp,'or',alpha=alpha)
     # ax2.plot(bulk['ot'],sm,'ob',alpha=alpha)
-    
-    ax2.plot(ot,tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
+
+    ax2.plot(ot,tef_df['salt_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
     ax2.grid(True)
-    ax2.set_ylabel(ylab_dict['deltas'])
-    ax2.set_ylim(0,8)
+    ax2.set_ylabel(ylab_dict['sin'])
+    ax2.set_ylim(25,33)
+
+    ax3.plot(ot,tef_df['salt_m'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
+    ax3.grid(True)
+    ax3.set_ylabel(ylab_dict['sout'])
+    ax3.set_ylim(25,33)
+    
+    ax4.plot(ot,tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
+    ax4.grid(True)
+    ax4.set_ylabel(ylab_dict['deltas'])
+    ax4.set_ylim(0,8)
     #ax2.set_ylim(0,10)
     #ax2.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
 
-    ax3.plot(ot,tef_df['Q_p'].to_numpy()*(tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy()), color=plot_color[i], linewidth=lw, label=sect_name)
-    ax3.grid(True)
-    ax3.set_ylabel('$Q_{in}\Delta s$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$')
-    ax3.set_ylim(0,75)
+    ax5.plot(ot,tef_df['Q_p'].to_numpy()*(tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy()), color=plot_color[i], linewidth=lw, label=sect_name)
+    ax5.grid(True)
+    ax5.set_ylabel('$Q_{in}\Delta s$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$')
+    ax5.set_ylim(0,75)
 
-    ax4.plot(ot,tef_df['salt_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
-    ax4.grid(True)
-    ax4.set_ylabel(ylab_dict['salt'])
-    ax4.set_ylim(25,33)
     #ax4.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
-    ax4.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
+    ax5.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
+
     
     # # map
     # sn = sect_name.replace('.p','')
