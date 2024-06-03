@@ -119,7 +119,7 @@ for i in range(len(sect_list)):
         # ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
         snmid=(np.max(tef_df['Q_prism'].to_numpy())+np.min(tef_df['Q_prism'].to_numpy()))/2
         snbg=np.where(tef_df['Q_prism'].to_numpy()>snmid, 1, 0)
-        ax0.pcolor(ot, ax0.get_ylim(), snbg[np.newaxis], cmap='Greys', vmin=0, vmax=2, alpha=0.3)
+        ax0.pcolor(ot, ax0.get_ylim(), snbg, cmap='Greys', vmin=0, vmax=2, alpha=0.3)
     
     ax1.plot(ot,tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
     #ax1.plot(ot,tef_df['Q_m'].to_numpy(), color=m_color[i], linewidth=lw, label=label_out[i])
