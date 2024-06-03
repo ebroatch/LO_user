@@ -8,6 +8,7 @@ run bulk_plot -gtx cas6_v00_uu0m -ctag c0 -0 2022.01.01 -1 2022.12.31 -test True
 """
 import sys
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import numpy as np
 import pickle
 from time import time
@@ -113,15 +114,18 @@ for i in range(len(sect_list)):
         ax0.plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=lw)
         ax0.grid(True)
         ax0.set_ylabel(ylab_dict['Qprism'])
-        ax0.set_ylim(20,80)
+        ax0.set_ylim(20,100)
         #ax0.set_yticks(ticks=[20,30,40,50])
-        ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
+        # ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
+        snmid=(np.max(tef_df['Q_prism'].to_numpy())+np.min(tef_df['Q_prism'].to_numpy()))/2
+        snbg=np.where(tef_df['Q_prism'].to_numpy()>snmid, 1, 0)
+        ax0.pcolorfast(ax0.get_xlim(), ax0.get_ylim(), snbg(np.newaxis), cmap='Greys', vmin=0, vmax=2, alpha=0.3)
     
     ax1.plot(ot,tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
     #ax1.plot(ot,tef_df['Q_m'].to_numpy(), color=m_color[i], linewidth=lw, label=label_out[i])
     ax1.grid(True)
     ax1.set_ylabel(ylab_dict['Q'])
-    ax1.set_ylim(0,20)
+    ax1.set_ylim(3,19)
     #ax1.set_ylim(0,16)
     #ax1.set_yticks(ticks=[0,4,8,12,16])
     
@@ -134,7 +138,7 @@ for i in range(len(sect_list)):
     # sm = bulk['salt'].copy()
     # sm[np.isnan(qm)]=np.nan
     
-    alpha=.3
+    # alpha=.3
     # ax1.plot(bulk['ot'],qp,'or',alpha=alpha)
     # ax1.plot(bulk['ot'],qm,'ob',alpha=alpha)
     
@@ -149,7 +153,7 @@ for i in range(len(sect_list)):
     ax3.plot(ot,tef_df['salt_m'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
     ax3.grid(True)
     ax3.set_ylabel(ylab_dict['sout'])
-    ax3.set_ylim(25,33)
+    ax3.set_ylim(23,31)
     
     ax4.plot(ot,tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
     ax4.grid(True)
@@ -165,6 +169,7 @@ for i in range(len(sect_list)):
 
     #ax4.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
     ax5.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
+    ax5.xaxis.set_major_formatter(mdates.DateFormatter('%D'))
 
     
     # # map
