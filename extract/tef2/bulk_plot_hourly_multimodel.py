@@ -107,7 +107,8 @@ for i in range(len(gctags)):
                 'Q': '$Q_{in}$\n$[10^{3}\ m^{3}s^{-1}]$',
                 'sin': '$s_{in}$\n$[g\ kg^{-1}]$',
                 'sout': '$s_{out}$\n$[g\ kg^{-1}]$',
-                'deltas': '$\Delta s$\n$[g\ kg^{-1}]$'}
+                'deltas': '$\Delta s$\n$[g\ kg^{-1}]$',
+                'Qdeltas': '$Q_{in}\Delta s$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$'}
     # p_color = 'r'
     # m_color = 'b'
     lw = 2
@@ -164,7 +165,7 @@ for i in range(len(gctags)):
 
     ax5.plot(ot,tef_df['Q_p'].to_numpy()*(tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy()), color=plot_color[i], linewidth=lw)
     ax5.grid(True)
-    ax5.set_ylabel('$Q_{in}\Delta s$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$')
+    ax5.set_ylabel(ylab_dict['Qdeltas'])
     ax5.set_ylim(0,75)
 
     #ax4.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
@@ -256,15 +257,18 @@ for i in range(len(gctags)):
     tef_df['Q_p'] = tef_df['q_p']/1000
     tef_df['Q_m'] = tef_df['q_m']/1000
     tef_df['Q_prism']=tef_df['qprism']/1000
-    Qr=1000
+    Qr=1 #1e3
                     
     # labels and colors
     # ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
     #             'salt': r'Salinity $[g\ kg^{-1}]$'}
     ylab_dict = {'Qprism': '$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$',
                 'Q': '$Q_{in}$\n$[10^{3}\ m^{3}s^{-1}]$',
-                'salt': '$s_{in}$\n$[g\ kg^{-1}]$',
-                'deltas': '$\Delta s$\n$[g\ kg^{-1}]$'}
+                'sin': '$s_{in}$\n$[g\ kg^{-1}]$',
+                'sout': '$s_{out}$\n$[g\ kg^{-1}]$',
+                'deltas': '$\Delta s$\n$[g\ kg^{-1}]$',
+                'Qdeltas': '$Q_{in}\Delta s$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$',
+                'Qrsout': '$Q_{r} s_{out}$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$'}
 
     pad=36
     ax1.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy(), '-', lw=0.5, color=plot_color[i], label=silllens[i]) #cut out first couple of days for weird qprism
@@ -272,14 +276,14 @@ for i in range(len(gctags)):
     ax3.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy()*(tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy()), '-', lw=0.5, color=plot_color[i], label=silllens[i])
     ax4.plot(Qr*tef_df['salt_m'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy()*(tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy()), '-', lw=0.5, color=plot_color[i], label=silllens[i])
 
-ax1.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
-ax1.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
-ax2.set_ylabel(r'$\Delta s [g kg^{-1}]$')
-ax2.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
-ax3.set_ylabel(r'$Q_{in} \Delta s [m^{3}s^{-1}g kg^{-1}]$')
-ax3.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
-ax4.set_ylabel(r'$Q_{in} \Delta s [m^{3}s^{-1}g kg^{-1}]$')
-ax4.set_xlabel(r'$Q_r s_{out} [m^{3}s^{-1}g kg^{-1}]$')
+ax1.set_ylabel(ylab_dict['Q'])
+ax1.set_xlabel(ylab_dict['Qprism'])
+ax2.set_ylabel(ylab_dict['deltas'])
+ax2.set_xlabel(ylab_dict['Qprism'])
+ax3.set_ylabel(ylab_dict['Qdeltas'])
+ax3.set_xlabel(ylab_dict['Qprism'])
+ax4.set_ylabel(ylab_dict['Qdeltas'])
+ax4.set_xlabel(ylab_dict['Qrsout'])
 
 ax1.set_box_aspect(1)
 ax2.set_box_aspect(1)
@@ -289,7 +293,7 @@ ax4.set_box_aspect(1)
 ax1.grid(True)
 ax2.grid(True)
 ax3.grid(True)
-ax5.grid(True)
+ax4.grid(True)
 
 ax1.legend(loc='lower right')
 #ax2.set_title(Ldir['gtagex'])
