@@ -112,14 +112,14 @@ for i in range(len(sect_list)):
 
     if i==0:
         ax0.plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=lw)
-        ax0.grid(True)
         ax0.set_ylabel(ylab_dict['Qprism'])
         ax0.set_ylim(20,100)
         #ax0.set_yticks(ticks=[20,30,40,50])
         # ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
         snmid=(np.max(tef_df['Q_prism'].to_numpy())+np.min(tef_df['Q_prism'].to_numpy()))/2
         snbg=np.where(tef_df['Q_prism'].to_numpy()>snmid, 1, 0)
-        ax0.pcolor(ot, ax0.get_ylim(), np.tile(snbg, (2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3)
+        ax0.pcolor(ot, (ax0.get_ylim()[0]+ax0.get_ylim()[1])/2, snbg, cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+        ax0.grid(True)
     
     ax1.plot(ot,tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
     #ax1.plot(ot,tef_df['Q_m'].to_numpy(), color=m_color[i], linewidth=lw, label=label_out[i])
