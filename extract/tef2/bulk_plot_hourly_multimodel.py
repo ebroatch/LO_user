@@ -242,7 +242,7 @@ plt.close()
 pfun.end_plot()
 
 #Scatter plot
-fig, [ax1,ax2,ax3] = plt.subplots(1, 3 ,figsize=(18,7))
+fig, [[ax1,ax2],[ax3,ax4]] = plt.subplots(2, 2 ,figsize=(12,12))
 for i in range(len(gctags)):
     gctag=gctags[i]
     gtagex=gtagexs[i]
@@ -256,6 +256,7 @@ for i in range(len(gctags)):
     tef_df['Q_p'] = tef_df['q_p']/1000
     tef_df['Q_m'] = tef_df['q_m']/1000
     tef_df['Q_prism']=tef_df['qprism']/1000
+    Qr=1000
                     
     # labels and colors
     # ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
@@ -269,6 +270,7 @@ for i in range(len(gctags)):
     ax1.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy(), '-', lw=0.5, color=plot_color[i], label=silllens[i]) #cut out first couple of days for weird qprism
     ax2.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy(), '-', lw=0.5, color=plot_color[i], label=silllens[i])
     ax3.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy()*(tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy()), '-', lw=0.5, color=plot_color[i], label=silllens[i])
+    ax4.plot(Qr*tef_df['salt_m'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy()*(tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy()), '-', lw=0.5, color=plot_color[i], label=silllens[i])
 
 ax1.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
 ax1.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
@@ -276,17 +278,22 @@ ax2.set_ylabel(r'$\Delta s [g kg^{-1}]$')
 ax2.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
 ax3.set_ylabel(r'$Q_{in} \Delta s [m^{3}s^{-1}g kg^{-1}]$')
 ax3.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
+ax4.set_ylabel(r'$Q_{in} \Delta s [m^{3}s^{-1}g kg^{-1}]$')
+ax4.set_xlabel(r'$Q_r s_{out} [m^{3}s^{-1}g kg^{-1}]$')
 
 ax1.set_box_aspect(1)
 ax2.set_box_aspect(1)
 ax3.set_box_aspect(1)
+ax4.set_box_aspect(1)
 
 ax1.grid(True)
 ax2.grid(True)
 ax3.grid(True)
+ax5.grid(True)
 
-ax3.legend(loc='lower right')
-ax2.set_title(Ldir['gtagex'])
+ax1.legend(loc='lower right')
+#ax2.set_title(Ldir['gtagex'])
+plt.suptitle('Landward end of sill b5')
 plt.savefig(out_dir / ('tef_plot_scatter_multimodel.png'))
 plt.close()
-pfun.end_plot()
+#pfun.end_plot()
