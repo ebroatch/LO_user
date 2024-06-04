@@ -241,49 +241,52 @@ plt.savefig(out_dir / ('bulk_plot_multimodel.png'))
 plt.close()
 pfun.end_plot()
 
-# #Scatter plot
-# fig, [ax1,ax2,ax3] = plt.subplots(1, 3 ,figsize=(18,7))
-# for i in range(len(sect_list)):
-#     sect_name = sect_list[i]
-#     bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
+#Scatter plot
+fig, [ax1,ax2,ax3] = plt.subplots(1, 3 ,figsize=(18,7))
+for i in range(len(gctags)):
+    gctag=gctags[i]
+    gtagex=gtagexs[i]
+    in_dir = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('bulk_hourly_' + ds01s[i])
+    sect_name = sect_choice
+    bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
 
-#     tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir, sect_name)
+    tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir, sect_name)
             
-#     # adjust units
-#     tef_df['Q_p'] = tef_df['q_p']/1000
-#     tef_df['Q_m'] = tef_df['q_m']/1000
-#     tef_df['Q_prism']=tef_df['qprism']/1000
+    # adjust units
+    tef_df['Q_p'] = tef_df['q_p']/1000
+    tef_df['Q_m'] = tef_df['q_m']/1000
+    tef_df['Q_prism']=tef_df['qprism']/1000
                     
-#     # labels and colors
-#     # ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
-#     #             'salt': r'Salinity $[g\ kg^{-1}]$'}
-#     ylab_dict = {'Qprism': '$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$',
-#                 'Q': '$Q_{in}$\n$[10^{3}\ m^{3}s^{-1}]$',
-#                 'salt': '$s_{in}$\n$[g\ kg^{-1}]$',
-#                 'deltas': '$\Delta s$\n$[g\ kg^{-1}]$'}
+    # labels and colors
+    # ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
+    #             'salt': r'Salinity $[g\ kg^{-1}]$'}
+    ylab_dict = {'Qprism': '$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$',
+                'Q': '$Q_{in}$\n$[10^{3}\ m^{3}s^{-1}]$',
+                'salt': '$s_{in}$\n$[g\ kg^{-1}]$',
+                'deltas': '$\Delta s$\n$[g\ kg^{-1}]$'}
 
-#     pad=36
-#     ax1.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy(), '-', lw=0.5, color=plot_color[i], label=sect_name) #cut out first couple of days for weird qprism
-#     ax2.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy(), '-', lw=0.5, color=plot_color[i], label=sect_name)
-#     ax3.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy()*(tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy()), '-', lw=0.5, color=plot_color[i], label=sect_name)
+    pad=36
+    ax1.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy(), '-', lw=0.5, color=plot_color[i], label=silllens[i]) #cut out first couple of days for weird qprism
+    ax2.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy(), '-', lw=0.5, color=plot_color[i], label=silllens[i])
+    ax3.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy()*(tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy()), '-', lw=0.5, color=plot_color[i], label=silllens[i])
 
-# ax1.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
-# ax1.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
-# ax2.set_ylabel(r'$\Delta s [g kg^{-1}]$')
-# ax2.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
-# ax3.set_ylabel(r'$Q_{in} \Delta s [m^{3}s^{-1}g kg^{-1}]$')
-# ax3.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
+ax1.set_ylabel(r'$Q_{in} [m^{3}s^{-1}]$')
+ax1.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
+ax2.set_ylabel(r'$\Delta s [g kg^{-1}]$')
+ax2.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
+ax3.set_ylabel(r'$Q_{in} \Delta s [m^{3}s^{-1}g kg^{-1}]$')
+ax3.set_xlabel(r'$Q_{prism} [m^{3}s^{-1}]$')
 
-# ax1.set_box_aspect(1)
-# ax2.set_box_aspect(1)
-# ax3.set_box_aspect(1)
+ax1.set_box_aspect(1)
+ax2.set_box_aspect(1)
+ax3.set_box_aspect(1)
 
-# ax1.grid(True)
-# ax2.grid(True)
-# ax3.grid(True)
+ax1.grid(True)
+ax2.grid(True)
+ax3.grid(True)
 
-# ax3.legend(loc='lower right')
-# ax2.set_title(Ldir['gtagex'])
-# plt.savefig(out_dir / ('tef_plot_scatter.png'))
-# plt.close()
-# pfun.end_plot()
+ax3.legend(loc='lower right')
+ax2.set_title(Ldir['gtagex'])
+plt.savefig(out_dir / ('tef_plot_scatter_multimodel.png'))
+plt.close()
+pfun.end_plot()
