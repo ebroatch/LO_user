@@ -114,7 +114,7 @@ for i in range(len(sect_list)):
     #ax1.plot(ot,tef_df['Q_m'].to_numpy(), color=m_color[i], linewidth=lw, label=label_out[i])
     ax1.grid(True)
     ax1.set_ylabel(ylab_dict['Q'])
-    ax1.set_ylim(3,19)
+    ax1.set_ylim(0,20)
     #ax1.set_ylim(0,16)
     #ax1.set_yticks(ticks=[0,4,8,12,16])
     
@@ -137,17 +137,17 @@ for i in range(len(sect_list)):
     ax2.plot(ot,tef_df['salt_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
     ax2.grid(True)
     ax2.set_ylabel(ylab_dict['sin'])
-    ax2.set_ylim(25,35)
+    ax2.set_ylim(24,34)
 
     ax3.plot(ot,tef_df['salt_m'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
     ax3.grid(True)
     ax3.set_ylabel(ylab_dict['sout'])
-    ax3.set_ylim(23,33)
+    ax3.set_ylim(22,32)
     
     ax4.plot(ot,tef_df['salt_p'].to_numpy()-tef_df['salt_m'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
     ax4.grid(True)
     ax4.set_ylabel(ylab_dict['deltas'])
-    ax4.set_ylim(0,8)
+    ax4.set_ylim(0,10)
     #ax2.set_ylim(0,10)
     #ax2.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
 
@@ -166,7 +166,7 @@ for i in range(len(sect_list)):
         ax0.set_ylim(20,100)
         #ax0.set_yticks(ticks=[20,30,40,50])
         # ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
-        snmid=(np.max(tef_df['Q_prism'].to_numpy())+np.min(tef_df['Q_prism'].to_numpy()))/2
+        snmid=(np.max(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31'])+np.min(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31']))/2
         snbg=np.where(tef_df['Q_prism'].to_numpy()>snmid, 1, 0)
         ax0.pcolor(ot, ax0.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
         ax1.pcolor(ot, ax1.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
