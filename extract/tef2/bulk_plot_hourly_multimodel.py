@@ -51,7 +51,7 @@ gtagexs=['sill5km_t0_xa0', 'sill20kmdeep_t2_xa0', 'sill80km_t2_xa0']
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 #in_dir = out_dir0 / ('bulk_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 ds01s = ['2020.09.01_2020.12.31','2020.09.15_2020.11.15','2020.09.15_2020.11.15']
-out_dir = out_dir0 / ('bulk_plots_multimodel' + Ldir['ds0'] + '_' + Ldir['ds1'])
+out_dir = out_dir0 / ('bulk_plots_multimodel_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
 # grid info
@@ -121,7 +121,7 @@ for i in range(len(gctags)):
     #ot = bulk['ot'] # (same as tef_df.index)
     ot = bulk.time.values
     
-    ax1.plot(ot,tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
+    ax1.plot(ot,tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=silllens[i])
     #ax1.plot(ot,tef_df['Q_m'].to_numpy(), color=m_color[i], linewidth=lw, label=label_out[i])
     ax1.grid(True)
     ax1.set_ylabel(ylab_dict['Q'])
@@ -145,7 +145,7 @@ for i in range(len(gctags)):
     # ax2.plot(bulk['ot'],sp,'or',alpha=alpha)
     # ax2.plot(bulk['ot'],sm,'ob',alpha=alpha)
 
-    ax2.plot(ot,tef_df['salt_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=silllens[i])
+    ax2.plot(ot,tef_df['salt_p'].to_numpy(), color=plot_color[i], linewidth=lw)
     ax2.grid(True)
     ax2.set_ylabel(ylab_dict['sin'])
     ax2.set_ylim(24,34)
@@ -174,7 +174,7 @@ for i in range(len(gctags)):
 
     if i==0:
         ax0.plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=lw)
-        ax0.set_ylabel(ylab_dict['Qprism'])
+        ax0.set_ylabel(ylab_dict['Qprism']+' (5km)')
         ax0.set_ylim(20,100)
         #ax0.set_yticks(ticks=[20,30,40,50])
         # ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
@@ -235,7 +235,8 @@ for i in range(len(gctags)):
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
 ax1.legend(loc='lower right')
-ax0.set_title(Ldir['gtagex'])
+#ax0.set_title(Ldir['gtagex'])
+ax0.set_title('Landward end of sill b5')
 plt.savefig(out_dir / ('bulk_plot_multimodel.png'))
 plt.close()
 pfun.end_plot()
