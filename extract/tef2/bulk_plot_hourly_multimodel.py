@@ -294,6 +294,7 @@ ax1.grid(True)
 ax2.grid(True)
 ax3.grid(True)
 ax4.grid(True)
+ax4.set_aspect('equal')
 
 ax1.legend(loc='lower right')
 #ax2.set_title(Ldir['gtagex'])
