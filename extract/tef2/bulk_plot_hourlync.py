@@ -158,7 +158,8 @@ for i in range(len(sect_list)):
 
     #ax4.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
     ax5.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
-    ax5.xaxis.set_major_formatter(mdates.DateFormatter('%d'))
+    ax5.xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
+    ax5.set_xlabel('Day')
 
     if i==0:
         ax0.plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=lw)
