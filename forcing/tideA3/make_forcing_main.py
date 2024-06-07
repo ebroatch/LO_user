@@ -41,9 +41,13 @@ NR, NC = G['lon_rho'].shape
 #cons_dict =  {'m2':(12.42, 0.75), 's2':(12, 0.25)} #original amplitude
 if Ldir['gridname']=='sill5km':
     cons_dict =  {'m2':(12.42, 2.25), 's2':(12, 0.75)} #TRIPLE AMPLITUDE
+elif Ldir['gridname']=='sill10km':
+    cons_dict =  {'m2':(12.42, 2.091), 's2':(12, 0.697)} #reduce by factor of 1.076
 elif Ldir['gridname']=='sill20kmdeep':
     # cons_dict =  {'m2':(12.42, 2.06422), 's2':(12, 0.68807)} #reduce by factor of 1.09
     cons_dict =  {'m2':(12.42, 1.8), 's2':(12, 0.6)} #reduce by factor of 1.25
+elif Ldir['gridname']=='sill40km':
+    cons_dict =  {'m2':(12.42, 1.383), 's2':(12, 0.461)} #reduce by factor of 1.627
 elif Ldir['gridname']=='sill80km':
     #cons_dict =  {'m2':(12.42, 1.36363), 's2':(12, 0.45454)} #reduce by factor of 1.65
     cons_dict =  {'m2':(12.42, 0.83333), 's2':(12, 0.27777)} #reduce by factor of 2.7
