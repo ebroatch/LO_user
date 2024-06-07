@@ -57,9 +57,37 @@ elif args.gridname == 'sill5km':
         df.loc[:,'y'] = np.array([y1, y2])
         df.to_pickle(out_dir / (sn + '.p'))
 
+elif args.gridname == 'sill10km':
+    sn_list = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5']
+    x1km=np.array([0,10,20,30,38,40,42.5,45,47.5,50,52,60,70,80,88])
+    x1m=x1km*1e3
+    x1=llxyfun.x2lon(x1m,0,45)
+    y1=45.05
+    y2=44.95
+    for i in range(len(sn_list)):
+        sn=sn_list[i]
+        df = pd.DataFrame(columns=['x','y'])
+        df.loc[:,'x'] = np.array([x1[i], x1[i]])
+        df.loc[:,'y'] = np.array([y1, y2])
+        df.to_pickle(out_dir / (sn + '.p'))
+
 elif args.gridname == 'sill20kmdeep':
     sn_list = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5']
     x1km=np.array([0,10,20,30,38,40,45,50,55,60,62,70,80,90,98])
+    x1m=x1km*1e3
+    x1=llxyfun.x2lon(x1m,0,45)
+    y1=45.05
+    y2=44.95
+    for i in range(len(sn_list)):
+        sn=sn_list[i]
+        df = pd.DataFrame(columns=['x','y'])
+        df.loc[:,'x'] = np.array([x1[i], x1[i]])
+        df.loc[:,'y'] = np.array([y1, y2])
+        df.to_pickle(out_dir / (sn + '.p'))
+
+elif args.gridname == 'sill40km':
+    sn_list = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5']
+    x1km=np.array([0,10,20,30,38,40,50,60,70,80,82,90,100,110,118])
     x1m=x1km*1e3
     x1=llxyfun.x2lon(x1m,0,45)
     y1=45.05
