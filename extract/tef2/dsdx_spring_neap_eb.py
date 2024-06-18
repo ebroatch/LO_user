@@ -199,9 +199,10 @@ lonmin = np.min(np.concatenate((lon0,lon1)))
 lonmax = np.max(np.concatenate((lon0,lon1)))
 latmin = np.min(np.concatenate((lat0,lat1)))
 latmax = np.max(np.concatenate((lat0,lat1)))
+# ax.pcolormesh() #need to add something here
 for sn in sect_list:
     ax.plot(lon_vec_dict[sn], lat_vec_dict[sn], '.',color=c_dict[sn])
-pfun.add_coast(ax,color='gray',linewidth=2)
+#pfun.add_coast(ax,color='gray',linewidth=2) #add coast doesn't work for idealized model
 mpad = .2
 ax.axis([lonmin-mpad, lonmax+mpad, latmin-mpad, latmax+mpad])
 pfun.dar(ax)
@@ -252,7 +253,8 @@ year = otdt[0].year
 ##ax.text(.05,.9,'(d) Total Along-Section Change in Depth-Mean Salinity',color='k',fontweight='bold',transform=ax.transAxes,bbox=pfun.bbox)
 ax.plot(yd,(St_dict[sect_list[0]]-St_dict[sect_list[-1]])/dx,'-',color='k') #PLOT ds/dx INSTEAD OF SALINITY CHANGE
 ax.text(.05,.05,r'(d) $\partial S/\partial x\ [g\ kg^{-1}\ km^{-1}]$',color='k',fontweight='bold',transform=ax.transAxes,bbox=pfun.bbox)
-ax.set_xlim(0,365)
+#ax.set_xlim(0,365)
+ax.set_xlim(246,365) #change this to monthday or something!!
 ax.set_xlabel('Yearday ' + str(year))
 ax.grid(axis='x')
 # add Qprism
