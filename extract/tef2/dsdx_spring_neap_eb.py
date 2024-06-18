@@ -218,8 +218,10 @@ if False:
         transform=ax.transAxes,bbox=pfun.bbox)
 else:
     # selected spring and neap; hard coded for 2018 Admiralty Inlet #NEED TO CHANGE THIS
-    it_neap = zfun.find_nearest_ind(yd,233)
-    it_spring = zfun.find_nearest_ind(yd,253)
+    # it_neap = zfun.find_nearest_ind(yd,233)
+    # it_spring = zfun.find_nearest_ind(yd,253)
+    it_neap = zfun.find_nearest_ind(yd,270)
+    it_spring = zfun.find_nearest_ind(yd,280)
     for sn in sect_list:
         ax.plot(Stz_dict[sn][it_neap,:],Z,'-',color=c_dict[sn])
         ax.plot(Stz_dict[sn][it_spring,:],Z,'--',color=c_dict[sn])
