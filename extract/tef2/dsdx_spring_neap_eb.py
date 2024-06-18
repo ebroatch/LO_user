@@ -236,7 +236,8 @@ for sn in sect_list:
     ax.plot(yd,St_dict[sn],'-',color=c_dict[sn])
 ax.text(.05,.9,'(c) Depth-Mean S(t)',color='k',fontweight='bold',
     transform=ax.transAxes,bbox=pfun.bbox)
-ax.set_xlim(0,365)
+#ax.set_xlim(0,365)
+ax.set_xlim(246,365) #change this to monthday or something!!
 # ax.set_xlabel('Yearday ' + str(year))
 ax.grid(axis='x')
 if True:
@@ -267,7 +268,8 @@ ax2.text(.95,.9,r'$Q_{prism}\ [10^{3}m^{3}s^{-1}]$', color='c',
 ax2.set_ylim(bottom=0)
 ax2.xaxis.label.set_color('c')
 ax2.tick_params(axis='y', colors='c')
-ax.set_xlim(0,365)
+#ax.set_xlim(0,365)
+ax.set_xlim(246,365) #change this to monthday or something!!
 ax.set_ylim(bottom=0)
 if True:
     ax.axvline(x=yd[it_neap],linestyle='-',color='gray',linewidth=2)
