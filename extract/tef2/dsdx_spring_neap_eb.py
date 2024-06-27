@@ -260,8 +260,11 @@ ax.set_xlabel('Yearday ' + str(year))
 ax.grid(axis='x')
 # add Qprism
 ax2 = ax.twinx()
-ax2.plot(yd,0.5*(Qprism_dict[sect_list[0]]+Qprism_dict[sect_list[-1]])/1000,'-',
-    color='c',linewidth=3,alpha=.4)
+Qprism_sectavg = 0.5*(Qprism_dict[sect_list[0]]+Qprism_dict[sect_list[-1]])/1000
+snmid=(np.max(Qprism_sectavg)+np.min(Qprism_sectavg))/2
+snbg=np.where(Qprism_sectavg>snmid, 1, 0)
+ax2.plot(yd,Qprism_sectavg,'-',color='c',linewidth=3,alpha=.4)
+ax2.pcolor(yd, ax2.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #add grey bars for qprism
 ax2.text(.95,.9,r'$Q_{prism}\ [10^{3}m^{3}s^{-1}]$', color='c', 
     transform=ax.transAxes, ha='right',
     bbox=pfun.bbox)
