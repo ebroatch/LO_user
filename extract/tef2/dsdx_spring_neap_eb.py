@@ -42,6 +42,9 @@ lou = gds.lon_u[0,:].values
 lau = gds.lat_u[:,0].values
 lov = gds.lon_v[0,:].values
 lav = gds.lat_v[:,0].values
+lor = gds.lat_rho.values
+lar = gds.lat_rho.values
+h = gds.h
 
 # create the dict S
 S_info_dict = Lfun.csv_to_dict(Ldir['grid'] / 'S_COORDINATE_INFO.csv')
@@ -183,7 +186,7 @@ year = otdt[0].year
     
 # plotting
 plt.close('all')
-pfun.start_plot(figsize=(18,12))
+pfun.start_plot(figsize=(12,12))
 fig = plt.figure()
 
 #c_list = ['m','r','orange','g','b','violet']
@@ -201,6 +204,8 @@ lonmax = np.max(np.concatenate((lon0,lon1)))
 latmin = np.min(np.concatenate((lat0,lat1)))
 latmax = np.max(np.concatenate((lat0,lat1)))
 # ax.pcolormesh() #need to add something here
+plon, plat = pfun.get_plon_plat(lor,lar)
+cs = ax0.pcolormesh(plon, plat, -h, vmin=-300, vmax=20, cmap='Greys_r')
 for sn in sect_list:
     ax0.plot(lon_vec_dict[sn], lat_vec_dict[sn], '.',color=c_dict[sn])
 #pfun.add_coast(ax,color='gray',linewidth=2) #add coast doesn't work for idealized model
@@ -258,7 +263,7 @@ ax3a.text(.05,.05,r'(d) $\partial S/\partial x\ [g\ kg^{-1}\ km^{-1}]$',color='k
 #ax.set_xlim(0,365)
 ax3a.set_xlim(246,365) #change this to monthday or something!!
 ax3a.set_xlabel('Yearday ' + str(year))
-ax3a.grid(axis='x')
+#ax3a.grid(axis='x')
 # add Qprism
 ax3b = ax3a.twinx()
 Qprism_sectavg = 0.5*(Qprism_dict[sect_list[0]]+Qprism_dict[sect_list[-1]])/1000
