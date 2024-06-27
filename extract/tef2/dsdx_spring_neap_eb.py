@@ -42,7 +42,7 @@ lou = gds.lon_u[0,:].values
 lau = gds.lat_u[:,0].values
 lov = gds.lon_v[0,:].values
 lav = gds.lat_v[:,0].values
-lor = gds.lat_rho.values
+lor = gds.lon_rho.values
 lar = gds.lat_rho.values
 h = gds.h
 
