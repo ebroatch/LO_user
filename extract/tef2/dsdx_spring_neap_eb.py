@@ -15,6 +15,7 @@ from scipy.stats import binned_statistic
 import seawater as sw
 
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 from lo_tools import plotting_functions as pfun
 
 from lo_tools import Lfun, zrfun, zfun
@@ -233,16 +234,16 @@ ax1.set_ylabel('Z [m]')
 
 ax2 = fig.add_subplot(312)
 for sn in sect_list:
-    ax2.plot(yd,St_dict[sn],'-',color=c_dict[sn])
+    ax2.plot(dti,St_dict[sn],'-',color=c_dict[sn])
 ax2.text(.05,.9,'(c) Depth-Mean S(t)',color='k',fontweight='bold',
     transform=ax2.transAxes,bbox=pfun.bbox)
 #ax.set_xlim(0,365)
-ax2.set_xlim(246,365) #change this to monthday or something!!
+#ax2.set_xlim(246,365) #change this to monthday or something!!
 # ax.set_xlabel('Yearday ' + str(year))
 ax2.grid(axis='x')
 if True:
-    ax2.axvline(x=yd[it_neap],linestyle='-',color='gray',linewidth=2)
-    ax2.axvline(x=yd[it_spring],linestyle='--',color='gray',linewidth=2)
+    ax2.axvline(x=dti[it_neap],linestyle='-',color='gray',linewidth=2)
+    ax2.axvline(x=dti[it_spring],linestyle='--',color='gray',linewidth=2)
 
 ax3a = fig.add_subplot(313)
 dti = pd.DatetimeIndex(otdt)
@@ -252,7 +253,7 @@ year = otdt[0].year
 # ax.plot(yd,St_dict[sect_list[0]]-St_dict[sect_list[2]],'-',color=c_dict[sect_list[0]])
 # ax.plot(yd,St_dict[sect_list[-3]]-St_dict[sect_list[-1]],'-',color=c_dict[sect_list[-1]])
 ##ax.text(.05,.9,'(d) Total Along-Section Change in Depth-Mean Salinity',color='k',fontweight='bold',transform=ax.transAxes,bbox=pfun.bbox)
-ax3a.plot(yd,(St_dict[sect_list[0]]-St_dict[sect_list[-1]])/dx,'-',color='k') #PLOT ds/dx INSTEAD OF SALINITY CHANGE
+ax3a.plot(dti,(St_dict[sect_list[0]]-St_dict[sect_list[-1]])/dx,'-',color='k') #PLOT ds/dx INSTEAD OF SALINITY CHANGE
 ax3a.text(.05,.05,r'(d) $\partial S/\partial x\ [g\ kg^{-1}\ km^{-1}]$',color='k',fontweight='bold',transform=ax3a.transAxes,bbox=pfun.bbox)
 #ax.set_xlim(0,365)
 ax3a.set_xlim(246,365) #change this to monthday or something!!
@@ -263,17 +264,25 @@ ax3b = ax3a.twinx()
 Qprism_sectavg = 0.5*(Qprism_dict[sect_list[0]]+Qprism_dict[sect_list[-1]])/1000
 snmid=(np.max(Qprism_sectavg)+np.min(Qprism_sectavg))/2
 snbg=np.where(Qprism_sectavg>snmid, 1, 0)
-ax3b.plot(yd,Qprism_sectavg,'-',color='c',linewidth=3,alpha=.4)
+ax3b.plot(dti,Qprism_sectavg,'-',color='c',linewidth=3,alpha=.4)
 ax3b.set_ylim(bottom=0)
-ax3b.pcolor(yd, ax3b.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #add grey bars for qprism
-ax2.pcolor(yd, ax2.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #also add to subplot above grey bars for qprism
+
+ax3b.pcolor(dti, ax3b.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #add grey bars for qprism
+ax2.pcolor(dti, ax2.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #also add to subplot above grey bars for qprism
+ax3a.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
+ax3a.xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
+ax3a.set_xlabel('Day')
+ax2.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
+ax2.xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
+ax2.set_xlabel('Day')
+
 ax3b.text(.95,.9,r'$Q_{prism}\ [10^{3}m^{3}s^{-1}]$', color='c', 
     transform=ax3a.transAxes, ha='right',
     bbox=pfun.bbox)
 ax3b.xaxis.label.set_color('c')
 ax3b.tick_params(axis='y', colors='c')
 #ax.set_xlim(0,365)
-ax3a.set_xlim(246,365) #change this to monthday or something!!
+#ax3a.set_xlim(246,365) #change this to monthday or something!!
 ax3a.set_ylim(bottom=0)
 if True:
     ax3a.axvline(x=yd[it_neap],linestyle='-',color='gray',linewidth=2)
