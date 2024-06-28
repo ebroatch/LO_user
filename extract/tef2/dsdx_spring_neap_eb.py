@@ -44,7 +44,10 @@ lov = gds.lon_v[0,:].values
 lav = gds.lat_v[:,0].values
 lor = gds.lon_rho.values
 lar = gds.lat_rho.values
-zm = -gds.h.values
+plon, plat = pfun.get_plon_plat(lor,lar)
+hh = gds.h.values
+maskr = gds.mask_rho.values
+zm = -np.ma.masked_where(maskr==0, hh)
 
 # create the dict S
 S_info_dict = Lfun.csv_to_dict(Ldir['grid'] / 'S_COORDINATE_INFO.csv')
@@ -204,7 +207,6 @@ lonmax = np.max(np.concatenate((lon0,lon1)))
 latmin = np.min(np.concatenate((lat0,lat1)))
 latmax = np.max(np.concatenate((lat0,lat1)))
 # ax.pcolormesh() #need to add something here
-plon, plat = pfun.get_plon_plat(lor,lar)
 cs = ax0.pcolormesh(plon, plat, zm, vmin=-300, vmax=20, cmap='Greys_r')
 for sn in sect_list:
     ax0.plot(lon_vec_dict[sn], lat_vec_dict[sn], '.',color=c_dict[sn])
