@@ -36,6 +36,11 @@ tef2_dir = Ldir['LOo'] / 'extract' / 'tef2'
 sect_df_fn = tef2_dir / ('sect_df_' + gctag + '.p')
 sect_df = pd.read_pickle(sect_df_fn)
 
+# get tide info from the tide excursion calculator
+excur_dir = out_dir0 / ('tide_excursion_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+te_fn = excur_dir / ('TE_b3.p') #could change if using other sections
+TE = pd.read_pickle(te_fn)
+
 # get the grid file
 gds = xr.open_dataset(Ldir['grid'] / 'grid.nc')
 lou = gds.lon_u[0,:].values
@@ -212,7 +217,8 @@ for sn in sect_list:
     ax0.plot(lon_vec_dict[sn], lat_vec_dict[sn], '.',color=c_dict[sn])
 #pfun.add_coast(ax,color='gray',linewidth=2) #add coast doesn't work for idealized model
 mpad = .2
-ax0.axis([lonmin-mpad, lonmax+mpad, latmin-mpad, latmax+mpad])
+# ax0.axis([lonmin-mpad, lonmax+mpad, latmin-mpad, latmax+mpad])
+ax0.axis([lonmin-mpad, lonmax+mpad, 44.9, 45.1])
 pfun.dar(ax0)
 ax0.text(.05,.9,'(a) Section Locations',color='k',fontweight='bold',
     transform=ax0.transAxes,bbox=pfun.bbox)
@@ -229,8 +235,10 @@ else:
     # selected spring and neap; hard coded for 2018 Admiralty Inlet #NEED TO CHANGE THIS
     # it_neap = zfun.find_nearest_ind(yd,233)
     # it_spring = zfun.find_nearest_ind(yd,253)
-    it_neap = zfun.find_nearest_ind(yd,279)
-    it_spring = zfun.find_nearest_ind(yd,287)
+    # it_neap = zfun.find_nearest_ind(yd,279)
+    # it_spring = zfun.find_nearest_ind(yd,287)
+    it_neap = zfun.find_nearest_ind(dti,TE['t_neap'])
+    it_spring = zfun.find_nearest_ind(dti,TE['t_spring'])
     for sn in sect_list:
         ax1.plot(Stz_dict[sn][it_neap,:],Z,'-',color=c_dict[sn])
         ax1.plot(Stz_dict[sn][it_spring,:],Z,'--',color=c_dict[sn])
@@ -238,6 +246,7 @@ else:
         transform=ax1.transAxes,bbox=pfun.bbox)
 ax1.set_xlabel('Salinity')
 ax1.set_ylabel('Z [m]')
+ax1.grid(True)
 
 ax2 = fig.add_subplot(312)
 for sn in sect_list:
@@ -247,7 +256,7 @@ ax2.text(.05,.9,'(c) Depth-Mean S(t)',color='k',fontweight='bold',
 #ax.set_xlim(0,365)
 #ax2.set_xlim(246,365) #change this to monthday or something!!
 # ax.set_xlabel('Yearday ' + str(year))
-ax2.grid(axis='x')
+#ax2.grid(axis='x')
 if True:
     ax2.axvline(x=dti[it_neap],linestyle='-',color='gray',linewidth=2)
     ax2.axvline(x=dti[it_spring],linestyle='--',color='gray',linewidth=2)
@@ -269,11 +278,11 @@ ax3a.set_xlabel('Yearday ' + str(year))
 # add Qprism
 ax3b = ax3a.twinx()
 Qprism_sectavg = 0.5*(Qprism_dict[sect_list[0]]+Qprism_dict[sect_list[-1]])/1000
-snmid=(np.max(Qprism_sectavg)+np.min(Qprism_sectavg))/2
-snbg=np.where(Qprism_sectavg>snmid, 1, 0)
 ax3b.plot(dti,Qprism_sectavg,'-',color='c',linewidth=3,alpha=.4)
 ax3b.set_ylim(bottom=0)
 
+snmid=(np.max(Qprism_sectavg)+np.min(Qprism_sectavg))/2
+snbg=np.where(Qprism_sectavg>snmid, 1, 0)
 ax3b.pcolor(dti, ax3b.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #add grey bars for qprism
 ax2.pcolor(dti, ax2.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #also add to subplot above grey bars for qprism
 ax3a.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
@@ -282,6 +291,13 @@ ax3a.set_xlabel('Day')
 ax2.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 ax2.xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
 ax2.set_xlabel('Day')
+ax2.grid(False)
+ax3a.grid(False)
+# ax2.grid(True)
+# ax3a.grid(True)
+if True:
+    ax3a.axvline(x=dti[it_neap],linestyle='-',color='gray',linewidth=2)
+    ax3a.axvline(x=dti[it_spring],linestyle='--',color='gray',linewidth=2)
 
 ax3b.text(.95,.9,r'$Q_{prism}\ [10^{3}m^{3}s^{-1}]$', color='c', 
     transform=ax3a.transAxes, ha='right',
