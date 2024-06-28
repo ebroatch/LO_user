@@ -272,8 +272,8 @@ year = otdt[0].year
 # ax.plot(yd,St_dict[sect_list[-3]]-St_dict[sect_list[-1]],'-',color=c_dict[sect_list[-1]])
 ##ax.text(.05,.9,'(d) Total Along-Section Change in Depth-Mean Salinity',color='k',fontweight='bold',transform=ax.transAxes,bbox=pfun.bbox)
 for i in range(len(sect_list)-1):
-    ax3a.plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dx[i],'-',color=c_dict[sect_list[i]]) #PLOT ds/dx INSTEAD OF SALINITY CHANGE
-    ax3a.plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dx[i],'--',color=c_dict[sect_list[i+1]]) #PLOT AGAIN IN SECOND COLOR TO MAKE TWO COLOR DASHED LINE
+    ax3a.plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dxlist[i],'-',color=c_dict[sect_list[i]]) #PLOT ds/dx INSTEAD OF SALINITY CHANGE
+    ax3a.plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dxlist[i],'--',color=c_dict[sect_list[i+1]]) #PLOT AGAIN IN SECOND COLOR TO MAKE TWO COLOR DASHED LINE
 ax3a.text(.05,.05,r'(d) $\partial S/\partial x\ [g\ kg^{-1}\ km^{-1}]$ between pairs of sections',color='k',fontweight='bold',transform=ax3a.transAxes,bbox=pfun.bbox)
 #ax.set_xlim(0,365)
 ax3a.set_xlim(246,365) #change this to monthday or something!!
