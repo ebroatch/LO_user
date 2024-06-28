@@ -280,8 +280,11 @@ ax3a.set_xlim(246,365) #change this to monthday or something!!
 ax3a.set_xlabel('Yearday ' + str(year))
 #ax3a.grid(axis='x')
 # add Qprism
+ax2b = ax2.twinx()
 ax3b = ax3a.twinx()
 Qprism_sectavg = 0.5*(Qprism_dict[sect_list[0]]+Qprism_dict[sect_list[-1]])/1000
+ax2b.plot(dti,Qprism_sectavg,'-',color='tab:purple',linewidth=3,alpha=.4)
+ax2b.set_ylim(bottom=0)
 ax3b.plot(dti,Qprism_sectavg,'-',color='tab:purple',linewidth=3,alpha=.4)
 ax3b.set_ylim(bottom=0)
 
@@ -302,6 +305,12 @@ ax3a.grid(axis='y')
 if True:
     ax3a.axvline(x=dti[it_neap],linestyle='-',color='gray',linewidth=2)
     ax3a.axvline(x=dti[it_spring],linestyle='--',color='gray',linewidth=2)
+
+ax2b.text(.95,.9,r'$Q_{prism}\ [10^{3}m^{3}s^{-1}]$', color='tab:purple', 
+transform=ax2.transAxes, ha='right',
+bbox=pfun.bbox)
+ax2b.xaxis.label.set_color('tab:purple')
+ax2b.tick_params(axis='y', colors='tab:purple')
 
 ax3b.text(.95,.9,r'$Q_{prism}\ [10^{3}m^{3}s^{-1}]$', color='tab:purple', 
     transform=ax3a.transAxes, ha='right',
