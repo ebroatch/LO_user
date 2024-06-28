@@ -317,6 +317,6 @@ if True:
     
 fig.tight_layout()
 #fig.savefig(out_dir / 'dsdx_spring_neap.png')
-fig.savefig(out_dir / 'dsdx_spring_neap.png',dpi=300)
+fig.savefig(out_dir / 'dsdx_spring_neap_pairs.png',dpi=300)
 
 plt.show()
