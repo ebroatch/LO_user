@@ -282,7 +282,7 @@ ax3a.set_xlabel('Yearday ' + str(year))
 # add Qprism
 ax3b = ax3a.twinx()
 Qprism_sectavg = 0.5*(Qprism_dict[sect_list[0]]+Qprism_dict[sect_list[-1]])/1000
-ax3b.plot(dti,Qprism_sectavg,'-',color='c',linewidth=3,alpha=.4)
+ax3b.plot(dti,Qprism_sectavg,'-',color='tab:purple',linewidth=3,alpha=.4)
 ax3b.set_ylim(bottom=0)
 
 snmid=(np.max(Qprism_sectavg)+np.min(Qprism_sectavg))/2
