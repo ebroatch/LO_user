@@ -31,18 +31,18 @@ out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 out_dir = out_dir0 / ('dsdx_plots_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir)
 
-gridnamelist = ['sill5km','sill20kmdeep','sill80km']
-taglist = ['t0','t2','t2']
-gtaglist = ['sill5km_t0','sill20kmdeep_t2','sill80km_t2']
-gtagexlist = ['sill5km_t0_xa0','sill20kmdeep_t2_xa0','sill80km_t2_xa0']
-gridlist = [Ldir['data'] / 'grids' / 'sill5km', Ldir['data'] / 'grids' / 'sill20kmdeep', Ldir['data'] / 'grids' / 'sill80km']
+gridnamelist = ['sill5km','sill10km','sill20kmdeep','sill40km','sill80km']
+taglist = ['t0','t2','t2','t2','t2']
+gtaglist = ['sill5km_t0','sill10km_t2','sill20kmdeep_t2','sill40km_t2','sill80km_t2']
+gtagexlist = ['sill5km_t0_xa0','sill10km_t2_xa0','sill20kmdeep_t2_xa0','sill40km_t2_xa0','sill80km_t2_xa0']
+gridlist = [Ldir['data'] / 'grids' / 'sill5km', Ldir['data'] / 'grids' / 'sill10km', Ldir['data'] / 'grids' / 'sill20kmdeep', Ldir['data'] / 'grids' / 'sill40km', Ldir['data'] / 'grids' / 'sill80km']
 
-silllenstr = ['5km','20km','80km']
+silllenstr = ['5km','10km','20km','40km','80km']
 
 #CHANGE COLORS TO DICT FOR DIFFERENT MODELS
 #c_list = ['m','r','orange','g','b','violet']
 # c_list = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue'] #COLORS FOR SHORT SECTION LIST ON SILL
-c_list = ['tab:red','tab:green','tab:purple'] #COLORS FOR SHORT SECTION LIST ON SILL
+c_list = ['tab:red','tab:orange','tab:green','tab:blue','tab:purple'] #COLORS FOR 5 models
 #c_dict = dict(zip(sect_list,c_list))
 
 for gi in range(len(gtagexlist)):
@@ -256,24 +256,24 @@ for gi in range(len(gtagexlist)):
     #     transform=ax0.transAxes,bbox=pfun.bbox)
     # ax0.set_xlabel('Longitude')
     # ax0.set_ylabel('Latitude')
-    if False:
-        for sn in sect_list:
-            ax.plot(Sz_dict[sn],Z,'-',color=c_dict[sn])
-        ax.text(.05,.1,'(b) Time-Mean S(z)',color='k',fontweight='bold',
-            transform=ax.transAxes,bbox=pfun.bbox)
-    else:
+    # if False:
+    #     for sn in sect_list:
+    #         ax.plot(Sz_dict[sn],Z,'-',color=c_dict[sn])
+    #     ax.text(.05,.1,'(b) Time-Mean S(z)',color='k',fontweight='bold',
+    #         transform=ax.transAxes,bbox=pfun.bbox)
+    # else:
         # selected spring and neap; hard coded for 2018 Admiralty Inlet #NEED TO CHANGE THIS
         # it_neap = zfun.find_nearest_ind(yd,233)
         # it_spring = zfun.find_nearest_ind(yd,253)
         # it_neap = zfun.find_nearest_ind(yd,279)
         # it_spring = zfun.find_nearest_ind(yd,287)
-        it_neap = zfun.find_nearest_ind(dti,TE['t_neap'])
-        it_spring = zfun.find_nearest_ind(dti,TE['t_spring'])
-        for sn in sect_list:
+    it_neap = zfun.find_nearest_ind(dti,TE['t_neap'])
+    it_spring = zfun.find_nearest_ind(dti,TE['t_spring'])
+        #for sn in sect_list:
             # ax1.plot(xlistkm,Stx_array[it_neap,:],'-',color=c_dict[sn])
             # ax1.plot(xlistkm,Stx_array[it_spring,:],'--',color=c_dict[sn])
-            ax1.plot(xlistkm,Stx_array[it_neap,:],'-o',color=c_list[gi], label=silllenstr[gi]+' neap')
-            ax1.plot(xlistkm,Stx_array[it_spring,:],'--o',color=c_list[gi], label=silllenstr[gi]+' spring')
+    ax1.plot(xlistkm,Stx_array[it_neap,:],'-o',color=c_list[gi], label=silllenstr[gi]+' neap')
+    ax1.plot(xlistkm,Stx_array[it_spring,:],'--o',color=c_list[gi], label=silllenstr[gi]+' spring')
     ax1.set_xlabel('Distance [km]')
     ax1.set_ylabel('Depth-mean salinity')
     ax1.grid(True)
