@@ -35,7 +35,7 @@ gridnamelist = ['sill5km','sill20kmdeep','sill80km']
 taglist = ['t0','t2','t2']
 gtaglist = ['sill5km_t0','sill20kmdeep_t2','sill80km_t2']
 gtagexlist = ['sill5km_t0_xa0','sill20kmdeep_t2_xa0','sill80km_t2_xa0']
-gridlist = [Ldir['LOd'] / 'grids' / 'sill5km', Ldir['LOd'] / 'grids' / 'sill20kmdeep', Ldir['LOd'] / 'grids' / 'sill80km']
+gridlist = [Ldir['data'] / 'grids' / 'sill5km', Ldir['data'] / 'grids' / 'sill20kmdeep', Ldir['data'] / 'grids' / 'sill80km']
 
 silllenstr = ['5km','20km','80km']
 
