@@ -206,9 +206,10 @@ plt.close('all')
 pfun.start_plot(figsize=(12,6))
 fig = plt.figure()
 
+#CHANGE COLORS TO DICT FOR DIFFERENT MODELS
 #c_list = ['m','r','orange','g','b','violet']
-c_list = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue'] #COLORS FOR SHORT SECTION LIST ON SILL
-c_dict = dict(zip(sect_list,c_list))
+# c_list = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue'] #COLORS FOR SHORT SECTION LIST ON SILL
+# c_dict = dict(zip(sect_list,c_list))
 
 # # map
 # ax0 = fig.add_subplot(321)
@@ -249,10 +250,11 @@ else:
     it_neap = zfun.find_nearest_ind(dti,TE['t_neap'])
     it_spring = zfun.find_nearest_ind(dti,TE['t_spring'])
     for sn in sect_list:
-        ax1.plot(xlistkm,Stx_array[it_neap,:],'-',color=c_dict[sn])
-        ax1.plot(xlistkm,Stx_array[it_spring,:],'--',color=c_dict[sn])
-    ax1.text(.05,.1,'(b) Neap and Spring S(x)',color='k',fontweight='bold',
-        transform=ax1.transAxes,bbox=pfun.bbox)
+        # ax1.plot(xlistkm,Stx_array[it_neap,:],'-',color=c_dict[sn])
+        # ax1.plot(xlistkm,Stx_array[it_spring,:],'--',color=c_dict[sn])
+        ax1.plot(xlistkm,Stx_array[it_neap,:],'-',color='tab:grey')
+        ax1.plot(xlistkm,Stx_array[it_spring,:],'--',color='tab:grey')
+    ax1.text(.05,.1,'(b) Neap and Spring S(x)',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
 ax1.set_xlabel('Distance [km]')
 ax1.set_ylabel('Depth-mean salinity')
 ax1.grid(True)
