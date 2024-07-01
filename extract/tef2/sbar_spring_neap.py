@@ -31,8 +31,12 @@ out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 out_dir = out_dir0 / ('dsdx_plots_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir)
 
-gtagexlist = ['sill5km_t0_xa0','sill20kmdeep_t2_xa0','sill80km_t2_xa0']
 gridnamelist = ['sill5km','sill20kmdeep','sill80km']
+taglist = ['t0','t2','t2']
+gtaglist = ['sill5km_t0','sill20kmdeep_t2','sill80km_t2']
+gtagexlist = ['sill5km_t0_xa0','sill20kmdeep_t2_xa0','sill80km_t2_xa0']
+gridlist = [Ldir['LOd'] / 'grids' / 'sill5km', Ldir['LOd'] / 'grids' / 'sill20kmdeep', Ldir['LOd'] / 'grids' / 'sill80km']
+
 silllenstr = ['5km','20km','80km']
 
 #CHANGE COLORS TO DICT FOR DIFFERENT MODELS
@@ -42,8 +46,11 @@ c_list = ['tab:red','tab:green','tab:purple'] #COLORS FOR SHORT SECTION LIST ON 
 #c_dict = dict(zip(sect_list,c_list))
 
 for gi in range(len(gtagexlist)):
-    Ldir['gtagex']=gtagexlist[gi]
     Ldir['gridname']=gridnamelist[gi]
+    Ldir['tag']=taglist[gi]
+    Ldir['gtag']=gtaglist[gi]
+    Ldir['gtagex']=gtagexlist[gi]
+    Ldir['grid']=gridlist[gi]
 
     # output location
     out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
@@ -149,7 +156,7 @@ for gi in range(len(gtagexlist)):
         dz = np.diff(zw,axis=0)
         A = np.sum(ds['dd'].values * dz)
         
-        # Find mean lat and lon (more work than it should be!). #I THINK WE CAN SKIP/CHANGE THIS
+        # Find mean lat and lon (more work than it should be!).
         lon_vec = np.concatenate((lou[sdf.loc[(sdf.uv=='u'),'i']],lov[sdf.loc[(sdf.uv=='v'),'i']]))
         lat_vec = np.concatenate((lau[sdf.loc[(sdf.uv=='u'),'j']],lav[sdf.loc[(sdf.uv=='v'),'j']]))
         lon_vec_dict[sn] = lon_vec
