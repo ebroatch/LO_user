@@ -67,7 +67,7 @@ CC['dd'] = dd
 for vn in vn_list: #this is just AKv
     aa = ds[vn].values.squeeze()
     # CC[vn] = (aa[:, sect_df.jrp, sect_df.irp]  + aa[:, sect_df.jrm, sect_df.irm])/2
-    CC[vn] = (aa[1:-1, sect_df.jrp, sect_df.irp]  + aa[:, sect_df.jrm, sect_df.irm])/2 #cut off bottom and top values for AKv
+    CC[vn] = (aa[1:-1, sect_df.jrp, sect_df.irp]  + aa[1:-1, sect_df.jrm, sect_df.irm])/2 #cut off bottom and top values for AKv
 aa = ds.bustr.values.squeeze() #here bustr like zeta because it is 2d not 3d
 CC['bustr'] = (aa[sect_df.jrp, sect_df.irp]  + aa[sect_df.jrm, sect_df.irm])/2
 # # Then: velocity #SKIP VELOCITY SINCE IT WILL BE IN THE REGULAR EXTRACTION
