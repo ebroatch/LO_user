@@ -68,6 +68,8 @@ for vn in vn_list: #this is just AKv
     aa = ds[vn].values.squeeze()
     # CC[vn] = (aa[:, sect_df.jrp, sect_df.irp]  + aa[:, sect_df.jrm, sect_df.irm])/2
     CC[vn] = (aa[1:-1, sect_df.jrp, sect_df.irp]  + aa[1:-1, sect_df.jrm, sect_df.irm])/2 #cut off bottom and top values for AKv
+aa = ds.zeta.values.squeeze()
+CC['zeta'] = (aa[sect_df.jrp, sect_df.irp]  + aa[sect_df.jrm, sect_df.irm])/2
 aa = ds.bustr.values.squeeze() #here bustr like zeta because it is 2d not 3d
 CC['bustr'] = (aa[sect_df.jrp, sect_df.irp]  + aa[sect_df.jrm, sect_df.irm])/2
 # # Then: velocity #SKIP VELOCITY SINCE IT WILL BE IN THE REGULAR EXTRACTION
@@ -95,11 +97,11 @@ ds1['time'] = (('time'), ot, attrs)
 
 ds1['h'] = (('p'), CC['h'])
 ds1['dd'] = (('p'), CC['dd'])
-#ds1['zeta'] = (('time','p'), CC['zeta'].reshape(1,NP))
+ds1['zeta'] = (('time','p'), CC['zeta'].reshape(1,NP))
 ds1['bustr'] = (('time','p'), CC['bustr'].reshape(1,NP))
 for vn in CC.keys():
     # if vn not in ['zeta', 'h', 'dd']:
-    if vn not in ['bustr', 'h', 'dd']:
+    if vn not in ['zeta', 'bustr', 'h', 'dd']:
         vv = CC[vn] # packed (z,p)
         ds1[vn] = (('time','z', 'p'), vv.reshape(1,NZ,NP))
 ds1.to_netcdf(args.out_fn, unlimited_dims='time')
