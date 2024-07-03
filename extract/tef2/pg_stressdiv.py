@@ -163,7 +163,7 @@ for sn in sect_list:
     # calculate tidally averaged stress
     dudz_hourly = np.diff(u_hourly,axis=1)/DZR
     ustr_hourly = AKv_hourly*dudz_hourly
-    ustr_hourly_full = np.concatenate((bustr_hourly[:,np.newaxis,:],ustr_hourly,np.zeros(bustr_hourly.shape[0],1,bustr_hourly.shape[1])),axis=1)
+    ustr_hourly_full = np.concatenate((bustr_hourly[:,np.newaxis,:],ustr_hourly,np.zeros((bustr_hourly.shape[0],1,bustr_hourly.shape[1]))),axis=1)
     ustr = zfun.lowpass(ustr_hourly_full, f='godin')[pad:-pad+1:24, :]
 
     # bin stress into vertical bins same as salt
