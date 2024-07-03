@@ -151,8 +151,8 @@ for sn in sect_list:
     lat_dict[sn] = la
     
     # Then we want to form a time series of s(z)
-    # NZ = 100 #ADD MORE BINS???
-    NZ = 200 #ADD MORE BINS???
+    NZ = 100 #ADD MORE BINS???
+    #NZ = 200 #ADD MORE BINS???
     s_vs_z = np.nan * np.ones((NT,NZ))
     for tt in range(NT):
         sf = salt[tt,:,:].squeeze().flatten()
