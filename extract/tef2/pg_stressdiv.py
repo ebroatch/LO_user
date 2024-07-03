@@ -87,6 +87,8 @@ print(str(in_dir))
 tt00 = time()
 
 stz_dict = dict()
+ustrtz_dict = dict()
+zeta_dict = dict()
 lon_dict = dict()
 lat_dict = dict()
 lon_vec_dict = dict()
@@ -105,14 +107,6 @@ for sn in sect_list:
     pad = 36
     salt = zfun.lowpass(salt_hourly, f='godin')[pad:-pad+1:24, :]
     NT, N, P = salt.shape
-    
-    # load stress fields
-    ds2 = xr.open_dataset(in_dir2 / (sn + '.nc'))
-    AKv_hourly = ds2.AKv.values
-    bustr = ds2.bustr.values
-    pad = 36
-    #salt = zfun.lowpass(salt_hourly, f='godin')[pad:-pad+1:24, :]
-    #NT, N, P = salt.shape
 
     # # make Qprism
     q = ds['dd'].values * ds['DZ'].values * ds['vel'].values
@@ -129,16 +123,13 @@ for sn in sect_list:
     h = ds.h.values
     zr, zw = zrfun.get_z(h, 0*h, S) # packed (z,p)
     zf = zr.flatten() # Note: this does not change with time
+    zwf = zw.flatten()
     # what if there is only one p?
     H_dict[sn] = h.mean()
     
     # get section area (ssh=0)
     dz = np.diff(zw,axis=0)
     A = np.sum(ds['dd'].values * dz)
-
-    # calculate vertical stress divergence
-    dudz = np.diff(u_hourly,axis=1)/ds2['DZR']
-    ustr = AKv_hourly*dudz
     
     # Find mean lat and lon (more work than it should be!). #I THINK WE CAN SKIP/CHANGE THIS
     lon_vec = np.concatenate((lou[sdf.loc[(sdf.uv=='u'),'i']],lov[sdf.loc[(sdf.uv=='v'),'i']]))
@@ -161,6 +152,32 @@ for sn in sect_list:
         bs = binned_statistic(zf, sf, statistic='mean', bins=NZ, range=(-200,0)) #change to -200 max depth in estuary
         s_vs_z[tt,:] = bs.statistic
     bin_edges = bs.bin_edges
+
+    # load stress fields
+    ds2 = xr.open_dataset(in_dir2 / (sn + '.nc'))
+    AKv_hourly = ds2.AKv.values
+    bustr_hourly = ds2.bustr.values
+    DZR = ds2['DZR'].values
+    pad = 36
+
+    # calculate tidally averaged stress
+    dudz_hourly = np.diff(u_hourly,axis=1)/DZR
+    ustr_hourly = AKv_hourly*dudz_hourly
+    ustr_hourly_full = np.concatenate((bustr_hourly[:,np.newaxis,:],ustr_hourly,np.zeros(bustr_hourly.shape[0],1,bustr_hourly.shape[1])),axis=1)
+    ustr = zfun.lowpass(ustr_hourly_full, f='godin')[pad:-pad+1:24, :]
+
+    # bin stress into vertical bins same as salt
+    ustr_vs_z = np.nan * np.ones((NT,NZ))
+    for tt in range(NT):
+        ustrf = ustr[tt,:,:].squeeze().flatten()
+        # scipy.stats.binned_statistic(x, values, statistic='mean', bins=10, range=None)
+        ##bs = binned_statistic(zf, sf, statistic='mean', bins=NZ, range=(-500,0))
+        bs2 = binned_statistic(zwf, ustrf, statistic='mean', bins=NZ, range=(-200,0)) #change to -200 max depth in estuary
+        ustr_vs_z[tt,:] = bs2.statistic
+    bin_edges2 = bs2.bin_edges
+
+    # calculate average zeta across the section
+    zeta_avg = np.sum(ds['dd'].values*ds['zeta'].values,axis=1)/np.sum(ds['dd'].values)
     
     ot = ds['time'].to_numpy()
     # do a little massaging of ot
@@ -172,6 +189,8 @@ for sn in sect_list:
     otdt = np.array([Lfun.modtime_to_datetime(item) for item in ot])
     
     stz_dict[sn] = s_vs_z
+    ustrtz_dict[sn] = ustr_vs_z
+    zeta_dict[sn] = zeta_avg
 
 # get dx for ds/dx #MIGHT CHANGE THIS FOR MORE PAIRS ALONG THE ESTUARY
 dxlist = []
@@ -183,6 +202,7 @@ for i in range(len(sect_list)-1):
     
 # z for plotting
 z = bin_edges[:-1] + np.diff(bin_edges)/2
+z2 = bin_edges2[:-1] + np.diff(bin_edges2)/2
 
 # trim to only use overlapping z range
 mask = z == z
@@ -195,7 +215,7 @@ for sn in sect_list:
     stz = stz_dict[sn]
     Stz_dict[sn] = stz[:,mask]
 Z = z[mask] # trimmed version of z
-    
+
 Sz_dict = dict() # time-mean of each section s(z)
 St_dict = dict() # depth-mean of each section s(t)
 for sn in sect_list:
@@ -203,6 +223,25 @@ for sn in sect_list:
     Stz = Stz_dict[sn]
     Sz_dict[sn] = np.mean(Stz,axis=0)
     St_dict[sn] = np.nanmean(Stz,axis=1)
+
+# trim ustr to only use overlapping z range
+mask2 = z2 == z2
+USTRtz_dict = dict() # trimmed version of ustrtz
+# mask is initialized as all True
+for sn in sect_list:
+    ustr0z = ustrtz_dict[sn][0,:]
+    mask2 = mask2 & ~np.isnan(ustr0z)
+for sn in sect_list:
+    ustrtz = ustrtz_dict[sn]
+    USTRtz_dict[sn] = ustrtz[:,mask2]
+Z2 = z2[mask2] # trimmed version of z
+
+# vertical derivative of ustr
+dustrdz_dict = dict() #vertical derivative of u stress
+for sn in sect_list:
+    # USTRtz is a trimmed array of s(t,z), daily
+    USTRtz = USTRtz_dict[sn]
+    dustrdz_dict[sn] = np.diff(USTRtz,axis=1)/np.diff(Z2)
 
 # useful time vectors
 dti = pd.DatetimeIndex(otdt)
