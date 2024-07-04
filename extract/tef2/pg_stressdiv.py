@@ -339,67 +339,67 @@ ax2.grid(True)
 #     ax2.axvline(x=dti[it_neap],linestyle='-',color='gray',linewidth=2)
 #     ax2.axvline(x=dti[it_spring],linestyle='--',color='gray',linewidth=2)
 
-#ax3a = fig.add_subplot(313)
-ax3a = fig.add_subplot(111)
-dti = pd.DatetimeIndex(otdt)
-yd = dti.dayofyear
-year = otdt[0].year
-##ax.plot(yd,St_dict[sect_list[0]]-St_dict[sect_list[-1]],'-',color='k')
-# ax.plot(yd,St_dict[sect_list[0]]-St_dict[sect_list[2]],'-',color=c_dict[sect_list[0]])
-# ax.plot(yd,St_dict[sect_list[-3]]-St_dict[sect_list[-1]],'-',color=c_dict[sect_list[-1]])
-##ax.text(.05,.9,'(d) Total Along-Section Change in Depth-Mean Salinity',color='k',fontweight='bold',transform=ax.transAxes,bbox=pfun.bbox)
-for i in range(len(sect_list)-1):
-    ax3a.plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dxlist[i],'-',color=c_dict[sect_list[i]]) #PLOT ds/dx INSTEAD OF SALINITY CHANGE
-    ax3a.plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dxlist[i],':',color=c_dict[sect_list[i+1]]) #PLOT AGAIN IN SECOND COLOR TO MAKE TWO COLOR DASHED LINE
-ax3a.text(.05,.05,r'(d) $\partial S/\partial x\ [g\ kg^{-1}\ km^{-1}]$ between pairs of sections',color='k',fontweight='bold',transform=ax3a.transAxes,bbox=pfun.bbox)
-#ax.set_xlim(0,365)
-ax3a.set_xlim(246,365) #change this to monthday or something!!
-ax3a.set_xlabel('Yearday ' + str(year))
-#ax3a.grid(axis='x')
-# add Qprism
-# ax2b = ax2.twinx()
-ax3b = ax3a.twinx()
-Qprism_sectavg = 0.5*(Qprism_dict[sect_list[0]]+Qprism_dict[sect_list[-1]])/1000
-# ax2b.plot(dti,Qprism_sectavg,'-',color='tab:purple',linewidth=3,alpha=.4)
-# ax2b.set_ylim(bottom=0)
-ax3b.plot(dti,Qprism_sectavg,'-',color='tab:purple',linewidth=3,alpha=.4)
-ax3b.set_ylim(bottom=0)
+# #ax3a = fig.add_subplot(313)
+# ax3a = fig.add_subplot(111)
+# dti = pd.DatetimeIndex(otdt)
+# yd = dti.dayofyear
+# year = otdt[0].year
+# ##ax.plot(yd,St_dict[sect_list[0]]-St_dict[sect_list[-1]],'-',color='k')
+# # ax.plot(yd,St_dict[sect_list[0]]-St_dict[sect_list[2]],'-',color=c_dict[sect_list[0]])
+# # ax.plot(yd,St_dict[sect_list[-3]]-St_dict[sect_list[-1]],'-',color=c_dict[sect_list[-1]])
+# ##ax.text(.05,.9,'(d) Total Along-Section Change in Depth-Mean Salinity',color='k',fontweight='bold',transform=ax.transAxes,bbox=pfun.bbox)
+# for i in range(len(sect_list)-1):
+#     ax3a.plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dxlist[i],'-',color=c_dict[sect_list[i]]) #PLOT ds/dx INSTEAD OF SALINITY CHANGE
+#     ax3a.plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dxlist[i],':',color=c_dict[sect_list[i+1]]) #PLOT AGAIN IN SECOND COLOR TO MAKE TWO COLOR DASHED LINE
+# ax3a.text(.05,.05,r'(d) $\partial S/\partial x\ [g\ kg^{-1}\ km^{-1}]$ between pairs of sections',color='k',fontweight='bold',transform=ax3a.transAxes,bbox=pfun.bbox)
+# #ax.set_xlim(0,365)
+# ax3a.set_xlim(246,365) #change this to monthday or something!!
+# ax3a.set_xlabel('Yearday ' + str(year))
+# #ax3a.grid(axis='x')
+# # add Qprism
+# # ax2b = ax2.twinx()
+# ax3b = ax3a.twinx()
+# Qprism_sectavg = 0.5*(Qprism_dict[sect_list[0]]+Qprism_dict[sect_list[-1]])/1000
+# # ax2b.plot(dti,Qprism_sectavg,'-',color='tab:purple',linewidth=3,alpha=.4)
+# # ax2b.set_ylim(bottom=0)
+# ax3b.plot(dti,Qprism_sectavg,'-',color='tab:purple',linewidth=3,alpha=.4)
+# ax3b.set_ylim(bottom=0)
 
-snmid=(np.max(Qprism_sectavg)+np.min(Qprism_sectavg))/2
-snbg=np.where(Qprism_sectavg>snmid, 1, 0)
-ax3b.pcolor(dti, ax3b.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #add grey bars for qprism
-# ax2.pcolor(dti, ax2.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #also add to subplot above grey bars for qprism
-ax3a.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
-ax3a.xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
-ax3a.set_xlabel('Day')
-# ax2.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
-# ax2.xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
-# ax2.set_xlabel('Day')
-# ax2.grid(False)
-# ax3a.grid(False)
-# ax2.grid(axis='y')
-ax3a.grid(axis='y')
-if True:
-    ax3a.axvline(x=dti[it_neap],linestyle='-',color='gray',linewidth=2)
-    ax3a.axvline(x=dti[it_spring],linestyle='--',color='gray',linewidth=2)
+# snmid=(np.max(Qprism_sectavg)+np.min(Qprism_sectavg))/2
+# snbg=np.where(Qprism_sectavg>snmid, 1, 0)
+# ax3b.pcolor(dti, ax3b.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #add grey bars for qprism
+# # ax2.pcolor(dti, ax2.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #also add to subplot above grey bars for qprism
+# ax3a.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
+# ax3a.xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
+# ax3a.set_xlabel('Day')
+# # ax2.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
+# # ax2.xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
+# # ax2.set_xlabel('Day')
+# # ax2.grid(False)
+# # ax3a.grid(False)
+# # ax2.grid(axis='y')
+# ax3a.grid(axis='y')
+# if True:
+#     ax3a.axvline(x=dti[it_neap],linestyle='-',color='gray',linewidth=2)
+#     ax3a.axvline(x=dti[it_spring],linestyle='--',color='gray',linewidth=2)
 
-# ax2b.text(.95,.9,r'$Q_{prism}\ [10^{3}m^{3}s^{-1}]$', color='tab:purple', 
-# transform=ax2.transAxes, ha='right',
-# bbox=pfun.bbox)
-# ax2b.xaxis.label.set_color('tab:purple')
-# ax2b.tick_params(axis='y', colors='tab:purple')
+# # ax2b.text(.95,.9,r'$Q_{prism}\ [10^{3}m^{3}s^{-1}]$', color='tab:purple', 
+# # transform=ax2.transAxes, ha='right',
+# # bbox=pfun.bbox)
+# # ax2b.xaxis.label.set_color('tab:purple')
+# # ax2b.tick_params(axis='y', colors='tab:purple')
 
-ax3b.text(.95,.9,r'$Q_{prism}\ [10^{3}m^{3}s^{-1}]$', color='tab:purple', 
-    transform=ax3a.transAxes, ha='right',
-    bbox=pfun.bbox)
-ax3b.xaxis.label.set_color('tab:purple')
-ax3b.tick_params(axis='y', colors='tab:purple')
-#ax.set_xlim(0,365)
-#ax3a.set_xlim(246,365) #change this to monthday or something!!
-# ax3a.set_ylim(bottom=0)
-if True:
-    ax3a.axvline(x=yd[it_neap],linestyle='-',color='gray',linewidth=2)
-    ax3a.axvline(x=yd[it_spring],linestyle='--',color='gray',linewidth=2)
+# ax3b.text(.95,.9,r'$Q_{prism}\ [10^{3}m^{3}s^{-1}]$', color='tab:purple', 
+#     transform=ax3a.transAxes, ha='right',
+#     bbox=pfun.bbox)
+# ax3b.xaxis.label.set_color('tab:purple')
+# ax3b.tick_params(axis='y', colors='tab:purple')
+# #ax.set_xlim(0,365)
+# #ax3a.set_xlim(246,365) #change this to monthday or something!!
+# # ax3a.set_ylim(bottom=0)
+# if True:
+#     ax3a.axvline(x=yd[it_neap],linestyle='-',color='gray',linewidth=2)
+#     ax3a.axvline(x=yd[it_spring],linestyle='--',color='gray',linewidth=2)
     
 fig.tight_layout()
 #fig.savefig(out_dir / 'dsdx_spring_neap.png')
