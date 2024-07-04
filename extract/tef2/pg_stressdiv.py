@@ -87,7 +87,7 @@ print(str(in_dir))
 tt00 = time()
 
 stz_dict = dict()
-ustrtz_dict = dict()
+dustrdztz_dict = dict()
 zeta_dict = dict()
 lon_dict = dict()
 lat_dict = dict()
@@ -165,15 +165,26 @@ for sn in sect_list:
     ustr_hourly = AKv_hourly*dudz_hourly
     ustr_hourly_full = np.concatenate((bustr_hourly[:,np.newaxis,:],ustr_hourly,np.zeros((bustr_hourly.shape[0],1,bustr_hourly.shape[1]))),axis=1)
     ustr = zfun.lowpass(ustr_hourly_full, f='godin')[pad:-pad+1:24, :]
+    dustrdz = np.diff(ustr)/dz
 
     # bin stress into vertical bins same as salt
-    ustr_vs_z = np.nan * np.ones((NT,NZ))
+    # ustr_vs_z = np.nan * np.ones((NT,NZ))
+    # for tt in range(NT):
+    #     ustrf = ustr[tt,:,:].squeeze().flatten()
+    #     # scipy.stats.binned_statistic(x, values, statistic='mean', bins=10, range=None)
+    #     ##bs = binned_statistic(zf, sf, statistic='mean', bins=NZ, range=(-500,0))
+    #     bs2 = binned_statistic(zwf, ustrf, statistic='mean', bins=NZ, range=(-200,0)) #change to -200 max depth in estuary
+    #     ustr_vs_z[tt,:] = bs2.statistic
+    # bin_edges2 = bs2.bin_edges
+
+    # bin stress derivative into vertical bins
+    dustrdz_vs_z = np.nan * np.ones((NT,NZ))
     for tt in range(NT):
-        ustrf = ustr[tt,:,:].squeeze().flatten()
+        dustrdzf = dustrdz[tt,:,:].squeeze().flatten()
         # scipy.stats.binned_statistic(x, values, statistic='mean', bins=10, range=None)
         ##bs = binned_statistic(zf, sf, statistic='mean', bins=NZ, range=(-500,0))
-        bs2 = binned_statistic(zwf, ustrf, statistic='mean', bins=NZ, range=(-200,0)) #change to -200 max depth in estuary
-        ustr_vs_z[tt,:] = bs2.statistic
+        bs2 = binned_statistic(zf, dustrdzf, statistic='mean', bins=NZ, range=(-200,0)) #change to -200 max depth in estuary
+        dustrdz_vs_z[tt,:] = bs2.statistic
     bin_edges2 = bs2.bin_edges
 
     # calculate average zeta across the section
@@ -189,7 +200,7 @@ for sn in sect_list:
     otdt = np.array([Lfun.modtime_to_datetime(item) for item in ot])
     
     stz_dict[sn] = s_vs_z
-    ustrtz_dict[sn] = ustr_vs_z
+    dustrdztz_dict[sn] = dustrdz_vs_z
     zeta_dict[sn] = zeta_avg
 
 # get dx for ds/dx #MIGHT CHANGE THIS FOR MORE PAIRS ALONG THE ESTUARY
@@ -202,7 +213,7 @@ for i in range(len(sect_list)-1):
     
 # z for plotting
 z = bin_edges[:-1] + np.diff(bin_edges)/2
-z2 = bin_edges2[:-1] + np.diff(bin_edges2)/2 #use with ustr
+z2 = bin_edges2[:-1] + np.diff(bin_edges2)/2 #use with dustrdzf
 
 # trim to only use overlapping z range
 mask = z == z
@@ -226,23 +237,22 @@ for sn in sect_list:
 
 # trim ustr to only use overlapping z range
 mask2 = z2 == z2
-USTRtz_dict = dict() # trimmed version of ustrtz
+DUSTRDZtz_dict = dict() # trimmed version of ustrtz
 # mask is initialized as all True
 for sn in sect_list:
-    ustr0z = ustrtz_dict[sn][0,:]
-    mask2 = mask2 & ~np.isnan(ustr0z)
+    dustrdz0z = dustrdztz_dict[sn][0,:]
+    mask2 = mask2 & ~np.isnan(dustrdz0z)
 for sn in sect_list:
-    ustrtz = ustrtz_dict[sn]
-    USTRtz_dict[sn] = ustrtz[:,mask2]
+    dustrdztz = dustrdztz_dict[sn]
+    DUSTRDZtz_dict[sn] = dustrdztz[:,mask2]
 Z2 = z2[mask2] # trimmed version of z
-Z3 = Z2[:-1] + np.diff(Z2)/2 #use with dustrdz
 
-# vertical derivative of ustr
-dustrdz_dict = dict() #vertical derivative of u stress
-for sn in sect_list:
-    # USTRtz is a trimmed array of s(t,z), daily
-    USTRtz = USTRtz_dict[sn]
-    dustrdz_dict[sn] = np.diff(USTRtz,axis=1)/np.diff(Z2)
+# # vertical derivative of ustr #NOW WE ARE CALCULATING THIS BEFORE BINNING
+# dustrdz_dict = dict() #vertical derivative of u stress
+# for sn in sect_list:
+#     # USTRtz is a trimmed array of s(t,z), daily
+#     USTRtz = USTRtz_dict[sn]
+#     dustrdz_dict[sn] = np.diff(USTRtz,axis=1)/np.diff(Z2)
 
 # useful time vectors
 dti = pd.DatetimeIndex(otdt)
@@ -311,7 +321,7 @@ it_spring = zfun.find_nearest_ind(dti,TE['t_spring'])
 
 ax1 = fig.add_subplot(121)
 for sn in sect_list:
-    ax1.plot(USTRtz_dict[sn][it_neap,:],Z2,'-',color=c_dict[sn])
+    ax1.plot(DUSTRDZtz_dict[sn][it_neap,:],Z2,'-',color=c_dict[sn])
 ax1.text(.05,.1,'Neap u stress',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
 ax1.set_xlabel('??')
 ax1.set_ylabel('Z [m]')
@@ -319,7 +329,7 @@ ax1.grid(True)
 
 ax2 = fig.add_subplot(122)
 for sn in sect_list:
-    ax2.plot(USTRtz_dict[sn][it_spring,:],Z2,'--',color=c_dict[sn])
+    ax2.plot(DUSTRDZtz_dict[sn][it_spring,:],Z2,'--',color=c_dict[sn])
 ax2.text(.05,.1,'Spring u stress',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
 ax2.set_xlabel('?? units')
 ax2.set_ylabel('Z [m]')
