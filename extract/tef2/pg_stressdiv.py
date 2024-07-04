@@ -202,7 +202,7 @@ for i in range(len(sect_list)-1):
     
 # z for plotting
 z = bin_edges[:-1] + np.diff(bin_edges)/2
-z2 = bin_edges2[:-1] + np.diff(bin_edges2)/2
+z2 = bin_edges2[:-1] + np.diff(bin_edges2)/2 #use with ustr
 
 # trim to only use overlapping z range
 mask = z == z
@@ -235,6 +235,7 @@ for sn in sect_list:
     ustrtz = ustrtz_dict[sn]
     USTRtz_dict[sn] = ustrtz[:,mask2]
 Z2 = z2[mask2] # trimmed version of z
+Z3 = Z2[:-1] + np.diff(Z2)/2 #use with dustrdz
 
 # vertical derivative of ustr
 dustrdz_dict = dict() #vertical derivative of u stress
@@ -307,6 +308,23 @@ c_dict = dict(zip(sect_list,c_list))
 
 it_neap = zfun.find_nearest_ind(dti,TE['t_neap'])
 it_spring = zfun.find_nearest_ind(dti,TE['t_spring'])
+
+ax1 = fig.add_subplot(121)
+for sn in sect_list:
+    ax1.plot(dustrdz_dict[sn][it_neap,:],Z3,'-',color=c_dict[sn])
+ax1.text(.05,.1,'Neap <Kuz>z',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
+ax1.set_xlabel('??')
+ax1.set_ylabel('Z [m]')
+ax1.grid(True)
+
+ax2 = fig.add_subplot(122)
+for sn in sect_list:
+    ax2.plot(dustrdz_dict[sn][it_spring,:],Z3,'--',color=c_dict[sn])
+ax2.text(.05,.1,'Spring <Kuz>z',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
+ax2.set_xlabel('?? units')
+ax2.set_ylabel('Z [m]')
+ax2.grid(True)
+
 
 # ax2 = fig.add_subplot(312)
 # for sn in sect_list:
