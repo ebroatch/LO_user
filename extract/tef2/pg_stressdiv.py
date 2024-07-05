@@ -321,17 +321,18 @@ it_spring = zfun.find_nearest_ind(dti,TE['t_spring'])
 
 ax1 = fig.add_subplot(121)
 for sn in sect_list:
-    ax1.plot(DUSTRDZtz_dict[sn][it_neap,:],Z2,'-',color=c_dict[sn])
+#    ax1.plot(DUSTRDZtz_dict[sn][it_neap,:],Z2,'-',color=c_dict[sn])
+    ax1.plot(dudz_hourly[1,:,6],zw[1:-1,6],'-',color=c_dict[sn])
 ax1.text(.05,.1,'Neap u stress',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
-ax1.set_xlabel('??')
+ax1.set_xlabel('dudz center b5')
 ax1.set_ylabel('Z [m]')
 ax1.grid(True)
 
 ax2 = fig.add_subplot(122)
 for sn in sect_list:
-    ax2.plot(DUSTRDZtz_dict[sn][it_spring,:],Z2,'--',color=c_dict[sn])
+    ax2.plot(u_hourly[1,:,6],zr[:,6],Z2,'--',color=c_dict[sn])
 ax2.text(.05,.1,'Spring u stress',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
-ax2.set_xlabel('?? units')
+ax2.set_xlabel('u center b5')
 ax2.set_ylabel('Z [m]')
 ax2.grid(True)
 
