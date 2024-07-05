@@ -330,8 +330,8 @@ ax1.grid(True)
 
 ax2 = fig.add_subplot(122)
 for sn in sect_list:
-    ax2.plot(u_hourly[1,:,6],zr[:,6],Z2,'--',color=c_dict[sn])
-ax2.text(.05,.1,'Spring u stress',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
+    ax2.plot(u_hourly[1,:,6],zr[:,6],'--',color=c_dict[sn])
+ax2.text(.05,.1,'Spring u stress',color='k',fontweight='bold',transform=ax2.transAxes,bbox=pfun.bbox)
 ax2.set_xlabel('u center b5')
 ax2.set_ylabel('Z [m]')
 ax2.grid(True)
