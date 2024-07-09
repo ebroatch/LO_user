@@ -70,7 +70,8 @@ CC['dd'] = dd
 #     CC[vn] = (aa[1:-1, sect_df.jrp, sect_df.irp]  + aa[1:-1, sect_df.jrm, sect_df.irm])/2 #cut off bottom and top values for AKv
 #get AKv and cut off bottom and top values 
 aa = ds['AKv'].values.squeeze()
-CC['AKv'] = (aa[1:-1, sect_df.jrp, sect_df.irp]  + aa[1:-1, sect_df.jrm, sect_df.irm])/2 #cut off bottom and top values for AKv
+#CC['AKv'] = (aa[1:-1, sect_df.jrp, sect_df.irp]  + aa[1:-1, sect_df.jrm, sect_df.irm])/2 #cut off bottom and top values for AKv
+CC['AKv'] = (aa[:-1, sect_df.jrp, sect_df.irp]  + aa[:-1, sect_df.jrm, sect_df.irm])/2 #cut off top values for AKv to match sizes for dataset
 #get average salt and salt on either side of the section (to get a more local ds/dx)
 aa = ds.salt.values.squeeze()
 CC['salt'] = (aa[:, sect_df.jrp, sect_df.irp]  + aa[:, sect_df.jrm, sect_df.irm])/2
@@ -100,25 +101,46 @@ CC['bustr'] = (aa[sect_df.jrp, sect_df.irp]  + aa[sect_df.jrm, sect_df.irm])/2
 # CC['vel'] = vel
 
 # put these in a Dataset
+# #2 datasets, one with AKv and one with salt (different size arrays)
+# keep bottom AKv value to match dimensions for convenience
+# need to cut off bottom AKv value in the analysis/plotting code
 # NZ, NP = CC['vel'].shape
-NZ1, NP = CC['AKv'].shape
-NZ2, NP = CC['salt'].shape
+NZ, NP = CC['AKv'].shape
+# NZ1, NP = CC['AKv'].shape
+# NZ2, NP = CC['salt'].shape
 ot = ds.ocean_time.values
 attrs = {'units':ds.ocean_time.units}
 ds1 = Dataset()
+# ds2 = Dataset()
 ds1['time'] = (('time'), ot, attrs)
+# ds2['time'] = (('time'), ot, attrs)
 # alternate code to do the same thing:
 # ds1 = Dataset({'time': ('time', ot, attrs)})
 
 ds1['h'] = (('p'), CC['h'])
 ds1['dd'] = (('p'), CC['dd'])
-ds1['zeta'] = (('time','p'), CC['zeta'].reshape(1,NP))
+ds1['AKv'] = (('time','z', 'p'), CC['AKv'].reshape(1,NZ,NP))
 ds1['bustr'] = (('time','p'), CC['bustr'].reshape(1,NP))
-ds1['AKv'] = (('time','z', 'p'), CC['AKv'].reshape(1,NZ1,NP))
-for vn in CC.keys():
-    # if vn not in ['zeta', 'h', 'dd']:
-    if vn not in ['zeta', 'bustr', 'h', 'dd','AKv']:
-        vv = CC[vn] # packed (z,p)
-        ds1[vn] = (('time','z', 'p'), vv.reshape(1,NZ2,NP))
+ds1['zeta'] = (('time','p'), CC['zeta'].reshape(1,NP))
+ds1['zetarp'] = (('time','p'), CC['zetarp'].reshape(1,NP))
+ds1['zetarm'] = (('time','p'), CC['zetarm'].reshape(1,NP))
+ds1['salt'] = (('time','z', 'p'), CC['salt'].reshape(1,NZ,NP))
+ds1['saltrp'] = (('time','z', 'p'), CC['saltrp'].reshape(1,NZ,NP))
+ds1['saltrm'] = (('time','z', 'p'), CC['saltrm'].reshape(1,NZ,NP))
+
+# ds2['h'] = (('p'), CC['h'])
+# ds2['dd'] = (('p'), CC['dd'])
+# ds2['zeta'] = (('time','p'), CC['zeta'].reshape(1,NP))
+# ds2['zetarp'] = (('time','p'), CC['zetarp'].reshape(1,NP))
+# ds2['zetarm'] = (('time','p'), CC['zetarm'].reshape(1,NP))
+# ds2['salt'] = (('time','z', 'p'), CC['salt'].reshape(1,NZ2,NP))
+# ds2['saltrp'] = (('time','z', 'p'), CC['saltrp'].reshape(1,NZ2,NP))
+# ds2['saltrm'] = (('time','z', 'p'), CC['saltrm'].reshape(1,NZ2,NP))
+
+# for vn in CC.keys():
+#     # if vn not in ['zeta', 'h', 'dd']:
+#     if vn not in ['zeta', 'bustr', 'h', 'dd','AKv']:
+#         vv = CC[vn] # packed (z,p)
+#         ds1[vn] = (('time','z', 'p'), vv.reshape(1,NZ2,NP))
 ds1.to_netcdf(args.out_fn, unlimited_dims='time')
 
