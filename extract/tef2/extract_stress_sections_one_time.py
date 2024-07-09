@@ -64,14 +64,28 @@ CC['dd'] = dd
 #
 # #First: tracers and zeta
 # First: AKv and bustr
-for vn in vn_list: #this is just AKv
-    aa = ds[vn].values.squeeze()
-    # CC[vn] = (aa[:, sect_df.jrp, sect_df.irp]  + aa[:, sect_df.jrm, sect_df.irm])/2
-    CC[vn] = (aa[1:-1, sect_df.jrp, sect_df.irp]  + aa[1:-1, sect_df.jrm, sect_df.irm])/2 #cut off bottom and top values for AKv
+# for vn in vn_list: #this is just AKv
+#     aa = ds[vn].values.squeeze()
+#     # CC[vn] = (aa[:, sect_df.jrp, sect_df.irp]  + aa[:, sect_df.jrm, sect_df.irm])/2
+#     CC[vn] = (aa[1:-1, sect_df.jrp, sect_df.irp]  + aa[1:-1, sect_df.jrm, sect_df.irm])/2 #cut off bottom and top values for AKv
+#get AKv and cut off bottom and top values 
+aa = ds['AKv'].values.squeeze()
+CC['AKv'] = (aa[1:-1, sect_df.jrp, sect_df.irp]  + aa[1:-1, sect_df.jrm, sect_df.irm])/2 #cut off bottom and top values for AKv
+#get average salt and salt on either side of the section (to get a more local ds/dx)
+aa = ds.salt.values.squeeze()
+CC['salt'] = (aa[:, sect_df.jrp, sect_df.irp]  + aa[:, sect_df.jrm, sect_df.irm])/2
+CC['saltrp'] = aa[:, sect_df.jrp, sect_df.irp]
+CC['saltrm'] = aa[:, sect_df.jrm, sect_df.irm]
+#for zeta get the average (for calculating zw, zr etc) and the values on each side
 aa = ds.zeta.values.squeeze()
 CC['zeta'] = (aa[sect_df.jrp, sect_df.irp]  + aa[sect_df.jrm, sect_df.irm])/2
-aa = ds.bustr.values.squeeze() #here bustr like zeta because it is 2d not 3d
+CC['zetarp'] = aa[sect_df.jrp, sect_df.irp]
+CC['zetarm'] = aa[sect_df.jrm, sect_df.irm]
+#extract bustr similarly to average zeta (2d fields)
+aa = ds.bustr.values.squeeze() 
 CC['bustr'] = (aa[sect_df.jrp, sect_df.irp]  + aa[sect_df.jrm, sect_df.irm])/2
+
+
 # # Then: velocity #SKIP VELOCITY SINCE IT WILL BE IN THE REGULAR EXTRACTION
 # u = ds.u.values.squeeze()
 # v = ds.v.values.squeeze()
