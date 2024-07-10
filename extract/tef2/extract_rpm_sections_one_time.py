@@ -68,26 +68,17 @@ CC['dd'] = dd
 #     aa = ds[vn].values.squeeze()
 #     # CC[vn] = (aa[:, sect_df.jrp, sect_df.irp]  + aa[:, sect_df.jrm, sect_df.irm])/2
 #     CC[vn] = (aa[1:-1, sect_df.jrp, sect_df.irp]  + aa[1:-1, sect_df.jrm, sect_df.irm])/2 #cut off bottom and top values for AKv
-#get AKv and cut off bottom and top values 
-aa = ds['AKv'].values.squeeze()
-CC['AKv'] = (aa[1:-1, sect_df.jrp, sect_df.irp]  + aa[1:-1, sect_df.jrm, sect_df.irm])/2 #cut off bottom and top values for AKv
-#CC['AKv'] = (aa[:-1, sect_df.jrp, sect_df.irp]  + aa[:-1, sect_df.jrm, sect_df.irm])/2 #cut off top values for AKv to match sizes for dataset
 
-# #get average salt and salt on either side of the section (to get a more local ds/dx) #don't get salt, this has been moved to the rpm extraction
-# aa = ds.salt.values.squeeze()
-# CC['salt'] = (aa[:, sect_df.jrp, sect_df.irp]  + aa[:, sect_df.jrm, sect_df.irm])/2
-# CC['saltrp'] = aa[:, sect_df.jrp, sect_df.irp]
-# CC['saltrm'] = aa[:, sect_df.jrm, sect_df.irm]
-#for zeta get the average (for calculating zw, zr etc)
-# the zeta values on each side are moved to the rpm extraction
+#get average salt and salt on either side of the section (to get a more local ds/dx)
+aa = ds.salt.values.squeeze()
+CC['salt'] = (aa[:, sect_df.jrp, sect_df.irp]  + aa[:, sect_df.jrm, sect_df.irm])/2
+CC['saltrp'] = aa[:, sect_df.jrp, sect_df.irp]
+CC['saltrm'] = aa[:, sect_df.jrm, sect_df.irm]
+#for zeta get the average (for calculating zw, zr etc) and the values on each side for dzeta/dx
 aa = ds.zeta.values.squeeze()
 CC['zeta'] = (aa[sect_df.jrp, sect_df.irp]  + aa[sect_df.jrm, sect_df.irm])/2
-# CC['zetarp'] = aa[sect_df.jrp, sect_df.irp]
-# CC['zetarm'] = aa[sect_df.jrm, sect_df.irm]
-
-#extract bustr similarly to average zeta (2d fields)
-aa = ds.bustr.values.squeeze() 
-CC['bustr'] = (aa[sect_df.jrp, sect_df.irp]  + aa[sect_df.jrm, sect_df.irm])/2
+CC['zetarp'] = aa[sect_df.jrp, sect_df.irp]
+CC['zetarm'] = aa[sect_df.jrm, sect_df.irm]
 
 
 # # Then: velocity #SKIP VELOCITY SINCE IT WILL BE IN THE REGULAR EXTRACTION
@@ -108,7 +99,7 @@ CC['bustr'] = (aa[sect_df.jrp, sect_df.irp]  + aa[sect_df.jrm, sect_df.irm])/2
 # keep bottom AKv value to match dimensions for convenience
 # need to cut off bottom AKv value in the analysis/plotting code
 # NZ, NP = CC['vel'].shape
-NZ, NP = CC['AKv'].shape
+NZ, NP = CC['salt'].shape
 # NZ1, NP = CC['AKv'].shape
 # NZ2, NP = CC['salt'].shape
 ot = ds.ocean_time.values
@@ -122,14 +113,14 @@ ds1['time'] = (('time'), ot, attrs)
 
 ds1['h'] = (('p'), CC['h'])
 ds1['dd'] = (('p'), CC['dd'])
-ds1['AKv'] = (('time','z', 'p'), CC['AKv'].reshape(1,NZ,NP))
-ds1['bustr'] = (('time','p'), CC['bustr'].reshape(1,NP))
+# ds1['AKv'] = (('time','z', 'p'), CC['AKv'].reshape(1,NZ,NP))
+# ds1['bustr'] = (('time','p'), CC['bustr'].reshape(1,NP))
 ds1['zeta'] = (('time','p'), CC['zeta'].reshape(1,NP))
-# ds1['zetarp'] = (('time','p'), CC['zetarp'].reshape(1,NP))
-# ds1['zetarm'] = (('time','p'), CC['zetarm'].reshape(1,NP))
-# ds1['salt'] = (('time','z', 'p'), CC['salt'].reshape(1,NZ,NP))
-# ds1['saltrp'] = (('time','z', 'p'), CC['saltrp'].reshape(1,NZ,NP))
-# ds1['saltrm'] = (('time','z', 'p'), CC['saltrm'].reshape(1,NZ,NP))
+ds1['zetarp'] = (('time','p'), CC['zetarp'].reshape(1,NP))
+ds1['zetarm'] = (('time','p'), CC['zetarm'].reshape(1,NP))
+ds1['salt'] = (('time','z', 'p'), CC['salt'].reshape(1,NZ,NP))
+ds1['saltrp'] = (('time','z', 'p'), CC['saltrp'].reshape(1,NZ,NP))
+ds1['saltrm'] = (('time','z', 'p'), CC['saltrm'].reshape(1,NZ,NP))
 
 # ds2['h'] = (('p'), CC['h'])
 # ds2['dd'] = (('p'), CC['dd'])

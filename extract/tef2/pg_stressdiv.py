@@ -129,6 +129,7 @@ for sn in sect_list:
     
     # get section area (ssh=0)
     dz = np.diff(zw,axis=0)
+    dzr = np.diff(zr,axis=0)
     A = np.sum(ds['dd'].values * dz)
     
     # Find mean lat and lon (more work than it should be!). #I THINK WE CAN SKIP/CHANGE THIS
@@ -155,7 +156,7 @@ for sn in sect_list:
 
     # load stress fields
     ds2 = xr.open_dataset(in_dir2 / (sn + '.nc'))
-    AKv_hourly = ds2.AKv.values
+    AKv_hourly = ds2.AKv.values[1:,:,:] #cut off bottom value that was left in for convenient dataset saving in the extract code
     bustr_hourly = ds2.bustr.values
     DZR = ds2['DZR'].values
     pad = 36
@@ -164,7 +165,7 @@ for sn in sect_list:
     dudz_hourly = np.diff(u_hourly,axis=1)/DZR
     ustr_hourly = AKv_hourly*dudz_hourly
     ustr_hourly_full = np.concatenate((bustr_hourly[:,np.newaxis,:],ustr_hourly,np.zeros((bustr_hourly.shape[0],1,bustr_hourly.shape[1]))),axis=1)
-    ustr = zfun.lowpass(ustr_hourly_full, f='godin')[pad:-pad+1:24, :]
+    ustr = zfun.lowpass(ustr_hourly_full, f='godin')[pad:-pad+1:24, :] #tidally average and subsample daily
     dustrdz = np.diff(ustr,axis=1)/dz
 
     # bin stress into vertical bins same as salt
