@@ -206,8 +206,8 @@ for sn in sect_list:
     larm = lar[sdf.jrm,sdf.irm]
     dxrpm = []
     for i in range(len(lorp)):
-        dx, ang = sw.dist([larm[i],larp[i]],[lorm[i],lorp[i]],units='m')
-        dxrpm.append(dx[0])
+        dx, ang = sw.dist([larm[i],larp[i]],[lorm[i],lorp[i]],units='km')
+        dxrpm.append(dx[0]*1000) #put into m
 
     # calculate tidally averaged ds/dx and dzeta/dx
     dsdx=zfun.lowpass((saltrp-saltrm)/dxrpm, f='godin')[pad:-pad+1:24, :]
