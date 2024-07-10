@@ -195,8 +195,27 @@ for sn in sect_list:
     zetarm = ds3.zetarm.values
     saltrp = ds3.saltrp.values
     saltrm = ds3.saltrm.values
-    DZ = ds3['DZ'].values
+    DZ = ds3['DZ'].values #note DZ is time varying and dz is not (calculated using zeta=0)
     pad = 36
+
+    # get distance array dx to use with the rpm fields (should be basically the same for each cell)
+    lorp = lor[sdf.jrp,sdf.irp]
+    lorm = lor[sdf.jrm,sdf.irm]
+    larp = lar[sdf.jrp,sdf.irp]
+    larm = lar[sdf.jrm,sdf.irm]
+    dxrpm = []
+    for i in range(len(lorp)):
+        dx, ang = sw.dist([larm[i],larp[i]],[lorm[i],lorp[i]],units='m')
+        dxrpm.append(dx[0])
+
+    # calculate tidally averaged ds/dx and dzeta/dx
+    dsdx=zfun.lowpass((saltrp-saltrm)/dxrpm, f='godin')[pad:-pad+1:24, :]
+    dzetadx=zfun.lowpass((zetarp-zetarm)/dxrpm, f='godin')[pad:-pad+1:24, :]
+
+    #calculate pressure gradient
+    g=9.81
+    beta=7.7e-4
+    pg=g*dzetadx+beta*g*np.flip(np.cumsum(np.flip(dz*dsdx,axis=1),axis=1),axis=1) #need to flip since we want to sum starting from the top which is the last element
 
     # calculate average zeta across the section
     zeta_avg = np.sum(ds['dd'].values*ds['zeta'].values,axis=1)/np.sum(ds['dd'].values)
