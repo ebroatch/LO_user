@@ -215,7 +215,7 @@ for sn in sect_list:
     #calculate pressure gradient
     g=9.81
     beta=7.7e-4
-    pg=g*dzetadx+beta*g*np.flip(np.cumsum(np.flip(dz*dsdx,axis=1),axis=1),axis=1) #need to flip since we want to sum starting from the top which is the last element
+    pg=g*dzetadx[:,np.newaxis,:]+beta*g*np.flip(np.cumsum(np.flip(dz*dsdx,axis=1),axis=1),axis=1) #need to flip since we want to sum starting from the top which is the last element
 
     # calculate average zeta across the section
     zeta_avg = np.sum(ds['dd'].values*ds['zeta'].values,axis=1)/np.sum(ds['dd'].values)
