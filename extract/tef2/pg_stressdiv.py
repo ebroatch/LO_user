@@ -62,6 +62,7 @@ S = zrfun.get_S(S_info_dict)
 in_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 in_dir = in_dir0 / ('extractions_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 in_dir2 = in_dir0 / ('extractions_stress_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+in_dir3 = in_dir0 / ('extractions_rpm_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 
 # define the list of sections to work on
 sect_list = [item.name for item in in_dir.glob('*.nc')]
@@ -156,7 +157,7 @@ for sn in sect_list:
 
     # load stress fields
     ds2 = xr.open_dataset(in_dir2 / (sn + '.nc'))
-    AKv_hourly = ds2.AKv.values[1:,:,:] #cut off bottom value that was left in for convenient dataset saving in the extract code
+    AKv_hourly = ds2.AKv.values
     bustr_hourly = ds2.bustr.values
     DZR = ds2['DZR'].values
     pad = 36
@@ -187,6 +188,15 @@ for sn in sect_list:
         bs2 = binned_statistic(zf, dustrdzf, statistic='mean', bins=NZ, range=(-200,0)) #change to -200 max depth in estuary
         dustrdz_vs_z[tt,:] = bs2.statistic
     bin_edges2 = bs2.bin_edges
+
+    # load rpm fields
+    ds3 = xr.open_dataset(in_dir3 / (sn + '.nc'))
+    zetarp = ds3.zetarp.values
+    zetarm = ds3.zetarm.values
+    saltrp = ds3.saltrp.values
+    saltrm = ds3.saltrm.values
+    DZ = ds3['DZ'].values
+    pad = 36
 
     # calculate average zeta across the section
     zeta_avg = np.sum(ds['dd'].values*ds['zeta'].values,axis=1)/np.sum(ds['dd'].values)
