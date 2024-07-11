@@ -216,7 +216,11 @@ for sn in sect_list:
     #calculate pressure gradient
     g=9.81
     beta=7.7e-4
-    pg=g*dzetadx[:,np.newaxis,:]+beta*g*np.flip(np.cumsum(np.flip(dz*dsdx,axis=1),axis=1),axis=1) #need to flip since we want to sum starting from the top which is the last element
+    pgzeta = g*dzetadx[:,np.newaxis,:]
+    pgs = beta*g*np.flip(np.cumsum(np.flip(dz*dsdx,axis=1),axis=1),axis=1)
+    pgscorr = beta*g*( np.flip(np.cumsum(np.flip(dz*dsdx,axis=1),axis=1),axis=1) - 0.5*dz*dsdx)
+    pg=pgzeta+pgs #need to flip since we want to sum starting from the top which is the last element
+    pgcorr=pgzeta+pgscorr
 
     # calculate average zeta across the section
     zeta_avg = np.sum(ds['dd'].values*ds['zeta'].values,axis=1)/np.sum(ds['dd'].values)
@@ -229,6 +233,9 @@ for sn in sect_list:
     ot = ot[pad:-pad+1:24]
     # also make an array of datetimes to save as the ot variable
     otdt = np.array([Lfun.modtime_to_datetime(item) for item in ot])
+
+    it_neap = zfun.find_nearest_ind(dti,TE['t_neap'])
+    it_spring = zfun.find_nearest_ind(dti,TE['t_spring'])
     
     stz_dict[sn] = s_vs_z
     dustrdztz_dict[sn] = dustrdz_vs_z
