@@ -284,6 +284,7 @@ cb2=fig.colorbar(cs2, ax=axs[0,2])
 cb3=fig.colorbar(cs3, ax=axs[1,0])
 cb4=fig.colorbar(cs4, ax=axs[1,1])
 cb5=fig.colorbar(cs5, ax=axs[1,2])
+plt.suptitle(Ldir['grid']+' '+sn)
 
 # get dx for ds/dx #MIGHT CHANGE THIS FOR MORE PAIRS ALONG THE ESTUARY
 dxlist = []
