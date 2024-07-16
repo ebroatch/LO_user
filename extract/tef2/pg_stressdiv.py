@@ -270,12 +270,12 @@ axs[1,0].set_title('PG spring')
 axs[1,1].set_title('Stress divergence spring')
 axs[1,2].set_title('Difference spring')
 
-axs[0,0].colorbar()
-axs[0,1].colorbar()
-axs[0,2].colorbar()
-axs[1,0].colorbar()
-axs[1,1].colorbar()
-axs[1,2].colorbar()
+cb0=fig.colorbar(cs0, ax=axs[0,0])
+cb1=fig.colorbar(cs1, ax=axs[0,1])
+cb2=fig.colorbar(cs2, ax=axs[0,2])
+cb3=fig.colorbar(cs3, ax=axs[1,0])
+cb4=fig.colorbar(cs4, ax=axs[1,1])
+cb5=fig.colorbar(cs5, ax=axs[1,2])
 
 # get dx for ds/dx #MIGHT CHANGE THIS FOR MORE PAIRS ALONG THE ESTUARY
 dxlist = []
