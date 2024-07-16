@@ -17,6 +17,8 @@ import seawater as sw
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from lo_tools import plotting_functions as pfun
+import matplotlib.colors as colors
+from cmocean import cm
 
 from lo_tools import Lfun, zrfun, zfun
 from lo_tools import extract_argfun as exfun
@@ -247,15 +249,20 @@ for sn in sect_list:
     #get corners for pcolor plot
     X=xr.DataArray(np.concatenate((np.array([0]),ds['dd'].cumsum(dim='p').to_numpy())), dims='p')
     X=X-X.isel(p=-1)/2
-    Ydata=np.concatenate((-h, np.cumsum(dz,axis=1)-h),axis=1)
-    #Ydata=(np.concatenate((Ydata[:,:,0,None],Ydata), axis=2) + np.concatenate((Ydata,Ydata[:,:,-1,None]), axis=2))/2
+    Y=np.concatenate((-h[np.newaxis,:], np.cumsum(dz,axis=0)-h[np.newaxis,:]),axis=0)
+    # Y=(np.concatenate((Ydata[:,:,0,None],Ydata), axis=2) + np.concatenate((Ydata,Ydata[:,:,-1,None]), axis=2))/2
+    Y=(np.concatenate((Y[:,np.newaxis,0],Y),axis=1) + np.concatenate((Y,Y[:,np.newaxis,-1]),axis=1))/2
     #Y=xr.DataArray(Ydata, coords={'time':ds.time}, dims=['time','z','p'])
 
 #fig = plt.figure(figsize=(20,15))
 #gs = fig.add_gridspec(nrows=2,ncols=3,width_ratios=[1,1,1],height_ratios=[1,1])
 fig, axs = plt.subplots(2, 3,figsize=(20,10),sharex=True)
-#cs1=axs[0].pcolormesh(X,Y.sel(time=TE['t_neap']),ds['vel'].sel(time=t_spring_ebb),cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
-
+cs0=axs[0].pcolormesh(X,Y,pg[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+cs1=axs[1].pcolormesh(X,Y,dustrdz[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+cs2=axs[2].pcolormesh(X,Y,pg[it_neap,:,:]-dustrdz[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+cs3=axs[3].pcolormesh(X,Y,pg[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+cs4=axs[4].pcolormesh(X,Y,dustrdz[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+cs5=axs[5].pcolormesh(X,Y,pg[it_spring,:,:]-dustrdz[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
 
 
 # get dx for ds/dx #MIGHT CHANGE THIS FOR MORE PAIRS ALONG THE ESTUARY
@@ -314,14 +321,14 @@ dti = pd.DatetimeIndex(otdt)
 yd = dti.dayofyear
 year = otdt[0].year
     
-# plotting
-plt.close('all')
-pfun.start_plot(figsize=(12,12))
-fig = plt.figure()
+# # plotting
+# plt.close('all')
+# pfun.start_plot(figsize=(12,12))
+# fig = plt.figure()
 
-#c_list = ['m','r','orange','g','b','violet']
-c_list = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue'] #COLORS FOR SHORT SECTION LIST ON SILL
-c_dict = dict(zip(sect_list,c_list))
+# #c_list = ['m','r','orange','g','b','violet']
+# c_list = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue'] #COLORS FOR SHORT SECTION LIST ON SILL
+# c_dict = dict(zip(sect_list,c_list))
 
 # # map
 # ax0 = fig.add_subplot(321)
@@ -371,25 +378,25 @@ c_dict = dict(zip(sect_list,c_list))
 # ax1.grid(True)
 
 
-it_neap = zfun.find_nearest_ind(dti,TE['t_neap'])
-it_spring = zfun.find_nearest_ind(dti,TE['t_spring'])
+# it_neap = zfun.find_nearest_ind(dti,TE['t_neap'])
+# it_spring = zfun.find_nearest_ind(dti,TE['t_spring'])
 
-ax1 = fig.add_subplot(121)
-for sn in sect_list:
-#    ax1.plot(DUSTRDZtz_dict[sn][it_neap,:],Z2,'-',color=c_dict[sn])
-    ax1.plot(dudz_hourly[1,:,6],zw[1:-1,6],'-',color=c_dict[sn])
-ax1.text(.05,.1,'Neap u stress',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
-ax1.set_xlabel('dudz center b5')
-ax1.set_ylabel('Z [m]')
-ax1.grid(True)
+# ax1 = fig.add_subplot(121)
+# for sn in sect_list:
+# #    ax1.plot(DUSTRDZtz_dict[sn][it_neap,:],Z2,'-',color=c_dict[sn])
+#     ax1.plot(dudz_hourly[1,:,6],zw[1:-1,6],'-',color=c_dict[sn])
+# ax1.text(.05,.1,'Neap u stress',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
+# ax1.set_xlabel('dudz center b5')
+# ax1.set_ylabel('Z [m]')
+# ax1.grid(True)
 
-ax2 = fig.add_subplot(122)
-for sn in sect_list:
-    ax2.plot(u_hourly[1,:,6],zr[:,6],'--',color=c_dict[sn])
-ax2.text(.05,.1,'Spring u stress',color='k',fontweight='bold',transform=ax2.transAxes,bbox=pfun.bbox)
-ax2.set_xlabel('u center b5')
-ax2.set_ylabel('Z [m]')
-ax2.grid(True)
+# ax2 = fig.add_subplot(122)
+# for sn in sect_list:
+#     ax2.plot(u_hourly[1,:,6],zr[:,6],'--',color=c_dict[sn])
+# ax2.text(.05,.1,'Spring u stress',color='k',fontweight='bold',transform=ax2.transAxes,bbox=pfun.bbox)
+# ax2.set_xlabel('u center b5')
+# ax2.set_ylabel('Z [m]')
+# ax2.grid(True)
 
 
 # ax2 = fig.add_subplot(312)
