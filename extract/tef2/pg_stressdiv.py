@@ -270,6 +270,13 @@ axs[1,0].set_title('PG spring')
 axs[1,1].set_title('Stress divergence spring')
 axs[1,2].set_title('Difference spring')
 
+axs[0,0].colorbar()
+axs[0,1].colorbar()
+axs[0,2].colorbar()
+axs[1,0].colorbar()
+axs[1,1].colorbar()
+axs[1,2].colorbar()
+
 # get dx for ds/dx #MIGHT CHANGE THIS FOR MORE PAIRS ALONG THE ESTUARY
 dxlist = []
 for i in range(len(sect_list)-1):
