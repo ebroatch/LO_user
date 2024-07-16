@@ -257,13 +257,18 @@ for sn in sect_list:
 #fig = plt.figure(figsize=(20,15))
 #gs = fig.add_gridspec(nrows=2,ncols=3,width_ratios=[1,1,1],height_ratios=[1,1])
 fig, axs = plt.subplots(2, 3,figsize=(20,10),sharex=True)
-cs0=axs[0].pcolormesh(X,Y,pg[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
-cs1=axs[1].pcolormesh(X,Y,dustrdz[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
-cs2=axs[2].pcolormesh(X,Y,pg[it_neap,:,:]-dustrdz[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
-cs3=axs[3].pcolormesh(X,Y,pg[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
-cs4=axs[4].pcolormesh(X,Y,dustrdz[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
-cs5=axs[5].pcolormesh(X,Y,pg[it_spring,:,:]-dustrdz[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
-
+cs0=axs[0,0].pcolormesh(X,Y,pg[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+cs1=axs[0,1].pcolormesh(X,Y,dustrdz[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+cs2=axs[0,2].pcolormesh(X,Y,pg[it_neap,:,:]-dustrdz[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+cs3=axs[1,0].pcolormesh(X,Y,pg[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+cs4=axs[1,1].pcolormesh(X,Y,dustrdz[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+cs5=axs[1,2].pcolormesh(X,Y,pg[it_spring,:,:]-dustrdz[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+axs[0,0].set_title('PG neap')
+axs[0,1].set_title('Stress divergence neap')
+axs[0,2].set_title('Difference neap')
+axs[1,0].set_title('PG spring')
+axs[1,1].set_title('Stress divergence spring')
+axs[1,2].set_title('Difference spring')
 
 # get dx for ds/dx #MIGHT CHANGE THIS FOR MORE PAIRS ALONG THE ESTUARY
 dxlist = []
