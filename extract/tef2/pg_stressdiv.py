@@ -236,10 +236,27 @@ for sn in sect_list:
 
     it_neap = zfun.find_nearest_ind(dti,TE['t_neap'])
     it_spring = zfun.find_nearest_ind(dti,TE['t_spring'])
+
+    #select dustrdz and pg fields closest to spring and neap
+
     
     stz_dict[sn] = s_vs_z
     dustrdztz_dict[sn] = dustrdz_vs_z
     zeta_dict[sn] = zeta_avg
+
+    #get corners for pcolor plot
+    X=xr.DataArray(np.concatenate((np.array([0]),ds['dd'].cumsum(dim='p').to_numpy())), dims='p')
+    X=X-X.isel(p=-1)/2
+    Ydata=np.concatenate((-h, np.cumsum(dz,axis=1)-h),axis=1)
+    #Ydata=(np.concatenate((Ydata[:,:,0,None],Ydata), axis=2) + np.concatenate((Ydata,Ydata[:,:,-1,None]), axis=2))/2
+    #Y=xr.DataArray(Ydata, coords={'time':ds.time}, dims=['time','z','p'])
+
+#fig = plt.figure(figsize=(20,15))
+#gs = fig.add_gridspec(nrows=2,ncols=3,width_ratios=[1,1,1],height_ratios=[1,1])
+fig, axs = plt.subplots(2, 3,figsize=(20,10),sharex=True)
+#cs1=axs[0].pcolormesh(X,Y.sel(time=TE['t_neap']),ds['vel'].sel(time=t_spring_ebb),cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+
+
 
 # get dx for ds/dx #MIGHT CHANGE THIS FOR MORE PAIRS ALONG THE ESTUARY
 dxlist = []
