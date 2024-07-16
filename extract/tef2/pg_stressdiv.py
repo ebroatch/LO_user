@@ -236,8 +236,8 @@ for sn in sect_list:
     # also make an array of datetimes to save as the ot variable
     otdt = np.array([Lfun.modtime_to_datetime(item) for item in ot])
 
-    it_neap = zfun.find_nearest_ind(dti,TE['t_neap'])
-    it_spring = zfun.find_nearest_ind(dti,TE['t_spring'])
+    it_neap = zfun.find_nearest_ind(otdt,TE['t_neap']) #use otdt to get daily subsampling
+    it_spring = zfun.find_nearest_ind(otdt,TE['t_spring'])
 
     #select dustrdz and pg fields closest to spring and neap
 
