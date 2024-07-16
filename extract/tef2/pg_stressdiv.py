@@ -72,7 +72,7 @@ sect_list = [item.replace('.nc','') for item in sect_list]
 
 # Define sections to work on.
 # Generally choose [seaward, landward]
-sect_list = ['b3'] #TESTING
+sect_list = ['b1'] #TESTING
 # sect_list = ['b1','b2','b3','b4','b5'] #SHORT LIST SILL ONLY
 #sect_list = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5'] #FULL LIST
 #sect_list = ['ai1','ai2','ai4','ai5','ai6','ai7'] # AI North to South
