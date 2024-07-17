@@ -72,7 +72,7 @@ sect_list = [item.replace('.nc','') for item in sect_list]
 
 # Define sections to work on.
 # Generally choose [seaward, landward]
-sect_list = ['b1'] #TESTING
+sect_list = ['b3'] #TESTING
 # sect_list = ['b1','b2','b3','b4','b5'] #SHORT LIST SILL ONLY
 #sect_list = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5'] #FULL LIST
 #sect_list = ['ai1','ai2','ai4','ai5','ai6','ai7'] # AI North to South
@@ -162,13 +162,14 @@ for sn in sect_list:
     ds2 = xr.open_dataset(in_dir2 / (sn + '.nc'))
     AKv_hourly = ds2.AKv.values
     bustr_hourly = ds2.bustr.values
+    RHO0=1023.7 #mean density from BLANK.in file for model
     DZR = ds2['DZR'].values
     pad = 36
 
     # calculate tidally averaged stress
     dudz_hourly = np.diff(u_hourly,axis=1)/DZR
     ustr_hourly = AKv_hourly*dudz_hourly
-    ustr_hourly_full = np.concatenate((bustr_hourly[:,np.newaxis,:],ustr_hourly,np.zeros((bustr_hourly.shape[0],1,bustr_hourly.shape[1]))),axis=1)
+    ustr_hourly_full = np.concatenate((bustr_hourly[:,np.newaxis,:]/RHO0,ustr_hourly,np.zeros((bustr_hourly.shape[0],1,bustr_hourly.shape[1]))),axis=1)
     ustr = zfun.lowpass(ustr_hourly_full, f='godin')[pad:-pad+1:24, :] #tidally average and subsample daily
     dustrdz = np.diff(ustr,axis=1)/dz
 
@@ -256,13 +257,15 @@ for sn in sect_list:
 
 #fig = plt.figure(figsize=(20,15))
 #gs = fig.add_gridspec(nrows=2,ncols=3,width_ratios=[1,1,1],height_ratios=[1,1])
+
+vlim=np.max(np.abs(pfun.auto_lims(pg[it_neap,:,:])))
 fig, axs = plt.subplots(2, 3,figsize=(20,10),sharex=True)
-cs0=axs[0,0].pcolormesh(X,Y,pg[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
-cs1=axs[0,1].pcolormesh(X,Y,dustrdz[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
-cs2=axs[0,2].pcolormesh(X,Y,pg[it_neap,:,:]-dustrdz[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
-cs3=axs[1,0].pcolormesh(X,Y,pg[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
-cs4=axs[1,1].pcolormesh(X,Y,dustrdz[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
-cs5=axs[1,2].pcolormesh(X,Y,pg[it_spring,:,:]-dustrdz[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm()) #try twoslopenorm instead of colors.CenteredNorm()
+cs0=axs[0,0].pcolormesh(X,Y,pg[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
+cs1=axs[0,1].pcolormesh(X,Y,dustrdz[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
+cs2=axs[0,2].pcolormesh(X,Y,pg[it_neap,:,:]-dustrdz[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
+cs3=axs[1,0].pcolormesh(X,Y,pg[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
+cs4=axs[1,1].pcolormesh(X,Y,dustrdz[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
+cs5=axs[1,2].pcolormesh(X,Y,pg[it_spring,:,:]-dustrdz[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
 
 # cs0=axs[0,0].pcolormesh(X,Y,pg[it_neap,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
 # cs1=axs[0,1].pcolormesh(X,Y,dustrdz[it_neap,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
