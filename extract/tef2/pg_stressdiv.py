@@ -72,13 +72,15 @@ sect_list = [item.replace('.nc','') for item in sect_list]
 
 # Define sections to work on.
 # Generally choose [seaward, landward]
-sect_list = ['b3'] #TESTING
-# sect_list = ['b1','b2','b3','b4','b5'] #SHORT LIST SILL ONLY
+#sect_list = ['b3'] #TESTING
+sect_list = ['b1','b2','b3','b4','b5'] #SHORT LIST SILL ONLY
 #sect_list = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5'] #FULL LIST
 #sect_list = ['ai1','ai2','ai4','ai5','ai6','ai7'] # AI North to South
 #sect_list = ['sog7','sog6','sog5','sog4','sog3','sog2'] # SoG North to South
 #sect_list = ['jdf1','jdf2','jdf3','jdf4','sji1','sji4'] # JdF to Haro Strait
-    
+color_list1 = [plt.cm.tab20(6),plt.cm.tab20(2),plt.cm.tab20(4),plt.cm.tab20(18),plt.cm.tab20(0)]
+color_list2 = [plt.cm.tab20(7),plt.cm.tab20(3),plt.cm.tab20(5),plt.cm.tab20(19),plt.cm.tab20(1)]
+
 # make vn_list by inspecting the first section
 ds = xr.open_dataset(in_dir / (sect_list[0] + '.nc'))
 vn_list = [item for item in ds.data_vars \
@@ -99,6 +101,12 @@ lon_vec_dict = dict()
 lat_vec_dict = dict()
 H_dict = dict()
 Qprism_dict = dict()
+
+pg_center_neap_dict=dict()
+pg_center_spring_dict=dict()
+dustrdz_center_neap_dict=dict()
+dustrdz_center_spring_dict=dict()
+zr_center_dict=dict()
 
 for sn in sect_list:
     tt0 = time()
@@ -146,17 +154,17 @@ for sn in sect_list:
     lon_dict[sn] = lo
     lat_dict[sn] = la
     
-    # Then we want to form a time series of s(z)
-    NZ = 100 #ADD MORE BINS???
-    #NZ = 200 #ADD MORE BINS???
-    s_vs_z = np.nan * np.ones((NT,NZ))
-    for tt in range(NT):
-        sf = salt[tt,:,:].squeeze().flatten()
-        # scipy.stats.binned_statistic(x, values, statistic='mean', bins=10, range=None)
-        ##bs = binned_statistic(zf, sf, statistic='mean', bins=NZ, range=(-500,0))
-        bs = binned_statistic(zf, sf, statistic='mean', bins=NZ, range=(-200,0)) #change to -200 max depth in estuary
-        s_vs_z[tt,:] = bs.statistic
-    bin_edges = bs.bin_edges
+    # # Then we want to form a time series of s(z)
+    # NZ = 100 #ADD MORE BINS???
+    # #NZ = 200 #ADD MORE BINS???
+    # s_vs_z = np.nan * np.ones((NT,NZ))
+    # for tt in range(NT):
+    #     sf = salt[tt,:,:].squeeze().flatten()
+    #     # scipy.stats.binned_statistic(x, values, statistic='mean', bins=10, range=None)
+    #     ##bs = binned_statistic(zf, sf, statistic='mean', bins=NZ, range=(-500,0))
+    #     bs = binned_statistic(zf, sf, statistic='mean', bins=NZ, range=(-200,0)) #change to -200 max depth in estuary
+    #     s_vs_z[tt,:] = bs.statistic
+    # bin_edges = bs.bin_edges
 
     # load stress fields
     ds2 = xr.open_dataset(in_dir2 / (sn + '.nc'))
@@ -183,15 +191,15 @@ for sn in sect_list:
     #     ustr_vs_z[tt,:] = bs2.statistic
     # bin_edges2 = bs2.bin_edges
 
-    # bin stress derivative into vertical bins
-    dustrdz_vs_z = np.nan * np.ones((NT,NZ))
-    for tt in range(NT):
-        dustrdzf = dustrdz[tt,:,:].squeeze().flatten()
-        # scipy.stats.binned_statistic(x, values, statistic='mean', bins=10, range=None)
-        ##bs = binned_statistic(zf, sf, statistic='mean', bins=NZ, range=(-500,0))
-        bs2 = binned_statistic(zf, dustrdzf, statistic='mean', bins=NZ, range=(-200,0)) #change to -200 max depth in estuary
-        dustrdz_vs_z[tt,:] = bs2.statistic
-    bin_edges2 = bs2.bin_edges
+    # # bin stress derivative into vertical bins #no more binning
+    # dustrdz_vs_z = np.nan * np.ones((NT,NZ))
+    # for tt in range(NT):
+    #     dustrdzf = dustrdz[tt,:,:].squeeze().flatten()
+    #     # scipy.stats.binned_statistic(x, values, statistic='mean', bins=10, range=None)
+    #     ##bs = binned_statistic(zf, sf, statistic='mean', bins=NZ, range=(-500,0))
+    #     bs2 = binned_statistic(zf, dustrdzf, statistic='mean', bins=NZ, range=(-200,0)) #change to -200 max depth in estuary
+    #     dustrdz_vs_z[tt,:] = bs2.statistic
+    # bin_edges2 = bs2.bin_edges
 
     # load rpm fields
     ds3 = xr.open_dataset(in_dir3 / (sn + '.nc'))
@@ -220,9 +228,9 @@ for sn in sect_list:
     g=9.81
     beta=7.7e-4
     pgzeta = g*dzetadx[:,np.newaxis,:]
-    pgs = beta*g*np.flip(np.cumsum(np.flip(dz*dsdx,axis=1),axis=1),axis=1)
+    pgs = beta*g*np.flip(np.cumsum(np.flip(dz*dsdx,axis=1),axis=1),axis=1) #need to flip since we want to sum starting from the top which is the last element
     pgscorr = beta*g*( np.flip(np.cumsum(np.flip(dz*dsdx,axis=1),axis=1),axis=1) - 0.5*dz*dsdx)
-    pg=pgzeta+pgs #need to flip since we want to sum starting from the top which is the last element
+    pg=pgzeta+pgs 
     pgcorr=pgzeta+pgscorr
 
     # calculate average zeta across the section
@@ -237,16 +245,15 @@ for sn in sect_list:
     # also make an array of datetimes to save as the ot variable
     otdt = np.array([Lfun.modtime_to_datetime(item) for item in ot])
 
+    #select dustrdz and pg fields closest to spring and neap
     it_neap = zfun.find_nearest_ind(dti[pad:-pad+1:24],TE['t_neap']) #daily subsampling
     it_spring = zfun.find_nearest_ind(dti[pad:-pad+1:24],TE['t_spring'])
+    pg_neap=pgcorr[it_neap,:,:]
+    pg_spring=pgcorr[it_spring,:,:]
+    dustrdz_neap=dustrdz[it_neap,:,:]
+    dustrdz_spring=dustrdz[it_spring,:,:]
 
-    #select dustrdz and pg fields closest to spring and neap
-
-    
-    stz_dict[sn] = s_vs_z
-    dustrdztz_dict[sn] = dustrdz_vs_z
-    zeta_dict[sn] = zeta_avg
-
+    #Make a figure for this section
     #get corners for pcolor plot
     X=xr.DataArray(np.concatenate((np.array([0]),ds['dd'].cumsum(dim='p').to_numpy())), dims='p')
     X=X-X.isel(p=-1)/2
@@ -255,83 +262,120 @@ for sn in sect_list:
     Y=(np.concatenate((Y[:,np.newaxis,0],Y),axis=1) + np.concatenate((Y,Y[:,np.newaxis,-1]),axis=1))/2
     #Y=xr.DataArray(Ydata, coords={'time':ds.time}, dims=['time','z','p'])
 
+    #plot
+    vlim=np.max(np.abs(pfun.auto_lims(pg[it_neap,:,:])))
+    fig, axs = plt.subplots(2, 3,figsize=(20,10),sharex=True)
+    cs0=axs[0,0].pcolormesh(X,Y,pg_neap,cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
+    cs1=axs[0,1].pcolormesh(X,Y,dustrdz_neap,cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
+    cs2=axs[0,2].pcolormesh(X,Y,dustrdz_neap-pg_neap,cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
+    cs3=axs[1,0].pcolormesh(X,Y,pg_spring,cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
+    cs4=axs[1,1].pcolormesh(X,Y,dustrdz_spring,cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
+    cs5=axs[1,2].pcolormesh(X,Y,dustrdz_spring-pg_spring,cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
+
+    # cs0=axs[0,0].pcolormesh(X,Y,pg[it_neap,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
+    # cs1=axs[0,1].pcolormesh(X,Y,dustrdz[it_neap,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
+    # cs2=axs[0,2].pcolormesh(X,Y,pg[it_neap,:,:]-dustrdz[it_neap,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
+    # cs3=axs[1,0].pcolormesh(X,Y,pg[it_spring,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
+    # cs4=axs[1,1].pcolormesh(X,Y,dustrdz[it_spring,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
+    # cs5=axs[1,2].pcolormesh(X,Y,pg[it_spring,:,:]-dustrdz[it_spring,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
+
+    axs[0,0].set_title('PG neap')
+    axs[0,1].set_title('Stress divergence neap')
+    axs[0,2].set_title('Difference neap')
+    axs[1,0].set_title('PG spring')
+    axs[1,1].set_title('Stress divergence spring')
+    axs[1,2].set_title('Difference spring')
+
+    cb0=fig.colorbar(cs0, ax=axs[0,0])
+    cb1=fig.colorbar(cs1, ax=axs[0,1])
+    cb2=fig.colorbar(cs2, ax=axs[0,2])
+    cb3=fig.colorbar(cs3, ax=axs[1,0])
+    cb4=fig.colorbar(cs4, ax=axs[1,1])
+    cb5=fig.colorbar(cs5, ax=axs[1,2])
+    plt.suptitle(Ldir['gridname']+' '+sn)
+
+    fig.tight_layout()
+    #fig.savefig(out_dir / 'dsdx_spring_neap.png')
+    fig.savefig(out_dir / 'pg_stressdiv_'+sn+'.png',dpi=300)
+
+    #save fields for making multi-section plot
+        # stz_dict[sn] = s_vs_z
+    # dustrdztz_dict[sn] = dustrdz_vs_z
+    zeta_dict[sn] = zeta_avg
+    pg_center_neap_dict[sn]= pgcorr[it_neap,:,6]
+    pg_center_spring_dict[sn]= pgcorr[it_spring,:,6]
+    dustrdz_center_neap_dict[sn]= dustrdz[it_neap,:,6]
+    dustrdz_center_spring_dict[sn]= dustrdz[it_spring,:,6]
+    zr_center_dict[sn] = zr[:,6]
 #fig = plt.figure(figsize=(20,15))
 #gs = fig.add_gridspec(nrows=2,ncols=3,width_ratios=[1,1,1],height_ratios=[1,1])
 
-vlim=np.max(np.abs(pfun.auto_lims(pg[it_neap,:,:])))
-fig, axs = plt.subplots(2, 3,figsize=(20,10),sharex=True)
-cs0=axs[0,0].pcolormesh(X,Y,pg[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
-cs1=axs[0,1].pcolormesh(X,Y,dustrdz[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
-cs2=axs[0,2].pcolormesh(X,Y,pg[it_neap,:,:]-dustrdz[it_neap,:,:],cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
-cs3=axs[1,0].pcolormesh(X,Y,pg[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
-cs4=axs[1,1].pcolormesh(X,Y,dustrdz[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
-cs5=axs[1,2].pcolormesh(X,Y,pg[it_spring,:,:]-dustrdz[it_spring,:,:],cmap=cm.balance,norm=colors.CenteredNorm(halfrange=vlim)) #try twoslopenorm instead of colors.CenteredNorm()
+# Make a plot with all the section at the central water column
+fig, [ax0,ax1] = plt.subplots(1, 2,figsize=(20,10),sharex=True)
+ci=0
+for sn in sect_list:
+    zrc=zr_center_dict[sn]
+    pgcneap=pg_center_neap_dict[sn]
+    pgcspring=pg_center_spring_dict[sn]
+    dustrdzcneap=dustrdz_center_neap_dict[sn]
+    dustrdzcspring=dustrdz_center_spring_dict[sn]
+    ax0.plot(-pgcneap,zrc,color=color_list1[ci],label=sn+' PG')
+    ax0.plot(dustrdzcneap,zrc,color=color_list2[ci],label=sn+' stress div')
+    ax0.plot(dustrdzcneap-pgcneap,zrc,ls=':',color=color_list1[ci],label=sn+' difference')
+    ax1.plot(-pgcspring,zrc,color=color_list1[ci],label=sn+' PG')
+    ax1.plot(dustrdzcspring,zrc,color=color_list2[ci],label=sn+' stress div')
+    ax1.plot(dustrdzcspring-pgcspring,zrc,color=color_list1[ci],label=sn+' difference')
+    ax0.set_title('Neap')
+    ax1.set_title('Spring')
+    ci=ci+1
 
-# cs0=axs[0,0].pcolormesh(X,Y,pg[it_neap,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
-# cs1=axs[0,1].pcolormesh(X,Y,dustrdz[it_neap,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
-# cs2=axs[0,2].pcolormesh(X,Y,pg[it_neap,:,:]-dustrdz[it_neap,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
-# cs3=axs[1,0].pcolormesh(X,Y,pg[it_spring,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
-# cs4=axs[1,1].pcolormesh(X,Y,dustrdz[it_spring,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
-# cs5=axs[1,2].pcolormesh(X,Y,pg[it_spring,:,:]-dustrdz[it_spring,:,:],cmap=cm.balance,vmin=-1.75e-5,vmax=1.75e-5) #try twoslopenorm instead of colors.CenteredNorm()
+fig.tight_layout()
+#fig.savefig(out_dir / 'dsdx_spring_neap.png')
+fig.savefig(out_dir / 'pg_stressdiv_summary.png',dpi=300)
 
-axs[0,0].set_title('PG neap')
-axs[0,1].set_title('Stress divergence neap')
-axs[0,2].set_title('Difference neap')
-axs[1,0].set_title('PG spring')
-axs[1,1].set_title('Stress divergence spring')
-axs[1,2].set_title('Difference spring')
-
-cb0=fig.colorbar(cs0, ax=axs[0,0])
-cb1=fig.colorbar(cs1, ax=axs[0,1])
-cb2=fig.colorbar(cs2, ax=axs[0,2])
-cb3=fig.colorbar(cs3, ax=axs[1,0])
-cb4=fig.colorbar(cs4, ax=axs[1,1])
-cb5=fig.colorbar(cs5, ax=axs[1,2])
-plt.suptitle(Ldir['gridname']+' '+sn)
-
-# get dx for ds/dx #MIGHT CHANGE THIS FOR MORE PAIRS ALONG THE ESTUARY
-dxlist = []
-for i in range(len(sect_list)-1):
-    dx, ang = sw.dist([lat_dict[sect_list[i]],lat_dict[sect_list[i+1]]],
-        [lon_dict[sect_list[i]],lon_dict[sect_list[i+1]]],
-        units='km')
-    dxlist.append(dx[0])
+# # get dx for ds/dx #MIGHT CHANGE THIS FOR MORE PAIRS ALONG THE ESTUARY
+# dxlist = []
+# for i in range(len(sect_list)-1):
+#     dx, ang = sw.dist([lat_dict[sect_list[i]],lat_dict[sect_list[i+1]]],
+#         [lon_dict[sect_list[i]],lon_dict[sect_list[i+1]]],
+#         units='km')
+#     dxlist.append(dx[0])
     
-# z for plotting
-z = bin_edges[:-1] + np.diff(bin_edges)/2
-z2 = bin_edges2[:-1] + np.diff(bin_edges2)/2 #use with dustrdzf
+# # z for plotting
+# z = bin_edges[:-1] + np.diff(bin_edges)/2
+# z2 = bin_edges2[:-1] + np.diff(bin_edges2)/2 #use with dustrdzf
 
-# trim to only use overlapping z range
-mask = z == z
-Stz_dict = dict() # trimmed version of stz
-# mask is initialized as all True
-for sn in sect_list:
-    s0z = stz_dict[sn][0,:]
-    mask = mask & ~np.isnan(s0z)
-for sn in sect_list:
-    stz = stz_dict[sn]
-    Stz_dict[sn] = stz[:,mask]
-Z = z[mask] # trimmed version of z
+# # trim to only use overlapping z range
+# mask = z == z
+# Stz_dict = dict() # trimmed version of stz
+# # mask is initialized as all True
+# for sn in sect_list:
+#     s0z = stz_dict[sn][0,:]
+#     mask = mask & ~np.isnan(s0z)
+# for sn in sect_list:
+#     stz = stz_dict[sn]
+#     Stz_dict[sn] = stz[:,mask]
+# Z = z[mask] # trimmed version of z
 
-Sz_dict = dict() # time-mean of each section s(z)
-St_dict = dict() # depth-mean of each section s(t)
-for sn in sect_list:
-    # Stz is a trimmed array of s(t,z), daily
-    Stz = Stz_dict[sn]
-    Sz_dict[sn] = np.mean(Stz,axis=0)
-    St_dict[sn] = np.nanmean(Stz,axis=1)
+# Sz_dict = dict() # time-mean of each section s(z)
+# St_dict = dict() # depth-mean of each section s(t)
+# for sn in sect_list:
+#     # Stz is a trimmed array of s(t,z), daily
+#     Stz = Stz_dict[sn]
+#     Sz_dict[sn] = np.mean(Stz,axis=0)
+#     St_dict[sn] = np.nanmean(Stz,axis=1)
 
-# trim ustr to only use overlapping z range
-mask2 = z2 == z2
-DUSTRDZtz_dict = dict() # trimmed version of ustrtz
-# mask is initialized as all True
-for sn in sect_list:
-    dustrdz0z = dustrdztz_dict[sn][0,:]
-    mask2 = mask2 & ~np.isnan(dustrdz0z)
-for sn in sect_list:
-    dustrdztz = dustrdztz_dict[sn]
-    DUSTRDZtz_dict[sn] = dustrdztz[:,mask2]
-Z2 = z2[mask2] # trimmed version of z
+# # trim ustr to only use overlapping z range
+# mask2 = z2 == z2
+# DUSTRDZtz_dict = dict() # trimmed version of ustrtz
+# # mask is initialized as all True
+# for sn in sect_list:
+#     dustrdz0z = dustrdztz_dict[sn][0,:]
+#     mask2 = mask2 & ~np.isnan(dustrdz0z)
+# for sn in sect_list:
+#     dustrdztz = dustrdztz_dict[sn]
+#     DUSTRDZtz_dict[sn] = dustrdztz[:,mask2]
+# Z2 = z2[mask2] # trimmed version of z
 
 # # vertical derivative of ustr #NOW WE ARE CALCULATING THIS BEFORE BINNING
 # dustrdz_dict = dict() #vertical derivative of u stress
@@ -340,10 +384,10 @@ Z2 = z2[mask2] # trimmed version of z
 #     USTRtz = USTRtz_dict[sn]
 #     dustrdz_dict[sn] = np.diff(USTRtz,axis=1)/np.diff(Z2)
 
-# useful time vectors
-dti = pd.DatetimeIndex(otdt)
-yd = dti.dayofyear
-year = otdt[0].year
+# # useful time vectors
+# dti = pd.DatetimeIndex(otdt)
+# yd = dti.dayofyear
+# year = otdt[0].year
     
 # # plotting
 # plt.close('all')
@@ -498,8 +542,8 @@ year = otdt[0].year
 #     ax3a.axvline(x=yd[it_neap],linestyle='-',color='gray',linewidth=2)
 #     ax3a.axvline(x=yd[it_spring],linestyle='--',color='gray',linewidth=2)
     
-fig.tight_layout()
-#fig.savefig(out_dir / 'dsdx_spring_neap.png')
-fig.savefig(out_dir / 'pg_stressdiv.png',dpi=300)
+# fig.tight_layout()
+# #fig.savefig(out_dir / 'dsdx_spring_neap.png')
+# fig.savefig(out_dir / 'pg_stressdiv.png',dpi=300)
 
-plt.show()
+# plt.show()
