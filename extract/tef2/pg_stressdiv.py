@@ -296,7 +296,8 @@ for sn in sect_list:
 
     fig.tight_layout()
     #fig.savefig(out_dir / 'dsdx_spring_neap.png')
-    fig.savefig(out_dir / 'pg_stressdiv_'+sn+'.png',dpi=300)
+    fnsn='pg_stressdiv_'+sn+'.png'
+    fig.savefig(out_dir / fnsn ,dpi=300)
 
     #save fields for making multi-section plot
         # stz_dict[sn] = s_vs_z
