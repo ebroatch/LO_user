@@ -320,16 +320,21 @@ for sn in sect_list:
     pgcspring=pg_center_spring_dict[sn]
     dustrdzcneap=dustrdz_center_neap_dict[sn]
     dustrdzcspring=dustrdz_center_spring_dict[sn]
-    ax0.plot(-pgcneap,zrc,color=color_list1[ci],label=sn+' PG')
-    ax0.plot(dustrdzcneap,zrc,color=color_list2[ci],label=sn+' stress div')
-    ax0.plot(dustrdzcneap-pgcneap,zrc,ls=':',color=color_list1[ci],label=sn+' difference')
-    ax1.plot(-pgcspring,zrc,color=color_list1[ci],label=sn+' PG')
-    ax1.plot(dustrdzcspring,zrc,color=color_list2[ci],label=sn+' stress div')
-    ax1.plot(dustrdzcspring-pgcspring,zrc,color=color_list1[ci],label=sn+' difference')
+    ax0.plot(-pgcneap,zrc,color=color_list1[ci],label='-PG '+sn)
+    ax0.plot(dustrdzcneap,zrc,color=color_list2[ci],label='stress div '+sn)
+    ax0.plot(dustrdzcneap-pgcneap,zrc,ls=':',color=color_list1[ci],label='difference '+sn)
+    ax1.plot(-pgcspring,zrc,color=color_list1[ci],label='-PG '+sn)
+    ax1.plot(dustrdzcspring,zrc,color=color_list2[ci],label='stress div '+sn)
+    ax1.plot(dustrdzcspring-pgcspring,zrc,ls=':',color=color_list1[ci],label='difference '+sn)
     ax0.set_title('Neap')
     ax1.set_title('Spring')
     ci=ci+1
-
+ax0.legend()
+ax1.legend()
+ax0.grid(True)
+ax1.grid(True)
+ax0.set_ylim(-50,0)
+ax1.set_ylim(-50,0)
 fig.tight_layout()
 #fig.savefig(out_dir / 'dsdx_spring_neap.png')
 fig.savefig(out_dir / 'pg_stressdiv_summary.png',dpi=300)
