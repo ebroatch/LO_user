@@ -73,13 +73,16 @@ sect_list = [item.replace('.nc','') for item in sect_list]
 # Define sections to work on.
 # Generally choose [seaward, landward]
 #sect_list = ['b3'] #TESTING
-sect_list = ['b1','b2','b3','b4','b5'] #SHORT LIST SILL ONLY
+# sect_list = ['b1','b2','b3','b4','b5'] #SHORT LIST SILL ONLY
+sect_list = ['b1','b3','b5'] #SHORT LIST SILL ONLY
 #sect_list = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5'] #FULL LIST
 #sect_list = ['ai1','ai2','ai4','ai5','ai6','ai7'] # AI North to South
 #sect_list = ['sog7','sog6','sog5','sog4','sog3','sog2'] # SoG North to South
 #sect_list = ['jdf1','jdf2','jdf3','jdf4','sji1','sji4'] # JdF to Haro Strait
-color_list1 = [plt.cm.tab20(6),plt.cm.tab20(2),plt.cm.tab20(4),plt.cm.tab20(18),plt.cm.tab20(0)]
-color_list2 = [plt.cm.tab20(7),plt.cm.tab20(3),plt.cm.tab20(5),plt.cm.tab20(19),plt.cm.tab20(1)]
+# color_list1 = [plt.cm.tab20(6),plt.cm.tab20(2),plt.cm.tab20(4),plt.cm.tab20(18),plt.cm.tab20(0)]
+# color_list2 = [plt.cm.tab20(7),plt.cm.tab20(3),plt.cm.tab20(5),plt.cm.tab20(19),plt.cm.tab20(1)]
+color_list1 = [plt.cm.tab20(6),plt.cm.tab20(4),plt.cm.tab20(0)]
+color_list2 = [plt.cm.tab20(7),plt.cm.tab20(5),plt.cm.tab20(1)]
 
 # make vn_list by inspecting the first section
 ds = xr.open_dataset(in_dir / (sect_list[0] + '.nc'))
@@ -321,10 +324,10 @@ for sn in sect_list:
     dustrdzcneap=dustrdz_center_neap_dict[sn]
     dustrdzcspring=dustrdz_center_spring_dict[sn]
     ax0.plot(-pgcneap,zrc,color=color_list1[ci],label='-PG '+sn)
-    ax0.plot(dustrdzcneap,zrc,color=color_list2[ci],label='stress div '+sn)
+    ax0.plot(dustrdzcneap,zrc,ls='--',color=color_list1[ci],label='stress div '+sn)
     ax0.plot(dustrdzcneap-pgcneap,zrc,ls=':',color=color_list1[ci],label='difference '+sn)
     ax1.plot(-pgcspring,zrc,color=color_list1[ci],label='-PG '+sn)
-    ax1.plot(dustrdzcspring,zrc,color=color_list2[ci],label='stress div '+sn)
+    ax1.plot(dustrdzcspring,zrc,ls='--',color=color_list1[ci],label='stress div '+sn)
     ax1.plot(dustrdzcspring-pgcspring,zrc,ls=':',color=color_list1[ci],label='difference '+sn)
     ax0.set_title('Neap')
     ax1.set_title('Spring')
