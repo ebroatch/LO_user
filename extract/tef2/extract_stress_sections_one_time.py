@@ -85,9 +85,10 @@ CC['zeta'] = (aa[sect_df.jrp, sect_df.irp]  + aa[sect_df.jrm, sect_df.irm])/2
 # CC['zetarp'] = aa[sect_df.jrp, sect_df.irp]
 # CC['zetarm'] = aa[sect_df.jrm, sect_df.irm]
 
-#extract bustr similarly to average zeta (2d fields)
+#bustr is on the u grid so use similar to u below
 aa = ds.bustr.values.squeeze() 
-CC['bustr'] = (aa[sect_df.jrp, sect_df.irp]  + aa[sect_df.jrm, sect_df.irm])/2
+# CC['bustr'] = (aa[sect_df.jrp, sect_df.irp]  + aa[sect_df.jrm, sect_df.irm])/2
+CC['bustr']=aa[u_df.j,u_df.i]
 
 
 # # Then: velocity #SKIP VELOCITY SINCE IT WILL BE IN THE REGULAR EXTRACTION
