@@ -171,7 +171,7 @@ for sn in sect_list:
     ds4 = xr.open_dataset(in_dir4 / ext_fn)
     v_hourly = ds4.v.values
     f = ds4.f.values
-    coriolis = -f * v_hourly
+    coriolis = f * v_hourly
     V['coriolis']=coriolis
 
 
