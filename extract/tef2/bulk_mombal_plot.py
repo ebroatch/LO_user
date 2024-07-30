@@ -235,7 +235,7 @@ for i in range(len(sect_list)):
     # else:
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
-axs[4].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-31'))
+axs[4].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 axs[4].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
 axs[4].set_xlabel('Day')
 axs[0].legend(loc='lower right')
