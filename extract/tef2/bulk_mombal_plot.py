@@ -110,11 +110,15 @@ for i in range(len(sect_list)):
     #ot = bulk['ot'] # (same as tef_df.index)
     ot = bulk.time.values
     
-    axs[i].plot(ot,tef_df['dudt'],color='tab:red', label='du/dt')
-    axs[i].plot(ot,tef_df['coriolis'],color='tab:purple', label='coriolis')
-    axs[i].plot(ot,tef_df['pg'],color='tab:green', label='PG')
-    axs[i].plot(ot,tef_df['stressdiv'],color='tab:blue', label='stress divergence')
-    axs[i].plot(ot,tef_df['dudt']-tef_df['coriolis']-tef_df['pg']-tef_df['stressdiv'],color=':k', label='residual (advection)')
+    axs[i].plot(ot,tef_df['dudt_p'],color='tab:red', label='du/dt in')
+    axs[i].plot(ot,tef_df['coriolis_p'],color='tab:purple', label='coriolis in')
+    axs[i].plot(ot,tef_df['pg_p'],color='tab:green', label='PG in')
+    axs[i].plot(ot,tef_df['stressdiv_p'],color='tab:blue', label='stress divergence in')
+    axs[i].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt out')
+    axs[i].plot(ot,tef_df['coriolis_m'],color='tab:purple', ls='--', label='coriolis out')
+    axs[i].plot(ot,tef_df['pg_m'],color='tab:green', ls='--' label='PG out')
+    axs[i].plot(ot,tef_df['stressdiv_m'],color='tab:blue', ls='--', label='stress divergence out')
+    #axs[i].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='residual (advection) in')
     axs[i].legend()
     axs[i].grid(True)
     
