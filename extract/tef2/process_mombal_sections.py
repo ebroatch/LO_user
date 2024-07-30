@@ -125,9 +125,11 @@ for sn in sn_list:
         dx, ang = sw.dist([larm[i],larp[i]],[lorm[i],lorp[i]],units='km')
         dxrpm.append(dx[0]*1000) #put into m
 
-    # calculate tidally averaged ds/dx and dzeta/dx
-    dsdx=zfun.lowpass((saltrp-saltrm)/dxrpm, f='godin')[pad:-pad+1:24, :]
-    dzetadx=zfun.lowpass((zetarp-zetarm)/dxrpm, f='godin')[pad:-pad+1:24, :]
+    # calculate non tidally averaged ds/dx and dzeta/dx
+    # dsdx=zfun.lowpass((saltrp-saltrm)/dxrpm, f='godin')[pad:-pad+1:24, :]
+    # dzetadx=zfun.lowpass((zetarp-zetarm)/dxrpm, f='godin')[pad:-pad+1:24, :]
+    dsdx=(saltrp-saltrm)/dxrpm
+    dzetadx=(zetarp-zetarm)/dxrpm
 
     #calculate pressure gradient
     g=9.81
@@ -146,7 +148,7 @@ for sn in sn_list:
     bustr_hourly = ds2.bustr.values
     RHO0=1023.7 #mean density from BLANK.in file for model
     DZR = ds2['DZR'].values
-    pad = 36
+    
     # V = dict()
     # for vn in vn_list:
     #     V[vn] = ds[vn].to_numpy()
