@@ -72,7 +72,7 @@ pfun.start_plot(fs=fs, figsize=(20,15))
 
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
-fig, axs = plt.subplots(5, 1, sharex=True,figsize=(8,10))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})
+fig, axs = plt.subplots(5, 1, sharex=True,figsize=(15,15))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
@@ -113,11 +113,11 @@ for i in range(len(sect_list)):
     axs[i].plot(ot,tef_df['dudt_p'],color='tab:red', label='du/dt in')
     axs[i].plot(ot,tef_df['coriolis_p'],color='tab:purple', label='coriolis in')
     axs[i].plot(ot,tef_df['pg_p'],color='tab:green', label='PG in')
-    axs[i].plot(ot,tef_df['stressdiv_p'],color='tab:blue', label='stress divergence in')
+    axs[i].plot(ot,tef_df['stressdiv_p'],color='tab:blue', label='stressdiv in')
     axs[i].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt out')
     axs[i].plot(ot,tef_df['coriolis_m'],color='tab:purple', ls='--', label='coriolis out')
     axs[i].plot(ot,tef_df['pg_m'],color='tab:green', ls='--', label='PG out')
-    axs[i].plot(ot,tef_df['stressdiv_m'],color='tab:blue', ls='--', label='stress divergence out')
+    axs[i].plot(ot,tef_df['stressdiv_m'],color='tab:blue', ls='--', label='stressdiv out')
     #axs[i].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='residual (advection) in')
     axs[i].text(0.05,0.9,sect_name,transform=axs[i].transAxes)
     axs[i].grid(True)
