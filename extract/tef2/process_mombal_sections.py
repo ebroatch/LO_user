@@ -41,7 +41,7 @@ Lfun.make_dir(out_dir, clean=True)
 sect_list = [item.name for item in in_dir.glob('*.nc')]
 if Ldir['testing']:
     sect_list = ['jdf3.nc']
-sect_list = [item.replace('.nc','') for item in sect_list]
+sn_list = [item.replace('.nc','') for item in sect_list]
     
 # make vn_list by inspecting the first section
 ds = xr.open_dataset(in_dir / sect_list[0])
@@ -75,7 +75,7 @@ print(str(in_dir))
 
 tt00 = time()
 
-for sn in sect_list:
+for sn in sn_list:
     tt0 = time()
     ext_fn=sn+'.nc'
     print(ext_fn)
