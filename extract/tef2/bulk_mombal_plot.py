@@ -68,7 +68,7 @@ yv = g.lat_v.values
 # label_out = ['a3 out','b3 out','c3 out']
 fs = 12
 plt.close('all')
-pfun.start_plot(fs=fs, figsize=(21,10))
+pfun.start_plot(fs=fs, figsize=(20,15))
 
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
@@ -119,7 +119,7 @@ for i in range(len(sect_list)):
     axs[i].plot(ot,tef_df['pg_m'],color='tab:green', ls='--', label='PG out')
     axs[i].plot(ot,tef_df['stressdiv_m'],color='tab:blue', ls='--', label='stress divergence out')
     #axs[i].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='residual (advection) in')
-    axs[4].text(0.05,0.95,sect_name,transform=axs[i].transAxes)
+    axs[i].text(0.05,0.9,sect_name,transform=axs[i].transAxes)
     axs[i].grid(True)
     
 
@@ -238,8 +238,8 @@ for i in range(len(sect_list)):
 axs[4].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 axs[4].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
 axs[4].set_xlabel('Day')
-axs[4].legend()
-axs[0].legend(loc='lower right')
+axs[4].legend(loc='lower right')
+#axs[0].legend(loc='lower right')
 axs[0].set_title(Ldir['gtagex'])
 plt.savefig(out_dir / ('bulk_mombal_plot.png'))
 plt.close()
