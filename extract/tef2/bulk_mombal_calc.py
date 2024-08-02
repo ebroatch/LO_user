@@ -114,8 +114,7 @@ for snp in sect_list:
         print_info = True
     else:
         dd_list = range(NT)
-        # print_info = False
-        print_info = True
+        print_info = False
 
     for dd in dd_list:
             
