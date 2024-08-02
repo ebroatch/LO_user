@@ -101,7 +101,7 @@ for sn in sn_list:
     ds.close()
 
     #calculate storage term
-    dudt=(u_hourly[2:,:,:]-u_hourly[:-2,:,:])/3600
+    dudt=(u_hourly[2:,:,:]-u_hourly[:-2,:,:])/(2*3600)
     dudt=np.concatenate((np.nan * np.ones((1,u_hourly.shape[1],u_hourly.shape[2])),dudt,np.nan * np.ones((1,u_hourly.shape[1],u_hourly.shape[2]))),axis=0)
     V['dudt']=dudt
 
@@ -140,7 +140,7 @@ for sn in sn_list:
     pg=pgzeta+pgs 
     pgcorr=pgzeta+pgscorr
 
-    V['pg']=pgcorr
+    V['pg']=-pgcorr
 
     # load stress fields
     ds2 = xr.open_dataset(in_dir2 / ext_fn)
@@ -173,6 +173,7 @@ for sn in sn_list:
     ds4 = xr.open_dataset(in_dir4 / ext_fn)
     v_hourly = ds4.v.values
     f = ds4.f.values
+    # calculate coriolis term
     coriolis = f[:,np.newaxis,:] * v_hourly
     V['coriolis']=coriolis
 
