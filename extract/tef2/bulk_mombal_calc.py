@@ -19,6 +19,7 @@ import xarray as xr
 
 from lo_tools import Lfun, zfun
 import tef_fun_lorenz as tfl
+import tef_fun_mombal as tfm
 
 from lo_tools import extract_argfun as exfun
 Ldir = exfun.intro() # this handles the argument passing
@@ -125,7 +126,8 @@ for snp in sect_list:
         if print_info == True:
             print('\n**** dd = %d ***' % (dd))
                 
-        out_tup = tfl.calc_bulk_values(sedges, thisQ_dict, vn_list, print_info=print_info)
+        # out_tup = tfl.calc_bulk_values(sedges, thisQ_dict, vn_list, print_info=print_info)
+        out_tup = tfm.calc_bulk_values(sedges, thisQ_dict, vn_list, print_info=print_info) #use mombal version that can handle negative values
         in_dict, out_dict, div_sal, ind, minmax = out_tup
         
         if print_info == True:
