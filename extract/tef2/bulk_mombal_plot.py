@@ -131,7 +131,7 @@ for i in range(len(sect_list)):
     axs[i,1].set_ylim(-0.0005,0.0005)
     if i==0:
         axs[i,0].set_ylim(-0.002,0.002)
-        axs[i,0].set_ylim(-0.001,0.001)
+        axs[i,1].set_ylim(-0.001,0.001)
     if i==2:
         axs[i,0].set_ylim(-0.002,0.002)
         axs[i,1].set_ylim(-0.002,0.002)
