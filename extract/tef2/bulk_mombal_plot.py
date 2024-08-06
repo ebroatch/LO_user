@@ -69,7 +69,7 @@ yv = g.lat_v.values
 # label_out = ['a3 out','b3 out','c3 out']
 fs = 12
 plt.close('all')
-pfun.start_plot(fs=fs, figsize=(20,15))
+pfun.start_plot(fs=fs, figsize=(25,15))
 
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
@@ -122,8 +122,8 @@ for i in range(len(sect_list)):
     axs[i,1].plot(ot,tef_df['stressdiv_m'],color='tab:blue', ls='--', label='stressdiv')
     axs[i,1].plot(ot,tef_df['dudt_m']-tef_df['coriolis_m']-tef_df['pg_m']-tef_df['stressdiv_m'],ls='--',color='k', label='residual (advection)')
     #axs[i].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='residual (advection) in')
-    axs[i,0].text(0.05,0.9,sect_name+' in',transform=axs[i].transAxes)
-    axs[i,1].text(0.05,0.9,sect_name+' out',transform=axs[i].transAxes)
+    axs[i,0].text(0.05,0.9,sect_name+' in',transform=axs[i,0].transAxes)
+    axs[i,1].text(0.05,0.9,sect_name+' out',transform=axs[i,1].transAxes)
     axs[i,0].grid(True)
     axs[i,1].grid(True)
     
