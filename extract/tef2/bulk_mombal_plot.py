@@ -245,8 +245,8 @@ axs[2,0].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-31'))
 axs[2,1].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-31'))
 # axs[2,0].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
 # axs[2,1].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
-axs[2,0].xaxis.set_major_formatter(mdates.DateFormatter('%j')) #yearday
-axs[2,1].xaxis.set_major_formatter(mdates.DateFormatter('%j'))
+axs[2,0].xaxis.set_major_formatter(mdates.DateFormatter('%-j')) #yearday
+axs[2,1].xaxis.set_major_formatter(mdates.DateFormatter('%-j'))
 # axs[2,0].set_xlabel('Day')
 # axs[2,1].set_xlabel('Day')
 axs[2,0].set_xlabel('Yearday')
