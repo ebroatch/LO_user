@@ -43,8 +43,8 @@ Lfun.make_dir(out_dir, clean=True)
 #plot_color = ['tab:red','tab:orange','tab:olive','tab:green','tab:cyan','tab:blue','tab:purple','tab:pink']
 #plot_color = ['k','tab:gray','tab:red','tab:orange','tab:green','tab:cyan','tab:blue','tab:brown']
 
-# sect_list = ['b1','b2','b3','b4','b5']
-sect_list = ['b1','b3','b5'] #only 3 sections for readability
+sect_list = ['b1','b2','b3','b4','b5']
+#sect_list = ['b1','b3','b5'] #only 3 sections for readability
 #plot_label = ['b1','b2','b3','b4','b5']
 plot_color = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue']
 
@@ -73,7 +73,7 @@ plt.close('all')
 
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
-fig, axs = plt.subplots(len(sect_list), 2, sharex=True, figsize=(20,10))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})
+fig, axs = plt.subplots(len(sect_list), 2, sharex=True, figsize=(20,15))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})#figsize 20,10 for 3 sects
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
@@ -249,18 +249,18 @@ for i in range(len(sect_list)):
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
 
-axs[2,0].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-30'))
-axs[2,1].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-30'))
+axs[4,0].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-30'))
+axs[4,1].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-30'))
 # axs[2,0].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
 # axs[2,1].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
-axs[2,0].xaxis.set_major_formatter(mdates.DateFormatter('%j')) #yearday
-axs[2,1].xaxis.set_major_formatter(mdates.DateFormatter('%j'))
+axs[4,0].xaxis.set_major_formatter(mdates.DateFormatter('%j')) #yearday
+axs[4,1].xaxis.set_major_formatter(mdates.DateFormatter('%j'))
 # axs[2,0].set_xlabel('Day')
 # axs[2,1].set_xlabel('Day')
-axs[2,0].set_xlabel('Yearday')
-axs[2,1].set_xlabel('Yearday')
-axs[2,0].legend(loc='lower right')
-axs[2,1].legend(loc='lower right')
+axs[4,0].set_xlabel('Yearday')
+axs[4,1].set_xlabel('Yearday')
+axs[4,0].legend(loc='lower right')
+axs[4,1].legend(loc='lower right')
 #axs[0].legend(loc='lower right')
 plt.suptitle(Ldir['gtagex'])
 plt.savefig(out_dir / ('bulk_mombal_plot.png'))
