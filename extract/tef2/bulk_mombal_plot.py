@@ -69,11 +69,11 @@ yv = g.lat_v.values
 # label_out = ['a3 out','b3 out','c3 out']
 fs = 12
 plt.close('all')
-pfun.start_plot(fs=fs, figsize=(10,20))
+#pfun.start_plot(fs=fs, figsize=(10,20))
 
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
-fig, axs = plt.subplots(len(sect_list), 2, sharex=True,figsize=(15,15))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})
+fig, axs = plt.subplots(len(sect_list), 2, sharex=True, sharey=True, figsize=(10,20))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
