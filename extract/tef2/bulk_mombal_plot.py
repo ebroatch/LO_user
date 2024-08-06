@@ -69,7 +69,7 @@ yv = g.lat_v.values
 # label_out = ['a3 out','b3 out','c3 out']
 fs = 12
 plt.close('all')
-pfun.start_plot(fs=fs, figsize=(25,15))
+pfun.start_plot(fs=fs, figsize=(10,20))
 
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
@@ -241,12 +241,16 @@ for i in range(len(sect_list)):
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
 
-axs[2,0].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
-axs[2,1].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
-axs[2,0].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
-axs[2,1].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
-axs[2,0].set_xlabel('Day')
-axs[2,1].set_xlabel('Day')
+axs[2,0].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-31'))
+axs[2,1].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-31'))
+# axs[2,0].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
+# axs[2,1].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
+axs[2,0].xaxis.set_major_formatter(mdates.DateFormatter('%j')) #yearday
+axs[2,1].xaxis.set_major_formatter(mdates.DateFormatter('%j'))
+# axs[2,0].set_xlabel('Day')
+# axs[2,1].set_xlabel('Day')
+axs[2,0].set_xlabel('Yearday')
+axs[2,1].set_xlabel('Yearday')
 axs[2,0].legend(loc='lower right')
 axs[2,1].legend(loc='lower right')
 #axs[0].legend(loc='lower right')
