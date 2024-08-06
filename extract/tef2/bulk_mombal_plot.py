@@ -73,7 +73,7 @@ plt.close('all')
 
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
-fig, axs = plt.subplots(len(sect_list), 2, sharex=True, sharey=True, figsize=(20,10))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})
+fig, axs = plt.subplots(len(sect_list), 2, sharex=True, figsize=(20,10))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
@@ -127,10 +127,12 @@ for i in range(len(sect_list)):
     axs[i,0].grid(True)
     axs[i,1].grid(True)
     
-    axs[i,0].set_ylim(-0.002,0.002)
-    axs[i,1].set_ylim(-0.002,0.002)
+    axs[i,0].set_ylim(-0.001,0.001)
+    axs[i,1].set_ylim(-0.001,0.001)
     if i==0:
         axs[i,0].set_ylim(-0.004,0.004)
+    if i==2:
+        axs[i,1].set_ylim(-0.002,0.002)
 
 
     # ax1.plot(ot,tef_df['Q_p'].to_numpy(), color=plot_color[i], linewidth=lw, label=sect_name)
