@@ -43,7 +43,8 @@ Lfun.make_dir(out_dir, clean=True)
 #plot_color = ['tab:red','tab:orange','tab:olive','tab:green','tab:cyan','tab:blue','tab:purple','tab:pink']
 #plot_color = ['k','tab:gray','tab:red','tab:orange','tab:green','tab:cyan','tab:blue','tab:brown']
 
-sect_list = ['b1','b2','b3','b4','b5']
+# sect_list = ['b1','b2','b3','b4','b5']
+sect_list = ['b1','b3','b5'] #only 3 sections for readability
 #plot_label = ['b1','b2','b3','b4','b5']
 plot_color = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue']
 
@@ -72,7 +73,7 @@ pfun.start_plot(fs=fs, figsize=(20,15))
 
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
-fig, axs = plt.subplots(5, 1, sharex=True,figsize=(15,15))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})
+fig, axs = plt.subplots(len(sect_list), 2, sharex=True,figsize=(15,15))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
@@ -110,17 +111,21 @@ for i in range(len(sect_list)):
     #ot = bulk['ot'] # (same as tef_df.index)
     ot = bulk.time.values
     
-    axs[i].plot(ot,tef_df['dudt_p'],color='tab:red', label='du/dt in')
-    axs[i].plot(ot,tef_df['coriolis_p'],color='tab:purple', label='coriolis in')
-    axs[i].plot(ot,tef_df['pg_p'],color='tab:green', label='PG in')
-    axs[i].plot(ot,tef_df['stressdiv_p'],color='tab:blue', label='stressdiv in')
-    axs[i].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt out')
-    axs[i].plot(ot,tef_df['coriolis_m'],color='tab:purple', ls='--', label='coriolis out')
-    axs[i].plot(ot,tef_df['pg_m'],color='tab:green', ls='--', label='PG out')
-    axs[i].plot(ot,tef_df['stressdiv_m'],color='tab:blue', ls='--', label='stressdiv out')
+    axs[i,0].plot(ot,tef_df['dudt_p'],color='tab:red', label='du/dt')
+    axs[i,0].plot(ot,tef_df['coriolis_p'],color='tab:purple', label='coriolis')
+    axs[i,0].plot(ot,tef_df['pg_p'],color='tab:green', label='PG in')
+    axs[i,0].plot(ot,tef_df['stressdiv_p'],color='tab:blue', label='stressdiv')
+    axs[i,0].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='residual (advection)')
+    axs[i,1].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt')
+    axs[i,1].plot(ot,tef_df['coriolis_m'],color='tab:purple', ls='--', label='coriolis')
+    axs[i,1].plot(ot,tef_df['pg_m'],color='tab:green', ls='--', label='PG')
+    axs[i,1].plot(ot,tef_df['stressdiv_m'],color='tab:blue', ls='--', label='stressdiv')
+    axs[i,1].plot(ot,tef_df['dudt_m']-tef_df['coriolis_m']-tef_df['pg_m']-tef_df['stressdiv_m'],ls='--',color='k', label='residual (advection)')
     #axs[i].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='residual (advection) in')
-    axs[i].text(0.05,0.9,sect_name,transform=axs[i].transAxes)
-    axs[i].grid(True)
+    axs[i,0].text(0.05,0.9,sect_name+' in',transform=axs[i].transAxes)
+    axs[i,1].text(0.05,0.9,sect_name+' out',transform=axs[i].transAxes)
+    axs[i,0].grid(True)
+    axs[i,1].grid(True)
     
 
 
@@ -235,10 +240,15 @@ for i in range(len(sect_list)):
     # else:
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
-axs[4].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
-axs[4].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
-axs[4].set_xlabel('Day')
-axs[4].legend(loc='lower right')
+
+axs[2,0].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
+axs[2,1].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
+axs[2,0].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
+axs[2,1].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
+axs[2,0].set_xlabel('Day')
+axs[2,1].set_xlabel('Day')
+axs[2,0].legend(loc='lower right')
+axs[2,1].legend(loc='lower right')
 #axs[0].legend(loc='lower right')
 axs[0].set_title(Ldir['gtagex'])
 plt.savefig(out_dir / ('bulk_mombal_plot.png'))
