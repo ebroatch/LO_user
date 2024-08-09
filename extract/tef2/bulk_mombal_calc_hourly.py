@@ -73,14 +73,14 @@ for snp in sect_list:
     vec_list = []
     for vn in ds.data_vars:
         if ('time' in ds[vn].coords) and ('sbins' in ds[vn].coords):
-            TEF_lp[vn] = zfun.lowpass(ds[vn].values, f='godin')#[pad:-pad+1:24, :]
+            TEF_lp[vn] = zfun.lowpass(ds[vn].values, f='godin')[pad:-pad+1, :]#[pad:-pad+1:24, :]
             vn_list.append(vn)
         elif ('time' in ds[vn].coords) and ('sbins'  not in ds[vn].coords):
-            TEF_lp[vn] = zfun.lowpass(ds[vn].values, f='godin')#[pad:-pad+1:24]
+            TEF_lp[vn] = zfun.lowpass(ds[vn].values, f='godin')[pad:-pad+1]#[pad:-pad+1:24]
             vec_list.append(vn)
-    time_lp = ds.time.values#[pad:-pad+1:24]
+    time_lp = ds.time.values[pad:-pad+1]#[pad:-pad+1:24]
     sbins = ds.sbins.values
-    TEF_lp['qabs'] = zfun.lowpass(qabs, f='godin')#[pad:-pad+1:24]
+    TEF_lp['qabs'] = zfun.lowpass(qabs, f='godin')[pad:-pad+1]#[pad:-pad+1:24]
     # Add the qprism time series.
     # Conceptually, qprism is the maximum possible exchange flow if all
     # the flood tide made Qin and all the ebb tide made Qout.
