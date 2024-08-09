@@ -32,7 +32,7 @@ sect_df = pd.read_pickle(sect_df_fn)
 
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 in_dir = out_dir0 / ('processed_mombal_area_' + Ldir['ds0'] + '_' + Ldir['ds1'])
-out_dir = out_dir0 / ('bulk_mombal_area_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+out_dir = out_dir0 / ('bulk_mombal_area_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
 sect_list = [item.name for item in in_dir.glob('*.nc')]
