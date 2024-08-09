@@ -4,6 +4,8 @@ Modifed lightly by Parker MacCready.
 """
 
 import numpy as np
+import pandas as pd
+import xarray as xr
 
 def find_extrema(x, comp=5, print_info=False): # new, reduced, better described
     """
@@ -213,3 +215,136 @@ def calc_bulk_values(s, thisQ_dict, vn_list, print_info=False, min_trans=1):
     div_sal = np.delete(div_sal, index)
         
     return (in_dict, out_dict, div_sal, ind, minmax)
+
+def calc_bulk_values_area(s, thisA_dict, vn_list, print_info=False, min_trans=1):
+    """
+    input
+    s=salinity array (sedges)
+    Integrated transport arrays vs. S for a given time
+    min_trans = minimum transport to consider
+    """    
+    # use the find_extrema algorithm
+    ind, minmax = find_extrema(thisA_dict['q'], print_info=print_info)
+    
+    # compute dividing salinities
+    smin=s[0]
+    DS=s[1]-s[0]
+    div_sal=[]
+    i=0
+    while i < len(ind): 
+        div_sal.append(smin+DS*ind[i])
+        i+=1
+                
+    #calculate transports etc.
+    in_dict = dict()
+    out_dict = dict()
+    for vn in vn_list:
+            in_dict[vn] = []
+            out_dict[vn] = []
+    index=[]
+    i=0
+    vn_list_short1 = [item for item in vn_list if item != 'q']
+    vn_list_short = [item for item in vn_list_short1 if item != 'a']
+    while i < len(ind)-1:
+        # compute the transports and sort to in and out
+        Q_i=-(thisA_dict['q'][ind[i+1]]-thisA_dict['q'][ind[i]])
+        A_i=-(thisA_dict['a'][ind[i+1]]-thisA_dict['a'][ind[i]])
+        if Q_i<0 and np.abs(Q_i)>min_trans:
+            out_dict['q'].append(Q_i)
+            out_dict['a'].append(A_i)
+        elif Q_i > 0 and np.abs(Q_i)>min_trans:
+            in_dict['q'].append(Q_i)
+            in_dict['a'].append(A_i)
+        else:
+            index.append(i)
+            # this allows clipping of cases with tiny transport
+        for vn in vn_list_short:
+            F_i =-(thisA_dict[vn][ind[i+1]] - thisA_dict[vn][ind[i]])
+            # vn_i=np.abs(F_i)/np.abs(Q_i)
+            #vn_i=(F_i)/(Q_i) #do not use absolute value (some mombal terms can be negative)
+            vn_i=(F_i)/(A_i) #divide by area
+            if Q_i<0 and np.abs(Q_i)>1:
+                out_dict[vn].append(vn_i)
+            elif Q_i > 0 and np.abs(Q_i)>1:
+                in_dict[vn].append(vn_i)
+        i+=1
+    # remove clipped div_sal values
+    div_sal = np.delete(div_sal, index)
+        
+    return (in_dict, out_dict, div_sal, ind, minmax)
+
+def get_two_layer_area(in_dir, sect_name):
+    """
+    Form time series of 2-layer TEF quantities, from the multi-layer bulk values.
+    This version makes two layers where the quantities are area-averaged
+    The volume transport Q is used to separate the inflow and outflow
+    """
+    bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
+    
+    # determine which variables to process
+    vn_list = []
+    vec_list = []
+    for vn in bulk.data_vars:
+        if ('time' in bulk[vn].coords) and ('layer' in bulk[vn].coords):
+            vn_list.append(vn)
+        elif ('time' in bulk[vn].coords) and ('layer'  not in bulk[vn].coords):
+            vec_list.append(vn)
+    vn_list.remove('q') # transport is handled separately from tracers
+    vn_list.remove('a')
+    
+    # separate positive and negative transports
+    QQ = bulk.q.values
+    QQp = QQ.copy()
+    QQp[QQ<=0] = np.nan
+    QQm = QQ.copy()
+    QQm[QQ>=0] = np.nan
+
+    # SEPARATE AREAS BASED ON POSITIVE AND NEGATIVE TRANSPORTS
+    AA = bulk.a.values
+    AAp = AA.copy()
+    AAp[QQ<=0] = np.nan
+    AAm = AA.copy()
+    AAm[QQ>=0] = np.nan
+    
+    # form two-layer versions of volume and tracer transports
+    Qp = np.nansum(QQp, axis=1)
+    Qm = np.nansum(QQm, axis=1)
+
+    Ap = np.nansum(AAp, axis=1) #calculate total inflow and outflow section area
+    Am = np.nansum(AAm, axis=1)
+    # if True:
+    #     # Mask out times when the transport is too small to
+    #     # use for tracer averaging.
+    #     # Not needed? Seems like a possible source of budget errors.
+    #     Qp[Qp<np.nanmean(Qp)/100] = np.nan
+    #     Qm[Qm>np.nanmean(Qm)/100] = np.nan
+    ACp = dict()
+    ACm = dict()
+    for vn in vn_list:
+        ACp[vn] = np.nansum(AAp*(bulk[vn].values), axis=1)
+        ACm[vn] = np.nansum(AAm*(bulk[vn].values), axis=1)
+    
+    # form flux-weighted tracer concentrations
+    # FORM AREA WEIGHTED MOMENTUM BALANCE TERMS
+    Cp = dict()
+    Cm = dict()
+    for vn in vn_list:
+        Cp[vn] = ACp[vn]/Ap
+        Cm[vn] = ACm[vn]/Am
+        
+    # pack results in a DataFrame
+    tef_df = pd.DataFrame(index=bulk.time.values)
+    tef_df['q_p']=Qp
+    tef_df['q_m']=Qm
+    tef_df['a_p']=Ap
+    tef_df['a_m']=Am
+    for vn in vn_list:
+        tef_df[vn+'_p'] = Cp[vn]
+        tef_df[vn+'_m'] = Cm[vn]
+    # also pass back time series like qprism, for convenience
+    for vn in vec_list:
+        tef_df[vn] = bulk[vn].values
+        
+    bulk.close()
+            
+    return tef_df, vn_list, vec_list
