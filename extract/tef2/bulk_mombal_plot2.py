@@ -29,10 +29,10 @@ sect_df_fn = tef2_dir / ('sect_df_' + gctag + '.p')
 sect_df = pd.read_pickle(sect_df_fn)
 
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
-# in_dir = out_dir0 / ('bulk_mombal_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
-# in_dir2 = out_dir0 / ('bulk_mombal_area_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
-in_dir = out_dir0 / ('bulk_mombal_' + Ldir['ds0'] + '_' + Ldir['ds1'])
-in_dir2 = out_dir0 / ('bulk_mombal_area_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+in_dir = out_dir0 / ('bulk_mombal_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+in_dir2 = out_dir0 / ('bulk_mombal_area_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+# in_dir = out_dir0 / ('bulk_mombal_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+# in_dir2 = out_dir0 / ('bulk_mombal_area_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 out_dir = out_dir0 / ('bulk_mombal_plots_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
@@ -100,8 +100,8 @@ for i in range(len(sect_list)):
     Aout = tef_df_area['a_m']
     Uin = Qin/Ain
     Uout = Qout/Aout
-    dudt_in_alt =np.concatenate(([np.nan],(Uin.values[2:]-Uin.values[:-2])/(2*24*3600),[np.nan])) #REMOVE 24 FOR HOURLY DATA
-    dudt_out_alt =np.concatenate(([np.nan],(Uout.values[2:]-Uout.values[:-2])/(2*24*3600),[np.nan]))
+    dudt_in_alt =np.concatenate(([np.nan],(Uin.values[2:]-Uin.values[:-2])/(2*3600),[np.nan])) #REMOVE 24 FOR HOURLY DATA
+    dudt_out_alt =np.concatenate(([np.nan],(Uout.values[2:]-Uout.values[:-2])/(2*3600),[np.nan]))
 
                     
     # labels and colors
@@ -278,7 +278,7 @@ axs[4,1].set_xlabel('Yearday')
 axs[4,0].legend(loc='lower right')
 axs[4,1].legend(loc='lower right')
 #axs[0].legend(loc='lower right')
-plt.suptitle(Ldir['gtagex'])
+plt.suptitle(Ldir['gtagex']+' hourly flux-weighted momentum balance')
 plt.savefig(out_dir / ('bulk_mombal_plot2.png'))
 plt.close()
 pfun.end_plot()
