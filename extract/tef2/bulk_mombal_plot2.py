@@ -100,8 +100,8 @@ for i in range(len(sect_list)):
     Aout = tef_df_area['a_m']
     Uin = Qin/Ain
     Uout = Qout/Aout
-    dudt_in_alt =np.concatenate(([np.nan],(Uin.values[2:]-Uin.values[:2])/(2*24*3600),[np.nan])) #REMOVE 24 FOR HOURLY DATA
-    dudt_out_alt =np.concatenate(([np.nan],(Uout.values[2:]-Uout.values[:2])/(2*24*3600),[np.nan]))
+    dudt_in_alt =np.concatenate(([np.nan],(Uin.values[2:]-Uin.values[:-2])/(2*24*3600),[np.nan])) #REMOVE 24 FOR HOURLY DATA
+    dudt_out_alt =np.concatenate(([np.nan],(Uout.values[2:]-Uout.values[:-2])/(2*24*3600),[np.nan]))
 
                     
     # labels and colors
