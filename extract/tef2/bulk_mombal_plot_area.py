@@ -265,7 +265,7 @@ axs[4,0].legend(loc='lower right')
 axs[4,1].legend(loc='lower right')
 #axs[0].legend(loc='lower right')
 plt.suptitle(Ldir['gtagex']+' area weighted momemtum balance')
-plt.savefig(out_dir / ('bulk_mombal_plot_area.png'))
+plt.savefig(out_dir / ('bulk_mombal_area_plot.png'))
 plt.close()
 pfun.end_plot()
 
