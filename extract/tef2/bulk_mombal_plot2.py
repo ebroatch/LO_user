@@ -29,8 +29,10 @@ sect_df_fn = tef2_dir / ('sect_df_' + gctag + '.p')
 sect_df = pd.read_pickle(sect_df_fn)
 
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
-in_dir = out_dir0 / ('bulk_mombal_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
-in_dir2 = out_dir0 / ('bulk_mombal_area_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+# in_dir = out_dir0 / ('bulk_mombal_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+# in_dir2 = out_dir0 / ('bulk_mombal_area_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+in_dir = out_dir0 / ('bulk_mombal_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+in_dir2 = out_dir0 / ('bulk_mombal_area_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 out_dir = out_dir0 / ('bulk_mombal_plots_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
@@ -98,8 +100,8 @@ for i in range(len(sect_list)):
     Aout = tef_df_area['a_m']
     Uin = Qin/Ain
     Uout = Qout/Aout
-    dudt_in_alt =np.concatenate((np.nan,(Uin[2:]-Uin[:2])/(2*3600),np.nan))
-    dudt_out_alt =np.concatenate((np.nan,(Uout[2:]-Uout[:2])/(2*3600),np.nan))
+    dudt_in_alt =np.concatenate((np.nan,(Uin[2:]-Uin[:2])/(2*24*3600),np.nan)) #REMOVE 24 FOR HOURLY DATA
+    dudt_out_alt =np.concatenate((np.nan,(Uout[2:]-Uout[:2])/(2*24*3600),np.nan))
 
                     
     # labels and colors
@@ -124,11 +126,13 @@ for i in range(len(sect_list)):
     ot = bulk.time.values
     
     # axs[i,0].plot(ot,tef_df['dudt_p'],color='tab:red', label='du/dt')
+    axs[i,0].plot(ot,tef_df['dudt_in_alt'],color='tab:red', label='d/dt(Qin/Ain)')
     axs[i,0].plot(ot,tef_df['coriolis_p'],color='tab:purple', label='coriolis')
     axs[i,0].plot(ot,tef_df['pg_p'],color='tab:green', label='PG in')
     axs[i,0].plot(ot,tef_df['stressdiv_p'],color='tab:blue', label='stressdiv')
     axs[i,0].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='residual (advection)')
-    axs[i,1].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt')
+    # axs[i,1].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt')
+    axs[i,1].plot(ot,tef_df['dudt_out_alt'],color='tab:red',ls='--', label='d/dt(Qout/Aout)')
     axs[i,1].plot(ot,tef_df['coriolis_m'],color='tab:purple', ls='--', label='coriolis')
     axs[i,1].plot(ot,tef_df['pg_m'],color='tab:green', ls='--', label='PG')
     axs[i,1].plot(ot,tef_df['stressdiv_m'],color='tab:blue', ls='--', label='stressdiv')
