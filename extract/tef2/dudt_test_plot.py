@@ -39,11 +39,11 @@ w_S2 = (2*np.pi)/T_S2 #angular frequency in h^-1
 u = 3*np.sin(w_M2*th)+np.sin(w_S2*th) #tidal velocity with spring neap cycle
 
 pad=36
-u_lp = zfun.lowpass(u, f='godin')[pad:-pad+1, :]
+u_lp = zfun.lowpass(u, f='godin')[pad:-pad+1]
 dudt = np.concatenate(([np.nan],(u[2:]-u[:-2])/(2),[np.nan]))
 du_lpdt = np.concatenate(([np.nan],(u_lp[2:]-u_lp[:-2])/(2),[np.nan]))
-dudt_lp = zfun.lowpass(dudt, f='godin')[pad:-pad+1, :]
-th_lp=th[pad:-pad+1, :]
+dudt_lp = zfun.lowpass(dudt, f='godin')[pad:-pad+1]
+th_lp=th[pad:-pad+1]
 
 fig, axs = plt.subplots(4, 1, sharex=True, figsize=(20,15))
 axs[0].plot(th, u, label='u')
