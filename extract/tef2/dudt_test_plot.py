@@ -26,7 +26,7 @@ sect_df = pd.read_pickle(sect_df_fn)
 
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 in_dir = out_dir0 / ('processed_mombal_' + Ldir['ds0'] + '_' + Ldir['ds1'])
-out_dir = out_dir0 / ('bulk_mombal_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+out_dir = out_dir0 / ('bulk_mombal_plots_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
 tt00 = time()
@@ -37,7 +37,7 @@ T_S2 = 12 #S2 period in hours
 w_M2 = (2*np.pi)/T_M2 #angular frequency in h^-1
 w_S2 = (2*np.pi)/T_S2 #angular frequency in h^-1
 
-u = 3*np.sin(w_M2*th)+np.sin(w_S2*th) #tidal velocity with spring neap cycle
+u = 3*np.sin(w_M2*th)+np.sin(w_S2*th)+0.0005*(th-500) #tidal velocity with spring neap cycle and tendency
 
 pad=36
 u_lp = zfun.lowpass(u, f='godin')[pad:-pad+1]
@@ -47,15 +47,19 @@ dudt_lp = zfun.lowpass(dudt, f='godin')[pad:-pad+1]
 th_lp=th[pad:-pad+1]
 
 fig, axs = plt.subplots(4, 1, sharex=True, figsize=(20,15))
-axs[0].plot(th, u, label='u')
-axs[1].plot(th_lp, u_lp, label='<u>')
-axs[2].plot(th, dudt, label='du/dt')
-axs[3].plot(th_lp, du_lpdt, label='d/dt(<u>)')
-axs[3].plot(th_lp, dudt_lp, label='<du/dt>')
-axs[0].legend()
-axs[1].legend()
-axs[2].legend()
-axs[3].legend()
+axs[0].plot(th, u, label='u', color='tab:purple')
+axs[1].plot(th_lp, u_lp, label='<u>', color='tab:green')
+axs[2].plot(th, dudt, label='du/dt', color='tab:blue')
+axs[3].plot(th_lp, du_lpdt, label='d/dt(<u>)',color='tab:olive')
+axs[3].plot(th_lp, dudt_lp, '--', label='<du/dt>',color='tab:cyan')
+axs[0].legend(loc='lower right')
+axs[1].legend(loc='lower right')
+axs[2].legend(loc='lower right')
+axs[3].legend(loc='lower right')
+axs[0].grid(True)
+axs[1].grid(True)
+axs[2].grid(True)
+axs[3].grid(True)
 
 plt.suptitle('Order of low-pass and time derivative')
 plt.savefig(out_dir / ('dudt_test_plot.png'))
