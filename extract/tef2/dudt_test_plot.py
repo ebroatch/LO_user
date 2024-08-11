@@ -29,6 +29,7 @@ in_dir = out_dir0 / ('processed_mombal_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 out_dir = out_dir0 / ('bulk_mombal_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
+tt00 = time()
 
 th = np.arange(1,1000,1) #time variable in hours
 T_M2 = 12.42 #M2 period in hours
