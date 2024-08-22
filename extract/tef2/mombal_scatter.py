@@ -130,10 +130,10 @@ for i in range(len(sect_list)):
     # axs[i,0].plot(ot,tef_df['dudt_p'],color='tab:red', label='du/dt')
     # axs[0].scatter(i,dudt_in_alt,color='tab:red', label='d/dt(Qin/Ain)',marker=plot_marker[i])
     # axs[i,0].plot(i,tef_df['coriolis_p'],color='tab:purple', label='coriolis')
-    axs[0].errorbar(i,np.mean(tef_df['pg_p']),yerr=np.std(tef_df['pg_p']),color='tab:green', label='PG in',marker=plot_marker[i],markersize=2,lw=0.5,capsize=6)
-    axs[0].errorbar(i,np.mean(tef_df['stressdiv_p']),yerr=np.std(tef_df['stressdiv_p']),color='tab:blue', label='stressdiv',marker=plot_marker[i],markersize=2,lw=0.5,capsize=6)
+    axs[0].errorbar(i,np.mean(tef_df['pg_p']),yerr=np.std(tef_df['pg_p']),color='tab:green', label='PG in',marker=plot_marker[i],markersize=5,lw=0.5,capsize=6)
+    axs[0].errorbar(i,np.mean(tef_df['stressdiv_p']),yerr=np.std(tef_df['stressdiv_p']),color='tab:blue', label='stressdiv',marker=plot_marker[i],markersize=5,lw=0.5,capsize=6)
     resid=tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p']
-    axs[0].errorbar(i,np.mean(resid),yerr=np.std(resid),color='k', label='residual (advection)',marker=plot_marker[i],markersize=2,lw=0.5,capsize=6)
+    axs[0].errorbar(i,np.mean(resid),yerr=np.std(resid),color='k', label='residual (advection)',marker=plot_marker[i],markersize=5,lw=0.5,capsize=6)
     # axs[i,1].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt')
     # axs[i,1].plot(ot,dudt_out_alt,color='tab:red',ls='--', label='d/dt(Qout/Aout)')
     # axs[i,1].plot(ot,tef_df['coriolis_m'],color='tab:purple', ls='--', label='coriolis')
@@ -151,8 +151,11 @@ for i in range(len(sect_list)):
         axs[2].plot(ot,Uin,color='tab:red', label='Uin')
         axs[2].plot(ot,Uout,color='tab:blue', label='Uout')
         axs[3].plot(ot,Ain,color='tab:red', label='Ain')
-        axs[3].plot(ot,Ain,color='tab:blue', label='Aout')
+        axs[3].plot(ot,Aout,color='tab:blue', label='Aout')
         axs[1].set_title('b3 values')
+        axs[1].legend()
+        axs[2].legend()
+        axs[3].legend()
 
     
     #can reset these axes later
