@@ -152,7 +152,7 @@ for i in range(len(sect_list)):
         axs[2].plot(ot,Uout,color='tab:blue', label='Uout')
         axs[3].plot(ot,Ain,color='tab:red', label='Ain')
         axs[3].plot(ot,Ain,color='tab:blue', label='Aout')
-        axs[1].title('b3 values')
+        axs[1].set_title('b3 values')
 
     
     #can reset these axes later
