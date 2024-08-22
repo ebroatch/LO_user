@@ -204,7 +204,7 @@ for gi in range(len(gtagexlist)):
 ax.set_xlabel('Lsill/Ltide (spring)')
 ax.set_ylabel('Momentum balance terms')
 # axs[1].set_xlabel('Yearday')
-ax.text(0.05,0.9,'triangle=b1,\ncircle=b3\nsquare=b5',transform=axs[i,0].transAxes)
+ax.text(0.05,0.9,'triangle=b1,\ncircle=b3\nsquare=b5',transform=ax.transAxes)
 #axs[1].legend(loc='lower right')
 #ax.legend(loc='lower right')
 #plt.suptitle(Ldir['gtagex']+'outflow hourly flux-weighted momentum balance')
