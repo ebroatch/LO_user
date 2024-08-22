@@ -31,7 +31,7 @@ gridlist = [Ldir['data'] / 'grids' / 'sill5km', Ldir['data'] / 'grids' / 'sill10
 silllenstr = ['5km','10km','20km','40km','80km']
 silllen = [5e3,10e3,20e3,40e3,80e3]
 
-fig, axs = plt.subplots(1, 1, figsize=(8,8))#,gridspec_kw={'height_ratios': [3,1,1,1]})#figsize 20,10 for 3 sects
+fig, ax = plt.subplots(1, 1, figsize=(8,8))#,gridspec_kw={'height_ratios': [3,1,1,1]})#figsize 20,10 for 3 sects
 
 for gi in range(len(gtagexlist)):
     Ldir['gridname']=gridnamelist[gi]
@@ -153,15 +153,15 @@ for gi in range(len(gtagexlist)):
         ot = bulk.time.values
         
         # axs[i,0].plot(ot,tef_df['dudt_p'],color='tab:red', label='du/dt')
-        # axs[0].scatter(i,dudt_in_alt,color='tab:red', label='d/dt(Qin/Ain)',marker=plot_marker[i])
+        # ax.scatter(i,dudt_in_alt,color='tab:red', label='d/dt(Qin/Ain)',marker=plot_marker[i])
         # axs[i,0].plot(i,tef_df['coriolis_p'],color='tab:purple', label='coriolis')
-        axs[0].errorbar(silllen[i]/TE['TE_spring'],np.mean(tef_df['pg_p']),yerr=np.std(tef_df['pg_p']),color='tab:green', label='PG',marker=plot_marker[i],markersize=10,lw=0.5,capsize=6,ls=None)
-        axs[0].errorbar(silllen[i]/TE['TE_spring'],np.mean(tef_df['stressdiv_p']),yerr=np.std(tef_df['stressdiv_p']),color='tab:blue', label='stressdiv',marker=plot_marker[i],markersize=10,lw=0.5,capsize=6,ls=None)
+        ax.errorbar(silllen[i]/TE['TE_spring'],np.mean(tef_df['pg_p']),yerr=np.std(tef_df['pg_p']),color='tab:green', label='PG',marker=plot_marker[i],markersize=10,lw=0.5,capsize=6,ls=None)
+        ax.errorbar(silllen[i]/TE['TE_spring'],np.mean(tef_df['stressdiv_p']),yerr=np.std(tef_df['stressdiv_p']),color='tab:blue', label='stressdiv',marker=plot_marker[i],markersize=10,lw=0.5,capsize=6,ls=None)
         resid=tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p']
-        axs[0].errorbar(silllen[i]/TE['TE_spring'],np.mean(resid),yerr=np.std(resid),color='k', label='residual (advection)',marker=plot_marker[i],markersize=10,lw=0.5,capsize=6,ls=None)
+        ax.errorbar(silllen[i]/TE['TE_spring'],np.mean(resid),yerr=np.std(resid),color='k', label='residual (advection)',marker=plot_marker[i],markersize=10,lw=0.5,capsize=6,ls=None)
         if gi==0:
             if i==0:
-                axs[0].legend(loc='lower right')
+                ax.legend(loc='lower right')
 
         # axs[i,1].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt')
         # axs[i,1].plot(ot,dudt_out_alt,color='tab:red',ls='--', label='d/dt(Qout/Aout)')
@@ -172,7 +172,7 @@ for gi in range(len(gtagexlist)):
         #axs[i].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='residual (advection) in')
         # axs[i,0].text(0.05,0.9,sect_name+' in',transform=axs[i,0].transAxes)
         # axs[i,1].text(0.05,0.9,sect_name+' out',transform=axs[i,1].transAxes)
-        axs[0].grid(True)
+        ax.grid(True)
         # axs[1].grid(True)
         # axs[2].grid(True)
         # axs[3].grid(True)
@@ -201,12 +201,12 @@ for gi in range(len(gtagexlist)):
 
 
 
-axs[0].set_xlabel('Lsill/Ltide (spring)')
-axs[0].set_ylabel('Momentum balance terms')
+ax.set_xlabel('Lsill/Ltide (spring)')
+ax.set_ylabel('Momentum balance terms')
 # axs[1].set_xlabel('Yearday')
-axs[0].text(0.05,0.9,'triangle=b1,\ncircle=b3\nsquare=b5',transform=axs[i,0].transAxes)
+ax.text(0.05,0.9,'triangle=b1,\ncircle=b3\nsquare=b5',transform=axs[i,0].transAxes)
 #axs[1].legend(loc='lower right')
-#axs[0].legend(loc='lower right')
+#ax.legend(loc='lower right')
 #plt.suptitle(Ldir['gtagex']+'outflow hourly flux-weighted momentum balance')
 plt.suptitle('Momentum balance for inflow (mean&stdev)')
 plt.savefig(out_dir / ('mombal_scatter.png'))
