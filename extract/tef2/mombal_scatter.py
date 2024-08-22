@@ -78,7 +78,7 @@ plt.close('all')
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
 #fig, axs = plt.subplots(len(sect_list), 2, sharex=True, figsize=(20,15))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})#figsize 20,10 for 3 sects
-fig, axs = plt.subplots(2, 1, sharex=True, figsize=(8,8))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})#figsize 20,10 for 3 sects
+fig, axs = plt.subplots(4, 1, figsize=(8,12))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})#figsize 20,10 for 3 sects
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
@@ -130,9 +130,10 @@ for i in range(len(sect_list)):
     # axs[i,0].plot(ot,tef_df['dudt_p'],color='tab:red', label='du/dt')
     # axs[0].scatter(i,dudt_in_alt,color='tab:red', label='d/dt(Qin/Ain)',marker=plot_marker[i])
     # axs[i,0].plot(i,tef_df['coriolis_p'],color='tab:purple', label='coriolis')
-    axs[0].errorbar(i,np.mean(tef_df['pg_p']),yerr=np.std(tef_df['pg_p']),color='tab:green', label='PG in',marker=plot_marker[i])
-    axs[0].errorbar(i,np.mean(tef_df['stressdiv_p']),yerr=np.std(tef_df['stressdiv_p']),color='tab:blue', label='stressdiv',marker=plot_marker[i])
-    axs[0].errorbar(i,np.mean(tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p']),yerr=np.std(tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p']),color='k', label='residual (advection)')
+    axs[0].errorbar(i,np.mean(tef_df['pg_p']),yerr=np.std(tef_df['pg_p']),color='tab:green', label='PG in',marker=plot_marker[i],marker_size=2,lw=0.5,capsize=6)
+    axs[0].errorbar(i,np.mean(tef_df['stressdiv_p']),yerr=np.std(tef_df['stressdiv_p']),color='tab:blue', label='stressdiv',marker=plot_marker[i],marker_size=2,lw=0.5,capsize=6)
+    resid=tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p']
+    axs[0].errorbar(i,np.mean(resid),yerr=np.std(resid),color='k', label='residual (advection)',marker=plot_marker[i],marker_size=2,lw=0.5,capsize=6)
     # axs[i,1].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt')
     # axs[i,1].plot(ot,dudt_out_alt,color='tab:red',ls='--', label='d/dt(Qout/Aout)')
     # axs[i,1].plot(ot,tef_df['coriolis_m'],color='tab:purple', ls='--', label='coriolis')
@@ -144,6 +145,15 @@ for i in range(len(sect_list)):
     # axs[i,1].text(0.05,0.9,sect_name+' out',transform=axs[i,1].transAxes)
     axs[0].grid(True)
     axs[1].grid(True)
+    if i==1:
+        axs[1].plot(ot,Qin,color='tab:red', label='Qin')
+        axs[1].plot(ot,Qout,color='tab:blue', label='Qin')
+        axs[2].plot(ot,Uin,color='tab:red', label='Uin')
+        axs[2].plot(ot,Uout,color='tab:blue', label='Uout')
+        axs[3].plot(ot,Ain,color='tab:red', label='Ain')
+        axs[3].plot(ot,Ain,color='tab:blue', label='Aout')
+        axs[1].title('b3 values')
+
     
     #can reset these axes later
     # axs[i,0].set_ylim(-0.0005,0.0005)
