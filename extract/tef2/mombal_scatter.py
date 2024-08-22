@@ -89,8 +89,8 @@ for gi in range(len(gtagexlist)):
     # m_color = ['tab:cyan','xkcd:yellow orange','tab:pink']
     # label_in = ['a3 in','b3 in','c3 in']
     # label_out = ['a3 out','b3 out','c3 out']
-    fs = 12
-    plt.close('all')
+    # fs = 12
+    # plt.close('all')
     #pfun.start_plot(fs=fs, figsize=(10,20))
 
     #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
@@ -172,7 +172,7 @@ for gi in range(len(gtagexlist)):
         #axs[i].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='residual (advection) in')
         # axs[i,0].text(0.05,0.9,sect_name+' in',transform=axs[i,0].transAxes)
         # axs[i,1].text(0.05,0.9,sect_name+' out',transform=axs[i,1].transAxes)
-        ax.grid(True)
+        
         # axs[1].grid(True)
         # axs[2].grid(True)
         # axs[3].grid(True)
@@ -200,7 +200,7 @@ for gi in range(len(gtagexlist)):
         #     axs[i,1].set_ylim(-0.002,0.002)
 
 
-
+ax.grid(True)
 ax.set_xlabel('Lsill/Ltide (spring)')
 ax.set_ylabel('Momentum balance terms')
 # axs[1].set_xlabel('Yearday')
