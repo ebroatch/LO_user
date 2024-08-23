@@ -223,9 +223,9 @@ for i in range(len(sect_list)):
     axs[i].errorbar(LsLtratio,stressdiv_mean[i,:],yerr=stressdiv_std[i,:],color='tab:cyan', label='Stress divergence',marker='o',markersize=5,lw=1,capsize=6,ls='None')
     axs[i].errorbar(LsLtratio,resid_mean[i,:],yerr=resid_std[i,:],color='k', label='Residual (advection)',marker='o',markersize=5,lw=1,capsize=6,ls='None')
 
-    axs[i].errorbar(LsLtratio,pg_mean[i,:],color='tab:red',marker='o',markersize=10,lw=2,capsize=6,alpha=0.5)
-    axs[i].errorbar(LsLtratio,stressdiv_mean[i,:],color='tab:cyan',marker='o',markersize=10,lw=2,capsize=6,alpha=0.5)
-    axs[i].errorbar(LsLtratio,resid_mean[i,:],color='k',lw=2,capsize=6,alpha=0.5)
+    axs[i].plot(LsLtratio,pg_mean[i,:],color='tab:red',lw=2,alpha=0.5)
+    axs[i].plot(LsLtratio,stressdiv_mean[i,:],color='tab:cyan',lw=2,alpha=0.5)
+    axs[i].plot(LsLtratio,resid_mean[i,:],color='k',lw=2,alpha=0.5)
     axs[i].grid(True)
 
 axs[1].legend()
