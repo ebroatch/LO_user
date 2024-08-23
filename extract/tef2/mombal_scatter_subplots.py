@@ -174,13 +174,13 @@ for gi in range(len(gtagexlist)):
         resid_mean[i,gi] = np.mean(resid)
         resid_std[i,gi] = np.std(resid)
 
-        axs[0].errorbar(silllen[gi]/TE['TE_spring'],np.mean(tef_df['pg_p']),yerr=np.std(tef_df['pg_p']),color='tab:green', label='PG',marker=plot_marker[i],markersize=10,lw=0.5,capsize=6,ls=None)
-        axs[0].errorbar(silllen[gi]/TE['TE_spring'],np.mean(tef_df['stressdiv_p']),yerr=np.std(tef_df['stressdiv_p']),color='tab:blue', label='stressdiv',marker=plot_marker[i],markersize=10,lw=0.5,capsize=6,ls=None)
-        resid=tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p']
-        axs[0].errorbar(silllen[gi]/TE['TE_spring'],np.mean(resid),yerr=np.std(resid),color='k', label='residual (advection)',marker=plot_marker[i],markersize=10,lw=0.5,capsize=6,ls=None)
-        if gi==0:
-            if i==0:
-                axs[0].legend(loc='lower right')
+        # axs[0].errorbar(silllen[gi]/TE['TE_spring'],np.mean(tef_df['pg_p']),yerr=np.std(tef_df['pg_p']),color='tab:green', label='PG',marker=plot_marker[i],markersize=10,lw=0.5,capsize=6,ls=None)
+        # axs[0].errorbar(silllen[gi]/TE['TE_spring'],np.mean(tef_df['stressdiv_p']),yerr=np.std(tef_df['stressdiv_p']),color='tab:blue', label='stressdiv',marker=plot_marker[i],markersize=10,lw=0.5,capsize=6,ls=None)
+        # resid=tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p']
+        # axs[0].errorbar(silllen[gi]/TE['TE_spring'],np.mean(resid),yerr=np.std(resid),color='k', label='residual (advection)',marker=plot_marker[i],markersize=10,lw=0.5,capsize=6,ls=None)
+        # if gi==0:
+        #     if i==0:
+        #         axs[0].legend(loc='lower right')
 
         # axs[i,1].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt')
         # axs[i,1].plot(ot,dudt_out_alt,color='tab:red',ls='--', label='d/dt(Qout/Aout)')
