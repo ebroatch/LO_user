@@ -232,7 +232,8 @@ def P_sect_contour_eb(in_dict):
     """
     # START
     fs = 14
-    pfun.start_plot(fs=fs, figsize=(20,9))
+    # pfun.start_plot(fs=fs, figsize=(20,9))
+    pfun.start_plot(fs=fs, figsize=(10,4)) #make smaller for paper
     fig = plt.figure()
     ds = xr.open_dataset(in_dict['fn'])
 
@@ -251,6 +252,8 @@ def P_sect_contour_eb(in_dict):
     zdeep = -205
     #x = np.linspace(1.1, -1, 500) #sill1
     #x_e = np.linspace(0.45, 0.675, 100) #use less points for shorter section?
+
+    #use 2.1 for all to get consistent x-axis scaling
     x_e = np.linspace(0, 2.1, 500) #use less points for shorter section? 1.1 for 5km model, 1.3 for 20km, 2.1 for 80km
     #xcoast = 94.3 #sill2
     y_e = 45 * np.ones(x_e.shape)
@@ -324,7 +327,38 @@ def P_sect_contour_eb(in_dict):
     #fig.colorbar(cs, ax=ax)
     ax.set_xlabel('Distance (km)')
     ax.set_ylabel('Z (m)')
-    ax.set_title('Section %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn]))
+    
+    # ax.set_title('Section %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn])) #no title for paper plots
+
+    #this is similar to pfun.add info, but does not change the timezone and does not include showing the grid name
+    T = zrfun.get_basic_info(in_dict['fn'], only_T=True)
+    dt = T['dt']
+    ax.text(.95, .075, dt.strftime('%Y-%m-%d'),
+            horizontalalignment='right' , verticalalignment='bottom',
+            transform=ax.transAxes, fontsize=fs,
+            bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+    ax.text(.95, .065, dt.strftime('%H:%M'),
+            horizontalalignment='right', verticalalignment='top',
+            transform=ax.transAxes, fontsize=fs,
+            bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+    #add letters for paper subplots
+    gridname=(str(in_dict['fn']).split('/')[-3]).split('_')[0]
+    if gridname=='sill5km':
+        ax.text(.05, .065, 'A',
+            horizontalalignment='left', verticalalignment='top',
+            transform=ax.transAxes, fontsize=fs, fontweight='bold')#,
+            #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+    elif gridname=='sill20kmdeep':
+        ax.text(.05, .065, 'B',
+            horizontalalignment='left', verticalalignment='top',
+            transform=ax.transAxes, fontsize=fs, fontweight='bold')#,
+            #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+    elif gridname=='sill80km':
+        ax.text(.05, .065, 'C',
+            horizontalalignment='left', verticalalignment='top',
+            transform=ax.transAxes, fontsize=fs, fontweight='bold')#,
+            #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+
     fig.tight_layout()
     # FINISH
     ds.close()

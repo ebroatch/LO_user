@@ -29,6 +29,7 @@ from scipy.stats import binned_statistic
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import matplotlib.patches as patches
+import matplotlib.ticker
 from cmocean import cm
 
 from lo_tools import plotting_functions as pfun
@@ -210,9 +211,9 @@ PS_left=0.15
 PS_right=0.325
 PS_height=PS_top-PS_bottom
 PS_width=PS_right-PS_left
-PS_rect=plt.Rectangle((PS_left,PS_bottom), PS_width, PS_height,fill=False , edgecolor='tab:blue')
+PS_rect=plt.Rectangle((PS_left,PS_bottom), PS_width, PS_height,fill=False , edgecolor='tab:pink')
 ax.add_patch(PS_rect)
-ax.text(PS_left,PS_top,'Puget Sound', ha='left',va='top',fontsize=14,c='tab:blue')
+ax.text(PS_left,PS_top,'Puget Sound', ha='left',va='top',fontsize=14,c='tab:pink')
 
 CB_bottom=1.54e-3
 CB_top=1.33e-2
@@ -266,6 +267,36 @@ AI_rect=plt.Rectangle((AI_Mneap,AI_Frflow), AI_Mspring-AI_Mneap, AI_Frfhigh-AI_F
 ax.add_patch(AI_rect)
 ax.text(AI_Mneap,AI_Frfhigh,'Admiralty Inlet', ha='left',va='top',fontsize=14,c='tab:cyan')
 
+#plot 80km model on param space
+UT_spring_80=1.57927
+UT_neap_80=0.75770
+Frf_80=Frf
+M_spring_80=np.sqrt((Cd*UT_spring_80*UT_spring_80)/(omega*N0*H_sill*H_sill))
+M_neap_80=np.sqrt((Cd*UT_neap_80*UT_neap_80)/(omega*N0*H_sill*H_sill))
+# M_spring_80=1.06
+# M_neap_80=0.602
+# Frf_80=0.00189
+
+ax.scatter(M_spring_80,Frf_80,s=60,c='tab:purple',label='Spring')
+# ax.text(M_spring_20,Frf_20,'Spring', ha='left',va='center',fontsize=14,c='k')
+ax.scatter(M_neap_80,Frf_80,s=60,c='tab:purple',label='Neap')
+# ax.text(M_neap_20,Frf_20,'Neap', ha='right',va='center',fontsize=14,c='k')
+ax.plot([M_neap_80,M_spring_80],[Frf_80,Frf_80],':',c='tab:purple')
+#ax.text((M_spring_80+M_neap_80)/2,Frf_80,'80km sill', ha='center',va='bottom',fontsize=14,c='tab:purple')
+ax.text(M_spring_80,Frf_80,'80\n\n', ha='center',va='center',fontsize=14,c='tab:purple')
+
+#plot 40km model on param space
+UT_spring_40=1.43466
+UT_neap_40=0.66842
+Frf_40=Frf
+M_spring_40=np.sqrt((Cd*UT_spring_40*UT_spring_40)/(omega*N0*H_sill*H_sill))
+M_neap_40=np.sqrt((Cd*UT_neap_40*UT_neap_40)/(omega*N0*H_sill*H_sill))
+
+ax.scatter(M_spring_40,Frf_40,s=60,c='tab:blue',label='Spring')
+ax.scatter(M_neap_40,Frf_40,s=60,c='tab:blue',label='Neap')
+ax.plot([M_neap_40,M_spring_40],[Frf_40,Frf_40],':',c='tab:blue')
+ax.text(M_spring_40,Frf_40,'\n\n40', ha='left',va='center',fontsize=14,c='tab:blue')
+
 #plot 20km model on param space
 UT_spring_20=1.42375
 UT_neap_20=0.67439
@@ -276,13 +307,15 @@ M_neap_20=np.sqrt((Cd*UT_neap_20*UT_neap_20)/(omega*N0*H_sill*H_sill))
 # M_neap_20=0.267
 # Frf_20=0.00189
 
-ax.scatter(M_spring_20,Frf_20,s=None,c='tab:green',label='Spring')
+ax.scatter(M_spring_20,Frf_20,s=60,c='tab:green',label='Spring')
 #ax.text(M_spring_20,Frf_20,'Spring', ha='left',va='center',fontsize=14,c='k')
-ax.scatter(M_neap_20,Frf_20,s=None,c='tab:green',label='Neap')
+ax.scatter(M_neap_20,Frf_20,s=60,c='tab:green',label='Neap')
 #ax.text(M_neap_20,Frf_20,'Neap', ha='right',va='center',fontsize=14,c='k')
 ax.plot([M_neap_20,M_spring_20],[Frf_20,Frf_20],':',c='tab:green')
 #ax.text((M_spring_20+M_neap_20)/2,Frf_20,'20km sill', ha='center',va='bottom',fontsize=14,c='tab:green')
-ax.text(M_spring_20,Frf_20,'20', ha='center',va='bottom',fontsize=14,c='tab:green')
+ax.text(M_spring_20,Frf_20,'\n\n20', ha='right',va='center',fontsize=14,c='tab:green')
+
+
 
 #plot 5km model on param space
 UT_spring_5=1.46524
@@ -294,31 +327,26 @@ M_neap_5=np.sqrt((Cd*UT_neap_5*UT_neap_5)/(omega*N0*H_sill*H_sill))
 # M_neap_5=0.217
 # Frf_5=0.00189
 
-ax.scatter(M_spring_5,Frf_5,s=None,c='r',label='Spring')
+ax.scatter(M_spring_5,Frf_5,s=60,c='r',label='Spring')
 # ax.text(M_spring_20,Frf_20,'Spring', ha='left',va='center',fontsize=14,c='k')
-ax.scatter(M_neap_5,Frf_5,s=None,c='r',label='Neap')
+ax.scatter(M_neap_5,Frf_5,s=60,c='r',label='Neap')
 # ax.text(M_neap_20,Frf_20,'Neap', ha='right',va='center',fontsize=14,c='k')
 ax.plot([M_neap_5,M_spring_5],[Frf_5,Frf_5],':',c='r')
 #ax.text((M_spring_5+M_neap_5)/2,Frf_5,'5km sill', ha='center',va='bottom',fontsize=14,c='r')
-ax.text(M_spring_5,Frf_5,'5', ha='center',va='bottom',fontsize=14,c='r')
+ax.text(M_spring_5,Frf_5,'5\n\n', ha='center',va='center',fontsize=14,c='r')
 
-#plot 80km model on param space
-UT_spring_80=1.57927
-UT_neap_80=0.75770
-Frf_80=Frf
-M_spring_80=np.sqrt((Cd*UT_spring_80*UT_spring_80)/(omega*N0*H_sill*H_sill))
-M_neap_80=np.sqrt((Cd*UT_neap_80*UT_neap_80)/(omega*N0*H_sill*H_sill))
-# M_spring_80=1.06
-# M_neap_80=0.602
-# Frf_80=0.00189
+#plot 10km model on param space
+UT_spring_10=1.43046 #this is the max value if it is bigger than the "spring" value from the tide_excursion_calc calculator
+UT_neap_10=0.67636
+Frf_10=Frf
+M_spring_10=np.sqrt((Cd*UT_spring_10*UT_spring_10)/(omega*N0*H_sill*H_sill))
+M_neap_10=np.sqrt((Cd*UT_neap_10*UT_neap_10)/(omega*N0*H_sill*H_sill))
 
-ax.scatter(M_spring_80,Frf_80,s=None,c='tab:purple',label='Spring')
-# ax.text(M_spring_20,Frf_20,'Spring', ha='left',va='center',fontsize=14,c='k')
-ax.scatter(M_neap_80,Frf_80,s=None,c='tab:purple',label='Neap')
-# ax.text(M_neap_20,Frf_20,'Neap', ha='right',va='center',fontsize=14,c='k')
-ax.plot([M_neap_80,M_spring_80],[Frf_80,Frf_80],':',c='tab:purple')
-#ax.text((M_spring_80+M_neap_80)/2,Frf_80,'80km sill', ha='center',va='bottom',fontsize=14,c='tab:purple')
-ax.text(M_spring_80,Frf_80,'80', ha='center',va='bottom',fontsize=14,c='tab:purple')
+ax.scatter(M_spring_10,Frf_10,s=60,c='tab:orange',label='Spring')
+ax.scatter(M_neap_10,Frf_10,s=60,c='tab:orange',label='Neap')
+ax.plot([M_neap_10,M_spring_10],[Frf_10,Frf_10],':',c='tab:orange')
+ax.text(M_spring_10,Frf_10,'10\n\n', ha='center',va='center',fontsize=14,c='tab:orange')
+
 
 #format plot
 #axes limits to match G&M 2014 plot
@@ -329,8 +357,14 @@ ax.set_yscale('log')
 ax.set_xscale('log')
 ax.set_xlabel(r'Mixing parameter $M$')
 ax.set_ylabel(r'Freshwater Froude number $Fr_f$')
-ax.grid(True)
-fig.suptitle('Idealized model in estuarine parameter space')
+ax.grid(axis='y')
+ax.grid(axis='x',which='both')
+# fig.suptitle('Idealized model in estuarine parameter space')
+ax.get_xaxis().set_major_formatter(matplotlib.ticker.LogFormatterSciNotation(base=10.0, labelOnlyBase=False, minor_thresholds=(2,1), linthresh=None))
+# ax.get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
+# ax.get_xaxis().get_major_formatter().labelOnlyBase = False
+ax.set_xticks([2e-1,3e-1,4e-1,5e-1,6e-1,7e-1])
+
 # plt.savefig(out_dir / ('param_plot.png'))
 # plt.close()
 plt.show()
