@@ -346,17 +346,17 @@ def P_sect_contour_eb(in_dict):
     if gridname=='sill5km':
         ax.text(.05, .065, 'A',
             horizontalalignment='left', verticalalignment='top',
-            transform=ax.transAxes, fontsize=fs, fontweight='bold')#,
+            transform=ax.transAxes, fontsize=24, fontweight='bold')#,
             #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
     elif gridname=='sill20kmdeep':
         ax.text(.05, .065, 'B',
             horizontalalignment='left', verticalalignment='top',
-            transform=ax.transAxes, fontsize=fs, fontweight='bold')#,
+            transform=ax.transAxes, fontsize=24, fontweight='bold')#,
             #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
     elif gridname=='sill80km':
         ax.text(.05, .065, 'C',
             horizontalalignment='left', verticalalignment='top',
-            transform=ax.transAxes, fontsize=fs, fontweight='bold')#,
+            transform=ax.transAxes, fontsize=24, fontweight='bold')#,
             #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
 
     fig.tight_layout()
