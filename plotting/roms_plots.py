@@ -233,7 +233,7 @@ def P_sect_contour_eb(in_dict):
     # START
     fs = 14
     # pfun.start_plot(fs=fs, figsize=(20,9))
-    pfun.start_plot(fs=fs, figsize=(10,4)) #make smaller for paper
+    pfun.start_plot(fs=fs, figsize=(15,7)) #make smaller for paper
     fig = plt.figure()
     ds = xr.open_dataset(in_dict['fn'])
 
