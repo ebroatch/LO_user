@@ -333,28 +333,28 @@ def P_sect_contour_eb(in_dict):
     #this is similar to pfun.add info, but does not change the timezone and does not include showing the grid name
     T = zrfun.get_basic_info(in_dict['fn'], only_T=True)
     dt = T['dt']
-    ax.text(.95, .075, dt.strftime('%Y-%m-%d'),
+    ax.text(.97, .11, dt.strftime('%Y-%m-%d'),
             horizontalalignment='right' , verticalalignment='bottom',
             transform=ax.transAxes, fontsize=fs,
             bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
-    ax.text(.95, .065, dt.strftime('%H:%M'),
+    ax.text(.97, .1, dt.strftime('%H:%M'),
             horizontalalignment='right', verticalalignment='top',
             transform=ax.transAxes, fontsize=fs,
             bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
     #add letters for paper subplots
     gridname=(str(in_dict['fn']).split('/')[-3]).split('_')[0]
     if gridname=='sill5km':
-        ax.text(.05, .065, 'A',
+        ax.text(.03, .1, 'A',
             horizontalalignment='left', verticalalignment='top',
             transform=ax.transAxes, fontsize=24, fontweight='bold')#,
             #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
     elif gridname=='sill20kmdeep':
-        ax.text(.05, .065, 'B',
+        ax.text(.03, .1, 'B',
             horizontalalignment='left', verticalalignment='top',
             transform=ax.transAxes, fontsize=24, fontweight='bold')#,
             #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
     elif gridname=='sill80km':
-        ax.text(.05, .065, 'C',
+        ax.text(.03, .1, 'C',
             horizontalalignment='left', verticalalignment='top',
             transform=ax.transAxes, fontsize=24, fontweight='bold')#,
             #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
