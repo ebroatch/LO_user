@@ -41,16 +41,24 @@ sect_df = pd.read_pickle(sect_df_fn)
 #plot_color = ['k','tab:gray','tab:red','tab:orange','tab:green','tab:cyan','tab:blue','tab:brown']
 
 #sect_list = ['b1','b2','b3','b4','b5']
-sect_choice = 'b5'
+# sect_choice = 'b5'
+sect_choice = 'b3'
+
 #plot_label = ['b1','b2','b3','b4','b5']
 #plot_color = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue']
-plot_color = ['tab:red','tab:green','tab:purple']
-silllens=['5km','20km','80km']
-gctags=['sill5km_c0','sill20kmdeep_c0','sill80km_c0']
-gtagexs=['sill5km_t0_xa0', 'sill20kmdeep_t2_xa0', 'sill80km_t2_xa0']
+plot_color = ['tab:red','tab:orange','tab:green','tab:blue','tab:purple'] #COLORS FOR 5 models
+# plot_color = ['tab:red','tab:green','tab:purple']
+
+# silllens=['5km','20km','80km']
+# gctags=['sill5km_c0','sill20kmdeep_c0','sill80km_c0']
+# gtagexs=['sill5km_t0_xa0', 'sill20kmdeep_t2_xa0', 'sill80km_t2_xa0']
+silllens=['5km', '10km', '20km', '40km', '80km']
+gctags=['sill5km_c0', 'sill10km_c0', 'sill20kmdeep_c0', 'sill40km_c0', 'sill80km_c0']
+gtagexs=['sill5km_t0_xa0', 'sill10km_t2_xa0', 'sill20kmdeep_t2_xa0', 'sill40km_t2_xa0', 'sill80km_t2_xa0']
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
+
 #in_dir = out_dir0 / ('bulk_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
-ds01s = ['2020.09.01_2020.12.31','2020.09.15_2020.11.15','2020.09.15_2020.11.15']
+# ds01s = ['2020.09.01_2020.12.31','2020.09.15_2020.11.15','2020.09.15_2020.11.15']
 out_dir = out_dir0 / ('bulk_plots_multimodel_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
@@ -88,7 +96,8 @@ fig, [ax0,ax1,ax2,ax3,ax4,ax5] = plt.subplots(6, 1, sharex=True,figsize=(8,10),g
 for i in range(len(gctags)):
     gctag=gctags[i]
     gtagex=gtagexs[i]
-    in_dir = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('bulk_hourly_' + ds01s[i])
+    # in_dir = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('bulk_hourly_' + ds01s[i])
+    in_dir = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('bulk_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
     #sect_name = sect_list[i]
     sect_name = sect_choice
     bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
@@ -170,8 +179,10 @@ for i in range(len(gctags)):
 
     #ax4.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
     ax5.set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
-    ax5.xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
-    ax5.set_xlabel('Day')
+    # ax5.xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
+    # ax5.set_xlabel('Day')
+    ax5.xaxis.set_major_formatter(mdates.DateFormatter('%j'))
+    ax5.set_xlabel('Yearday')
 
     if i==0:
         ax0.plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=lw)
@@ -236,9 +247,19 @@ for i in range(len(gctags)):
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
 ax1.legend(loc='lower right')
+
+ax0.text(.05, .05, 'A', horizontalalignment='left', verticalalignment='top', transform=ax0.transAxes, fontsize=14, fontweight='bold')
+ax1.text(.05, .05, 'B', horizontalalignment='left', verticalalignment='top', transform=ax1.transAxes, fontsize=14, fontweight='bold')
+ax2.text(.05, .05, 'C', horizontalalignment='left', verticalalignment='top', transform=ax2.transAxes, fontsize=14, fontweight='bold')
+ax3.text(.05, .05, 'D', horizontalalignment='left', verticalalignment='top', transform=ax3.transAxes, fontsize=14, fontweight='bold')
+ax4.text(.05, .05, 'E', horizontalalignment='left', verticalalignment='top', transform=ax4.transAxes, fontsize=14, fontweight='bold')
+ax5.text(.05, .05, 'F', horizontalalignment='left', verticalalignment='top', transform=ax5.transAxes, fontsize=14, fontweight='bold')
+
+
 #ax0.set_title(Ldir['gtagex'])
-ax0.set_title('Landward end of sill b5')
-plt.savefig(out_dir / ('bulk_plot_multimodel.png'))
+# ax0.set_title('Landward end of sill b5')
+# ax0.set_title('Middle of sill b3')
+plt.savefig(out_dir / ('bulk_plot_multimodel_'+sect_choice+'.png'))
 plt.close()
 pfun.end_plot()
 
@@ -247,7 +268,8 @@ fig, [[ax1,ax2],[ax3,ax4]] = plt.subplots(2, 2 ,figsize=(12,12))
 for i in range(len(gctags)):
     gctag=gctags[i]
     gtagex=gtagexs[i]
-    in_dir = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('bulk_hourly_' + ds01s[i])
+    # in_dir = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('bulk_hourly_' + ds01s[i])
+    in_dir = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('bulk_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
     sect_name = sect_choice
     bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
 
@@ -285,6 +307,11 @@ ax3.set_xlabel(ylab_dict['Qprism'])
 ax4.set_ylabel(ylab_dict['Qdeltas'])
 ax4.set_xlabel(ylab_dict['Qrsout'])
 
+ax1.text(.05, .05, 'A', horizontalalignment='left', verticalalignment='top', transform=ax1.transAxes, fontsize=20, fontweight='bold')
+ax2.text(.05, .05, 'B', horizontalalignment='left', verticalalignment='top', transform=ax2.transAxes, fontsize=20, fontweight='bold')
+ax3.text(.05, .05, 'C', horizontalalignment='left', verticalalignment='top', transform=ax3.transAxes, fontsize=20, fontweight='bold')
+ax4.text(.05, .05, 'D', horizontalalignment='left', verticalalignment='top', transform=ax4.transAxes, fontsize=20, fontweight='bold')
+
 ax1.set_box_aspect(1)
 ax2.set_box_aspect(1)
 ax3.set_box_aspect(1)
@@ -302,7 +329,8 @@ ax4.plot([0,55],[0,55],'--k')
 
 ax1.legend(loc='lower right')
 #ax2.set_title(Ldir['gtagex'])
-plt.suptitle('Landward end of sill b5')
-plt.savefig(out_dir / ('tef_plot_scatter_multimodel.png'))
+# plt.suptitle('Landward end of sill b5')
+# plt.suptitle('Middle of sill b3')
+plt.savefig(out_dir / ('tef_plot_scatter_multimodel_'+sect_choice+'.png'))
 plt.close()
 #pfun.end_plot()
