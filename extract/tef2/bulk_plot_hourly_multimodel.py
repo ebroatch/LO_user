@@ -158,7 +158,7 @@ for i in range(len(gctags)):
     ax2.plot(ot,tef_df['salt_p'].to_numpy(), color=plot_color[i], linewidth=lw)
     ax2.grid(True)
     ax2.set_ylabel(ylab_dict['sin'])
-    ax2.set_ylim(24,34)
+    ax2.set_ylim(25,35)
 
     ax3.plot(ot,tef_df['salt_m'].to_numpy(), color=plot_color[i], linewidth=lw)
     ax3.grid(True)
@@ -264,7 +264,7 @@ plt.close()
 pfun.end_plot()
 
 #Scatter plot
-fig, [[ax1,ax2],[ax3,ax4]] = plt.subplots(2, 2 ,figsize=(12,12))
+fig, [[ax1,ax2],[ax3,ax4]] = plt.subplots(2, 2 ,figsize=(8,8))
 for i in range(len(gctags)):
     gctag=gctags[i]
     gtagex=gtagexs[i]
@@ -307,10 +307,10 @@ ax3.set_xlabel(ylab_dict['Qprism'])
 ax4.set_ylabel(ylab_dict['Qdeltas'])
 ax4.set_xlabel(ylab_dict['Qrsout'])
 
-ax1.text(.05, .95, 'A', horizontalalignment='left', verticalalignment='top', transform=ax1.transAxes, fontsize=20, fontweight='bold')
-ax2.text(.05, .95, 'B', horizontalalignment='left', verticalalignment='top', transform=ax2.transAxes, fontsize=20, fontweight='bold')
-ax3.text(.05, .95, 'C', horizontalalignment='left', verticalalignment='top', transform=ax3.transAxes, fontsize=20, fontweight='bold')
-ax4.text(.05, .95, 'D', horizontalalignment='left', verticalalignment='top', transform=ax4.transAxes, fontsize=20, fontweight='bold')
+ax1.text(.05, .95, 'A', horizontalalignment='left', verticalalignment='top', transform=ax1.transAxes, fontsize=14, fontweight='bold')
+ax2.text(.05, .95, 'B', horizontalalignment='left', verticalalignment='top', transform=ax2.transAxes, fontsize=14, fontweight='bold')
+ax3.text(.05, .95, 'C', horizontalalignment='left', verticalalignment='top', transform=ax3.transAxes, fontsize=14, fontweight='bold')
+ax4.text(.05, .95, 'D', horizontalalignment='left', verticalalignment='top', transform=ax4.transAxes, fontsize=14, fontweight='bold')
 
 ax1.set_box_aspect(1)
 ax2.set_box_aspect(1)
@@ -321,11 +321,16 @@ ax1.grid(True)
 ax2.grid(True)
 ax3.grid(True)
 ax4.grid(True)
-ax3.set_ylim(0,60)
+
+ax1.set_xlim(30,80)
+ax2.set_xlim(30,80)
+ax3.set_xlim(30,80)
+
+ax3.set_ylim(0,70)
 ax4.set_aspect('equal')
-ax4.set_ylim(0,60)
-ax4.set_xlim(0,60)
-ax4.plot([0,60],[0,60],'--k')
+ax4.set_ylim(0,70)
+ax4.set_xlim(0,70)
+ax4.plot([0,70],[0,70],'--k')
 
 ax4.legend(loc='lower right')
 #ax2.set_title(Ldir['gtagex'])
