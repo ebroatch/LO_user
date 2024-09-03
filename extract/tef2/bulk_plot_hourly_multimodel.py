@@ -246,14 +246,14 @@ for i in range(len(gctags)):
     # else:
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
-ax1.legend(loc='lower right')
+ax1.legend(loc='lower left')
 
-ax0.text(.03, .5, 'A', horizontalalignment='left', verticalalignment='top', transform=ax0.transAxes, fontsize=14, fontweight='bold')
-ax1.text(.03, .95, 'B', horizontalalignment='left', verticalalignment='top', transform=ax1.transAxes, fontsize=14, fontweight='bold')
-ax2.text(.03, .9, 'C', horizontalalignment='left', verticalalignment='top', transform=ax2.transAxes, fontsize=14, fontweight='bold')
-ax3.text(.03, .9, 'D', horizontalalignment='left', verticalalignment='top', transform=ax3.transAxes, fontsize=14, fontweight='bold')
-ax4.text(.03, .9, 'E', horizontalalignment='left', verticalalignment='top', transform=ax4.transAxes, fontsize=14, fontweight='bold')
-ax5.text(.03, .9, 'F', horizontalalignment='left', verticalalignment='top', transform=ax5.transAxes, fontsize=14, fontweight='bold')
+ax0.text(.02, .8, 'A', horizontalalignment='left', verticalalignment='top', transform=ax0.transAxes, fontsize=14, fontweight='bold')
+ax1.text(.02, .95, 'B', horizontalalignment='left', verticalalignment='top', transform=ax1.transAxes, fontsize=14, fontweight='bold')
+ax2.text(.02, .9, 'C', horizontalalignment='left', verticalalignment='top', transform=ax2.transAxes, fontsize=14, fontweight='bold')
+ax3.text(.02, .9, 'D', horizontalalignment='left', verticalalignment='top', transform=ax3.transAxes, fontsize=14, fontweight='bold')
+ax4.text(.02, .9, 'E', horizontalalignment='left', verticalalignment='top', transform=ax4.transAxes, fontsize=14, fontweight='bold')
+ax5.text(.02, .9, 'F', horizontalalignment='left', verticalalignment='top', transform=ax5.transAxes, fontsize=14, fontweight='bold')
 
 
 #ax0.set_title(Ldir['gtagex'])
@@ -321,6 +321,9 @@ ax1.grid(True)
 ax2.grid(True)
 ax3.grid(True)
 ax4.grid(True)
+
+ax1.set_xlim(4,20)
+ax2.set_xlim(0,7)
 
 ax1.set_xlim(30,80)
 ax2.set_xlim(30,80)
