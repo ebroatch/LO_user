@@ -277,7 +277,7 @@ for gi in range(len(gtagexlist)):
     ax1.plot(xlistkm,Stx_array[it_neap,:],'-o',color=c_list[gi], label=silllenstr[gi]) #remove neap because we will only include these labels in the legend
     ax1.plot(xlistkm,Stx_array[it_spring,:],'--o',color=c_list[gi], label=silllenstr[gi]+' spring')
     ax1.set_xlabel('Distance [km]')
-    ax1.set_ylabel('$\bar{s}\ [g\ kg^{-1}]$')
+    ax1.set_ylabel(r'$\bar{s}\ [g\ kg^{-1}]$')
     ax1.grid(True)
 
     # ax2 = fig.add_subplot(312)
