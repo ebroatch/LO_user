@@ -35,8 +35,8 @@ sect_list = ['b1','b3','b5'] #only 3 sections for readability
 # plot_marker = ['^','o','s']
 
 pfun.start_plot(fs=14)
-# fig, axs = plt.subplots(3, 1, figsize=(8,12), sharex=True, sharey=True)#,gridspec_kw={'height_ratios': [3,1,1,1]})#figsize 20,10 for 3 sects
-fig, axs = plt.subplots(3, 1, figsize=(8,8), sharex=True, sharey=True)#,gridspec_kw={'height_ratios': [3,1,1,1]})#figsize 20,10 for 3 sects
+fig, axs = plt.subplots(3, 1, figsize=(8,12), sharex=True, sharey=True)#,gridspec_kw={'height_ratios': [3,1,1,1]})#figsize 20,10 for 3 sects
+# fig, axs = plt.subplots(3, 1, figsize=(8,8), sharex=True, sharey=True)#,gridspec_kw={'height_ratios': [3,1,1,1]})#figsize 20,10 for 3 sects
 
 
 pg_mean = np.zeros((len(sect_list),len(gtagexlist)))
@@ -232,16 +232,16 @@ for i in range(len(sect_list)):
     axs[i].grid(True)
 
 axs[1].legend()
-axs[0].text(0.05,0.9,'A',fontweight='bold',fontsize=14,transform=axs[0].transAxes)
-axs[1].text(0.05,0.9,'B',fontweight='bold',fontsize=14,transform=axs[1].transAxes)
-axs[2].text(0.05,0.9,'C',fontweight='bold',fontsize=14,transform=axs[2].transAxes)
-axs[0].text(1,1,'section b1',fontsize=10,ha='right',va='top',transform=axs[0].transAxes)
-axs[1].text(1,1,'section b3',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
-axs[2].text(1,1,'section b5',fontsize=10,ha='right',va='top',transform=axs[2].transAxes)
+axs[0].text(0.02,0.9,'A',ha='left',va='top',fontweight='bold',fontsize=14,transform=axs[0].transAxes)
+axs[1].text(0.02,0.9,'B',ha='left',va='top',fontweight='bold',fontsize=14,transform=axs[1].transAxes)
+axs[2].text(0.02,0.9,'C',ha='left',va='top',fontweight='bold',fontsize=14,transform=axs[2].transAxes)
+axs[0].text(0.99,0.98,'section b1',fontsize=10,ha='right',va='top',transform=axs[0].transAxes)
+axs[1].text(0.99,0.98,'section b3',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
+axs[2].text(0.99,0.98,'section b5',fontsize=10,ha='right',va='top',transform=axs[2].transAxes)
 axs[2].set_xlabel(r'$L_S/L_T$ (spring)')
-axs[0].set_ylabel(r'Momentum balance terms $[m\ s^{-2}]$')
-axs[0].set_ylabel(r'Momentum balance terms $[m\ s^{-2}]$')
-axs[0].set_ylabel(r'Momentum balance terms $[m\ s^{-2}]$')
+axs[0].set_ylabel(r'Momentum balance terms\n$[m\ s^{-2}]$')
+axs[1].set_ylabel(r'Momentum balance terms\n$[m\ s^{-2}]$')
+axs[2].set_ylabel(r'Momentum balance terms\n$[m\ s^{-2}]$')
 axs[2].set_xlim(0,4)
 axs[2].set_ylim(-0.003,0.003)
 # axs[1].set_xlabel('Yearday')
