@@ -325,8 +325,8 @@ def P_sect_contour_eb(in_dict):
     
     ax.clabel(cs, inline=True, fontsize=12)
     #fig.colorbar(cs, ax=ax)
-    ax.set_xlabel('Distance (km)')
-    ax.set_ylabel('Z (m)')
+    ax.set_xlabel('Distance [km]')
+    ax.set_ylabel('Z [m]')
     
     # ax.set_title('Section %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn])) #no title for paper plots
 
