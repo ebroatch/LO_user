@@ -272,10 +272,12 @@ for gi in range(len(gtagexlist)):
         #for sn in sect_list:
             # ax1.plot(xlistkm,Stx_array[it_neap,:],'-',color=c_dict[sn])
             # ax1.plot(xlistkm,Stx_array[it_spring,:],'--',color=c_dict[sn])
-    ax1.plot(xlistkm,Stx_array[it_neap,:],'-o',color=c_list[gi], label=silllenstr[gi]+' neap')
+
+    # ax1.plot(xlistkm,Stx_array[it_neap,:],'-o',color=c_list[gi], label=silllenstr[gi]+' neap')
+    ax1.plot(xlistkm,Stx_array[it_neap,:],'-o',color=c_list[gi], label=silllenstr[gi]) #remove neap because we will only include these labels in the legend
     ax1.plot(xlistkm,Stx_array[it_spring,:],'--o',color=c_list[gi], label=silllenstr[gi]+' spring')
     ax1.set_xlabel('Distance [km]')
-    ax1.set_ylabel('Depth-mean salinity')
+    ax1.set_ylabel('$\bar{s}\ [g\ kg^{-1}]$')
     ax1.grid(True)
 
     # ax2 = fig.add_subplot(312)
@@ -351,8 +353,9 @@ for gi in range(len(gtagexlist)):
     # if True:
     #     ax3a.axvline(x=yd[it_neap],linestyle='-',color='gray',linewidth=2)
     #     ax3a.axvline(x=yd[it_spring],linestyle='--',color='gray',linewidth=2)
-ax1.text(.05,.1,'Neap and Spring S(x)',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
-ax1.legend()
+# ax1.text(.05,.1,'Neap and Spring S(x)',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
+handles, labels = ax1.get_legend_handles_labels()
+ax1.legend(handles=handles[::2],labels=labels[::2])
 ax1.set_xlim(0,160)    
 fig.tight_layout()
 #fig.savefig(out_dir / 'dsdx_spring_neap.png')
