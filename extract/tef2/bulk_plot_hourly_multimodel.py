@@ -264,6 +264,7 @@ plt.close()
 pfun.end_plot()
 
 #Scatter plot
+pfun.start_plot(fs=fs)
 fig, [[ax1,ax2],[ax3,ax4]] = plt.subplots(2, 2 ,figsize=(8,8))
 for i in range(len(gctags)):
     gctag=gctags[i]
@@ -284,13 +285,13 @@ for i in range(len(gctags)):
     # labels and colors
     # ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
     #             'salt': r'Salinity $[g\ kg^{-1}]$'}
-    ylab_dict = {'Qprism': '$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$',
-                'Q': '$Q_{in}$\n$[10^{3}\ m^{3}s^{-1}]$',
-                'sin': '$s_{in}$\n$[g\ kg^{-1}]$',
-                'sout': '$s_{out}$\n$[g\ kg^{-1}]$',
-                'deltas': '$\Delta s$\n$[g\ kg^{-1}]$',
-                'Qdeltas': '$Q_{in}\Delta s$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$',
-                'Qrsout': '$Q_{r} s_{out}$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$'}
+    ylab_dict = {'Qprism': '$Q_{prism}\ [10^{3}\ m^{3}s^{-1}]$',
+                'Q': '$Q_{in}\ [10^{3}\ m^{3}s^{-1}]$',
+                'sin': '$s_{in}\ [g\ kg^{-1}]$',
+                'sout': '$s_{out}\ [g\ kg^{-1}]$',
+                'deltas': '$\Delta s\ [g\ kg^{-1}]$',
+                'Qdeltas': '$Q_{in}\Delta s\ [10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$',
+                'Qrsout': '$Q_{r} s_{out}\ [10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$'}
 
     pad=36
     ax1.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy(), '-', lw=0.5, color=plot_color[i], label=silllens[i]) #cut out first couple of days for weird qprism
@@ -322,8 +323,8 @@ ax2.grid(True)
 ax3.grid(True)
 ax4.grid(True)
 
-ax1.set_xlim(4,20)
-ax2.set_xlim(0,7)
+ax1.set_ylim(4,20)
+ax2.set_ylim(0,7)
 
 ax1.set_xlim(30,80)
 ax2.set_xlim(30,80)
@@ -333,6 +334,7 @@ ax3.set_ylim(0,70)
 ax4.set_aspect('equal')
 ax4.set_ylim(0,70)
 ax4.set_xlim(0,70)
+ax4.set_xticks([0,10,20,30,40,50,60,70])
 ax4.plot([0,70],[0,70],'--k')
 
 ax4.legend(loc='lower right')
@@ -341,4 +343,4 @@ ax4.legend(loc='lower right')
 # plt.suptitle('Middle of sill b3')
 plt.savefig(out_dir / ('tef_plot_scatter_multimodel_'+sect_choice+'.png'))
 plt.close()
-#pfun.end_plot()
+pfun.end_plot()
