@@ -34,7 +34,10 @@ silllen = [5e3,10e3,20e3,40e3,80e3]
 sect_list = ['b1','b3','b5'] #only 3 sections for readability
 # plot_marker = ['^','o','s']
 
-fig, axs = plt.subplots(3, 1, figsize=(8,12), sharex=True, sharey=True)#,gridspec_kw={'height_ratios': [3,1,1,1]})#figsize 20,10 for 3 sects
+pfun.start_plot(fs=14)
+# fig, axs = plt.subplots(3, 1, figsize=(8,12), sharex=True, sharey=True)#,gridspec_kw={'height_ratios': [3,1,1,1]})#figsize 20,10 for 3 sects
+fig, axs = plt.subplots(3, 1, figsize=(8,8), sharex=True, sharey=True)#,gridspec_kw={'height_ratios': [3,1,1,1]})#figsize 20,10 for 3 sects
+
 
 pg_mean = np.zeros((len(sect_list),len(gtagexlist)))
 pg_std = np.zeros((len(sect_list),len(gtagexlist)))
@@ -223,23 +226,31 @@ for i in range(len(sect_list)):
     axs[i].errorbar(LsLtratio,stressdiv_mean[i,:],yerr=stressdiv_std[i,:],color='tab:cyan', label='Stress divergence',marker='o',markersize=5,lw=1,capsize=6,ls='None')
     axs[i].errorbar(LsLtratio,resid_mean[i,:],yerr=resid_std[i,:],color='k', label='Residual (advection)',marker='o',markersize=5,lw=1,capsize=6,ls='None')
 
-    axs[i].plot(LsLtratio,pg_mean[i,:],color='tab:red',lw=2,alpha=0.5)
-    axs[i].plot(LsLtratio,stressdiv_mean[i,:],color='tab:cyan',lw=2,alpha=0.5)
-    axs[i].plot(LsLtratio,resid_mean[i,:],color='k',lw=2,alpha=0.5)
+    axs[i].plot(LsLtratio,pg_mean[i,:],color='tab:red',lw=2,alpha=0.5,ls=':')
+    axs[i].plot(LsLtratio,stressdiv_mean[i,:],color='tab:cyan',lw=2,alpha=0.5,ls=':')
+    axs[i].plot(LsLtratio,resid_mean[i,:],color='k',lw=2,alpha=0.5,ls=':')
     axs[i].grid(True)
 
 axs[1].legend()
-axs[0].text(0.05,0.9,'b1',fontweight='bold',fontsize=14,transform=axs[0].transAxes)
-axs[1].text(0.05,0.9,'b3',fontweight='bold',fontsize=14,transform=axs[1].transAxes)
-axs[2].text(0.05,0.9,'b5',fontweight='bold',fontsize=14,transform=axs[2].transAxes)
-axs[2].set_xlabel('Lsill/Ltide (spring)')
-axs[0].set_ylabel('Momentum balance terms')
+axs[0].text(0.05,0.9,'A',fontweight='bold',fontsize=14,transform=axs[0].transAxes)
+axs[1].text(0.05,0.9,'B',fontweight='bold',fontsize=14,transform=axs[1].transAxes)
+axs[2].text(0.05,0.9,'C',fontweight='bold',fontsize=14,transform=axs[2].transAxes)
+axs[0].text(1,1,'section b1',fontsize=10,ha='right',va='top',transform=axs[0].transAxes)
+axs[1].text(1,1,'section b3',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
+axs[2].text(1,1,'section b5',fontsize=10,ha='right',va='top',transform=axs[2].transAxes)
+axs[2].set_xlabel(r'$L_S/L_T$ (spring)')
+axs[0].set_ylabel(r'Momentum balance terms $[m\ s^{-2}]$')
+axs[0].set_ylabel(r'Momentum balance terms $[m\ s^{-2}]$')
+axs[0].set_ylabel(r'Momentum balance terms $[m\ s^{-2}]$')
+axs[2].set_xlim(0,4)
+axs[2].set_ylim(-0.003,0.003)
 # axs[1].set_xlabel('Yearday')
 # ax.text(0.05,0.9,'triangle=b1,\ncircle=b3\nsquare=b5',transform=ax.transAxes)
 #axs[1].legend(loc='lower right')
 #ax.legend(loc='lower right')
 #plt.suptitle(Ldir['gtagex']+'outflow hourly flux-weighted momentum balance')
-plt.suptitle('Momentum balance for inflow (mean and standard deviation)')
+
+# plt.suptitle('Momentum balance for inflow (mean and standard deviation)')
 plt.savefig(out_dir / ('mombal_scatter_subplots.png'))
 plt.close()
 pfun.end_plot()
