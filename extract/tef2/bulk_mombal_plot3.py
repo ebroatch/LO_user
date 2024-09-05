@@ -170,7 +170,7 @@ for i in range(len(sect_list)):
     # axs[i,1].grid(True)
     
     if Ldir['gridname']=='sill5km':
-        ylimmax=0.003
+        ylimmax=0.0025
     elif Ldir['gridname']=='sill20kmdeep':
         ylimmax=0.004
     elif Ldir['gridname']=='sill80km':
