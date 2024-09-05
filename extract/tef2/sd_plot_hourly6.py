@@ -89,7 +89,7 @@ fig, axs = plt.subplots(4, 1, sharex=True,figsize=(8,10),gridspec_kw={'height_ra
 #Add Qprism and grey bars
 sect_name='b3'
 bulk = xr.open_dataset(in_dir3 / (sect_name + '.nc'))
-tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir, sect_name)
+tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir3, sect_name)
 tef_df['Q_p'] = tef_df['q_p']/1000
 tef_df['Q_m'] = tef_df['q_m']/1000
 tef_df['Q_prism']=tef_df['qprism']/1000
