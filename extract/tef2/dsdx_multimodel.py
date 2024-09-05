@@ -223,7 +223,7 @@ for gi in range(len(gtagexlist)):
     # ax3a.text(.05,.05,r'(d) $\partial S/\partial x\ [g\ kg^{-1}\ km^{-1}]$ between pairs of sections',color='k',fontweight='bold',transform=ax3a.transAxes,bbox=pfun.bbox)
 
     for i in range(len(sect_list)-1):
-        axs[gi+1].plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dxlist[i],'-',color=plot_color[i],label=sect_list[i+1]+' - '+sect_list[i]) #PLOT ds/dx INSTEAD OF SALINITY CHANGE
+        axs[gi+1].plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dxlist[i],'-',color=plot_color[i],label=sect_list[i+1]+'-'+sect_list[i]) #PLOT ds/dx INSTEAD OF SALINITY CHANGE
         # axs[gi+1].plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dxlist[i],':',color=c_dict[sect_list[i+1]]) #PLOT AGAIN IN SECOND COLOR TO MAKE TWO COLOR DASHED LINE
     
     if gi==0:
@@ -252,7 +252,7 @@ for gi in range(len(gtagexlist)):
 axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 axs[2].xaxis.set_major_formatter(mdates.DateFormatter('%j'))
 axs[2].set_xlabel('Yearday')
-axs[2].legend(loc='lower right')
+axs[1].legend(loc='lower right',fontsize=12)
 
 axs[0].grid(True)
 axs[1].grid(True)
@@ -266,7 +266,7 @@ axs[2].text(0.99,0.98,'40km sill model',fontsize=10,ha='right',va='top',transfor
 
 axs[0].set_ylabel('$Q_{prism}$\n(5km b3)\n$[10^{3}\ m^{3}s^{-1}]$')
 axs[1].set_ylabel('$ds/dx$\n$[g\ kg^{-1}km^{-1}]$')
-axs[1].set_ylabel('$ds/dx$\n$[g\ kg^{-1}km^{-1}]$')
+axs[2].set_ylabel('$ds/dx$\n$[g\ kg^{-1}km^{-1}]$')
 
 fig.tight_layout()
 #fig.savefig(out_dir / 'dsdx_spring_neap.png')
