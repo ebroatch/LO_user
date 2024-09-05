@@ -84,7 +84,8 @@ yv = g.lat_v.values
 # fs = 12
 plt.close('all')
 # pfun.start_plot(fs=fs, figsize=(21,10))
-pfun.start_plot(fs=14)
+fs=14
+pfun.start_plot(fs=fs)
 
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
