@@ -31,6 +31,7 @@ sect_df = pd.read_pickle(sect_df_fn)
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 in_dir = out_dir0 / ('standard_decomp_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 in_dir2 = out_dir0 / ('processed_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+in_dir3 = out_dir0 / ('bulk_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 out_dir = out_dir0 / ('sd_plots_hourly6_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
@@ -87,7 +88,7 @@ fig, axs = plt.subplots(4, 1, sharex=True,figsize=(8,10),gridspec_kw={'height_ra
 
 #Add Qprism and grey bars
 sect_name='b3'
-bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
+bulk = xr.open_dataset(in_dir3 / (sect_name + '.nc'))
 tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir, sect_name)
 tef_df['Q_p'] = tef_df['q_p']/1000
 tef_df['Q_m'] = tef_df['q_m']/1000
