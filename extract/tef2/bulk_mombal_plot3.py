@@ -95,7 +95,7 @@ ot = bulk.time.values
 lw=2
 axs[0].plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=lw)
 axs[0].set_ylabel('$Q_{prism}$ (b3)\n$[10^{3}\ m^{3}s^{-1}]$')
-axs[0].set_ylim(25,75)
+axs[0].set_ylim(20,80)
 snmid=(np.max(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31'])+np.min(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31']))/2
 snbg=np.where(tef_df['Q_prism'].to_numpy()>snmid, 1, 0)
 axs[0].pcolor(ot, axs[0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
