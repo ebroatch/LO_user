@@ -87,6 +87,11 @@ fig, axs = plt.subplots(4, 1, sharex=True,figsize=(8,10),gridspec_kw={'height_ra
 # ax3 = plt.subplot2grid((1,3), (0,2)) # map
 
 #Add Qprism and grey bars
+axs[0].set_ylim(25,75)
+axs[1].set_ylim(-2e4,10e4) #to match when placed side by side
+axs[2].set_ylim(-6e4,6e4)
+axs[3].set_ylim(-3.5e4,-2.5e4)
+
 sect_name='b3'
 bulk = xr.open_dataset(in_dir3 / (sect_name + '.nc'))
 tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir3, sect_name)
@@ -154,10 +159,12 @@ for i in range(len(sect_list)):
     axs[1].plot(ot, FE, color=plot_color[i], linewidth=lw, label=sect_label[i])
     if i==0:
         axs[2].plot(ot, FT, color='k', linewidth=lw, label=r'$F_{T}$')
-        axs[2].plot(ot, FTV, color='k', linewidth=lw, ls=':', label=r'$F_{TV}$')
+        # axs[2].plot(ot, FTV, color='k', linewidth=lw, ls=':', label=r'$F_{TV}$')
+        axs[2].plot(ot, FTL, color='k', linewidth=lw, ls=':', label=r'$F_{TL}$')
         axs[2].legend(loc='lower right')
     axs[2].plot(ot, FT, color=plot_color[i], linewidth=lw, label=sect_label[i])
-    axs[2].plot(ot, FTV, color=plot_color_light[i], linewidth=lw)#, ls=':')# label=sect_label[i])
+    # axs[2].plot(ot, FTV, color=plot_color_light[i], linewidth=lw)#, ls=':')# label=sect_label[i])
+    axs[2].plot(ot, FTL, color=plot_color[i], linewidth=lw, ls=':')# label=sect_label[i])
     # axs[i].plot(ot,FTL, linestyle = '--', color='tab:pink', linewidth=lw, label=r'$F_{TL}$')
     # axs[i].plot(ot,FTV, linestyle = ':', color='tab:orange', linewidth=lw, label=r'$F_{TV}$')
 
@@ -171,10 +178,6 @@ axs[1].text(0.02,0.95,'B',ha='left',va='top',fontweight='bold',fontsize=18,trans
 axs[2].text(0.02,0.95,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
 axs[3].text(0.02,0.8,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
 
-axs[0].set_ylim(25,75)
-axs[1].set_ylim(-2e4,10e4) #to match when placed side by side
-axs[2].set_ylim(-6e4,6e4)
-axs[3].set_ylim(-3.5e4,-2.5e4)
 axs[1].legend(loc='upper right')
 
 # axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-15'))
