@@ -154,8 +154,8 @@ for i in range(len(sect_list)):
     axs[i+1].plot(ot,tef_df['pg_p'],color='tab:red', label='Pressure gradient')
     axs[i+1].plot(ot,tef_df['stressdiv_p'],color='tab:cyan', label='Stress divergence')
     axs[i+1].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='Residual (advection)')
-    if i==1:
-        axs[i+1].legend(loc='lower right')
+    if i==2:
+        axs[i+1].legend(loc='outside lower center',fontsize=12)
     # axs[i,1].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt')
     axs[i+1].plot(ot,dudt_out_alt,color='tab:olive',ls='--', label='d/dt(Qout/Aout)')
     axs[i+1].plot(ot,tef_df['coriolis_m'],color='tab:purple', ls='--', label='coriolis')
@@ -169,7 +169,11 @@ for i in range(len(sect_list)):
     axs[i+1].grid(True)
     # axs[i,1].grid(True)
     
-    axs[i+1].set_ylim(-0.004,0.004)
+    if Ldir['gridname']=='sill5km':
+        ylimmax=0.0025
+    else:
+        ylimmax=0.004
+    axs[i+1].set_ylim(-ylimmax,ylimmax)
 
     # axs[i,0].set_ylim(-0.0005,0.0005)
     # axs[i,1].set_ylim(-0.0005,0.0005)
@@ -300,10 +304,10 @@ for i in range(len(sect_list)):
 axs[0].text(0.02,0.8,'A',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
 axs[1].text(0.02,0.95,'B',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
 axs[2].text(0.02,0.95,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
-axs[3].text(0.02,0.95,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
-axs[1].text(0.99,0.98,'section b1',fontsize=10,ha='right',va='top',transform=axs[0].transAxes)
-axs[2].text(0.99,0.98,'section b3',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
-axs[3].text(0.99,0.98,'section b5',fontsize=10,ha='right',va='top',transform=axs[2].transAxes)
+axs[3].text(0.02,0.95,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
+axs[1].text(0.99,0.98,'section b1',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
+axs[2].text(0.99,0.98,'section b3',fontsize=10,ha='right',va='top',transform=axs[2].transAxes)
+axs[3].text(0.99,0.98,'section b5',fontsize=10,ha='right',va='top',transform=axs[3].transAxes)
 
 axs[3].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 # axs[4,1].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-30'))
@@ -322,6 +326,7 @@ axs[3].set_xlabel('Yearday')
 # axs[4,1].legend(loc='lower right')
 #axs[0].legend(loc='lower right')
 # plt.suptitle(Ldir['gtagex']+' hourly flux-weighted momentum balance')
+plt.tight_layout()
 plt.savefig(out_dir / ('bulk_mombal_plot3.png'))
 plt.close()
 pfun.end_plot()
