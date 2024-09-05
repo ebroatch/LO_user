@@ -70,18 +70,41 @@ yv = g.lat_v.values
 # m_color = ['tab:cyan','xkcd:yellow orange','tab:pink']
 # label_in = ['a3 in','b3 in','c3 in']
 # label_out = ['a3 out','b3 out','c3 out']
-fs = 12
+# fs = 12
 plt.close('all')
 #pfun.start_plot(fs=fs, figsize=(10,20))
 
+pfun.start_plot(fs=14)
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
-fig, axs = plt.subplots(len(sect_list), 1, sharex=True, figsize=(8,12))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})#figsize 20,10 for 3 sects
+# fig, axs = plt.subplots(len(sect_list)+1, 1, sharex=True, figsize=(8,12))#,gridspec_kw={'height_ratios': [1,4,2,2,2,2]})#figsize 20,10 for 3 sects
+fig, axs = plt.subplots(len(sect_list)+1, 1, sharex=True, figsize=(8,10),gridspec_kw={'height_ratios': [1,4,4,4]})#figsize 20,10 for 3 sects
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
 # ax3 = plt.subplot2grid((1,3), (0,2)) # map
 
+#Add Qprism and grey bars
+sect_name='b3'
+bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
+tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir, sect_name)
+tef_df['Q_p'] = tef_df['q_p']/1000
+tef_df['Q_m'] = tef_df['q_m']/1000
+tef_df['Q_prism']=tef_df['qprism']/1000
+ot = bulk.time.values
+lw=2
+axs[0].plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=lw)
+axs[0].set_ylabel('$Q_{prism}$ (b3)\n$[10^{3}\ m^{3}s^{-1}]$')
+axs[0].set_ylim(20,100)
+snmid=(np.max(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31'])+np.min(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31']))/2
+snbg=np.where(tef_df['Q_prism'].to_numpy()>snmid, 1, 0)
+axs[0].pcolor(ot, axs[0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+axs[1].pcolor(ot, axs[1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+axs[2].pcolor(ot, axs[2].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+axs[3].pcolor(ot, axs[3].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+axs[0].grid(True)
+
+#Plot mombal terms
 for i in range(len(sect_list)):
     sect_name = sect_list[i]
     bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
@@ -102,16 +125,15 @@ for i in range(len(sect_list)):
     Uout = Qout/Aout
     dudt_in_alt =np.concatenate(([np.nan],(Uin.values[2:]-Uin.values[:-2])/(2*3600),[np.nan])) #REMOVE 24 FOR HOURLY DATA
     dudt_out_alt =np.concatenate(([np.nan],(Uout.values[2:]-Uout.values[:-2])/(2*3600),[np.nan]))
-
-                    
+              
     # labels and colors
     # ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
     #             'salt': r'Salinity $[g\ kg^{-1}]$'}
-    ylab_dict = {'Qprism': '$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$',
-                'Q': '$Q_{in}$\n$[10^{3}\ m^{3}s^{-1}]$',
-                'sin': '$s_{in}$\n$[g\ kg^{-1}]$',
-                'sout': '$s_{out}$\n$[g\ kg^{-1}]$',
-                'deltas': '$\Delta s$\n$[g\ kg^{-1}]$'}
+    # ylab_dict = {'Qprism': '$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$',
+    #             'Q': '$Q_{in}$\n$[10^{3}\ m^{3}s^{-1}]$',
+    #             'sin': '$s_{in}$\n$[g\ kg^{-1}]$',
+    #             'sout': '$s_{out}$\n$[g\ kg^{-1}]$',
+    #             'deltas': '$\Delta s$\n$[g\ kg^{-1}]$'}
     # p_color = 'r'
     # m_color = 'b'
     lw = 2
@@ -121,32 +143,34 @@ for i in range(len(sect_list)):
     # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
     # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
     # ax3 = plt.subplot2grid((1,3), (0,2)) # map
-    
+
     #ot = bulk['ot'] # (same as tef_df.index)
     ot = bulk.time.values
     
     # axs[i,0].plot(ot,tef_df['dudt_p'],color='tab:red', label='du/dt')
-    axs[i].plot(ot,dudt_in_alt,color='tab:olive', label='d/dt(Qin/Ain)')
-    axs[i].plot(ot,tef_df['coriolis_p'],color='tab:purple', label='coriolis')
-    axs[i].plot(ot,tef_df['pg_p'],color='tab:red', label='PG in')
-    axs[i].plot(ot,tef_df['stressdiv_p'],color='tab:cyan', label='stressdiv')
-    axs[i].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='residual (advection)')
+    # axs[i].plot(ot,dudt_in_alt,color='tab:olive', label='d/dt(Qin/Ain)')
+    axs[i+1].plot(ot,dudt_in_alt,color='tab:olive', label='Acceleration')
+    axs[i+1].plot(ot,tef_df['coriolis_p'],color='tab:purple', label='Coriolis')
+    axs[i+1].plot(ot,tef_df['pg_p'],color='tab:red', label='Pressure gradient')
+    axs[i+1].plot(ot,tef_df['stressdiv_p'],color='tab:cyan', label='Stress divergence')
+    axs[i+1].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='Residual (advection)')
     if i==1:
-        axs[i].legend(loc='lower right')
+        axs[i+1].legend(loc='lower right')
     # axs[i,1].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt')
-    axs[i].plot(ot,dudt_out_alt,color='tab:olive',ls='--', label='d/dt(Qout/Aout)')
-    axs[i].plot(ot,tef_df['coriolis_m'],color='tab:purple', ls='--', label='coriolis')
-    axs[i].plot(ot,tef_df['pg_m'],color='tab:red', ls='--', label='PG')
-    axs[i].plot(ot,tef_df['stressdiv_m'],color='tab:cyan', ls='--', label='stressdiv')
-    axs[i].plot(ot,tef_df['dudt_m']-tef_df['coriolis_m']-tef_df['pg_m']-tef_df['stressdiv_m'],ls='--',color='k', label='residual (advection)')
+    axs[i+1].plot(ot,dudt_out_alt,color='tab:olive',ls='--', label='d/dt(Qout/Aout)')
+    axs[i+1].plot(ot,tef_df['coriolis_m'],color='tab:purple', ls='--', label='coriolis')
+    axs[i+1].plot(ot,tef_df['pg_m'],color='tab:red', ls='--', label='PG')
+    axs[i+1].plot(ot,tef_df['stressdiv_m'],color='tab:cyan', ls='--', label='stressdiv')
+    axs[i+1].plot(ot,tef_df['dudt_m']-tef_df['coriolis_m']-tef_df['pg_m']-tef_df['stressdiv_m'],ls='--',color='k', label='residual (advection)')
     #axs[i].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='residual (advection) in')
     # axs[i].text(0.05,0.9,sect_name,transform=axs[i].transAxes)
     # axs[i,0].text(0.05,0.9,sect_name+' in',transform=axs[i,0].transAxes)
     # axs[i,1].text(0.05,0.9,sect_name+' out',transform=axs[i,1].transAxes)
-    axs[i].grid(True)
+    axs[i+1].grid(True)
     # axs[i,1].grid(True)
     
-    axs[i].set_ylim(-0.004,0.004)
+    axs[i+1].set_ylim(-0.004,0.004)
+
     # axs[i,0].set_ylim(-0.0005,0.0005)
     # axs[i,1].set_ylim(-0.0005,0.0005)
     # if i==0:
@@ -269,24 +293,35 @@ for i in range(len(sect_list)):
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
 
-axs[0].text(0.05,0.9,'b1',fontweight='bold',fontsize=14,transform=axs[0].transAxes)
-axs[1].text(0.05,0.9,'b3',fontweight='bold',fontsize=14,transform=axs[1].transAxes)
-axs[2].text(0.05,0.9,'b5',fontweight='bold',fontsize=14,transform=axs[2].transAxes)
+# axs[0].text(0.05,0.9,'b1',fontweight='bold',fontsize=14,transform=axs[0].transAxes)
+# axs[1].text(0.05,0.9,'b3',fontweight='bold',fontsize=14,transform=axs[1].transAxes)
+# axs[2].text(0.05,0.9,'b5',fontweight='bold',fontsize=14,transform=axs[2].transAxes)
 
-axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-30'))
+axs[0].text(0.02,0.8,'A',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
+axs[1].text(0.02,0.95,'B',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
+axs[2].text(0.02,0.95,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
+axs[3].text(0.02,0.95,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
+axs[1].text(0.99,0.98,'section b1',fontsize=10,ha='right',va='top',transform=axs[0].transAxes)
+axs[2].text(0.99,0.98,'section b3',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
+axs[3].text(0.99,0.98,'section b5',fontsize=10,ha='right',va='top',transform=axs[2].transAxes)
+
+axs[3].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 # axs[4,1].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-30'))
 # axs[2,0].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
 # axs[2,1].xaxis.set_major_formatter(mdates.DateFormatter('%-d'))
-axs[2].xaxis.set_major_formatter(mdates.DateFormatter('%j')) #yearday
+axs[3].xaxis.set_major_formatter(mdates.DateFormatter('%j')) #yearday
 # axs[4,1].xaxis.set_major_formatter(mdates.DateFormatter('%j'))
 # axs[2,0].set_xlabel('Day')
 # axs[2,1].set_xlabel('Day')
-axs[2].set_xlabel('Yearday')
+axs[1].set_ylabel('Momentum balance terms\n$[m\ s^{-2}]$')
+axs[2].set_ylabel('Momentum balance terms\n$[m\ s^{-2}]$')
+axs[3].set_ylabel('Momentum balance terms\n$[m\ s^{-2}]$')
+axs[3].set_xlabel('Yearday')
 # axs[4,1].set_xlabel('Yearday')
 # axs[4,0].legend(loc='lower right')
 # axs[4,1].legend(loc='lower right')
 #axs[0].legend(loc='lower right')
-plt.suptitle(Ldir['gtagex']+' hourly flux-weighted momentum balance')
+# plt.suptitle(Ldir['gtagex']+' hourly flux-weighted momentum balance')
 plt.savefig(out_dir / ('bulk_mombal_plot3.png'))
 plt.close()
 pfun.end_plot()
