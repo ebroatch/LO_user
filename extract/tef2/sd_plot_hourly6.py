@@ -17,6 +17,7 @@ import xarray as xr
 from lo_tools import Lfun, zfun
 from lo_tools import plotting_functions as pfun
 import flux_fun
+import tef_fun
 
 from lo_tools import extract_argfun as exfun
 Ldir = exfun.intro() # this handles the argument passing
@@ -44,6 +45,7 @@ sect_label = ['b1','b2','b3','b4','b5']
 
 # plot_color = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue','tab:purple']
 plot_color = ['tab:cyan',plt.cm.Dark2(0),'tab:olive',plt.cm.Dark2(5),'tab:brown']
+plot_color_light = [plt.cm.tab20(19),plt.cm.Set2(0),plt.cm.tab20(17),plt.cm.Dark2(5),plt.cm.tab20(11)]
 
 # sect_list = ['a1.p','a3.p','b1.p','b2.p','b3.p','b4.p','b5.p','c3.p']
 # sect_label = ['a1','a3','b1','b2','b3','b4','b5','c3']
@@ -83,6 +85,35 @@ fig, axs = plt.subplots(4, 1, sharex=True,figsize=(8,10),gridspec_kw={'height_ra
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
 # ax3 = plt.subplot2grid((1,3), (0,2)) # map
 
+#Add Qprism and grey bars
+sect_name='b3'
+bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
+tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir, sect_name)
+tef_df['Q_p'] = tef_df['q_p']/1000
+tef_df['Q_m'] = tef_df['q_m']/1000
+tef_df['Q_prism']=tef_df['qprism']/1000
+ot = bulk.time.values
+lw=2
+axs[0].plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=lw)
+axs[0].set_ylabel('$Q_{prism}$ (b3)\n$[10^{3}\ m^{3}s^{-1}]$')
+axs[0].set_ylim(20,100)
+snmid=(np.max(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31'])+np.min(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31']))/2
+snbg=np.where(tef_df['Q_prism'].to_numpy()>snmid, 1, 0)
+axs[0].pcolor(ot, axs[0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+axs[1].pcolor(ot, axs[1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+axs[2].pcolor(ot, axs[2].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+axs[3].pcolor(ot, axs[3].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+axs[0].grid(True)
+
+    # if sect_name=='b3.p':
+    #     ds2 = xr.open_dataset(in_dir2 / sect_ncname) #changed to netcdf open in xarray
+    #     qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin')), f='godin')/2 #for netcdf
+    #     #qprism=zfun.lowpass(np.abs(ds2['qnet']-zfun.lowpass(ds2['qnet'], f='godin')), f='godin')/2
+    #     pad=36
+    #     qprism=(qprism[pad:-pad+1])[pad:-pad+1]
+
+    #     axs[0].plot((ds2['time'].values[pad:-pad+1])[pad:-pad+1], qprism/1000, color='tab:grey', linewidth=lw)
+
 for i in range(len(sect_list)):
     sect_name = sect_list[i]
     sect_ncname = sect_nclist[i]
@@ -120,29 +151,30 @@ for i in range(len(sect_list)):
     # axs[3].plot(ot,FT, color='tab:red', linewidth=lw, label=sect_label[i])
     axs[3].plot(ot, FR, color=plot_color[i], linewidth=lw, label=sect_label[i])
     axs[1].plot(ot, FE, color=plot_color[i], linewidth=lw, label=sect_label[i])
+    if i==0:
+        axs[2].plot(ot, FT, color='k', linewidth=lw, label=r'$F_{T}$')
+        axs[2].plot(ot, FTV, color='k', linewidth=lw, ls=':', label=r'$F_{TV}$')
+        axs[2].legend(loc='lower right')
     axs[2].plot(ot, FT, color=plot_color[i], linewidth=lw, label=sect_label[i])
+    axs[2].plot(ot, FTV, color=plot_color_light[i], linewidth=lw)#, ls=':')# label=sect_label[i])
     # axs[i].plot(ot,FTL, linestyle = '--', color='tab:pink', linewidth=lw, label=r'$F_{TL}$')
     # axs[i].plot(ot,FTV, linestyle = ':', color='tab:orange', linewidth=lw, label=r'$F_{TV}$')
-
-    if sect_name=='b3.p':
-        ds2 = xr.open_dataset(in_dir2 / sect_ncname) #changed to netcdf open in xarray
-        qprism=zfun.lowpass(np.abs(ds2['qnet'].values-zfun.lowpass(ds2['qnet'].values, f='godin')), f='godin')/2 #for netcdf
-        #qprism=zfun.lowpass(np.abs(ds2['qnet']-zfun.lowpass(ds2['qnet'], f='godin')), f='godin')/2
-        pad=36
-        qprism=(qprism[pad:-pad+1])[pad:-pad+1]
-
-        axs[0].plot((ds2['time'].values[pad:-pad+1])[pad:-pad+1], qprism/1000, color='tab:grey', linewidth=lw)
 
 axs[0].grid(True)
 axs[1].grid(True) 
 axs[2].grid(True)
 axs[3].grid(True)
 
-axs[0].set_ylim(20,80)
+axs[0].text(0.02,0.8,'A',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
+axs[1].text(0.02,0.95,'B',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
+axs[2].text(0.02,0.95,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
+axs[3].text(0.02,0.8,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
+
+axs[0].set_ylim(25,75)
 axs[1].set_ylim(-2e4,10e4) #to match when placed side by side
 axs[2].set_ylim(-6e4,6e4)
 axs[3].set_ylim(-3.5e4,-2.5e4)
-axs[1].legend(loc='lower right')
+axs[1].legend(loc='upper right')
 
 # axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-15'))
 # axs[3].set_xticks(ticks=[pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-15'), pd.Timestamp('2020-11-01'), pd.Timestamp('2020-11-15')])
@@ -153,7 +185,7 @@ axs[3].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 axs[3].set_ylabel('$F_{R}\ [m^{3}s^{-1} g\ kg^{-1}]$')
 axs[1].set_ylabel('$F_{E}\ [m^{3}s^{-1} g\ kg^{-1}]$')
 axs[2].set_ylabel('$F_{T}\ [m^{3}s^{-1} g\ kg^{-1}]$')
-axs[0].set_ylabel('$Q_{prism}$')#$\n$[10^{3}\ m^{3}s^{-1}]$')
+axs[0].set_ylabel('$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$')
 
 # if Ldir['gridname']=='sill20kmdeep':
 #     axs[0].set_title('20km sill')
