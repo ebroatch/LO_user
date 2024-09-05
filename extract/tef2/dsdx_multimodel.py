@@ -231,7 +231,7 @@ for gi in range(len(gtagexlist)):
         axs[0].set_ylim(20,80)
         axs[0].set_yticks([20,50,80])
         axs[1].set_ylim(-0.1,0.5) #to match when placed side by side
-        axs[2].set_ylim(0,0.12)
+        axs[2].set_ylim(0.02,0.14)
 
         sect_name='b3'
         bulk = xr.open_dataset(in_dir2 / (sect_name + '.nc'))
@@ -264,9 +264,9 @@ axs[2].text(.02, .95, 'C', horizontalalignment='left', verticalalignment='top', 
 axs[1].text(0.99,0.98,'5km sill model',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
 axs[2].text(0.99,0.98,'40km sill model',fontsize=10,ha='right',va='top',transform=axs[2].transAxes)
 
-axs[0].set_ylabel('$Q_{prism}$(5km b3)\n$[10^{3}\ m^{3}s^{-1}]$')
-axs[0].set_ylabel('$ds/dx$\n$[g\ kg^{-1}km^{-1}]$')
-axs[0].set_ylabel('$ds/dx$\n$[g\ kg^{-1}km^{-1}]$')
+axs[0].set_ylabel('$Q_{prism}$\n(5km b3)\n$[10^{3}\ m^{3}s^{-1}]$')
+axs[1].set_ylabel('$ds/dx$\n$[g\ kg^{-1}km^{-1}]$')
+axs[1].set_ylabel('$ds/dx$\n$[g\ kg^{-1}km^{-1}]$')
 
 fig.tight_layout()
 #fig.savefig(out_dir / 'dsdx_spring_neap.png')
