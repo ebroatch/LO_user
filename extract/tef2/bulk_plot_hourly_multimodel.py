@@ -261,7 +261,7 @@ ax5.text(.02, .9, 'F', horizontalalignment='left', verticalalignment='top', tran
 #ax0.set_title(Ldir['gtagex'])
 # ax0.set_title('Landward end of sill b5')
 # ax0.set_title('Middle of sill b3')
-plt.tight_layout()
+# plt.tight_layout()
 plt.savefig(out_dir / ('bulk_plot_multimodel_'+sect_choice+'.png'))
 plt.close()
 pfun.end_plot()
