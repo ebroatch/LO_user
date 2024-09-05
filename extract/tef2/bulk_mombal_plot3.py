@@ -155,7 +155,7 @@ for i in range(len(sect_list)):
     axs[i+1].plot(ot,tef_df['stressdiv_p'],color='tab:cyan', label='Stress divergence')
     axs[i+1].plot(ot,tef_df['dudt_p']-tef_df['coriolis_p']-tef_df['pg_p']-tef_df['stressdiv_p'],color='k', label='Residual (advection)')
     if i==2:
-        axs[i+1].legend(loc='outside lower center',fontsize=12)
+        axs[i+1].legend(loc='upper center',fontsize=12,bbox_to_anchor=(0.5, -0.05), ncol=5, mode="expand", borderaxespad=0.)
     # axs[i,1].plot(ot,tef_df['dudt_m'],color='tab:red',ls='--', label='du/dt')
     axs[i+1].plot(ot,dudt_out_alt,color='tab:olive',ls='--', label='d/dt(Qout/Aout)')
     axs[i+1].plot(ot,tef_df['coriolis_m'],color='tab:purple', ls='--', label='coriolis')
