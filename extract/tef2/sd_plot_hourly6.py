@@ -89,7 +89,8 @@ fig, axs = plt.subplots(4, 1, sharex=True,figsize=(8,10),gridspec_kw={'height_ra
 # ax3 = plt.subplot2grid((1,3), (0,2)) # map
 
 #Add Qprism and grey bars
-axs[0].set_ylim(25,75)
+axs[0].set_ylim(20,80)
+axs[0].set_yticks([20,50,80])
 axs[1].set_ylim(-2e4,10e4) #to match when placed side by side
 axs[2].set_ylim(-6e4,6e4)
 axs[3].set_ylim(-3.5e4,-2.5e4)

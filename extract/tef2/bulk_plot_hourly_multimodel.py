@@ -187,8 +187,8 @@ for i in range(len(gctags)):
     if i==0:
         ax0.plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=lw)
         ax0.set_ylabel('$Q_{prism}$ (5km)\n$[10^{3}\ m^{3}s^{-1}]$')
-        ax0.set_ylim(25,75)
-        #ax0.set_yticks(ticks=[20,30,40,50])
+        ax0.set_ylim(20,80)
+        ax0.set_yticks(ticks=[20,50,80])
         # ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
         snmid=(np.max(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31'])+np.min(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31']))/2
         snbg=np.where(tef_df['Q_prism'].to_numpy()>snmid, 1, 0)
@@ -259,6 +259,7 @@ ax5.text(.02, .9, 'F', horizontalalignment='left', verticalalignment='top', tran
 #ax0.set_title(Ldir['gtagex'])
 # ax0.set_title('Landward end of sill b5')
 # ax0.set_title('Middle of sill b3')
+plt.tight_layout()
 plt.savefig(out_dir / ('bulk_plot_multimodel_'+sect_choice+'.png'))
 plt.close()
 pfun.end_plot()
