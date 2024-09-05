@@ -187,7 +187,7 @@ for i in range(len(gctags)):
     if i==0:
         ax0.plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=lw)
         ax0.set_ylabel('$Q_{prism}$ (5km)\n$[10^{3}\ m^{3}s^{-1}]$')
-        ax0.set_ylim(20,100)
+        ax0.set_ylim(25,75)
         #ax0.set_yticks(ticks=[20,30,40,50])
         # ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
         snmid=(np.max(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31'])+np.min(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31']))/2

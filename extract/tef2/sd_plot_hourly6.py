@@ -8,6 +8,7 @@ run bulk_plot -gtx cas6_v00_uu0m -ctag c0 -0 2022.01.01 -1 2022.12.31 -test True
 """
 import sys
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import numpy as np
 import pickle
 from time import time
@@ -73,10 +74,11 @@ yv = g.lat_v.values
 # m_color = ['tab:cyan','xkcd:yellow orange','tab:pink']
 # label_in = ['a3 in','b3 in','c3 in']
 # label_out = ['a3 out','b3 out','c3 out']
-fs = 12
+# fs = 12
 plt.close('all')
 #pfun.start_plot(fs=fs, figsize=(21,10))
 #pfun.start_plot(fs=fs, figsize=(7,10)) #narrower plot with one month xlim
+pfun.start_plot(fs=14)
 
 
 #fig, axs = plt.subplots(4, 1, sharex=True,figsize=(10,10),gridspec_kw={'height_ratios': [5,5,1,1]})
@@ -101,8 +103,6 @@ tef_df['Q_prism']=tef_df['qprism']/1000
 ot = bulk.time.values
 lw=2
 axs[0].plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=lw)
-axs[0].set_ylabel('$Q_{prism}$ (b3)\n$[10^{3}\ m^{3}s^{-1}]$')
-axs[0].set_ylim(20,100)
 snmid=(np.max(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31'])+np.min(tef_df['Q_prism'].loc['2020-10-01':'2020-10-31']))/2
 snbg=np.where(tef_df['Q_prism'].to_numpy()>snmid, 1, 0)
 axs[0].pcolor(ot, axs[0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
@@ -186,10 +186,14 @@ axs[1].legend(loc='upper right')
 axs[3].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 #plt.xticks(rotation=90)
 
-axs[3].set_ylabel('$F_{R}\ [m^{3}s^{-1} g\ kg^{-1}]$')
-axs[1].set_ylabel('$F_{E}\ [m^{3}s^{-1} g\ kg^{-1}]$')
-axs[2].set_ylabel('$F_{T}\ [m^{3}s^{-1} g\ kg^{-1}]$')
-axs[0].set_ylabel('$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$')
+axs[3].set_ylabel('$F_{R}\n[m^{3}s^{-1} g\ kg^{-1}]$')
+axs[1].set_ylabel('$F_{E}\n[m^{3}s^{-1} g\ kg^{-1}]$')
+axs[2].set_ylabel('$F_{T}\n[m^{3}s^{-1} g\ kg^{-1}]$')
+# axs[0].set_ylabel('$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$')
+axs[0].set_ylabel('$Q_{prism}$ (b3)\n$[10^{3}\ m^{3}s^{-1}]$')
+
+axs[3].xaxis.set_major_formatter(mdates.DateFormatter('%j')) #yearday
+axs[3].set_xlabel('Yearday')
 
 # if Ldir['gridname']=='sill20kmdeep':
 #     axs[0].set_title('20km sill')
@@ -198,7 +202,7 @@ axs[0].set_ylabel('$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$')
 # elif Ldir['gridname']=='sill80km':
 #     axs[0].set_title('80km sill')
 #plt.suptitle('Standard decomposition')
-axs[0].set_title(Ldir['gtagex'])
+# axs[0].set_title(Ldir['gtagex'])
 
 plt.savefig(out_dir / ('sd_plot_hourly6.png'))
 plt.close()
