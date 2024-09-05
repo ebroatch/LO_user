@@ -55,7 +55,7 @@ plot_color = ['tab:cyan',plt.cm.Dark2(0),plt.cm.Dark2(5),'tab:brown'] #need one 
 # plotting
 plt.close('all')
 pfun.start_plot(figsize=(8,8),fs=14)
-fig, axs = plt.subplots(3, 1, sharex=True,figsize=(8,10),gridspec_kw={'height_ratios': [1,4,4]}) #change # rows if adding more models
+fig, axs = plt.subplots(3, 1, sharex=True,figsize=(8,8),gridspec_kw={'height_ratios': [1,4,4]}) #change # rows if adding more models
 
 for gi in range(len(gtagexlist)):
     Ldir['gridname']=gridnamelist[gi]
@@ -231,7 +231,7 @@ for gi in range(len(gtagexlist)):
         axs[0].set_ylim(20,80)
         axs[0].set_yticks([20,50,80])
         axs[1].set_ylim(-0.1,0.5) #to match when placed side by side
-        axs[2].set_ylim(0,0.15)
+        axs[2].set_ylim(0,0.12)
 
         sect_name='b3'
         bulk = xr.open_dataset(in_dir2 / (sect_name + '.nc'))
@@ -247,16 +247,26 @@ for gi in range(len(gtagexlist)):
         axs[0].pcolor(ot, axs[0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
         axs[1].pcolor(ot, axs[1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
         axs[2].pcolor(ot, axs[2].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
-        axs[0].grid(True)
+        
 
 axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 axs[2].xaxis.set_major_formatter(mdates.DateFormatter('%j'))
 axs[2].set_xlabel('Yearday')
 axs[2].legend(loc='lower right')
 
+axs[0].grid(True)
+axs[1].grid(True)
+axs[2].grid(True)
+
 axs[0].text(.02, .8, 'A', horizontalalignment='left', verticalalignment='top', transform=axs[0].transAxes, fontsize=14, fontweight='bold')
 axs[1].text(.02, .95, 'B', horizontalalignment='left', verticalalignment='top', transform=axs[1].transAxes, fontsize=14, fontweight='bold')
 axs[2].text(.02, .95, 'C', horizontalalignment='left', verticalalignment='top', transform=axs[2].transAxes, fontsize=14, fontweight='bold')
+axs[1].text(0.99,0.98,'5km sill model',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
+axs[2].text(0.99,0.98,'40km sill model',fontsize=10,ha='right',va='top',transform=axs[2].transAxes)
+
+axs[0].set_ylabel('$Q_{prism}$(5km b3)\n$[10^{3}\ m^{3}s^{-1}]$')
+axs[0].set_ylabel('$ds/dx$\n$[g\ kg^{-1}km^{-1}]$')
+axs[0].set_ylabel('$ds/dx$\n$[g\ kg^{-1}km^{-1}]$')
 
 fig.tight_layout()
 #fig.savefig(out_dir / 'dsdx_spring_neap.png')
