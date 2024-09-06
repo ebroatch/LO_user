@@ -166,13 +166,13 @@ for i in range(len(sect_list)):
     # axs[0].plot(ot,FR, color='tab:blue', linewidth=lw, label=sect_label[i])
     # axs[2].plot(ot,FE, color='tab:green', linewidth=lw, label=sect_label[i])
     # axs[3].plot(ot,FT, color='tab:red', linewidth=lw, label=sect_label[i])
-    axs[3].plot(ot_dvdk, F0, color=plot_color_light[i], linewidth=lw, label='F0'+sect_label[i])
-    axs[1].plot(ot_dvdk, F2, color=plot_color_light[i], linewidth=lw, label='F2'+sect_label[i])
-    axs[2].plot(ot_dvdk, F1, color=plot_color_light[i], linewidth=lw, label='F1'+sect_label[i])
+    axs[3].plot(ot_dvdk, F0, color=plot_color_light[i], linewidth=lw, label='$F_{0}$ '+sect_label[i])
+    axs[1].plot(ot_dvdk, F2, color=plot_color_light[i], linewidth=lw, label='$F_{2}$ '+sect_label[i])
+    axs[2].plot(ot_dvdk, F1, color=plot_color_light[i], linewidth=lw, label='$F_{1}$ '+sect_label[i])
 
-    axs[3].plot(ot_sd, FR, color=plot_color[i], linewidth=lw, ls='--', label='FR'+sect_label[i])
-    axs[1].plot(ot_sd, FE, color=plot_color[i], linewidth=lw, ls='--', label='FE'+sect_label[i])
-    axs[2].plot(ot_sd, FT, color=plot_color[i], linewidth=lw, ls='--', label='FT'+sect_label[i])
+    axs[3].plot(ot_sd, FR, color=plot_color[i], linewidth=lw, ls='--', label='$F_{R}$ '+sect_label[i])
+    axs[1].plot(ot_sd, FE, color=plot_color[i], linewidth=lw, ls='--', label='$F_{E}$ '+sect_label[i])
+    axs[2].plot(ot_sd, FT, color=plot_color[i], linewidth=lw, ls='--', label='$F_{T}$ '+sect_label[i])
 
 
     # axs[2].plot(ot, FTV, color=plot_color_light[i], linewidth=lw)#, ls=':')# label=sect_label[i])
@@ -191,6 +191,7 @@ axs[2].text(0.02,0.95,'C',ha='left',va='top',fontweight='bold',fontsize=18,trans
 axs[3].text(0.02,0.8,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
 
 axs[1].legend(loc='upper right')
+axs[2].legend(loc='upper right')
 
 # axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-15'))
 # axs[3].set_xticks(ticks=[pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-15'), pd.Timestamp('2020-11-01'), pd.Timestamp('2020-11-15')])
@@ -198,9 +199,9 @@ axs[1].legend(loc='upper right')
 axs[3].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 #plt.xticks(rotation=90)
 
-axs[3].set_ylabel('Salt flux\n$[m^{3}s^{-1} g\ kg^{-1}]$')
-axs[1].set_ylabel('Salt_flux\n$[m^{3}s^{-1} g\ kg^{-1}]$')
-axs[2].set_ylabel('Salt flux\n$[m^{3}s^{-1} g\ kg^{-1}]$')
+axs[3].set_ylabel('$F_{0}$ or $F_{R}$\n$[m^{3}s^{-1} g\ kg^{-1}]$')
+axs[1].set_ylabel('$F_{2}$ or $F_{E}$\n$[m^{3}s^{-1} g\ kg^{-1}]$')
+axs[2].set_ylabel('$F_{1}$ or $F_{T}$\n$[m^{3}s^{-1} g\ kg^{-1}]$')
 # axs[0].set_ylabel('$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$')
 axs[0].set_ylabel('$Q_{prism}$ (b3)\n$[10^{3}\ m^{3}s^{-1}]$')
 
