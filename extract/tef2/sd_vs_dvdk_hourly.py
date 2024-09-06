@@ -136,7 +136,7 @@ for i in range(len(sect_list)):
     F = SD['F']
     ot_sd = SD['time']
 
-    dvdk = xr.open_dataset(in_dir / sect_ncname)
+    dvdk = xr.open_dataset(in_dir4 / sect_ncname)
     F0 = dvdk['F0']
     F1 = dvdk['F1']
     F2 = dvdk['F2']
