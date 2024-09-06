@@ -190,8 +190,8 @@ axs[1].text(0.02,0.95,'B',ha='left',va='top',fontweight='bold',fontsize=18,trans
 axs[2].text(0.02,0.95,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
 axs[3].text(0.02,0.8,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
 
-axs[1].legend(loc='upper right')
-axs[2].legend(loc='upper right')
+axs[1].legend(loc='upper right',fontsize=12)
+axs[2].legend(loc='upper right',fontsize=12)
 
 # axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-15'))
 # axs[3].set_xticks(ticks=[pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-15'), pd.Timestamp('2020-11-01'), pd.Timestamp('2020-11-15')])
@@ -217,7 +217,6 @@ axs[3].set_xlabel('Yearday')
 #plt.suptitle('Standard decomposition')
 # axs[0].set_title(Ldir['gtagex'])
 plt.tight_layout()
-
 plt.savefig(out_dir / ('sd_dvdk_plot_hourly.png'))
 plt.close()
 pfun.end_plot()
