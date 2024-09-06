@@ -110,6 +110,11 @@ for i in range(len(gctags)):
     tef_df['Q_p'] = tef_df['q_p']/1000
     tef_df['Q_m'] = tef_df['q_m']/1000
     tef_df['Q_prism']=tef_df['qprism']/1000
+
+    # get tide info from the tide excursion calculator
+    excur_dir = out_dir0 / ('tide_excursion_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+    te_fn = excur_dir / ('TE_b3.p') #could change if using other sections
+    TE = pd.read_pickle(te_fn)
                     
     # labels and colors
     # ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
@@ -202,7 +207,19 @@ for i in range(len(gctags)):
         ax5.pcolor(ot, ax5.get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
         ax0.grid(True)
 
-    
+    Qindeltas=tef_df['Q_p']*(tef_df['salt_p']-tef_df['salt_m'])
+    Qindeltas_avg = Qindeltas.mean()
+    Qindeltas_spring = Qindeltas.loc[TE['t_spring']]
+    Qindeltas_neap = Qindeltas.loc[TE['t_neap']]
+    print('\n')
+    print(gctag)
+    print('\nAverage Qindeltas:')
+    print(Qindeltas_avg)
+    print('\nSpring Qindeltas:')
+    print(Qindeltas_spring)
+    print('\nNeap Qindeltas:')
+    print(Qindeltas_neap)
+
     # # map
     # sn = sect_name.replace('.p','')
     # sinfo = sect_df.loc[sect_df.sn==sn,:]
