@@ -17,6 +17,7 @@ import xarray as xr
 
 from lo_tools import Lfun, zfun
 from lo_tools import plotting_functions as pfun
+from lo_user_tools import llxyfun
 import flux_fun
 import tef_fun
 
@@ -67,6 +68,13 @@ yu = g.lat_u.values
 xv = g.lon_v.values
 yv = g.lat_v.values
 
+lou = g.lon_u[0,:].values
+lau = g.lat_u[:,0].values
+lov = g.lon_v[0,:].values
+lav = g.lat_v[:,0].values
+lor = g.lon_rho.values
+lar = g.lat_rho.values
+
 # get sect_df with the section point locations
 sect_df_fn = tef2_dir / ('sect_df_' + gctag + '.p')
 sect_df = pd.read_pickle(sect_df_fn)
@@ -110,9 +118,10 @@ for i in range(len(sect_list)):
     SDfull['FT'].loc[dict(section=i)]=FT
 
     sdf = sect_df.loc[sect_df.sn==sect_name,:]
+    lon_vec = np.concatenate((lou[sdf.loc[(sdf.uv=='u'),'i']],lov[sdf.loc[(sdf.uv=='v'),'i']]))
+    SDfull['lon'].loc[dict(section=i)] = np.mean(lon_vec)
+    SDfull['xkm'].loc[dict(section=i)] = llxyfun.lon2x(np.mean(lon_vec),0,45)/1e3
                     
-
-
 # # PLOTTING
 # #plot_color = ['lightblue','tab:cyan','dodgerblue','tab:blue','blue','gold','goldenrod','xkcd:yellow orange','tab:orange','peru','pink','tab:pink','mediumvioletred','tab:red','maroon']
 # #plot_label = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5']
