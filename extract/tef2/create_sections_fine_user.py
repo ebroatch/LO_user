@@ -50,7 +50,7 @@ if args.gridname == 'sill20kmdeep':
     sn_list=[]
     for i in range(len(x1)):
         sn='d'+str(i)
-        sn_list.append()
+        sn_list.append(sn)
     # sn_list = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5']
     # x1km=np.array([0,10,20,30,38,40,45,50,55,60,62,70,80,90,98])
     # x1m=x1km*1e3
