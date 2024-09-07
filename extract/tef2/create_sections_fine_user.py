@@ -37,17 +37,24 @@ h = ds.h.values
 m = ds.mask_rho.values
 h[m==0] = np.nan
 plon, plat = pfun.get_plon_plat(ds.lon_rho.values, ds.lat_rho.values)
-lon_rho=ds.lon_rho.values
+lon_rho=ds.lon_rho.values[0,:]
 aa = pfun.get_aa(ds)
 ds.close
 
 if args.gridname == 'sill20kmdeep':
-    xminkm=0 #this could be modified to use sections only around the sill
-    xmaxkm=100
-    sn_list = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5']
-    x1km=np.array([0,10,20,30,38,40,45,50,55,60,62,70,80,90,98])
-    x1m=x1km*1e3
-    x1=llxyfun.x2lon(x1m,0,45)
+    xminkm=30 #this could be modified to use sections only around the sill or use the whole estuary
+    xmaxkm=70
+    xmin=llxyfun.x2lon(xminkm*1e3,0,45)
+    xmax=llxyfun.x2lon(xmaxkm*1e3,0,45)
+    x1=lon_rho[(lon_rho>xmin)&(lon_rho<xmax)]
+    sn_list=[]
+    for i in range(len(x1)):
+        sn='d'+str(i)
+        sn_list.append()
+    # sn_list = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5']
+    # x1km=np.array([0,10,20,30,38,40,45,50,55,60,62,70,80,90,98])
+    # x1m=x1km*1e3
+    # x1=llxyfun.x2lon(x1m,0,45)
     y1=45.05
     y2=44.95
     for i in range(len(sn_list)):
