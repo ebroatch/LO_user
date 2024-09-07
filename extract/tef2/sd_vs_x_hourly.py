@@ -81,8 +81,8 @@ ot = SD['time']
 
 SDfull = xr.Dataset(
     {
-        'FE': (['section','time'], np.zeros((len(FE),len(sect_list)))),
-        'FT': (['section','time'], np.zeros((len(FE),len(sect_list)))),
+        'FE': (['section','time'], np.zeros((len(sect_list),len(FE)))),
+        'FT': (['section','time'], np.zeros((len(sect_list),len(FT)))),
         'lon': (['section'], np.zeros(len(sect_list))),
         'xkm': (['section'], np.zeros(len(sect_list)))
     },
