@@ -36,7 +36,7 @@ in_dir3 = out_dir0 / ('bulk_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 out_dir = out_dir0 / ('sd_plots_fine_' + Ldir['ds0'] + '_' + Ldir['ds1'])
 Lfun.make_dir(out_dir, clean=True)
 
-sect_list = [item.name for item in in_dir.glob('*.p')]
+sect_list = [item.name for item in in_dir.glob('*.nc')]
 # if Ldir['testing']:
 #     sect_list = ['ss2.p']
 # sect_list = ['a1.p','a3.p','b1.p','b3.p','b5.p','c3.p']
