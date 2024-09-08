@@ -169,7 +169,7 @@ ax.set_xlabel('Distance [km]')
 
 #add b sections
 for i in range(len(b_sect_list)):
-    ax.axvline(x=b_sect_xkm[i],color='tab:purple',linewidth=1,ls=':')
+    ax.axvline(x=b_sect_xkm[i],color='tab:purple',linewidth=2,ls=(0, (1, 5)))
     ax.text(b_sect_xkm[i], 70000, b_sect_list[i], horizontalalignment='center' , verticalalignment='bottom', fontsize=12)
     
 plt.tight_layout()
