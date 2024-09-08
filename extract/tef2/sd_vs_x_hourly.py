@@ -10,6 +10,7 @@ import sys
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.colors
+import matplotlib.patches
 import numpy as np
 import pickle
 from time import time
@@ -149,9 +150,10 @@ ax.set_xlim(30,70)
 ax.set_ylim(bottom=-40000,top=80000)
 
 #add shading for sill
-sillbg=np.where((SDfull.xkm.values>40) & (SDfull.xkm.values<60), 1, 0)
-mycm=matplotlib.colors.ListedColormap(['w',plt.cm.tab20(9)])
-ax.pcolor(SDfull.xkm, ax.get_ylim(), np.tile(sillbg,(2,1)), cmap=mycm, vmin=0, vmax=1, linewidth=0, antialiased=True)
+plt.patches.Rectangle((40,-40000),20,120000,color=plt.cm.tab20(9),ec=None,alpha=0.5)
+# sillbg=np.where((SDfull.xkm.values>40) & (SDfull.xkm.values<60), 1, 0)
+# mycm=matplotlib.colors.ListedColormap(['w',plt.cm.tab20(9)])
+# ax.pcolor(SDfull.xkm, ax.get_ylim(), np.tile(sillbg,(2,1)), cmap=mycm, vmin=0, vmax=1, linewidth=0, antialiased=True)
 ax.grid(True)
 
 lw = 2
