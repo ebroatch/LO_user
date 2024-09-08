@@ -9,6 +9,7 @@ run bulk_plot -gtx cas6_v00_uu0m -ctag c0 -0 2022.01.01 -1 2022.12.31 -test True
 import sys
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+import matplotlib.colors
 import numpy as np
 import pickle
 from time import time
@@ -143,27 +144,30 @@ for i in range(len(b_sect_list)):
 plt.close('all')
 pfun.start_plot(fs=14)
 fig, ax = plt.subplots(1, 1, sharex=True,figsize=(8,5))
-lw = 2
-ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_neap']), color='tab:pink', linewidth=lw, label='$F_{E}$')
-ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_spring']), color='tab:pink', linewidth=lw, ls='--', label='$F_{E}$')
-ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_neap']), color='tab:blue', linewidth=lw, label='$F_{T}$')
-ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring']), color='tab:blue', linewidth=lw, ls='--', label='$F_{T}$')
-ax.legend(loc='lower left',fontsize=12)
 
 ax.set_xlim(30,70)
 ax.set_ylim(bottom=-40000,top=80000)
-ax.set_ylabel('Standard decomposition terms\n$[m^{3}s^{-1} g\ kg^{-1}]$')
-ax.set_xlabel('Distance [km]')
 
 #add shading for sill
-sillbg=np.where((SDfull.xkm.values>40) & (SDfull.xkm.values<60), 0.97, 0)
-ax.pcolor(SDfull.xkm, ax.get_ylim(), np.tile(sillbg,(2,1)), cmap='tab20', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+sillbg=np.where((SDfull.xkm.values>40) & (SDfull.xkm.values<60), 1, 0)
+mycm=matplotlib.colors.ListedColormap(['w',plt.cm.tab20(9)])
+ax.pcolor(SDfull.xkm, ax.get_ylim(), np.tile(sillbg,(2,1)), cmap='tab20', vmin=0, vmax=1, linewidth=0, antialiased=True)
 ax.grid(True)
+
+lw = 2
+ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_neap']), color='tab:pink', linewidth=lw, label='$F_{E}$')
+ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_neap']), color='tab:blue', linewidth=lw, label='$F_{T}$')
+ax.legend(loc='lower left',fontsize=12)
+ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_spring']), color='tab:pink', linewidth=lw, ls='--', label='$F_{E}$')
+ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring']), color='tab:blue', linewidth=lw, ls='--', label='$F_{T}$')
+
+ax.set_ylabel('Standard decomposition terms\n$[m^{3}s^{-1} g\ kg^{-1}]$')
+ax.set_xlabel('Distance [km]')
 
 #add b sections
 for i in range(len(b_sect_list)):
     ax.axvline(x=b_sect_xkm[i],linestyle=':',color='tab:purple',linewidth=2)
-    ax.text(b_sect_xkm[i], 75000, b_sect_list[i],
+    ax.text(b_sect_xkm[i], 70000, b_sect_list[i],
         horizontalalignment='center' , verticalalignment='bottom', fontsize=12,
         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
     
