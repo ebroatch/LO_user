@@ -162,7 +162,7 @@ for i in range(len(sect_list)):
         axs[2].plot(ot, FT, color='k', linewidth=lw, label=r'$F_{T}$')
         # axs[2].plot(ot, FTV, color='k', linewidth=lw, ls=':', label=r'$F_{TV}$')
         axs[2].plot(ot, FTL, color='k', linewidth=lw, ls=':', label=r'$F_{TL}$')
-        axs[2].legend(loc='lower right')
+        axs[2].legend(loc='lower right',fontsize=12)
     axs[2].plot(ot, FT, color=plot_color[i], linewidth=lw, label=sect_label[i])
     # axs[2].plot(ot, FTV, color=plot_color_light[i], linewidth=lw)#, ls=':')# label=sect_label[i])
     axs[2].plot(ot, FTL, color=plot_color[i], linewidth=lw, ls=':')# label=sect_label[i])

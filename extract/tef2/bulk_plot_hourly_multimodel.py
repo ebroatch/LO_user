@@ -265,7 +265,7 @@ for i in range(len(gctags)):
     # else:
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
-ax1.legend(loc='lower left')
+ax1.legend(loc='lower left',fontsize=12)
 
 ax0.text(.02, .8, 'A', horizontalalignment='left', verticalalignment='top', transform=ax0.transAxes, fontsize=14, fontweight='bold')
 ax1.text(.02, .95, 'B', horizontalalignment='left', verticalalignment='top', transform=ax1.transAxes, fontsize=14, fontweight='bold')
@@ -357,7 +357,7 @@ ax4.set_xlim(0,70)
 ax4.set_xticks([0,10,20,30,40,50,60,70])
 ax4.plot([0,70],[0,70],'--k')
 
-ax4.legend(loc='lower right')
+ax4.legend(loc='lower right',fontsize=12)
 #ax2.set_title(Ldir['gtagex'])
 # plt.suptitle('Landward end of sill b5')
 # plt.suptitle('Middle of sill b3')
