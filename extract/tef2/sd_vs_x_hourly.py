@@ -75,6 +75,11 @@ lav = g.lat_v[:,0].values
 lor = g.lon_rho.values
 lar = g.lat_rho.values
 
+# get tide info from the tide excursion calculator #hardcoded to use the b3 from the regular extractions
+excur_dir = out_dir0 / ('tide_excursion_' + '2020.09.01' + '_' + '2020.12.31')
+te_fn = excur_dir / ('TE_b3.p') #could change if using other sections
+TE = pd.read_pickle(te_fn)
+
 # get sect_df with the section point locations
 sect_df_fn = tef2_dir / ('sect_df_' + gctag + '.p')
 sect_df = pd.read_pickle(sect_df_fn)
@@ -122,46 +127,50 @@ for i in range(len(sect_list)):
     SDfull['lon'].loc[dict(section=i)] = np.mean(lon_vec)
     SDfull['xkm'].loc[dict(section=i)] = llxyfun.lon2x(np.mean(lon_vec),0,45)/1e3
                     
-# # PLOTTING
-# #plot_color = ['lightblue','tab:cyan','dodgerblue','tab:blue','blue','gold','goldenrod','xkcd:yellow orange','tab:orange','peru','pink','tab:pink','mediumvioletred','tab:red','maroon']
-# #plot_label = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5']
-# # p_color = ['tab:blue','tab:orange','tab:red']
-# # m_color = ['tab:cyan','xkcd:yellow orange','tab:pink']
-# # label_in = ['a3 in','b3 in','c3 in']
-# # label_out = ['a3 out','b3 out','c3 out']
-# # fs = 12
-# plt.close('all')
-# #pfun.start_plot(fs=fs, figsize=(21,10))
-# #pfun.start_plot(fs=fs, figsize=(7,10)) #narrower plot with one month xlim
-# pfun.start_plot(fs=14)
-# #fig, axs = plt.subplots(4, 1, sharex=True,figsize=(10,10),gridspec_kw={'height_ratios': [5,5,1,1]})
-# fig, axs = plt.subplots(4, 1, sharex=True,figsize=(8,8),gridspec_kw={'height_ratios': [1,6,6,1]})
-# # fig = plt.figure()   
-# # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
-# # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
-# # ax3 = plt.subplot2grid((1,3), (0,2)) # map
+# PLOTTING
+#plot_color = ['lightblue','tab:cyan','dodgerblue','tab:blue','blue','gold','goldenrod','xkcd:yellow orange','tab:orange','peru','pink','tab:pink','mediumvioletred','tab:red','maroon']
+#plot_label = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5']
+# p_color = ['tab:blue','tab:orange','tab:red']
+# m_color = ['tab:cyan','xkcd:yellow orange','tab:pink']
+# label_in = ['a3 in','b3 in','c3 in']
+# label_out = ['a3 out','b3 out','c3 out']
+# fs = 12
+plt.close('all')
+#pfun.start_plot(fs=fs, figsize=(21,10))
+#pfun.start_plot(fs=fs, figsize=(7,10)) #narrower plot with one month xlim
+pfun.start_plot(fs=14)
+#fig, axs = plt.subplots(4, 1, sharex=True,figsize=(10,10),gridspec_kw={'height_ratios': [5,5,1,1]})
+fig, axs = plt.subplots(2, 1, sharex=True,figsize=(8,8))#,gridspec_kw={'height_ratios': [1,6,6,1]})
+# fig = plt.figure()   
+# ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
+# ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
+# ax3 = plt.subplot2grid((1,3), (0,2)) # map
 
-# # labels and colors
-# # ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
-# #             'salt': r'Salinity $[g\ kg^{-1}]$'}
-# # ylab_dict = {'Q': r'$Q_{in}\ [10^{3}\ m^{3}s^{-1}]$',
-# #             'salt': r'$s_{in}\ [g\ kg^{-1}]$',
-# #             'deltas': r'$\Delta s\ [g\ kg^{-1}]$'}
-# # p_color = 'r'
-# # m_color = 'b'
-# lw = 2
-    
-# # fig = plt.figure()
+# labels and colors
+# ylab_dict = {'Q': r'Transport $[10^{3}\ m^{3}s^{-1}]$',
+#             'salt': r'Salinity $[g\ kg^{-1}]$'}
+# ylab_dict = {'Q': r'$Q_{in}\ [10^{3}\ m^{3}s^{-1}]$',
+#             'salt': r'$s_{in}\ [g\ kg^{-1}]$',
+#             'deltas': r'$\Delta s\ [g\ kg^{-1}]$'}
+# p_color = 'r'
+# m_color = 'b'
+lw = 2
+axs[0].plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_neap']), color='tab:pink', linewidth=lw, label='$F_{E}$')
+axs[1].plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_spring']), color='tab:pink', linewidth=lw, label='$F_{E}$')
 
-# # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
-# # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
-# # ax3 = plt.subplot2grid((1,3), (0,2)) # map
+axs[0].plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_neap']), color='tab:blue', linewidth=lw, label='$F_{T}$')
+axs[1].plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring']), color='tab:blue', linewidth=lw, label='$F_{T}$')
+# fig = plt.figure()
 
-# #ot = bulk['ot'] # (same as tef_df.index)
+# ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
+# ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
+# ax3 = plt.subplot2grid((1,3), (0,2)) # map
 
-# # axs[0].plot(ot,FR, color='tab:blue', linewidth=lw, label=sect_label[i])
-# # axs[2].plot(ot,FE, color='tab:green', linewidth=lw, label=sect_label[i])
-# # axs[3].plot(ot,FT, color='tab:red', linewidth=lw, label=sect_label[i])
+#ot = bulk['ot'] # (same as tef_df.index)
+
+# axs[0].plot(ot,FR, color='tab:blue', linewidth=lw, label=sect_label[i])
+# axs[2].plot(ot,FE, color='tab:green', linewidth=lw, label=sect_label[i])
+# axs[3].plot(ot,FT, color='tab:red', linewidth=lw, label=sect_label[i])
 # axs[3].plot(ot, FR, color=plot_color[i], linewidth=lw, label=sect_label[i])
 # axs[1].plot(ot, FE, color=plot_color[i], linewidth=lw, label=sect_label[i])
 # if i==0:
@@ -172,46 +181,66 @@ for i in range(len(sect_list)):
 # axs[2].plot(ot, FT, color=plot_color[i], linewidth=lw, label=sect_label[i])
 # # axs[2].plot(ot, FTV, color=plot_color_light[i], linewidth=lw)#, ls=':')# label=sect_label[i])
 # axs[2].plot(ot, FTL, color=plot_color[i], linewidth=lw, ls=':')# label=sect_label[i])
-# # axs[i].plot(ot,FTL, linestyle = '--', color='tab:pink', linewidth=lw, label=r'$F_{TL}$')
-# # axs[i].plot(ot,FTV, linestyle = ':', color='tab:orange', linewidth=lw, label=r'$F_{TV}$')
+# axs[i].plot(ot,FTL, linestyle = '--', color='tab:pink', linewidth=lw, label=r'$F_{TL}$')
+# axs[i].plot(ot,FTV, linestyle = ':', color='tab:orange', linewidth=lw, label=r'$F_{TV}$')
 
-# axs[0].grid(True)
-# axs[1].grid(True) 
+axs[0].grid(True)
+axs[1].grid(True) 
 # axs[2].grid(True)
 # axs[3].grid(True)
 
-# axs[0].text(0.02,0.8,'A',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
-# axs[1].text(0.02,0.95,'B',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
+axs[0].text(0.02,0.95,'A',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
+axs[1].text(0.02,0.95,'B',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
 # axs[2].text(0.02,0.95,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
 # axs[3].text(0.02,0.8,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
 
-# axs[1].legend(loc='upper right')
+axs[1].legend(loc='upper right',fontsize=12)
+axs[0].text(0.99,0.98,'Neap',fontsize=10,ha='right',va='top',transform=axs[0].transAxes)
+axs[1].text(0.99,0.98,'Spring',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
 
-# # axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-15'))
-# # axs[3].set_xticks(ticks=[pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-15'), pd.Timestamp('2020-11-01'), pd.Timestamp('2020-11-15')])
-# #axs[3].set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
+axs[0].text(.97, .11, TE['t_neap'].strftime('%Y-%m-%d'),
+        horizontalalignment='right' , verticalalignment='bottom',
+        transform=axs[0].transAxes, fontsize=12,
+        bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+axs[0].text(.97, .1, TE['t_neap'].strftime('%H:%M'),
+        horizontalalignment='right', verticalalignment='top',
+        transform=axs[0].transAxes, fontsize=12,
+        bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+axs[1].text(.97, .11, TE['t_spring'].strftime('%Y-%m-%d'),
+        horizontalalignment='right' , verticalalignment='bottom',
+        transform=axs[1].transAxes, fontsize=12,
+        bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+axs[1].text(.97, .1, TE['t_spring'].strftime('%H:%M'),
+        horizontalalignment='right', verticalalignment='top',
+        transform=axs[1].transAxes, fontsize=12,
+        bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+
+# axs[2].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-11-15'))
+# axs[3].set_xticks(ticks=[pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-15'), pd.Timestamp('2020-11-01'), pd.Timestamp('2020-11-15')])
+#axs[3].set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
 # axs[3].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
-# #plt.xticks(rotation=90)
+axs[1].set_xlim(30,70)
+#plt.xticks(rotation=90)
 
-# axs[3].set_ylabel('$F_{R}$\n$[m^{3}s^{-1} g\ kg^{-1}]$')
-# axs[1].set_ylabel('$F_{E}$\n$[m^{3}s^{-1} g\ kg^{-1}]$')
+axs[0].set_ylabel('Standard decomposition terms\n$[m^{3}s^{-1} g\ kg^{-1}]$')
+axs[1].set_ylabel('Standard decomposition terms\n$[m^{3}s^{-1} g\ kg^{-1}]$')
 # axs[2].set_ylabel('$F_{T}$\n$[m^{3}s^{-1} g\ kg^{-1}]$')
 # # axs[0].set_ylabel('$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$')
 # axs[0].set_ylabel('$Q_{prism}$ (b3)\n$[10^{3}\ m^{3}s^{-1}]$')
 
-# axs[3].xaxis.set_major_formatter(mdates.DateFormatter('%j')) #yearday
-# axs[3].set_xlabel('Yearday')
+# axs[1].xaxis.set_major_formatter(mdates.DateFormatter('%j')) #yearday
+axs[1].set_xlabel('Distance [km]')
 
-# # if Ldir['gridname']=='sill20kmdeep':
-# #     axs[0].set_title('20km sill')
-# # elif Ldir['gridname']=='sill5km':
-# #     axs[0].set_title('5km sill')
-# # elif Ldir['gridname']=='sill80km':
-# #     axs[0].set_title('80km sill')
-# #plt.suptitle('Standard decomposition')
-# # axs[0].set_title(Ldir['gtagex'])
-# plt.tight_layout()
+# if Ldir['gridname']=='sill20kmdeep':
+#     axs[0].set_title('20km sill')
+# elif Ldir['gridname']=='sill5km':
+#     axs[0].set_title('5km sill')
+# elif Ldir['gridname']=='sill80km':
+#     axs[0].set_title('80km sill')
+#plt.suptitle('Standard decomposition')
+# axs[0].set_title(Ldir['gtagex'])
+plt.tight_layout()
 
-# plt.savefig(out_dir / ('sd_plot_hourly6.png'))
-# plt.close()
-# pfun.end_plot()
+plt.savefig(out_dir / ('sd_vs_x_hourly.png'))
+plt.close()
+pfun.end_plot()
