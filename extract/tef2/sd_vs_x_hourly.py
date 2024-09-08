@@ -150,7 +150,7 @@ ax.set_xlim(30,70)
 ax.set_ylim(bottom=-40000,top=80000)
 
 #add shading for sill
-recpatch=matplotlib.patches.Rectangle((40,-40000),20,120000,color=plt.cm.tab20(9),ec=None,alpha=0.5)
+recpatch=matplotlib.patches.Rectangle((40,-40000),20,120000,color=plt.cm.Set2(2),ec=None,alpha=0.5)
 ax.add_artist(recpatch)
 # sillbg=np.where((SDfull.xkm.values>40) & (SDfull.xkm.values<60), 1, 0)
 # mycm=matplotlib.colors.ListedColormap(['w',plt.cm.tab20(9)])
@@ -169,10 +169,8 @@ ax.set_xlabel('Distance [km]')
 
 #add b sections
 for i in range(len(b_sect_list)):
-    ax.axvline(x=b_sect_xkm[i],linestyle=':',color='tab:purple',linewidth=2)
-    ax.text(b_sect_xkm[i], 70000, b_sect_list[i],
-        horizontalalignment='center' , verticalalignment='bottom', fontsize=12,
-        bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+    ax.axvline(x=b_sect_xkm[i],color=plt.cm.Dark2(2),linewidth=2)
+    ax.text(b_sect_xkm[i], 70000, b_sect_list[i], horizontalalignment='center' , verticalalignment='bottom', fontsize=12)
     
 plt.tight_layout()
 plt.savefig(out_dir / ('sd_vs_x_hourly.png'))
