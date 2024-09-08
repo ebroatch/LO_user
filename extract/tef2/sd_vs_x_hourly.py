@@ -155,11 +155,18 @@ fig, axs = plt.subplots(2, 1, sharex=True,figsize=(8,8))#,gridspec_kw={'height_r
 # p_color = 'r'
 # m_color = 'b'
 lw = 2
-axs[0].plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_neap']), color='tab:pink', linewidth=lw, label='$F_{E}$')
-axs[1].plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_spring']), color='tab:pink', linewidth=lw, label='$F_{E}$')
 
-axs[0].plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_neap']), color='tab:blue', linewidth=lw, label='$F_{T}$')
-axs[1].plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring']), color='tab:blue', linewidth=lw, label='$F_{T}$')
+# axs[0].plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_neap']), color='tab:pink', linewidth=lw, label='$F_{E}$')
+# axs[1].plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_spring']), color='tab:pink', linewidth=lw, label='$F_{E}$')
+
+# axs[0].plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_neap']), color='tab:blue', linewidth=lw, label='$F_{T}$')
+# axs[1].plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring']), color='tab:blue', linewidth=lw, label='$F_{T}$')
+axs[0].plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_spring_flood']), color='tab:pink', linewidth=lw, label='$F_{E}$')
+axs[1].plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_spring_ebb']), color='tab:pink', linewidth=lw, label='$F_{E}$')
+
+axs[0].plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring_flood']), color='tab:blue', linewidth=lw, label='$F_{T}$')
+axs[1].plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring_ebb']), color='tab:blue', linewidth=lw, label='$F_{T}$')
+
 # fig = plt.figure()
 
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
@@ -184,33 +191,49 @@ axs[1].plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring']), color='tab:blue', li
 # axs[i].plot(ot,FTL, linestyle = '--', color='tab:pink', linewidth=lw, label=r'$F_{TL}$')
 # axs[i].plot(ot,FTV, linestyle = ':', color='tab:orange', linewidth=lw, label=r'$F_{TV}$')
 
-axs[0].grid(True)
-axs[1].grid(True) 
-# axs[2].grid(True)
-# axs[3].grid(True)
-
 axs[0].text(0.02,0.95,'A',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
 axs[1].text(0.02,0.95,'B',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
 # axs[2].text(0.02,0.95,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
 # axs[3].text(0.02,0.8,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
 
-axs[1].legend(loc='upper right',fontsize=12)
-axs[0].text(0.99,0.98,'Neap',fontsize=10,ha='right',va='top',transform=axs[0].transAxes)
-axs[1].text(0.99,0.98,'Spring',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
+# axs[1].legend(loc='upper right',fontsize=12)
+# axs[0].text(0.99,0.98,'Neap',fontsize=10,ha='right',va='top',transform=axs[0].transAxes)
+# axs[1].text(0.99,0.98,'Spring',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
 
-axs[0].text(.97, .11, pd.to_datetime(str(TE['t_neap'])).strftime('%Y.%m.%d'),
+# axs[0].text(.97, .11, pd.to_datetime(str(TE['t_neap'])).strftime('%Y.%m.%d'),
+#         horizontalalignment='right' , verticalalignment='bottom',
+#         transform=axs[0].transAxes, fontsize=12,
+#         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+# axs[0].text(.97, .1, pd.to_datetime(str(TE['t_neap'])).strftime('%H:%M'),
+#         horizontalalignment='right', verticalalignment='top',
+#         transform=axs[0].transAxes, fontsize=12,
+#         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+# axs[1].text(.97, .11, pd.to_datetime(str(TE['t_spring'])).strftime('%Y.%m.%d'),
+#         horizontalalignment='right' , verticalalignment='bottom',
+#         transform=axs[1].transAxes, fontsize=12,
+#         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+# axs[1].text(.97, .1, pd.to_datetime(str(TE['t_spring'])).strftime('%H:%M'),
+#         horizontalalignment='right', verticalalignment='top',
+#         transform=axs[1].transAxes, fontsize=12,
+#         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+
+axs[1].legend(loc='lower left',fontsize=12)
+axs[0].text(0.99,0.98,'Spring flood',fontsize=10,ha='right',va='top',transform=axs[0].transAxes)
+axs[1].text(0.99,0.98,'Spring ebb',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
+
+axs[0].text(.97, .11, pd.to_datetime(str(TE['t_spring_flood'])).strftime('%Y.%m.%d'),
         horizontalalignment='right' , verticalalignment='bottom',
         transform=axs[0].transAxes, fontsize=12,
         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
-axs[0].text(.97, .1, pd.to_datetime(str(TE['t_neap'])).strftime('%H:%M'),
+axs[0].text(.97, .1, pd.to_datetime(str(TE['t_spring_flood'])).strftime('%H:%M'),
         horizontalalignment='right', verticalalignment='top',
         transform=axs[0].transAxes, fontsize=12,
         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
-axs[1].text(.97, .11, pd.to_datetime(str(TE['t_spring'])).strftime('%Y.%m.%d'),
+axs[1].text(.97, .11, pd.to_datetime(str(TE['t_spring_ebb'])).strftime('%Y.%m.%d'),
         horizontalalignment='right' , verticalalignment='bottom',
         transform=axs[1].transAxes, fontsize=12,
         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
-axs[1].text(.97, .1, pd.to_datetime(str(TE['t_spring'])).strftime('%H:%M'),
+axs[1].text(.97, .1, pd.to_datetime(str(TE['t_spring_ebb'])).strftime('%H:%M'),
         horizontalalignment='right', verticalalignment='top',
         transform=axs[1].transAxes, fontsize=12,
         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
@@ -239,6 +262,14 @@ axs[1].set_xlabel('Distance [km]')
 #     axs[0].set_title('80km sill')
 #plt.suptitle('Standard decomposition')
 # axs[0].set_title(Ldir['gtagex'])
+
+#add shading for sill
+sillbg=np.where((SDfull.xkm.values>40) & (SDfull.xkm.values<60), 1, 0)
+axs[0].pcolor(SDfull.xkm, axs[0].get_ylim(), np.tile(sillbg,(2,1)), cmap='Greens', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+axs[1].pcolor(SDfull.xkm, axs[1].get_ylim(), np.tile(sillbg,(2,1)), cmap='Greens', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+axs[0].grid(True)
+axs[1].grid(True)
+
 plt.tight_layout()
 
 plt.savefig(out_dir / ('sd_vs_x_hourly.png'))
