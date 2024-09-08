@@ -198,19 +198,19 @@ axs[1].legend(loc='upper right',fontsize=12)
 axs[0].text(0.99,0.98,'Neap',fontsize=10,ha='right',va='top',transform=axs[0].transAxes)
 axs[1].text(0.99,0.98,'Spring',fontsize=10,ha='right',va='top',transform=axs[1].transAxes)
 
-axs[0].text(.97, .11, TE['t_neap'].strftime('%Y-%m-%d'),
+axs[0].text(.97, .11, pd.to_datetime(str(TE['t_neap'])).strftime('%Y.%m.%d'),
         horizontalalignment='right' , verticalalignment='bottom',
         transform=axs[0].transAxes, fontsize=12,
         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
-axs[0].text(.97, .1, TE['t_neap'].strftime('%H:%M'),
+axs[0].text(.97, .1, pd.to_datetime(str(TE['t_neap'])).strftime('%H:%M'),
         horizontalalignment='right', verticalalignment='top',
         transform=axs[0].transAxes, fontsize=12,
         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
-axs[1].text(.97, .11, TE['t_spring'].strftime('%Y-%m-%d'),
+axs[1].text(.97, .11, pd.to_datetime(str(TE['t_spring'])).strftime('%Y.%m.%d'),
         horizontalalignment='right' , verticalalignment='bottom',
         transform=axs[1].transAxes, fontsize=12,
         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
-axs[1].text(.97, .1, TE['t_spring'].strftime('%H:%M'),
+axs[1].text(.97, .1, pd.to_datetime(str(TE['t_spring'])).strftime('%H:%M'),
         horizontalalignment='right', verticalalignment='top',
         transform=axs[1].transAxes, fontsize=12,
         bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
