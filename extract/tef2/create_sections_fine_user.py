@@ -38,6 +38,7 @@ m = ds.mask_rho.values
 h[m==0] = np.nan
 plon, plat = pfun.get_plon_plat(ds.lon_rho.values, ds.lat_rho.values)
 lon_rho=ds.lon_rho.values[0,:]
+lon_u=ds.lon_u.values[0,:]
 aa = pfun.get_aa(ds)
 ds.close
 
@@ -46,7 +47,8 @@ if args.gridname == 'sill20kmdeep':
     xmaxkm=70
     xmin=llxyfun.x2lon(xminkm*1e3,0,45)
     xmax=llxyfun.x2lon(xmaxkm*1e3,0,45)
-    x1=lon_rho[(lon_rho>xmin)&(lon_rho<xmax)]
+    # x1=lon_rho[(lon_rho>xmin)&(lon_rho<xmax)]
+    x1=lon_u[(lon_u>xmin)&(lon_u<xmax)] #should use lon_u for more robust section spacing since we want N-S sections
     sn_list=[]
     for i in range(len(x1)):
         sn='d'+str(i)
