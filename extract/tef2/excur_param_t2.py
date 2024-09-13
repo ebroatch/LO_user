@@ -161,7 +161,7 @@ current_label=' Current'
 
 #start parameter space plot
 plt.close('all')
-fs = 14
+fs = 16
 pfun.start_plot(fs=fs, figsize=(15,15))
 fig, ax = plt.subplots(1, 1)
 
@@ -211,9 +211,9 @@ PS_left=0.15
 PS_right=0.325
 PS_height=PS_top-PS_bottom
 PS_width=PS_right-PS_left
-PS_rect=plt.Rectangle((PS_left,PS_bottom), PS_width, PS_height,fill=False , edgecolor='tab:pink')
+PS_rect=plt.Rectangle((PS_left,PS_bottom), PS_width, PS_height, fill=True , edgecolor='tab:pink', facecolor='tab:pink',alpha=0.3,lw=2)
 ax.add_patch(PS_rect)
-ax.text(PS_left,PS_top,'Puget Sound', ha='left',va='top',fontsize=14,c='tab:pink',fontweight='bold')
+ax.text(PS_left,PS_top,'Puget Sound', ha='left',va='top',fontsize=24,c='k')
 
 CB_bottom=1.54e-3
 CB_top=1.33e-2
@@ -221,9 +221,9 @@ CB_left=0.308
 CB_right=0.548
 CB_height=CB_top-CB_bottom
 CB_width=CB_right-CB_left
-CB_rect=plt.Rectangle((CB_left,CB_bottom), CB_width, CB_height,fill=False , edgecolor='tab:olive')
+CB_rect=plt.Rectangle((CB_left,CB_bottom), CB_width, CB_height, fill=True , edgecolor='tab:olive', facecolor='tab:olive', alpha=0.3,lw=2)
 ax.add_patch(CB_rect)
-ax.text(CB_left,CB_top,'Chesapeake Bay', ha='left',va='top',fontsize=14,c='tab:olive',fontweight='bold')
+ax.text(CB_left,CB_top,'Chesapeake Bay', ha='left',va='top',fontsize=24, c='k')
 
 HR_bottom=6.49e-3
 HR_top=1.1e-1
@@ -231,9 +231,9 @@ HR_left=0.53
 HR_right=0.75
 HR_height=HR_top-HR_bottom
 HR_width=HR_right-HR_left
-HR_rect=plt.Rectangle((HR_left,HR_bottom), HR_width, HR_height,fill=False , edgecolor='tab:brown')
+HR_rect=plt.Rectangle((HR_left,HR_bottom), HR_width, HR_height, fill=True, edgecolor='tab:brown', facecolor='tab:brown', alpha=0.3,lw=2)
 ax.add_patch(HR_rect)
-ax.text(HR_left,HR_top,'Hudson River', ha='left',va='top',fontsize=14,c='tab:brown',fontweight='bold')
+ax.text(HR_left,HR_top,'Hudson River', ha='left',va='top',fontsize=24,c='k')
 
 #Admiralty inlet
 AI_UTspring=2
@@ -263,9 +263,9 @@ print(AI_TEspring/1000)
 print('\nAI neap tidal excursion')
 print(AI_TEneap/1000)
 #add to plot
-AI_rect=plt.Rectangle((AI_Mneap,AI_Frflow), AI_Mspring-AI_Mneap, AI_Frfhigh-AI_Frflow,fill=False , edgecolor='tab:cyan')
+AI_rect=plt.Rectangle((AI_Mneap,AI_Frflow), AI_Mspring-AI_Mneap, AI_Frfhigh-AI_Frflow, fill=True, edgecolor='tab:cyan', facecolor='tab:cyan', alpha=0.3,lw=2)
 ax.add_patch(AI_rect)
-ax.text(AI_Mneap,AI_Frfhigh,'Admiralty Inlet', ha='left',va='top',fontsize=14,c='tab:cyan',fontweight='bold')
+ax.text(AI_Mneap,AI_Frfhigh,'Admiralty Inlet', ha='left',va='top',fontsize=24,c='k')
 
 #plot 80km model on param space
 UT_spring_80=1.57927
@@ -283,7 +283,7 @@ ax.scatter(M_neap_80,Frf_80,s=60,c='tab:purple',label='Neap')
 # ax.text(M_neap_20,Frf_20,'Neap', ha='right',va='center',fontsize=14,c='k')
 ax.plot([M_neap_80,M_spring_80],[Frf_80,Frf_80],':',c='tab:purple')
 #ax.text((M_spring_80+M_neap_80)/2,Frf_80,'80km sill', ha='center',va='bottom',fontsize=14,c='tab:purple')
-ax.text(M_spring_80,Frf_80,'80\n\n', ha='center',va='center',fontsize=14,c='tab:purple',fontweight='bold')
+ax.text(M_spring_80,Frf_80,'80\n', ha='center',va='center',fontsize=24,c='tab:purple',fontweight='bold')
 
 #plot 40km model on param space
 UT_spring_40=1.43466
@@ -295,27 +295,7 @@ M_neap_40=np.sqrt((Cd*UT_neap_40*UT_neap_40)/(omega*N0*H_sill*H_sill))
 ax.scatter(M_spring_40,Frf_40,s=60,c='tab:blue',label='Spring')
 ax.scatter(M_neap_40,Frf_40,s=60,c='tab:blue',label='Neap')
 ax.plot([M_neap_40,M_spring_40],[Frf_40,Frf_40],':',c='tab:blue')
-ax.text(M_spring_40,Frf_40,'\n\n40', ha='left',va='center',fontsize=14,c='tab:blue',fontweight='bold')
-
-#plot 20km model on param space
-UT_spring_20=1.42375
-UT_neap_20=0.67439
-Frf_20=Frf
-M_spring_20=np.sqrt((Cd*UT_spring_20*UT_spring_20)/(omega*N0*H_sill*H_sill))
-M_neap_20=np.sqrt((Cd*UT_neap_20*UT_neap_20)/(omega*N0*H_sill*H_sill))
-# M_spring_20=0.545
-# M_neap_20=0.267
-# Frf_20=0.00189
-
-ax.scatter(M_spring_20,Frf_20,s=60,c='tab:green',label='Spring')
-#ax.text(M_spring_20,Frf_20,'Spring', ha='left',va='center',fontsize=14,c='k')
-ax.scatter(M_neap_20,Frf_20,s=60,c='tab:green',label='Neap')
-#ax.text(M_neap_20,Frf_20,'Neap', ha='right',va='center',fontsize=14,c='k')
-ax.plot([M_neap_20,M_spring_20],[Frf_20,Frf_20],':',c='tab:green')
-#ax.text((M_spring_20+M_neap_20)/2,Frf_20,'20km sill', ha='center',va='bottom',fontsize=14,c='tab:green')
-ax.text(M_spring_20,Frf_20,'\n\n20', ha='right',va='center',fontsize=14,c='tab:green',fontweight='bold')
-
-
+ax.text(M_spring_40,Frf_40,'\n40', ha='left',va='center',fontsize=24,c='tab:blue',fontweight='bold')
 
 #plot 5km model on param space
 UT_spring_5=1.46524
@@ -333,7 +313,7 @@ ax.scatter(M_neap_5,Frf_5,s=60,c='r',label='Neap')
 # ax.text(M_neap_20,Frf_20,'Neap', ha='right',va='center',fontsize=14,c='k')
 ax.plot([M_neap_5,M_spring_5],[Frf_5,Frf_5],':',c='r')
 #ax.text((M_spring_5+M_neap_5)/2,Frf_5,'5km sill', ha='center',va='bottom',fontsize=14,c='r')
-ax.text(M_spring_5,Frf_5,'5\n\n', ha='center',va='center',fontsize=14,c='r',fontweight='bold')
+ax.text(M_spring_5,Frf_5,'5\n', ha='center',va='center',fontsize=24,c='r',fontweight='bold')
 
 #plot 10km model on param space
 UT_spring_10=1.43046 #this is the max value if it is bigger than the "spring" value from the tide_excursion_calc calculator
@@ -345,7 +325,25 @@ M_neap_10=np.sqrt((Cd*UT_neap_10*UT_neap_10)/(omega*N0*H_sill*H_sill))
 ax.scatter(M_spring_10,Frf_10,s=60,c='tab:orange',label='Spring')
 ax.scatter(M_neap_10,Frf_10,s=60,c='tab:orange',label='Neap')
 ax.plot([M_neap_10,M_spring_10],[Frf_10,Frf_10],':',c='tab:orange')
-ax.text(M_spring_10,Frf_10,'10\n\n', ha='center',va='center',fontsize=14,c='tab:orange',fontweight='bold')
+ax.text(M_spring_10,Frf_10,'\n10', ha='right',va='center',fontsize=24,c='tab:orange',fontweight='bold')
+
+#plot 20km model on param space
+UT_spring_20=1.42375
+UT_neap_20=0.67439
+Frf_20=Frf
+M_spring_20=np.sqrt((Cd*UT_spring_20*UT_spring_20)/(omega*N0*H_sill*H_sill))
+M_neap_20=np.sqrt((Cd*UT_neap_20*UT_neap_20)/(omega*N0*H_sill*H_sill))
+# M_spring_20=0.545
+# M_neap_20=0.267
+# Frf_20=0.00189
+
+ax.scatter(M_spring_20,Frf_20,s=60,c='tab:green',label='Spring')
+#ax.text(M_spring_20,Frf_20,'Spring', ha='left',va='center',fontsize=14,c='k')
+ax.scatter(M_neap_20,Frf_20,s=60,c='tab:green',label='Neap')
+#ax.text(M_neap_20,Frf_20,'Neap', ha='right',va='center',fontsize=14,c='k')
+ax.plot([M_neap_20,M_spring_20],[Frf_20,Frf_20],':',c='tab:green')
+#ax.text((M_spring_20+M_neap_20)/2,Frf_20,'20km sill', ha='center',va='bottom',fontsize=14,c='tab:green')
+ax.text(M_spring_20,Frf_20,'20\n', ha='right',va='center',fontsize=24,c='tab:green',fontweight='bold')
 
 
 #format plot
@@ -355,8 +353,8 @@ ax.text(M_spring_10,Frf_10,'10\n\n', ha='center',va='center',fontsize=14,c='tab:
 # ax.set_ylim(1e-4,1e0)
 ax.set_yscale('log')
 ax.set_xscale('log')
-ax.set_xlabel(r'Mixing parameter $M$',fontsize=18)
-ax.set_ylabel(r'Freshwater Froude number $Fr_f$',fontsize=18)
+ax.set_xlabel(r'Mixing parameter $M$',fontsize=24)
+ax.set_ylabel(r'Freshwater Froude number $Fr_f$',fontsize=24)
 ax.grid(axis='y')
 ax.grid(axis='x',which='both')
 # fig.suptitle('Idealized model in estuarine parameter space')
