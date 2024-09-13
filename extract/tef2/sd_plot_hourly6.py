@@ -174,10 +174,29 @@ axs[1].grid(True)
 axs[2].grid(True)
 axs[3].grid(True)
 
-axs[0].text(0.02,0.8,'A',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
-axs[1].text(0.02,0.95,'B',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
-axs[2].text(0.02,0.95,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
-axs[3].text(0.02,0.8,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
+# axs[0].text(0.02,0.8,'A',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
+# axs[1].text(0.02,0.95,'B',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
+# axs[2].text(0.02,0.95,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
+# axs[3].text(0.02,0.8,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
+
+if Ldir['gridname']=='sill5km':
+    axs[0].text(0.02,0.8,'A',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
+    axs[1].text(0.02,0.95,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
+    axs[2].text(0.02,0.95,'G',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
+    axs[3].text(0.02,0.8,'J',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
+    plt.suptitle('5km sill model')
+elif Ldir['gridname']=='sill20kmdeep':
+    axs[0].text(0.02,0.8,'B',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
+    axs[1].text(0.02,0.95,'E',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
+    axs[2].text(0.02,0.95,'H',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
+    axs[3].text(0.02,0.8,'K',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
+    plt.suptitle('20km sill model')
+elif Ldir['gridname']=='sill80km':
+    axs[0].text(0.02,0.8,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
+    axs[1].text(0.02,0.95,'F',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
+    axs[2].text(0.02,0.95,'I',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
+    axs[3].text(0.02,0.8,'L',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
+    plt.suptitle('80km sill model')
 
 axs[1].legend(loc='upper right',fontsize=12)
 
