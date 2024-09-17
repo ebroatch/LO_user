@@ -42,7 +42,7 @@ sect_df = pd.read_pickle(sect_df_fn)
 
 #sect_list = ['b1','b2','b3','b4','b5']
 # sect_choice = 'b5'
-sect_choice = 'b3'
+sect_choice = 'b1'
 
 #plot_label = ['b1','b2','b3','b4','b5']
 #plot_color = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue']
