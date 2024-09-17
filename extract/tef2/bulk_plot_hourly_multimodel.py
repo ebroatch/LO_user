@@ -284,6 +284,7 @@ plt.close()
 pfun.end_plot()
 
 #Scatter plot
+fs=12
 pfun.start_plot(fs=fs)
 fig, [[ax1,ax2],[ax3,ax4]] = plt.subplots(2, 2 ,figsize=(8,8))
 for i in range(len(gctags)):
