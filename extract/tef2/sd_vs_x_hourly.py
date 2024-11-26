@@ -158,11 +158,11 @@ ax.add_artist(recpatch)
 ax.grid(True)
 
 lw = 2
-ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_neap']), color='tab:pink', linewidth=lw, label='$F_{E}$')
-ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_neap']), color='tab:blue', linewidth=lw, label='$F_{T}$')
+ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_neap']), color='tab:pink', linewidth=lw, label='$F_{E}$ neap')
+ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_spring']), color='tab:pink', linewidth=lw, ls='--', label='$F_{E}$ spring')
+ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_neap']), color='tab:blue', linewidth=lw, label='$F_{T}$ neap')
+ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring']), color='tab:blue', linewidth=lw, ls='--', label='$F_{T}$ spring')
 ax.legend(loc='lower left',fontsize=12)
-ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_spring']), color='tab:pink', linewidth=lw, ls='--', label='$F_{E}$')
-ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring']), color='tab:blue', linewidth=lw, ls='--', label='$F_{T}$')
 
 ax.set_ylabel('Standard decomposition terms\n$[m^{3}s^{-1} g\ kg^{-1}]$')
 ax.set_xlabel('Distance [km]')
@@ -171,7 +171,9 @@ ax.set_xlabel('Distance [km]')
 for i in range(len(b_sect_list)):
     ax.axvline(x=b_sect_xkm[i],color='tab:purple',linewidth=1.5,ls=(0, (1, 3)))
     ax.text(b_sect_xkm[i], 70000, b_sect_list[i], horizontalalignment='center' , verticalalignment='bottom', fontsize=12)
-    
+
+ax.axhline(y=0,color='tab:gray',linewidth=lw)
+
 plt.tight_layout()
 plt.savefig(out_dir / ('sd_vs_x_hourly.png'))
 plt.close()
