@@ -162,7 +162,8 @@ ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_neap']), color='tab:pink', linewidt
 ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_spring']), color='tab:pink', linewidth=lw, ls='--', label='$F_{E}$ spring')
 ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_neap']), color='tab:blue', linewidth=lw, label='$F_{T}$ neap')
 ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring']), color='tab:blue', linewidth=lw, ls='--', label='$F_{T}$ spring')
-ax.legend(loc='lower left',fontsize=12)
+# ax.legend(loc='lower left',fontsize=12)
+ax.legend(loc='lower center',fontsize=12)
 
 ax.set_ylabel('Standard decomposition terms\n$[m^{3}s^{-1} g\ kg^{-1}]$')
 ax.set_xlabel('Distance [km]')
