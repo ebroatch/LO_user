@@ -48,7 +48,7 @@ sect_label = ['b1','b2','b3','b4','b5']
 
 # plot_color = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue','tab:purple']
 plot_color = ['tab:cyan',plt.cm.Dark2(0),'tab:olive',plt.cm.Dark2(5),'tab:brown']
-plot_color_light = [plt.cm.tab20(19),plt.cm.Set2(0),plt.cm.tab20(17),plt.cm.Dark2(5),plt.cm.tab20(11)]
+plot_color_light = [plt.cm.tab20(19),plt.cm.Set2(0),plt.cm.tab20(17),plt.cm.Set2(5),plt.cm.tab20(11)]
 
 # sect_list = ['a1.p','a3.p','b1.p','b2.p','b3.p','b4.p','b5.p','c3.p']
 # sect_label = ['a1','a3','b1','b2','b3','b4','b5','c3']
