@@ -223,15 +223,20 @@ for gi in range(len(gtagexlist)):
     # ax3a.text(.05,.05,r'(d) $\partial S/\partial x\ [g\ kg^{-1}\ km^{-1}]$ between pairs of sections',color='k',fontweight='bold',transform=ax3a.transAxes,bbox=pfun.bbox)
 
     for i in range(len(sect_list)-1):
-        axs[gi+1].plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dxlist[i],'-',color=plot_color[i],label=sect_list[i+1]+'-'+sect_list[i]) #PLOT ds/dx INSTEAD OF SALINITY CHANGE
+        axs[gi+1].plot(dti,(St_dict[sect_list[i+1]]-St_dict[sect_list[i]])/dxlist[i],'-',color=plot_color[i],label=sect_list[i+1]+'-'+sect_list[i]) #fix sign (match with label and coord system)
+        # axs[gi+1].plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dxlist[i],'-',color=plot_color[i],label=sect_list[i+1]+'-'+sect_list[i]) #PLOT ds/dx INSTEAD OF SALINITY CHANGE
         # axs[gi+1].plot(dti,(St_dict[sect_list[i]]-St_dict[sect_list[i+1]])/dxlist[i],':',color=c_dict[sect_list[i+1]]) #PLOT AGAIN IN SECOND COLOR TO MAKE TWO COLOR DASHED LINE
+    axs[gi+1].plot(dti,(St_dict[sect_list[4]]-St_dict[sect_list[0]])/(dxlist[0]+dxlist[1]+dxlist[2]+dxlist[3]),'--',color='k',label=sect_list[4]+'-'+sect_list[0]) #plot ds/dx across whole sill
     
     if gi==0:
         #Add Qprism and grey bars
         axs[0].set_ylim(20,80)
         axs[0].set_yticks([20,50,80])
-        axs[1].set_ylim(-0.1,0.5) #to match when placed side by side
-        axs[2].set_ylim(0.02,0.14)
+        # axs[1].set_ylim(-0.1,0.5) #to match when placed side by side
+        # axs[2].set_ylim(0.02,0.14)
+        axs[1].set_ylim(-0.5,0.1) #to match when placed side by side
+        axs[1].axhline(y=0,color='tab:gray',linewidth=2)
+        axs[2].set_ylim(-0.14,-0.02)
 
         sect_name='b3'
         bulk = xr.open_dataset(in_dir2 / (sect_name + '.nc'))

@@ -92,9 +92,9 @@ fig, axs = plt.subplots(4, 1, sharex=True,figsize=(8,10),gridspec_kw={'height_ra
 #Add Qprism and grey bars
 axs[0].set_ylim(20,80)
 axs[0].set_yticks([20,50,80])
-axs[1].set_ylim(-2e4,10e4) #to match when placed side by side
-axs[2].set_ylim(-6e4,6e4)
-axs[3].set_ylim(-3.5e4,-2.5e4)
+axs[1].set_ylim(-20,100) #to match when placed side by side
+axs[2].set_ylim(-60,60)
+axs[3].set_ylim(-35,-25)
 
 sect_name='b3'
 bulk = xr.open_dataset(in_dir3 / (sect_name + '.nc'))
@@ -166,13 +166,13 @@ for i in range(len(sect_list)):
     # axs[0].plot(ot,FR, color='tab:blue', linewidth=lw, label=sect_label[i])
     # axs[2].plot(ot,FE, color='tab:green', linewidth=lw, label=sect_label[i])
     # axs[3].plot(ot,FT, color='tab:red', linewidth=lw, label=sect_label[i])
-    axs[3].plot(ot_dvdk, F0, color=plot_color_light[i], linewidth=lw, label='$F_{0}$ '+sect_label[i])
-    axs[1].plot(ot_dvdk, F2, color=plot_color_light[i], linewidth=lw, label='$F_{2}$ '+sect_label[i])
-    axs[2].plot(ot_dvdk, F1, color=plot_color_light[i], linewidth=lw, label='$F_{1}$ '+sect_label[i])
+    axs[3].plot(ot_dvdk, F0/1000, color=plot_color_light[i], linewidth=lw, label='$F_{0}$ '+sect_label[i])
+    axs[1].plot(ot_dvdk, F2/1000, color=plot_color_light[i], linewidth=lw, label='$F_{2}$ '+sect_label[i])
+    axs[2].plot(ot_dvdk, F1/1000, color=plot_color_light[i], linewidth=lw, label='$F_{1}$ '+sect_label[i])
 
-    axs[3].plot(ot_sd, FR, color=plot_color[i], linewidth=lw, ls='--', label='$F_{R}$ '+sect_label[i])
-    axs[1].plot(ot_sd, FE, color=plot_color[i], linewidth=lw, ls='--', label='$F_{E}$ '+sect_label[i])
-    axs[2].plot(ot_sd, FT, color=plot_color[i], linewidth=lw, ls='--', label='$F_{T}$ '+sect_label[i])
+    axs[3].plot(ot_sd, FR/1000, color=plot_color[i], linewidth=lw, ls='--', label='$F_{R}$ '+sect_label[i])
+    axs[1].plot(ot_sd, FE/1000, color=plot_color[i], linewidth=lw, ls='--', label='$F_{E}$ '+sect_label[i])
+    axs[2].plot(ot_sd, FT/1000, color=plot_color[i], linewidth=lw, ls='--', label='$F_{T}$ '+sect_label[i])
 
 
     # axs[2].plot(ot, FTV, color=plot_color_light[i], linewidth=lw)#, ls=':')# label=sect_label[i])
@@ -199,9 +199,9 @@ axs[2].legend(loc='upper right',fontsize=12)
 axs[3].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 #plt.xticks(rotation=90)
 
-axs[3].set_ylabel('$F_{0}$ or $F_{R}$\n$[m^{3}s^{-1} g\ kg^{-1}]$')
-axs[1].set_ylabel('$F_{2}$ or $F_{E}$\n$[m^{3}s^{-1} g\ kg^{-1}]$')
-axs[2].set_ylabel('$F_{1}$ or $F_{T}$\n$[m^{3}s^{-1} g\ kg^{-1}]$')
+axs[3].set_ylabel('$F_{0}$ or $F_{R}$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$')
+axs[1].set_ylabel('$F_{2}$ or $F_{E}$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$')
+axs[2].set_ylabel('$F_{1}$ or $F_{T}$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$')
 # axs[0].set_ylabel('$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$')
 axs[0].set_ylabel('$Q_{prism}$ (b3)\n$[10^{3}\ m^{3}s^{-1}]$')
 

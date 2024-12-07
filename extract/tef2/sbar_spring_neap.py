@@ -355,7 +355,7 @@ for gi in range(len(gtagexlist)):
     #     ax3a.axvline(x=yd[it_spring],linestyle='--',color='gray',linewidth=2)
 # ax1.text(.05,.1,'Neap and Spring S(x)',color='k',fontweight='bold',transform=ax1.transAxes,bbox=pfun.bbox)
 handles, labels = ax1.get_legend_handles_labels()
-ax1.legend(handles=handles[::2],labels=labels[::2])
+ax1.legend(handles=handles[::2],labels=labels[::2]) #plot only the solid lines in legend
 ax1.set_xlim(0,160)    
 fig.tight_layout()
 #fig.savefig(out_dir / 'dsdx_spring_neap.png')

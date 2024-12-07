@@ -147,10 +147,10 @@ pfun.start_plot(fs=14)
 fig, ax = plt.subplots(1, 1, sharex=True,figsize=(8,5))
 
 ax.set_xlim(30,70)
-ax.set_ylim(bottom=-40000,top=80000)
+ax.set_ylim(bottom=-40,top=80)
 
 #add shading for sill
-recpatch=matplotlib.patches.Rectangle((40,-40000),20,120000,color=plt.cm.tab20(9),ec=None,alpha=0.3)
+recpatch=matplotlib.patches.Rectangle((40,-40),20,120,color=plt.cm.tab20(9),ec=None,alpha=0.3)
 ax.add_artist(recpatch)
 # sillbg=np.where((SDfull.xkm.values>40) & (SDfull.xkm.values<60), 1, 0)
 # mycm=matplotlib.colors.ListedColormap(['w',plt.cm.tab20(9)])
@@ -158,20 +158,20 @@ ax.add_artist(recpatch)
 ax.grid(True)
 
 lw = 2
-ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_neap']), color='tab:pink', linewidth=lw, label='$F_{E}$ neap')
-ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_spring']), color='tab:pink', linewidth=lw, ls='--', label='$F_{E}$ spring')
-ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_neap']), color='tab:blue', linewidth=lw, label='$F_{T}$ neap')
-ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring']), color='tab:blue', linewidth=lw, ls='--', label='$F_{T}$ spring')
+ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_neap'])/1000, color='tab:pink', linewidth=lw, label='$F_{E}$ neap')
+ax.plot(SDfull.xkm, SDfull.FE.sel(time=TE['t_spring'])/1000, color='tab:pink', linewidth=lw, ls='--', label='$F_{E}$ spring')
+ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_neap'])/1000, color='tab:blue', linewidth=lw, label='$F_{T}$ neap')
+ax.plot(SDfull.xkm, SDfull.FT.sel(time=TE['t_spring'])/1000, color='tab:blue', linewidth=lw, ls='--', label='$F_{T}$ spring')
 # ax.legend(loc='lower left',fontsize=12)
 ax.legend(loc='lower center',fontsize=12)
 
-ax.set_ylabel('Standard decomposition terms\n$[m^{3}s^{-1} g\ kg^{-1}]$')
+ax.set_ylabel('Standard decomposition terms\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$')
 ax.set_xlabel('Distance [km]')
 
 #add b sections
 for i in range(len(b_sect_list)):
     ax.axvline(x=b_sect_xkm[i],color='tab:purple',linewidth=1.5,ls=(0, (1, 3)))
-    ax.text(b_sect_xkm[i], 70000, b_sect_list[i], horizontalalignment='center' , verticalalignment='bottom', fontsize=12)
+    ax.text(b_sect_xkm[i], 70, b_sect_list[i], horizontalalignment='center' , verticalalignment='bottom', fontsize=12)
 
 ax.axhline(y=0,color='tab:gray',linewidth=lw)
 

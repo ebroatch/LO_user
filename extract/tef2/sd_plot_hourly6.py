@@ -91,9 +91,9 @@ fig, axs = plt.subplots(4, 1, sharex=True,figsize=(8,10),gridspec_kw={'height_ra
 #Add Qprism and grey bars
 axs[0].set_ylim(20,80)
 axs[0].set_yticks([20,50,80])
-axs[1].set_ylim(-2e4,10e4) #to match when placed side by side
-axs[2].set_ylim(-6e4,6e4)
-axs[3].set_ylim(-3.5e4,-2.5e4)
+axs[1].set_ylim(-20,100) #to match when placed side by side
+axs[2].set_ylim(-60,60)
+axs[3].set_ylim(-35,-25)
 
 sect_name='b3'
 bulk = xr.open_dataset(in_dir3 / (sect_name + '.nc'))
@@ -156,16 +156,16 @@ for i in range(len(sect_list)):
     # axs[0].plot(ot,FR, color='tab:blue', linewidth=lw, label=sect_label[i])
     # axs[2].plot(ot,FE, color='tab:green', linewidth=lw, label=sect_label[i])
     # axs[3].plot(ot,FT, color='tab:red', linewidth=lw, label=sect_label[i])
-    axs[3].plot(ot, FR, color=plot_color[i], linewidth=lw, label=sect_label[i])
-    axs[1].plot(ot, FE, color=plot_color[i], linewidth=lw, label=sect_label[i])
+    axs[3].plot(ot, FR/1000, color=plot_color[i], linewidth=lw, label=sect_label[i])
+    axs[1].plot(ot, FE/1000, color=plot_color[i], linewidth=lw, label=sect_label[i])
     if i==0:
-        axs[2].plot(ot, FT, color='k', linewidth=lw, label=r'$F_{T}$')
+        axs[2].plot(ot, FT/1000, color='k', linewidth=lw, label=r'$F_{T}$')
         # axs[2].plot(ot, FTV, color='k', linewidth=lw, ls=':', label=r'$F_{TV}$')
-        axs[2].plot(ot, FTL, color='k', linewidth=lw, ls=':', label=r'$F_{TL}$')
+        axs[2].plot(ot, FTL/1000, color='k', linewidth=lw, ls=':', label=r'$F_{TL}$')
         axs[2].legend(loc='lower right',fontsize=12)
-    axs[2].plot(ot, FT, color=plot_color[i], linewidth=lw, label=sect_label[i])
+    axs[2].plot(ot, FT/1000, color=plot_color[i], linewidth=lw, label=sect_label[i])
     # axs[2].plot(ot, FTV, color=plot_color_light[i], linewidth=lw)#, ls=':')# label=sect_label[i])
-    axs[2].plot(ot, FTL, color=plot_color[i], linewidth=lw, ls=':')# label=sect_label[i])
+    axs[2].plot(ot, FTL/1000, color=plot_color[i], linewidth=lw, ls=':')# label=sect_label[i])
     # axs[i].plot(ot,FTL, linestyle = '--', color='tab:pink', linewidth=lw, label=r'$F_{TL}$')
     # axs[i].plot(ot,FTV, linestyle = ':', color='tab:orange', linewidth=lw, label=r'$F_{TV}$')
 
@@ -179,23 +179,36 @@ axs[3].grid(True)
 # axs[2].text(0.02,0.95,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
 # axs[3].text(0.02,0.8,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
 
+# if Ldir['gridname']=='sill5km':
+#     axs[0].text(0.02,0.8,'A',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
+#     axs[1].text(0.02,0.95,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
+#     axs[2].text(0.02,0.95,'G',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
+#     axs[3].text(0.02,0.8,'J',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
+#     plt.suptitle('5km sill model')
+# elif Ldir['gridname']=='sill20kmdeep':
+#     axs[0].text(0.02,0.8,'B',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
+#     axs[1].text(0.02,0.95,'E',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
+#     axs[2].text(0.02,0.95,'H',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
+#     axs[3].text(0.02,0.8,'K',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
+#     plt.suptitle('20km sill model')
+# elif Ldir['gridname']=='sill80km':
+#     axs[0].text(0.02,0.8,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
+#     axs[1].text(0.02,0.95,'F',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
+#     axs[2].text(0.02,0.95,'I',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
+#     axs[3].text(0.02,0.8,'L',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
+#     plt.suptitle('80km sill model')
+
 if Ldir['gridname']=='sill5km':
     axs[0].text(0.02,0.8,'A',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
-    axs[1].text(0.02,0.95,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
-    axs[2].text(0.02,0.95,'G',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
-    axs[3].text(0.02,0.8,'J',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
+    axs[1].text(0.02,0.95,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
+    axs[2].text(0.02,0.95,'E',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
+    axs[3].text(0.02,0.8,'G',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
     plt.suptitle('5km sill model')
-elif Ldir['gridname']=='sill20kmdeep':
-    axs[0].text(0.02,0.8,'B',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
-    axs[1].text(0.02,0.95,'E',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
-    axs[2].text(0.02,0.95,'H',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
-    axs[3].text(0.02,0.8,'K',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
-    plt.suptitle('20km sill model')
 elif Ldir['gridname']=='sill80km':
-    axs[0].text(0.02,0.8,'C',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
-    axs[1].text(0.02,0.95,'F',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
-    axs[2].text(0.02,0.95,'I',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
-    axs[3].text(0.02,0.8,'L',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
+    axs[0].text(0.02,0.8,'B',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[0].transAxes)
+    axs[1].text(0.02,0.95,'D',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[1].transAxes)
+    axs[2].text(0.02,0.95,'F',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[2].transAxes)
+    axs[3].text(0.02,0.8,'H',ha='left',va='top',fontweight='bold',fontsize=18,transform=axs[3].transAxes)
     plt.suptitle('80km sill model')
 
 axs[1].legend(loc='upper right',fontsize=12)
@@ -206,9 +219,9 @@ axs[1].legend(loc='upper right',fontsize=12)
 axs[3].set_xlim(pd.Timestamp('2020-10-01'), pd.Timestamp('2020-10-31'))
 #plt.xticks(rotation=90)
 
-axs[3].set_ylabel('$F_{R}$\n$[m^{3}s^{-1} g\ kg^{-1}]$')
-axs[1].set_ylabel('$F_{E}$\n$[m^{3}s^{-1} g\ kg^{-1}]$')
-axs[2].set_ylabel('$F_{T}$\n$[m^{3}s^{-1} g\ kg^{-1}]$')
+axs[3].set_ylabel('$F_{R}$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$')
+axs[1].set_ylabel('$F_{E}$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$')
+axs[2].set_ylabel('$F_{T}$\n$[10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$')
 # axs[0].set_ylabel('$Q_{prism}$\n$[10^{3}\ m^{3}s^{-1}]$')
 axs[0].set_ylabel('$Q_{prism}$ (b3)\n$[10^{3}\ m^{3}s^{-1}]$')
 
