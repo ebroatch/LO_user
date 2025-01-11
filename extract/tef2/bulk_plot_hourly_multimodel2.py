@@ -577,7 +577,7 @@ ax4.legend(loc='lower right',fontsize=12)
 # plt.suptitle('Landward end of sill b5')
 # plt.suptitle('Middle of sill b3')
 plt.subplots_adjust(hspace=0.3, wspace=0.3)
-plt.savefig(out_dir / ('tef_plot_scatter_multimodel_'+sect_choice+'.png'))
+plt.savefig(out_dir / ('tef_parametric_plot_multimodel_'+sect_choice+'.png'))
 plt.close()
 pfun.end_plot()
 
