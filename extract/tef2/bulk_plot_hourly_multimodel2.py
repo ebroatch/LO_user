@@ -267,7 +267,8 @@ for i in range(len(gctags)):
     # else:
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
-ax1.legend(loc='lower left',fontsize=12) #CHANGE THIS
+# ax1.legend(loc='lower left',fontsize=12) #CHANGE THIS
+ax1.legend(loc='lower center',fontsize=12, ncol=5, mode="expand")
 
 #SPLIT THESE
 ax0.text(.02, .8, 'A', horizontalalignment='left', verticalalignment='top', transform=ax0.transAxes, fontsize=14, fontweight='bold')
@@ -294,7 +295,7 @@ pfun.start_plot(fs=fs)
 
 #fig, [ax1,ax2,ax3] = plt.subplots(3, 1, sharex=True,figsize=(15,15))
 # fig, [ax0,ax1,ax2,ax3] = plt.subplots(4, 1, sharex=True,figsize=(15,7.7),gridspec_kw={'height_ratios': [1,4,2,2]})
-fig, [ax0,ax5] = plt.subplots(2, 1, sharex=True,figsize=(8,5),gridspec_kw={'height_ratios': [1,4]}) #CHANGE THIS FOR SPLIT INTO 2 PLOTS
+fig, [ax0,ax5] = plt.subplots(2, 1, sharex=True,figsize=(8,6),gridspec_kw={'height_ratios': [1,5]}) #CHANGE THIS FOR SPLIT INTO 2 PLOTS
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
@@ -470,7 +471,7 @@ for i in range(len(gctags)):
     # else:
     #     plt.savefig(out_dir / (sect_name.replace('.p','') + '.png'))
     #     plt.close()
-ax5.legend(loc='lower left',fontsize=12)
+ax5.legend(loc='upper right',fontsize=12)
 
 #SPLIT THESE
 ax0.text(.02, .8, 'A', horizontalalignment='left', verticalalignment='top', transform=ax0.transAxes, fontsize=14, fontweight='bold')
@@ -519,7 +520,7 @@ for i in range(len(gctags)):
                 'deltas': '$\Delta s\ [g\ kg^{-1}]$',
                 'Qdeltas': '$Q_{in}\Delta s\ [10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$',
                 'Qrsout': '$Q_{r} s_{out}\ [10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$',
-                'storage': '$$Q_{in}\Delta s - Q_{r} s_{out}\ [10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$'}
+                'storage': '$Q_{in}\Delta s - Q_{r} s_{out}\ [10^{3}\ m^{3}s^{-1} g\ kg^{-1}]$'}
 
     pad=36
     ax1.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy(), '-', lw=0.5, color=plot_color[i], label=silllens[i]) #cut out first couple of days for weird qprism
@@ -531,9 +532,9 @@ for i in range(len(gctags)):
     ax4.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),(tef_df['Q_p'][pad:-pad+1].to_numpy()*(tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy()))-(Qr*tef_df['salt_m'][pad:-pad+1].to_numpy()), '-', lw=0.5, color=plot_color[i], label=silllens[i])
 
     #print info about average qin and qprism
-    Qin_avg = tef_df['Q_p'][pad:-pad+1].to_numpy().mean()
-    Qprism_avg = tef_df['Q_prism'][pad:-pad+1].to_numpy().mean()
-    QinQprism_avg = ((tef_df['Q_p'][pad:-pad+1].to_numpy())/(tef_df['Q_prism'][pad:-pad+1].to_numpy())).mean()
+    Qin_avg = np.nanmean(tef_df['Q_p'][pad:-pad+1].to_numpy())
+    Qprism_avg = np.nanmean(tef_df['Q_prism'][pad:-pad+1].to_numpy())
+    QinQprism_avg = np.nanmean((tef_df['Q_p'][pad:-pad+1].to_numpy())/(tef_df['Q_prism'][pad:-pad+1].to_numpy()))
     print('\n')
     print(gctag)
     print('\nAverage Qin:')
