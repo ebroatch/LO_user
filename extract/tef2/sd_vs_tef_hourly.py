@@ -92,7 +92,9 @@ fig, axs = plt.subplots(2, 1, sharex=True,figsize=(8,8),gridspec_kw={'height_rat
 #Add Qprism and grey bars
 axs[0].set_ylim(20,80)
 axs[0].set_yticks([20,50,80])
-axs[1].set_ylim(-20,100) #to match when placed side by side
+# axs[1].set_ylim(-20,100) #to match when placed side by side
+axs[1].set_ylim(-5,65) #for FE, FE+FT, and tef
+# axs[1].set_ylim(-20,100) #for only FE+FT and tef
 # axs[2].set_ylim(-60,60)
 # axs[3].set_ylim(-35,-25)
 
@@ -181,7 +183,7 @@ for i in range(len(sect_list)):
 
     # axs[3].plot(ot_sd, FR/1000, color=plot_color[i], linewidth=lw, ls='--', label='$F_{R}$ '+sect_label[i])
     axs[1].plot(ot_sd, (FE+FT)/1000, color=plot_color[i], linewidth=lw, ls='--', label='$F_{E}+F_{T}$ '+sect_label[i])
-    axs[1].plot(ot_sd, (FE)/1000, color=plot_color[i], linewidth=lw, ls=':', label='$F_{E}$ '+sect_label[i])
+    axs[1].plot(ot_sd, (FE)/1000, color=plot_color[i], linewidth=lw, ls=':', label='$F_{E}$ '+sect_label[i]) #OPTIONAL, COULD ADD BACK
     # axs[2].plot(ot_sd, FT/1000, color=plot_color[i], linewidth=lw, ls='--', label='$F_{T}$ '+sect_label[i])
 
 
