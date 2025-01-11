@@ -42,7 +42,7 @@ sect_df = pd.read_pickle(sect_df_fn)
 
 #sect_list = ['b1','b2','b3','b4','b5']
 # sect_choice = 'b5'
-sect_choice = 'b1'
+sect_choice = 'b3'
 
 #plot_label = ['b1','b2','b3','b4','b5']
 #plot_color = ['tab:red','tab:orange','tab:green','tab:cyan','tab:blue']
@@ -530,6 +530,20 @@ for i in range(len(gctags)):
     #ax4.plot(Qr*tef_df['salt_m'][pad:-pad+1].to_numpy(),tef_df['Q_p'][pad:-pad+1].to_numpy()*(tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy()), '-', lw=0.5, color=plot_color[i], label=silllens[i])
     ax4.plot(tef_df['Q_prism'][pad:-pad+1].to_numpy(),(tef_df['Q_p'][pad:-pad+1].to_numpy()*(tef_df['salt_p'][pad:-pad+1].to_numpy()-tef_df['salt_m'][pad:-pad+1].to_numpy()))-(Qr*tef_df['salt_m'][pad:-pad+1].to_numpy()), '-', lw=0.5, color=plot_color[i], label=silllens[i])
 
+    #print info about average qin and qprism
+    Qin_avg = tef_df['Q_p'][pad:-pad+1].to_numpy().mean()
+    Qprism_avg = tef_df['Q_prism'][pad:-pad+1].to_numpy().mean()
+    QinQprism_avg = ((tef_df['Q_p'][pad:-pad+1].to_numpy())/(tef_df['Q_prism'][pad:-pad+1].to_numpy())).mean()
+    print('\n')
+    print(gctag)
+    print('\nAverage Qin:')
+    print(Qin_avg)
+    print('\nAverage Qprism:')
+    print(Qprism_avg)
+    print('\nAverage Qin / Average Qprism:')
+    print(Qin_avg/Qprism_avg)
+    print('\nAverage(Qin/Qprism):')
+    print(QinQprism_avg)
 
 ax1.set_ylabel(ylab_dict['Q'])
 ax1.set_xlabel(ylab_dict['Qprism'])
@@ -580,16 +594,3 @@ plt.subplots_adjust(hspace=0.3, wspace=0.3)
 plt.savefig(out_dir / ('tef_parametric_plot_multimodel_'+sect_choice+'.png'))
 plt.close()
 pfun.end_plot()
-
-Qin_avg = tef_df['Q_p'][pad:-pad+1].to_numpy().mean()
-Qprism_avg = tef_df['Q_prism'][pad:-pad+1].to_numpy().mean()
-QinQprism_avg = ((tef_df['Q_p'][pad:-pad+1].to_numpy())/(tef_df['Q_prism'][pad:-pad+1].to_numpy())).mean()
-print('\n')
-print('\nAverage Qin:')
-print(Qin_avg)
-print('\nAverage Qprism:')
-print(Qindeltas_spring)
-print('\nAverage Qin / Average Qprism:')
-print(Qin_avg/Qprism_avg)
-print('\nAverage(Qin/Qprism):')
-print(QinQprism_avg)
