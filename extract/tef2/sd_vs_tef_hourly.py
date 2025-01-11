@@ -146,7 +146,7 @@ for i in range(len(sect_list)):
     # ot_dvdk = dvdk['time']
 
     bulk = xr.open_dataset(in_dir3 / sect_ncname)
-    tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir3, sect_name)
+    tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir3, sect_label[i])
     tef_df['Q_p'] = tef_df['q_p']/1000
     tef_df['Q_m'] = tef_df['q_m']/1000
     tef_df['Q_prism']=tef_df['qprism']/1000
