@@ -83,7 +83,7 @@ pfun.start_plot(fs=14)
 
 
 #fig, axs = plt.subplots(4, 1, sharex=True,figsize=(10,10),gridspec_kw={'height_ratios': [5,5,1,1]})
-fig, axs = plt.subplots(4, 1, sharex=True,figsize=(8,8),gridspec_kw={'height_ratios': [1,8]})
+fig, axs = plt.subplots(2, 1, sharex=True,figsize=(8,8),gridspec_kw={'height_ratios': [1,8]})
 # fig = plt.figure()   
 # ax1 = plt.subplot2grid((2,3), (0,0), colspan=2) # Qin, Qout
 # ax2 = plt.subplot2grid((2,3), (1,0), colspan=2) # Sin, Sout
