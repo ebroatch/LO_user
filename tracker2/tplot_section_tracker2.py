@@ -22,8 +22,8 @@ rel = Lfun.choose_item(in_dir0 / gtx_name / exp_name, tag='.nc', exclude_tag='gr
     itext='** Choose item from list **', last=False)
 
 # get Datasets
-fn = in_dir0 / exp_name / rel
-fng = in_dir0 / exp_name / 'grid.nc'
+fn = in_dir0 / gtx_name / exp_name / rel
+fng = in_dir0 / gtx_name / exp_name / 'grid.nc'
 dsr = xr.open_dataset(fn, decode_times=False)
 dsg = xr.open_dataset(fng)
 
@@ -54,7 +54,25 @@ seclat = 45
 #depth = -12.5
 #sillmid = llxyfun.x2lon(50e3,0,45) #cut out particles starting on sill, use sillsea and sillland instead
 sillsea = llxyfun.x2lon(40e3,0,45)
-sillland = llxyfun.x2lon(60e3,0,45)
+# sillland = llxyfun.x2lon(60e3,0,45)
+if gtx_name.split('_')[0]=='sill5km':
+    sillland = llxyfun.x2lon(45e3,0,45)
+    xlonlim=1.1
+elif gtx_name.split('_')[0]=='sill10km':
+    sillland = llxyfun.x2lon(50e3,0,45)
+    xlonlim=1.2
+#elif grid=='20kmdeep':
+elif gtx_name.split('_')[0]=='sill20kmdeep':
+    sillland = llxyfun.x2lon(60e3,0,45)
+    xlonlim=1.3
+elif gtx_name.split('_')[0]=='sill40km':
+    sillland = llxyfun.x2lon(80e3,0,45)
+    xlonlim=1.6
+# elif grid=='80km':
+elif gtx_name.split('_')[0]=='sill80km':
+    sillland = llxyfun.x2lon(120e3,0,45)
+    xlonlim=2.1
+
 # lon = dsr.lon.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)<sillmid),drop=True).values
 # z = dsr.z.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)<sillmid),drop=True).values
 # lon2 = dsr.lon.where((dsr.lat.sel(Time=0)==seclat) & (dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)) & (dsr.lon.sel(Time=0)>sillmid),drop=True).values
@@ -145,9 +163,11 @@ ax2.plot([-0.2,0],[-15.72,0],':k')
 
 # axis limits
 ax.set_ylim(-205,5)
-ax.set_xlim(-0.2,1.1)
+# ax.set_xlim(-0.2,1.1)
+ax2.set_xlim(-0.2,xlonlim)
 ax2.set_ylim(-205,5)
-ax2.set_xlim(-0.2,1.1)
+# ax2.set_xlim(-0.2,1.1)
+ax2.set_xlim(-0.2,xlonlim)
 
 # time series
 # td = (ot_vec - ot_vec[0])/86400
