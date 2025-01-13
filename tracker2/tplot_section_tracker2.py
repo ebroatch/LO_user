@@ -164,7 +164,7 @@ ax2.plot([-0.2,0],[-15.72,0],':k')
 # axis limits
 ax.set_ylim(-205,5)
 # ax.set_xlim(-0.2,1.1)
-ax2.set_xlim(-0.2,xlonlim)
+ax.set_xlim(-0.2,xlonlim)
 ax2.set_ylim(-205,5)
 # ax2.set_xlim(-0.2,1.1)
 ax2.set_xlim(-0.2,xlonlim)
@@ -191,7 +191,8 @@ ax2.set_xlim(-0.2,xlonlim)
 pfun.end_plot()
 
 #plt.show()
-fn_fig = Ldir['LOo'] / 'plots' / 'tplot_section_tracker2test.png'
+figname = 'tplot_section_tracker2_'+ gtx_name.split('_')[0]+'.png'
+fn_fig = Ldir['LOo'] / 'plots' / figname
 plt.savefig(fn_fig)
 plt.close()
 dsr.close()
