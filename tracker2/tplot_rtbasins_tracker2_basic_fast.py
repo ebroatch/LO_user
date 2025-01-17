@@ -57,6 +57,7 @@ for i in range(5):
         linecolor = 'tab:purple'
         silllenlabel = '80km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/release_2020.09.01.nc'
+        print(silllenlabel+'\n')
 
     # get Datasets
     #fn = in_dir0 / exp_name / rel
@@ -158,8 +159,10 @@ for i in range(5):
     # ax3.plot(par3_in.Time/24, zfun.lowpass((par3_in/par3_in.sel(Time=0)).values*100, f='godin'), linestyle=linst, color='tab:pink', label='Inner basin')
     # ax3.plot(par3_in.Time/24, zfun.lowpass((par3_in/par3_in.sel(Time=0)).values*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING
     
-    ax1.plot(time_hours/24, zfun.lowpass((par_out/par_out[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
-    ax3.plot(time_hours/24, zfun.lowpass((par_in/par_in[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING    
+    # ax1.plot(time_hours/24, zfun.lowpass((par_out/par_out[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
+    # ax3.plot(time_hours/24, zfun.lowpass((par_in/par_in[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING    
+    ax1.plot(time_hours/24, (par_out/par_out[0])*100, color=linecolor, label=silllenlabel) #TRY WITH NO FILTERING
+    ax3.plot(time_hours/24, (par_in/par_in[0])*100, color=linecolor, label=silllenlabel)
     print('plotted\n')
     sys.stdout.flush()
     
@@ -180,7 +183,7 @@ for i in range(5):
 #plt.show()
 ax1.set_xlabel('Days')
 ax1.set_ylabel('% of particles')
-ax1.set_title('Particles released in outer basin')
+ax1.set_title('Particles released in outer basin (unfiltered)')
 #ax1.legend(loc='best')
 ax1.grid(True)
 ax1.set_xlim(0,120)
@@ -196,7 +199,7 @@ ax1.set_ylim(0,100)
 
 ax3.set_xlabel('Days')
 #ax3.set_ylabel('Number of particles')
-ax3.set_title('Particles released in inner basin')
+ax3.set_title('Particles released in inner basin (unfiltered)')
 #ax3.legend(loc='best')
 ax3.grid(True)
 ax3.set_xlim(0,120)
