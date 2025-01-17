@@ -172,10 +172,15 @@ for i in range(5):
     # ax3.plot(par3_in.Time/24, zfun.lowpass((par3_in/par3_in.sel(Time=0)).values*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING
     
 
-    axs[0,0].plot(time_hours/24, zfun.lowpass((par_in_lower/par_in_lower[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING
-    axs[0,1].plot(time_hours/24, zfun.lowpass((par_in_upper/par_in_upper[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING
-    axs[1,0].plot(time_hours/24, zfun.lowpass((par_out_lower/par_out_lower[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
-    axs[1,1].plot(time_hours/24, zfun.lowpass((par_out_upper/par_out_upper[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
+    # axs[0,0].plot(time_hours/24, zfun.lowpass((par_in_lower/par_in_lower[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING
+    # axs[0,1].plot(time_hours/24, zfun.lowpass((par_in_upper/par_in_upper[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING
+    # axs[1,0].plot(time_hours/24, zfun.lowpass((par_out_lower/par_out_lower[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
+    # axs[1,1].plot(time_hours/24, zfun.lowpass((par_out_upper/par_out_upper[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
+
+    axs[0,0].plot(time_hours/24, zfun.lowpass(par_in_lower, f='godin'), color=linecolor, label=silllenlabel) #TRY WITH TOTAL PARTICLE COUNTS
+    axs[0,1].plot(time_hours/24, zfun.lowpass(par_in_upper, f='godin'), color=linecolor, label=silllenlabel) 
+    axs[1,0].plot(time_hours/24, zfun.lowpass(par_out_lower, f='godin'), color=linecolor, label=silllenlabel) 
+    axs[1,1].plot(time_hours/24, zfun.lowpass(par_out_upper, f='godin'), color=linecolor, label=silllenlabel) 
 
     #could try with total number of particles and/or double axis
     
@@ -200,7 +205,8 @@ for i in range(5):
 
 #plt.show()
 # axs[0,0].set_xlabel('Days')
-axs[0,0].set_ylabel('% of particles remaining in inner basin')
+# axs[0,0].set_ylabel('% of particles remaining in inner basin')
+axs[0,0].set_ylabel('Particles remaining in inner basin') #TRY WITH TOTAL PARTICLE COUNT
 axs[0,0].set_title('Released in inner basin below sill height')
 axs[0,0].grid(True)
 axs[0,0].set_xlim(0,120)
@@ -214,7 +220,8 @@ axs[0,1].set_xlim(0,120)
 axs[0,1].set_ylim(0,100)
 
 axs[1,0].set_xlabel('Days')
-axs[1,0].set_ylabel('% of particles remaining in outer basin')
+# axs[1,0].set_ylabel('% of particles remaining in outer basin')
+axs[1,0].set_ylabel('Particles remaining in outer basin') #TRY WITH TOTAL PARTICLE COUNT
 axs[1,0].set_title('Released in outer basin below sill height')
 #ax1.legend(loc='best')
 axs[1,0].grid(True)
