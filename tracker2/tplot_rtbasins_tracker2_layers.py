@@ -15,7 +15,7 @@ from scipy.optimize import curve_fit
 
 plt.close('all')
 # fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
-fig, [ax1,ax3] = plt.subplots(1,2,figsize=(15,6))
+fig, axs = plt.subplots(2,2,figsize=(15,15))
 
 for i in range(5):
     # Choose an experiment and release to plot.
@@ -82,19 +82,30 @@ for i in range(5):
 
 
     lon_vals = dsr.lon.values
+    z_start = dsr.z.values[np.newaxis, 0, :] #starting depth of the particles
     time_hours = dsr.Time.values
     dsr.close()
     print('got lon_vals and time\n')
+
+    z_start_lower = z_start < -50 #boolean array for particles starting below sill depth
+    z_start_upper = z_start >= -50 #boolean array for particles starting above sill depth
+
     lon_in = lon_vals >= sillland #these are particles in the inner basin at any given point in time
-    lon_in_start_in = lon_in * lon_in[np.newaxis, 0, :]
+    lon_in_lower = lon_in * lon_in[np.newaxis, 0, :] * z_start_lower #particles in the inner basin that started in the inner basin below sill depth
+    lon_in_upper = lon_in * lon_in[np.newaxis, 0, :] * z_start_upper #particles in the inner basin that started in the inner basin above sill depth
     print('got lon_in\n')
+
     lon_out = (lon_vals <= sillsea) & (lon_vals >= 0)
-    lon_out_start_out = lon_out * lon_out[np.newaxis, 0, :]
+    lon_out_lower = lon_out * lon_out[np.newaxis, 0, :] * z_start_lower #particles in the outer basin that started in the outer basin below sill depth
+    lon_out_upper = lon_out * lon_out[np.newaxis, 0, :] * z_start_upper #particles in the outer basin that started in the outer basin above sill depth
+
     print('got lon_out\n')
 
 
-    par_in = np.sum(lon_in_start_in,axis=1)
-    par_out = np.sum(lon_out_start_out,axis=1)
+    par_in_lower = np.sum(lon_in_lower,axis=1)
+    par_in_upper = np.sum(lon_in_upper,axis=1)
+    par_out_lower = np.sum(lon_out_lower,axis=1)
+    par_out_upper = np.sum(lon_out_upper,axis=1)
     print('got particle counts\n')
     # lon1 = dsr.lon.where((dsr.lon.sel(Time=0)<sillsea),drop=True) #THESE ARE THE OUTER BASIN PARTICLES
     # print('got lon1\n')
@@ -160,10 +171,16 @@ for i in range(5):
     # ax3.plot(par3_in.Time/24, zfun.lowpass((par3_in/par3_in.sel(Time=0)).values*100, f='godin'), linestyle=linst, color='tab:pink', label='Inner basin')
     # ax3.plot(par3_in.Time/24, zfun.lowpass((par3_in/par3_in.sel(Time=0)).values*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING
     
-    ax1.plot(time_hours/24, zfun.lowpass((par_out/par_out[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
-    ax3.plot(time_hours/24, zfun.lowpass((par_in/par_in[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING    
-    # ax1.plot(time_hours/24, (par_out/par_out[0])*100, color=linecolor, label=silllenlabel) #TRY WITH NO FILTERING
-    # ax3.plot(time_hours/24, (par_in/par_in[0])*100, color=linecolor, label=silllenlabel)
+
+    axs[0,0].plot(time_hours/24, zfun.lowpass((par_in_lower/par_in_lower[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING
+    axs[0,1].plot(time_hours/24, zfun.lowpass((par_in_upper/par_in_upper[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING
+    axs[1,0].plot(time_hours/24, zfun.lowpass((par_out_lower/par_out_lower[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
+    axs[1,1].plot(time_hours/24, zfun.lowpass((par_out_upper/par_out_upper[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
+
+    #could try with total number of particles and/or double axis
+    
+    # axs[0,0].plot(time_hours/24, (par_out/par_out[0])*100, color=linecolor, label=silllenlabel) #TRY WITH NO FILTERING
+    # axs[0,1].plot(time_hours/24, (par_in/par_in[0])*100, color=linecolor, label=silllenlabel)
     print('plotted\n')
     sys.stdout.flush()
     
@@ -182,14 +199,36 @@ for i in range(5):
 #     #axs[j].set_ylim(0, 30)
 
 #plt.show()
-ax1.set_xlabel('Days')
-ax1.set_ylabel('% of particles')
-ax1.set_title('Particles released in outer basin')
-# ax1.set_title('Particles released in outer basin (unfiltered)')
+# axs[0,0].set_xlabel('Days')
+axs[0,0].set_ylabel('% of particles remaining in inner basin')
+axs[0,0].set_title('Released in inner basin below sill height')
+axs[0,0].grid(True)
+axs[0,0].set_xlim(0,120)
+axs[0,0].set_ylim(0,100)
+
+# axs[0,1].set_xlabel('Days')
+# axs[0,1].set_ylabel('% of particles')
+axs[0,1].set_title('Released in inner basin above sill height')
+axs[0,1].grid(True)
+axs[0,1].set_xlim(0,120)
+axs[0,1].set_ylim(0,100)
+
+axs[1,0].set_xlabel('Days')
+axs[1,0].set_ylabel('% of particles remaining in outer basin')
+axs[1,0].set_title('Released in outer basin below sill height')
 #ax1.legend(loc='best')
-ax1.grid(True)
-ax1.set_xlim(0,120)
-ax1.set_ylim(0,100)
+axs[1,0].grid(True)
+axs[1,0].set_xlim(0,120)
+axs[1,0].set_ylim(0,100)
+
+axs[1,1].set_xlabel('Days')
+# axs[1,1].set_ylabel('% of particles')
+axs[1,1].set_title('Released in outer basin above sill height')
+#ax1.legend(loc='best')
+axs[1,1].grid(True)
+axs[1,1].set_xlim(0,120)
+axs[1,1].set_ylim(0,100)
+axs[1,1].legend(loc='upper right')
 
 # ax2.set_xlabel('Days')
 # #ax1.set_ylabel('Number of particles')
@@ -199,18 +238,17 @@ ax1.set_ylim(0,100)
 # ax2.set_xlim(0,120)
 # ax2.set_ylim(0,100)
 
-ax3.set_xlabel('Days')
-#ax3.set_ylabel('Number of particles')
-ax3.set_title('Particles released in inner basin')
+# ax3.set_xlabel('Days')
+# #ax3.set_ylabel('Number of particles')
 # ax3.set_title('Particles released in inner basin (unfiltered)')
-#ax3.legend(loc='best')
-ax3.grid(True)
-ax3.set_xlim(0,120)
-ax3.set_ylim(0,100)
-ax3.legend(loc='upper right')
+# #ax3.legend(loc='best')
+# ax3.grid(True)
+# ax3.set_xlim(0,120)
+# ax3.set_ylim(0,100)
+# ax3.legend(loc='upper right')
 
 
-fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_basic_fast.png'
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_layers.png'
 plt.savefig(fn_fig)
 plt.close()
 #plt.show()
