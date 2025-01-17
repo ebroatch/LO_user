@@ -17,7 +17,7 @@ plt.close('all')
 # fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
 fig, [ax1,ax3] = plt.subplots(1,2,figsize=(15,6))
 
-for i in range(3):
+for i in range(5):
     # Choose an experiment and release to plot.
     # in_dir0 = Ldir['LOo'] / 'tracks'
     # exp_name = Lfun.choose_item(in_dir0, tag='', exclude_tag='.csv',
@@ -30,21 +30,30 @@ for i in range(3):
     if i==0:
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(45e3,0,45)
-        linst = ':'
         linecolor = 'tab:red'
         silllenlabel = '5km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/release_2020.09.01.nc'
     elif i==1:
         sillsea = llxyfun.x2lon(40e3,0,45)
+        sillland = llxyfun.x2lon(50e3,0,45)
+        linecolor = 'tab:orange'
+        silllenlabel = '10km'
+        fn = '/data1/ebroatch/LO_output/tracks2/sill10km_t2_xa0/sill10kmest_3d/release_2020.09.01.nc'
+    elif i==2:
+        sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(60e3,0,45)
-        linst = '-'
         linecolor = 'tab:green'
         silllenlabel = '20km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill20kmdeep_t2_xa0/sill20kmdeepest_3d/release_2020.09.01.nc'
-    elif i==2:
+    elif i==3:
+        sillsea = llxyfun.x2lon(40e3,0,45)
+        sillland = llxyfun.x2lon(80e3,0,45)
+        linecolor = 'tab:blue'
+        silllenlabel = '40km'
+        fn = '/data1/ebroatch/LO_output/tracks2/sill40km_t2_xa0/sill40kmest_3d/release_2020.09.01.nc'
+    elif i==4:
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(120e3,0,45)
-        linst = '--'
         linecolor = 'tab:purple'
         silllenlabel = '80km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/release_2020.09.01.nc'
