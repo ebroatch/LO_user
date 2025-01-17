@@ -71,8 +71,9 @@ for i in range(3):
 
 
     lon_vals = dsr.lon.values
+    time_hours = dsr.Time.values
     dsr.close()
-    print('got lon_vals\n')
+    print('got lon_vals and time\n')
     lon_in = lon_vals >= sillland #these are particles in the inner basin at any given point in time
     lon_in_start_in = lon_in * lon_in[np.newaxis, 0, :]
     print('got lon_in\n')
@@ -148,8 +149,8 @@ for i in range(3):
     # ax3.plot(par3_in.Time/24, zfun.lowpass((par3_in/par3_in.sel(Time=0)).values*100, f='godin'), linestyle=linst, color='tab:pink', label='Inner basin')
     # ax3.plot(par3_in.Time/24, zfun.lowpass((par3_in/par3_in.sel(Time=0)).values*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING
     
-    ax1.plot(par_out.Time/24, zfun.lowpass((par_out/par_out.sel(Time=0)).values*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
-    ax3.plot(par_in.Time/24, zfun.lowpass((par_in/par_in.sel(Time=0)).values*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING    
+    ax1.plot(time_hours/24, zfun.lowpass((par_out/par_out[0]).values*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
+    ax3.plot(time_hours/24, zfun.lowpass((par_in/par_in[0]).values*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING    
     print('plotted\n')
     sys.stdout.flush()
     
