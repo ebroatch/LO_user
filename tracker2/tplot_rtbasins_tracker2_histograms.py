@@ -16,7 +16,7 @@ from scipy.optimize import curve_fit
 plt.close('all')
 # fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
 # fig, axs = plt.subplots(2,2,figsize=(15,15))
-fig, axs = plt.subplots(1,1,figsize=(15,15))
+fig, ax = plt.subplots(1,1,figsize=(15,15))
 
 for i in range(5):
     # Choose an experiment and release to plot.
@@ -193,7 +193,7 @@ for i in range(5):
     # axs[1,0].plot(time_hours/24, zfun.lowpass(par_out_lower, f='godin'), color=linecolor, label=silllenlabel) 
     # axs[1,1].plot(time_hours/24, zfun.lowpass(par_out_upper, f='godin'), color=linecolor, label=silllenlabel) 
 
-    axs[0,0].histogram(rt_strict_days,bins=[0,10,20,30,40,50,60,70,80,90,100,110,120], density=True, histtype='barstacked',color=linecolor,alpha=0.3,label=silllenlabel)
+    ax.histogram(rt_strict_days,bins=[0,10,20,30,40,50,60,70,80,90,100,110,120], density=True, histtype='barstacked',color=linecolor,alpha=0.3,label=silllenlabel)
 
     #could try with total number of particles and/or double axis
     
@@ -220,13 +220,13 @@ for i in range(5):
 # axs[0,0].set_xlabel('Days')
 # axs[0,0].set_ylabel('% of particles remaining in inner basin')
 # axs[0,0].set_ylabel('Particles remaining in inner basin') #TRY WITH TOTAL PARTICLE COUNT
-axs[0,0].set_title('Residence time histogram')
-axs[0,0].grid(True)
-axs[0,0].set_xlim(0,120)
+ax.set_title('Residence time histogram')
+ax.grid(True)
+ax.set_xlim(0,120)
 # axs[0,0].set_ylim(0,100)
 # axs[0,0].set_ylim(0,par_in_lower[0])
-axs[0,0].set_xlabel('Residence time [days]')
-axs[0,0].legend(loc='upper right')
+ax.set_xlabel('Residence time [days]')
+ax.legend(loc='upper right')
 
 # axs[0,1].set_xlabel('Days')
 # # axs[0,1].set_ylabel('% of particles')
