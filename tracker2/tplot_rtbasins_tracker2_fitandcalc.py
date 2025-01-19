@@ -173,16 +173,16 @@ for i in range(5):
 
     #ADD CALCULATIONS TO PRINT FOR EACH MODEL
     pad=36 #could use 35 but 36 is nice bc it gives exactly 1.5 days removed on each end
-    par_out_percent_ta = zfun.lowpass((par_out/par_out[0])*100, f='godin')[pad:-pad+1]
-    par_in_percent_ta = zfun.lowpass((par_in/par_in[0])*100, f='godin')[pad:-pad+1]
+    par_out_frac_ta = zfun.lowpass((par_out/par_out[0]), f='godin')[pad:-pad+1]
+    par_in_frac_ta = zfun.lowpass((par_in/par_in[0]), f='godin')[pad:-pad+1]
 
     par_out_ta = zfun.lowpass(par_out, f='godin')[pad:-pad+1]
     par_in_ta = zfun.lowpass(par_in, f='godin')[pad:-pad+1]
     t_ta = time_hours[pad:-pad+1]
 
     #quick calc
-    t_e_out = (t_ta[-1] / np.log(par_out_percent_ta[-1]/100))/24 #e-folding time in days from tidally averaged values
-    t_e_in = (t_ta[-1] / np.log(par_in_percent_ta[-1]/100))/24
+    t_e_out = (t_ta[-1] / np.log(par_out_frac_ta[-1]/1))/24 #e-folding time in days from tidally averaged values
+    t_e_in = (t_ta[-1] / np.log(par_in_frac_ta[-1]/1))/24
 
     t_e_out_raw = (time_hours[-1] / np.log(par_out[-1]/par_out[0]))/24 #e-folding time in days from raw number of particles
     t_e_in_raw = (time_hours[-1] / np.log(par_in[-1]/par_in[0]))/24
@@ -193,16 +193,16 @@ for i in range(5):
     def func(x, a, b, c):
         return a * np.exp(-b * x) + c
 
-    p0=(100,0.0005,0)
-    popt_out, pcov_out = curve_fit(func, t_ta, par_out_percent_ta, p0=p0)
-    popt_in, pcov_in = curve_fit(func, t_ta, par_in_percent_ta, p0=p0)
+    p0=(1,0.0005,0)
+    popt_out, pcov_out = curve_fit(func, t_ta, par_out_frac_ta, p0=p0)
+    popt_in, pcov_in = curve_fit(func, t_ta, par_in_frac_ta, p0=p0)
 
     def func2(x, a, b):
         return a * np.exp(-b * x)
 
-    p02=(100,0.0005)
-    popt_out2, pcov_out2 = curve_fit(func2, t_ta, par_out_percent_ta, p0=p02)
-    popt_in2, pcov_in2 = curve_fit(func2, t_ta, par_in_percent_ta, p0=p02)
+    p02=(1,0.0005)
+    popt_out2, pcov_out2 = curve_fit(func2, t_ta, par_out_frac_ta, p0=p02)
+    popt_in2, pcov_in2 = curve_fit(func2, t_ta, par_in_frac_ta, p0=p02)
 
     #fitting
 
