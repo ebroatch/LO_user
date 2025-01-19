@@ -181,11 +181,11 @@ for i in range(5):
     t_ta = time_hours[pad:-pad+1]
 
     #quick calc
-    t_e_out = (t_ta[-1] / np.log(par_out_frac_ta[-1]/1))/24 #e-folding time in days from tidally averaged values
-    t_e_in = (t_ta[-1] / np.log(par_in_frac_ta[-1]/1))/24
+    T_e_out = (t_ta[-1] / np.log(par_out_frac_ta[-1]/1))/24 #e-folding time in days from tidally averaged values
+    T_e_in = (t_ta[-1] / np.log(par_in_frac_ta[-1]/1))/24
 
-    t_e_out_raw = (time_hours[-1] / np.log(par_out[-1]/par_out[0]))/24 #e-folding time in days from raw number of particles
-    t_e_in_raw = (time_hours[-1] / np.log(par_in[-1]/par_in[0]))/24
+    T_e_out_raw = (time_hours[-1] / np.log(par_out[-1]/par_out[0]))/24 #e-folding time in days from raw number of particles
+    T_e_in_raw = (time_hours[-1] / np.log(par_in[-1]/par_in[0]))/24
     print('quick e-folding calc done\n')
     sys.stdout.flush()
 
@@ -193,16 +193,27 @@ for i in range(5):
     def func(x, a, b, c):
         return a * np.exp(-b * x) + c
 
+    par_scale_out = par_out_ta[0]
+    par_scale_in = par_in_ta[0]
+    t_scale = t_ta[-1]
+    t_frac = t_ta / t_scale
+
     p0=(1,0.0005,0)
-    popt_out, pcov_out = curve_fit(func, t_ta, par_out_frac_ta, p0=p0)
-    popt_in, pcov_in = curve_fit(func, t_ta, par_in_frac_ta, p0=p0)
+    popt_out, pcov_out = curve_fit(func, t_frac, par_out_frac_ta, p0=p0)
+    popt_in, pcov_in = curve_fit(func, t_frac, par_in_frac_ta, p0=p0)
+
+    T_e_out_fit = (1/popt_out[1])*t_scale/24 #T_e from fit in days
+    T_e_in_fit = (1/popt_in[1])*t_scale/24 #T_e from fit in days   
 
     def func2(x, a, b):
         return a * np.exp(-b * x)
 
     p02=(1,0.0005)
-    popt_out2, pcov_out2 = curve_fit(func2, t_ta, par_out_frac_ta, p0=p02)
-    popt_in2, pcov_in2 = curve_fit(func2, t_ta, par_in_frac_ta, p0=p02)
+    popt_out2, pcov_out2 = curve_fit(func2, t_frac, par_out_frac_ta, p0=p02)
+    popt_in2, pcov_in2 = curve_fit(func2, t_frac, par_in_frac_ta, p0=p02)
+
+    T_e_out_fit2 = (1/popt_out[1])*t_scale/24 #T_e from two parameter fit in days
+    T_e_in_fit2 = (1/popt_in[1])*t_scale/24 #T_e from two parameter fit in days   
 
     #fitting
 
