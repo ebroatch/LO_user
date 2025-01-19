@@ -197,6 +197,13 @@ for i in range(5):
     popt_out, pcov_out = curve_fit(func, t_ta, par_out_percent_ta, p0=p0)
     popt_in, pcov_in = curve_fit(func, t_ta, par_in_percent_ta, p0=p0)
 
+    def func2(x, a, b):
+        return a * np.exp(-b * x)
+
+    p02=(100,0.0005)
+    popt_out2, pcov_out2 = curve_fit(func2, t_ta, par_out_percent_ta, p0=p02)
+    popt_in2, pcov_in2 = curve_fit(func2, t_ta, par_in_percent_ta, p0=p02)
+
     #fitting
 
 
