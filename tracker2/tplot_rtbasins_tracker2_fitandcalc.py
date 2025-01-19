@@ -212,8 +212,8 @@ for i in range(5):
     popt_out2, pcov_out2 = curve_fit(func2, t_frac, par_out_frac_ta, p0=p02)
     popt_in2, pcov_in2 = curve_fit(func2, t_frac, par_in_frac_ta, p0=p02)
 
-    T_e_out_fit2 = (1/popt_out[1])*t_scale/24 #T_e from two parameter fit in days
-    T_e_in_fit2 = (1/popt_in[1])*t_scale/24 #T_e from two parameter fit in days   
+    T_e_out_fit2 = (1/popt_out2[1])*t_scale/24 #T_e from two parameter fit in days
+    T_e_in_fit2 = (1/popt_in2[1])*t_scale/24 #T_e from two parameter fit in days   
 
     #fitting
 
