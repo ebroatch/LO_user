@@ -198,7 +198,7 @@ for i in range(5):
     t_scale = t_ta[-1]
     t_frac = t_ta / t_scale
 
-    p0=(1,0.0005,0)
+    p0=(1,1,0)
     popt_out, pcov_out = curve_fit(func, t_frac, par_out_frac_ta, p0=p0)
     popt_in, pcov_in = curve_fit(func, t_frac, par_in_frac_ta, p0=p0)
 
@@ -208,7 +208,7 @@ for i in range(5):
     def func2(x, a, b):
         return a * np.exp(-b * x)
 
-    p02=(1,0.0005)
+    p02=(1,1)
     popt_out2, pcov_out2 = curve_fit(func2, t_frac, par_out_frac_ta, p0=p02)
     popt_in2, pcov_in2 = curve_fit(func2, t_frac, par_in_frac_ta, p0=p02)
 
