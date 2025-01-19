@@ -193,7 +193,7 @@ for i in range(5):
     # axs[1,0].plot(time_hours/24, zfun.lowpass(par_out_lower, f='godin'), color=linecolor, label=silllenlabel) 
     # axs[1,1].plot(time_hours/24, zfun.lowpass(par_out_upper, f='godin'), color=linecolor, label=silllenlabel) 
 
-    ax.hist(rt_strict_days,bins=[0,10,20,30,40,50,60,70,80,90,100,110,120], density=True, histtype='barstacked',color=linecolor,alpha=0.3,label=silllenlabel)
+    ax.hist(rt_strict_days,bins=[0,10,20,30,40,50,60,70,80,90,100,110,120], density=True, histtype='bar',color=linecolor,alpha=0.3,label=silllenlabel)
 
     #could try with total number of particles and/or double axis
     
