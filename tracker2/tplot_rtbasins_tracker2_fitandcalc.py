@@ -193,12 +193,9 @@ for i in range(5):
     def func(x, a, b, c):
         return a * np.exp(-b * x) + c
 
-    p0=(100,-0.0005,0)
-    #popt, pcov = curve_fit(func, tplot, partest_ta, p0=p0)
+    p0=(100,0.0005,0)
     popt_out, pcov_out = curve_fit(func, t_ta, par_out_percent_ta, p0=p0)
-
     popt_in, pcov_in = curve_fit(func, t_ta, par_in_percent_ta, p0=p0)
-    #pfit=np.polyfit(tplot,np.log(partest_ta),1)
 
     #fitting
 
@@ -245,7 +242,7 @@ ax3.set_ylim(0,100)
 ax3.legend(loc='upper right')
 
 
-fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_basic_fast.png'
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_fitandcalc.png'
 plt.savefig(fn_fig)
 plt.close()
 #plt.show()
