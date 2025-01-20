@@ -226,7 +226,7 @@ ax.set_xlim(0,120)
 # axs[0,0].set_ylim(0,100)
 # axs[0,0].set_ylim(0,par_in_lower[0])
 ax.set_xlabel('Residence time [days]')
-ax.legend(loc='upper right')
+ax.legend(loc='lower left')
 
 # axs[0,1].set_xlabel('Days')
 # # axs[0,1].set_ylabel('% of particles')
