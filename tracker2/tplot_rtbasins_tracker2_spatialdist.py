@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import xarray as xr
 import numpy as np
 from scipy.optimize import curve_fit
+from scipy import stats
 
 plt.close('all')
 # fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
@@ -34,30 +35,35 @@ for i in range(5):
         linecolor = 'tab:red'
         silllenlabel = '5km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/release_2020.09.01.nc'
+        fng = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/grid.nc'
     elif i==1:
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(50e3,0,45)
         linecolor = 'tab:orange'
         silllenlabel = '10km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill10km_t2_xa0/sill10kmest_3d/release_2020.09.01.nc'
+        fng = '/data1/ebroatch/LO_output/tracks2/sill10km_t2_xa0/sill10kmest_3d/grid.nc'
     elif i==2:
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(60e3,0,45)
         linecolor = 'tab:green'
         silllenlabel = '20km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill20kmdeep_t2_xa0/sill20kmdeepest_3d/release_2020.09.01.nc'
+        fng = '/data1/ebroatch/LO_output/tracks2/sill20kmdeep_t2_xa0/sill20kmdeepest_3d/grid.nc'
     elif i==3:
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(80e3,0,45)
         linecolor = 'tab:blue'
         silllenlabel = '40km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill40km_t2_xa0/sill40kmest_3d/release_2020.09.01.nc'
+        fng = '/data1/ebroatch/LO_output/tracks2/sill40km_t2_xa0/sill40kmest_3d/grid.nc'
     elif i==4:
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(120e3,0,45)
         linecolor = 'tab:purple'
         silllenlabel = '80km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/release_2020.09.01.nc'
+        fng = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/grid.nc'
     
     print(silllenlabel+'\n')
 
@@ -65,7 +71,9 @@ for i in range(5):
     #fn = in_dir0 / exp_name / rel
     #fng = in_dir0 / exp_name / 'grid.nc'
     dsr = xr.open_dataset(fn, decode_times=False)
-    #dsg = xr.open_dataset(fng)
+    dsg = xr.open_dataset(fng)
+    lonp, latp = pfun.get_plon_plat(dsg.lon_rho.values, dsg.lat_rho.values) #will use these for the spatial bins
+    dsg.close()
 
     NT, NP = dsr.lon.shape
 
@@ -84,6 +92,7 @@ for i in range(5):
 
     lon_vals = dsr.lon.values
     # z_start = dsr.z.values[np.newaxis, 0, :] #starting depth of the particles
+    lon_start = dsr.lon.values[0,:] #should we add newaxis?
     time_hours = dsr.Time.values
     dsr.close()
     print('got lon_vals and time\n')
@@ -91,10 +100,10 @@ for i in range(5):
     # z_start_lower = z_start < -50 #boolean array for particles starting below sill depth
     # z_start_upper = z_start >= -50 #boolean array for particles starting above sill depth
 
-    lon_in = lon_vals >= sillland #these are particles in the inner basin at any given point in time #NEED TO CHANGE STRATEGY FOR THESE SMALLER CONTROL VOLUMES, NOT ALL PARTICLES SHOULD BE INCLUDED IN COUNT
-    lon_insill = lon_vals >= sillsea #these are particles in the inner basin or sill any given point in time
-    lon_est = lon_vals >= sillsea #these are particles anywhere in the estuary
-    lon_out = (lon_vals <= sillsea) & (lon_vals >= 0) #these are particles in the outer basin at any point in time
+    # lon_in = lon_vals >= sillland #these are particles in the inner basin at any given point in time #NEED TO CHANGE STRATEGY FOR THESE SMALLER CONTROL VOLUMES, NOT ALL PARTICLES SHOULD BE INCLUDED IN COUNT
+    # lon_insill = lon_vals >= sillsea #these are particles in the inner basin or sill any given point in time
+    # lon_est = lon_vals >= 0 #these are particles anywhere in the estuary
+    # lon_out = (lon_vals <= sillsea) & (lon_vals >= 0) #these are particles in the outer basin at any point in time
 
     # lon_in_lower = lon_in * lon_in[np.newaxis, 0, :] * z_start_lower #particles in the inner basin that started in the inner basin below sill depth
     # lon_in_upper = lon_in * lon_in[np.newaxis, 0, :] * z_start_upper #particles in the inner basin that started in the inner basin above sill depth
@@ -192,8 +201,13 @@ for i in range(5):
     # axs[0,1].plot(time_hours/24, zfun.lowpass(par_in_upper, f='godin'), color=linecolor, label=silllenlabel) 
     # axs[1,0].plot(time_hours/24, zfun.lowpass(par_out_lower, f='godin'), color=linecolor, label=silllenlabel) 
     # axs[1,1].plot(time_hours/24, zfun.lowpass(par_out_upper, f='godin'), color=linecolor, label=silllenlabel) 
+    
+    lon_bin_edges = lonp[0,:] #this also includes longitudes in the ocean half, but we can crop it out in the plot
+    x_bin_centers_km = llxyfun.lon2x((lon_bin_edges[:-1]+lon_bin_edges[1:])/2,0,45)
+    rt_xmean = stats.binned_statistic(lon_start, rt_strict_days, statistic='mean', bins=lon_bin_edges, range=None)
 
-    ax.hist(rt_strict_days,bins=[0,10,20,30,40,50,60,70,80,90,100,110,120], density=True, histtype='step',color=linecolor,linewidth=2,label=silllenlabel)
+    ax.plot(x_bin_centers_km,rt_xmean.statistic,color=linecolor,linewidth=2,label=silllenlabel)
+    # ax.hist(rt_strict_days,bins=[0,10,20,30,40,50,60,70,80,90,100,110,120], density=True, histtype='step',color=linecolor,linewidth=2,label=silllenlabel)
 
     #could try with total number of particles and/or double axis
     
@@ -220,12 +234,12 @@ for i in range(5):
 # axs[0,0].set_xlabel('Days')
 # axs[0,0].set_ylabel('% of particles remaining in inner basin')
 # axs[0,0].set_ylabel('Particles remaining in inner basin') #TRY WITH TOTAL PARTICLE COUNT
-ax.set_title('Residence time histogram')
+ax.set_title('Average strict residence time [days]')
 ax.grid(True)
 ax.set_xlim(0,120)
 # axs[0,0].set_ylim(0,100)
 # axs[0,0].set_ylim(0,par_in_lower[0])
-ax.set_xlabel('Residence time [days]')
+ax.set_xlabel('Release x-position')
 ax.legend(loc='lower left')
 
 # axs[0,1].set_xlabel('Days')
@@ -272,7 +286,7 @@ ax.legend(loc='lower left')
 # ax3.legend(loc='upper right')
 
 
-fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_histograms.png'
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_spatialdist.png'
 plt.savefig(fn_fig)
 plt.close()
 #plt.show()
