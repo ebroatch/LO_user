@@ -81,31 +81,60 @@ for i in range(5):
     # lon = dsr.lon
 
 
-    lon_vals = dsr.lon.values
-    z_start = dsr.z.values[np.newaxis, 0, :] #starting depth of the particles
+    lon_vals = dsr.lon.values #longitudes of the particles
+    z_vals = dsr.z.values #depths of the particles
+    
     time_hours = dsr.Time.values
     dsr.close()
     print('got lon_vals and time\n')
 
-    z_start_lower = z_start < -50 #boolean array for particles starting below sill depth
-    z_start_upper = z_start >= -50 #boolean array for particles starting above sill depth
+    lon_start = lon_vals[np.newaxis, 0, :] #starting longitudes of the particles
+    lon_start_in = lon_start >= sillland #boolean array for particles starting in the inner basin
+    lon_start_out = (lon_start <= sillsea) & (lon_start >= 0) #boolean array for particles starting in the outer basin
 
-    lon_in = lon_vals >= sillland #these are particles in the inner basin at any given point in time
-    lon_in_lower = lon_in * lon_in[np.newaxis, 0, :] * z_start_lower #particles in the inner basin that started in the inner basin below sill depth
-    lon_in_upper = lon_in * lon_in[np.newaxis, 0, :] * z_start_upper #particles in the inner basin that started in the inner basin above sill depth
-    print('got lon_in\n')
+    z_start = z_vals[np.newaxis, 0, :] #starting depth of the particles
+    z_start_low = z_start < -50 #boolean array for particles starting below sill depth
+    z_start_up = z_start >= -50 #boolean array for particles starting above sill depth
 
-    lon_out = (lon_vals <= sillsea) & (lon_vals >= 0)
-    lon_out_lower = lon_out * lon_out[np.newaxis, 0, :] * z_start_lower #particles in the outer basin that started in the outer basin below sill depth
-    lon_out_upper = lon_out * lon_out[np.newaxis, 0, :] * z_start_upper #particles in the outer basin that started in the outer basin above sill depth
+    lon_in = lon_vals >= sillland #boolean array of particles in the inner basin over time
+    lon_out = (lon_vals <= sillsea) & (lon_vals >= 0) #boolean array of particles in the outer basin over time
 
-    print('got lon_out\n')
+    z_low = z_vals < -50 #boolean array of particles below sill depth over time
+    z_up = z_vals >= -50 #boolean array of particles above sill depth over time
 
+    start_inlow_stay_in = lon_in * lon_start_in * z_start_low #particles in the inner basin that started in the inner basin below sill depth
+    start_inup_stay_in = lon_in * lon_start_in * z_start_up #particles in the inner basin that started in the inner basin above sill depth
+    start_outlow_stay_out = lon_out * lon_start_out * z_start_low #particles in the outer basin that started in the outer basin below sill depth
+    start_outup_stay_out = lon_out * lon_start_out * z_start_up #particles in the outer basin that started in the outer basin above sill depth
 
-    par_in_lower = np.sum(lon_in_lower,axis=1)
-    par_in_upper = np.sum(lon_in_upper,axis=1)
-    par_out_lower = np.sum(lon_out_lower,axis=1)
-    par_out_upper = np.sum(lon_out_upper,axis=1)
+    start_inlow_stay_inlow = lon_in * z_low * lon_start_in * z_start_low #particles that started in the inner basin below sill depth and stayed there
+    start_inup_stay_inup = lon_in * z_up * lon_start_in * z_start_up #particles that started in the inner basin above sill depth and stayed there
+    start_outlow_stay_outlow = lon_out * z_low * lon_start_out * z_start_low #particles that started in the outer basin below sill depth and stayed there
+    start_outup_stay_outup = lon_out * z_up * lon_start_out * z_start_up #particles that started in the outer basin above sill depth and stayed there
+
+    # lon_in_lower = lon_in * lon_in[np.newaxis, 0, :] * z_start_lower #particles in the inner basin that started in the inner basin below sill depth
+    # lon_in_upper = lon_in * lon_in[np.newaxis, 0, :] * z_start_upper #particles in the inner basin that started in the inner basin above sill depth
+
+    # lon_out_lower = lon_out * lon_out[np.newaxis, 0, :] * z_start_lower #particles in the outer basin that started in the outer basin below sill depth
+    # lon_out_upper = lon_out * lon_out[np.newaxis, 0, :] * z_start_upper #particles in the outer basin that started in the outer basin above sill depth
+
+    print('got data and boolean arrays\n')
+
+    # par_in_lower = np.sum(lon_in_lower,axis=1)
+    # par_in_upper = np.sum(lon_in_upper,axis=1)
+    # par_out_lower = np.sum(lon_out_lower,axis=1)
+    # par_out_upper = np.sum(lon_out_upper,axis=1)
+
+    count_start_inlow_stay_in = np.sum(start_inlow_stay_in,axis=1) #total particles in the inner basin that started in the inner basin below sill depth
+    count_start_inup_stay_in = np.sum(start_inup_stay_in,axis=1) #total particles in the inner basin that started in the inner basin above sill depth
+    count_start_outlow_stay_out = np.sum(start_outlow_stay_out,axis=1) #total particles in the outer basin that started in the outer basin below sill depth
+    count_start_outup_stay_out = np.sum(start_outup_stay_out,axis=1) #total particles in the outer basin that started in the outer basin above sill depth
+
+    count_start_inlow_stay_inlow = np.sum(start_inlow_stay_inlow,axis=1) #total particles that started in the inner basin below sill depth and stayed there
+    count_start_inup_stay_inup = np.sum(start_inup_stay_inup,axis=1) #total particles that started in the inner basin above sill depth and stayed there
+    count_start_outlow_stay_outlow = np.sum(start_outlow_stay_outlow,axis=1) #total particles that started in the outer basin below sill depth and stayed there
+    count_start_outup_stay_outup = np.sum(start_outup_stay_outup,axis=1) #total particles that started in the outer basin above sill depth and stayed there
+
     print('got particle counts\n')
     # lon1 = dsr.lon.where((dsr.lon.sel(Time=0)<sillsea),drop=True) #THESE ARE THE OUTER BASIN PARTICLES
     # print('got lon1\n')
@@ -177,10 +206,19 @@ for i in range(5):
     # axs[1,0].plot(time_hours/24, zfun.lowpass((par_out_lower/par_out_lower[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
     # axs[1,1].plot(time_hours/24, zfun.lowpass((par_out_upper/par_out_upper[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
 
-    axs[0,0].plot(time_hours/24, zfun.lowpass(par_in_lower, f='godin'), color=linecolor, label=silllenlabel) #TRY WITH TOTAL PARTICLE COUNTS
-    axs[0,1].plot(time_hours/24, zfun.lowpass(par_in_upper, f='godin'), color=linecolor, label=silllenlabel) 
-    axs[1,0].plot(time_hours/24, zfun.lowpass(par_out_lower, f='godin'), color=linecolor, label=silllenlabel) 
-    axs[1,1].plot(time_hours/24, zfun.lowpass(par_out_upper, f='godin'), color=linecolor, label=silllenlabel) 
+    # axs[0,0].plot(time_hours/24, zfun.lowpass(par_in_lower, f='godin'), color=linecolor, label=silllenlabel) #TRY WITH TOTAL PARTICLE COUNTS
+    # axs[0,1].plot(time_hours/24, zfun.lowpass(par_in_upper, f='godin'), color=linecolor, label=silllenlabel) 
+    # axs[1,0].plot(time_hours/24, zfun.lowpass(par_out_lower, f='godin'), color=linecolor, label=silllenlabel) 
+    # axs[1,1].plot(time_hours/24, zfun.lowpass(par_out_upper, f='godin'), color=linecolor, label=silllenlabel) 
+
+    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_inlow_stay_in, f='godin'), color=linecolor, label=silllenlabel) #TRY WITH TOTAL PARTICLE COUNTS AND ADD STRICT LAYER SORTING
+    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_inlow_stay_inlow, f='godin'), '--', color=linecolor, label=silllenlabel)
+    axs[0,1].plot(time_hours/24, zfun.lowpass(count_start_inup_stay_in, f='godin'), color=linecolor, label=silllenlabel) 
+    axs[0,1].plot(time_hours/24, zfun.lowpass(count_start_inup_stay_inup, f='godin'), '--', color=linecolor, label=silllenlabel) 
+    axs[1,0].plot(time_hours/24, zfun.lowpass(count_start_outlow_stay_out, f='godin'), color=linecolor, label=silllenlabel) 
+    axs[1,0].plot(time_hours/24, zfun.lowpass(count_start_outlow_stay_outlow, f='godin'), '--', color=linecolor, label=silllenlabel) 
+    axs[1,1].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_out, f='godin'), color=linecolor, label=silllenlabel+' in basin') 
+    axs[1,1].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_outup, f='godin'), '--', color=linecolor, label=silllenlabel+' in layer') 
 
     #could try with total number of particles and/or double axis
     
@@ -206,12 +244,13 @@ for i in range(5):
 #plt.show()
 # axs[0,0].set_xlabel('Days')
 # axs[0,0].set_ylabel('% of particles remaining in inner basin')
+# axs[0,0].set_ylabel('Particles remaining in inner basin') #TRY WITH TOTAL PARTICLE COUNT
 axs[0,0].set_ylabel('Particles remaining in inner basin') #TRY WITH TOTAL PARTICLE COUNT
 axs[0,0].set_title('Released in inner basin below sill height')
 axs[0,0].grid(True)
 axs[0,0].set_xlim(0,120)
 # axs[0,0].set_ylim(0,100)
-axs[0,0].set_ylim(0,par_in_lower[0])
+axs[0,0].set_ylim(0,count_start_inlow_stay_in[0])
 
 # axs[0,1].set_xlabel('Days')
 # axs[0,1].set_ylabel('% of particles')
@@ -219,16 +258,17 @@ axs[0,1].set_title('Released in inner basin above sill height')
 axs[0,1].grid(True)
 axs[0,1].set_xlim(0,120)
 # axs[0,1].set_ylim(0,100)
-axs[0,1].set_ylim(0,par_in_upper[0])
+axs[0,1].set_ylim(0,count_start_inup_stay_in[0])
 
 axs[1,0].set_xlabel('Days')
 # axs[1,0].set_ylabel('% of particles remaining in outer basin')
-axs[1,0].set_ylabel('Particles remaining in outer basin') #TRY WITH TOTAL PARTICLE COUNT
+# axs[1,0].set_ylabel('Particles remaining in outer basin') #TRY WITH TOTAL PARTICLE COUNT
+axs[1,0].set_ylabel('Particles remaining') #TRY WITH TOTAL PARTICLE COUNT
 axs[1,0].set_title('Released in outer basin below sill height')
 axs[1,0].grid(True)
 axs[1,0].set_xlim(0,120)
 # axs[1,0].set_ylim(0,100)
-axs[1,0].set_ylim(0,par_out_lower[0])
+axs[1,0].set_ylim(0,count_start_outlow_stay_out)
 
 axs[1,1].set_xlabel('Days')
 # axs[1,1].set_ylabel('% of particles')
@@ -236,7 +276,7 @@ axs[1,1].set_title('Released in outer basin above sill height')
 axs[1,1].grid(True)
 axs[1,1].set_xlim(0,120)
 # axs[1,1].set_ylim(0,100)
-axs[1,1].set_ylim(0,par_out_upper[0])
+axs[1,1].set_ylim(0,count_start_outup_stay_out)
 axs[1,1].legend(loc='upper right')
 
 # ax2.set_xlabel('Days')
