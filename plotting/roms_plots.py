@@ -497,19 +497,19 @@ def P_sect_contour_sillslope_eb(in_dict):
             horizontalalignment='left', verticalalignment='top',
             transform=ax.transAxes, fontsize=24, fontweight='bold')#,
             #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
-        ax.set_xlim(44,46)
+        ax.set_xlim(44.5,47.5)
     elif gridname=='sill20kmdeep':
         ax.text(.03, .1, 'B',
             horizontalalignment='left', verticalalignment='top',
             transform=ax.transAxes, fontsize=24, fontweight='bold')#,
             #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
-        ax.set_xlim(59,61)
+        ax.set_xlim(59.5,62.5)
     elif gridname=='sill80km':
         ax.text(.03, .1, 'C',
             horizontalalignment='left', verticalalignment='top',
             transform=ax.transAxes, fontsize=24, fontweight='bold')#,
             #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
-        ax.set_xlim(119,121)
+        ax.set_xlim(119.5,122.5)
 
     ax.set_aspect(0.001)
     fig.tight_layout()
