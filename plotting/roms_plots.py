@@ -503,7 +503,7 @@ def P_sect_contour_sillslope_eb(in_dict):
             horizontalalignment='left', verticalalignment='top',
             transform=ax.transAxes, fontsize=24, fontweight='bold')#,
             #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
-        ax.set_xlim(79,81)
+        ax.set_xlim(59,61)
     elif gridname=='sill80km':
         ax.text(.03, .1, 'C',
             horizontalalignment='left', verticalalignment='top',
