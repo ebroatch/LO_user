@@ -183,7 +183,10 @@ for i in range(5):
     #quick calc
     T_e_out = -(t_ta[-1] / np.log(par_out_frac_ta[-1]/1))/24 #e-folding time in days from tidally averaged values (negative because it is exponential decrease)
     T_e_in = -(t_ta[-1] / np.log(par_in_frac_ta[-1]/1))/24
-
+    print('\nT_e_out:\n')
+    print(T_e_out)
+    print('\nT_e_in:\n')
+    print(T_e_in)
     T_e_out_raw = -(time_hours[-1] / np.log(par_out[-1]/par_out[0]))/24 #e-folding time in days from raw number of particles
     T_e_in_raw = -(time_hours[-1] / np.log(par_in[-1]/par_in[0]))/24
     print('quick e-folding calc done\n')
@@ -214,6 +217,11 @@ for i in range(5):
 
     T_e_out_fit2 = (1/popt_out2[1])*t_scale/24 #T_e from two parameter fit in days
     T_e_in_fit2 = (1/popt_in2[1])*t_scale/24 #T_e from two parameter fit in days   
+
+    print('\nT_e_out from two-param fit:\n')
+    print(T_e_out_fit2)
+    print('\nT_e_in from two-param fit:\n')
+    print(T_e_in_fit2)
 
     #fitting
 
