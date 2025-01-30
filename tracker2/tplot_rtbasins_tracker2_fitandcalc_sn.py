@@ -65,6 +65,7 @@ for i in range(5):
     if i==0:
         sect_name='b3'
         tef_df, vn_list, vec_list = tef_fun.get_two_layer(tef_5km_fn, sect_name)
+        tef_df['Q_prism']=tef_df['qprism']/1000
         ot=tef_df.index
         axs[0,0].set_ylim(0,100)
         axs[0,1].set_ylim(0,100)
