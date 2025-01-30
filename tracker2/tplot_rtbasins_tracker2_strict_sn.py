@@ -119,7 +119,7 @@ for i in range(5):
     rt_strict_in = rt_strict_in * lon_start_in #this resets the particles that are not released in the inner basin to zero (necessary?)
     rt_ind_in = rt_strict_in.astype(int)
     exit_mask_in = np.zeros(lon_vals.shape, bool)
-    exit_mask_in[np.flatnonzero(rt_ind_in<tmax), rt_ind_in[rt_ind_in<tmax]] = True #this is a mask with the first time a particle exits set as True
+    exit_mask_in[rt_ind_in[rt_ind_in<tmax],np.flatnonzero(rt_ind_in<tmax)] = True #this is a mask with the first time a particle exits set as True
     strict_mask_in = np.logical_not(np.cumsum(exit_mask_in, axis=0, dtype=bool)) #this is a mask with all times after a particle's first exit set as False
     #inner basin + sill
     rt_strict_insill = np.argmin(lon_insill,axis=0).astype('float')
@@ -127,14 +127,14 @@ for i in range(5):
     rt_strict_insill = rt_strict_insill * lon_start_insill #this resets the particles that are not released in the inner basin or sill to zero (necessary?)
     rt_ind_insill = rt_strict_insill.astype(int)
     exit_mask_insill = np.zeros(lon_vals.shape, bool)
-    exit_mask_insill[np.flatnonzero(rt_ind_insill<tmax), rt_ind_insill[rt_ind_insill<tmax]] = True #this is a mask with the first time a particle exits set as True
+    exit_mask_insill[rt_ind_insill[rt_ind_insill<tmax],np.flatnonzero(rt_ind_insill<tmax)] = True #this is a mask with the first time a particle exits set as True
     strict_mask_insill = np.logical_not(np.cumsum(exit_mask_insill, axis=0, dtype=bool)) #this is a mask with all times after a particle's first exit set as False
     #whole estuary
     rt_strict_est = np.argmin(lon_est,axis=0).astype('float')
     rt_strict_est = np.where(rt_strict_est==0, tmax+1, rt_strict_est) #replace 0 with tmax+1 (every particle is in the estuary at t=0, these are particles that never leave estuary)
     rt_ind_est = rt_strict_est.astype(int)
     exit_mask_est = np.zeros(lon_vals.shape, bool)
-    exit_mask_est[np.flatnonzero(rt_ind_est<tmax), rt_ind_est[rt_ind_est<tmax]] = True #this is a mask with the first time a particle exits set as True
+    exit_mask_est[rt_ind_est[rt_ind_est<tmax],np.flatnonzero(rt_ind_est<tmax)] = True #this is a mask with the first time a particle exits set as True
     strict_mask_est = np.logical_not(np.cumsum(exit_mask_est, axis=0, dtype=bool)) #this is a mask with all times after a particle's first exit set as False
 
 
