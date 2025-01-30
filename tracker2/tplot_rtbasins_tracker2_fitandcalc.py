@@ -84,21 +84,21 @@ for i in range(5):
     lon_vals = dsr.lon.values
     time_hours = dsr.Time.values
     dsr.close()
-    print('got lon_vals and time\n')
+    # print('got lon_vals and time\n')
     lon_in = lon_vals >= sillland #these are particles in the inner basin at any given point in time
     lon_in_start_in = lon_in * lon_in[np.newaxis, 0, :]
-    print('got lon_in\n')
+    # print('got lon_in\n')
     lon_out = (lon_vals <= sillsea) & (lon_vals >= 0)
     lon_out_start_out = lon_out * lon_out[np.newaxis, 0, :]
-    print('got lon_out\n')
+    # print('got lon_out\n')
 
 
     par_in = np.sum(lon_in_start_in,axis=1)
     par_out = np.sum(lon_out_start_out,axis=1)
-    print('got particle counts\n')
+    # print('got particle counts\n')
     # lon1 = dsr.lon.where((dsr.lon.sel(Time=0)<sillsea),drop=True) #THESE ARE THE OUTER BASIN PARTICLES
     # print('got lon1\n')
-    sys.stdout.flush()
+    # sys.stdout.flush()
     #SKIP SILL PARTICLES FOR NOW
     # lon2 = dsr.lon.where((dsr.lon.sel(Time=0)>=sillsea) & (dsr.lon.sel(Time=0)<sillland),drop=True)
     # print('got lon2\n')
@@ -166,8 +166,8 @@ for i in range(5):
     ax3.plot(time_hours/24, zfun.lowpass((par_in/par_in[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING    
     # ax1.plot(time_hours/24, (par_out/par_out[0])*100, color=linecolor, label=silllenlabel) #TRY WITH NO FILTERING
     # ax3.plot(time_hours/24, (par_in/par_in[0])*100, color=linecolor, label=silllenlabel)
-    print('plotted\n')
-    sys.stdout.flush()
+    # print('plotted\n')
+    # sys.stdout.flush()
     
     #dsg.close()
 
@@ -189,7 +189,7 @@ for i in range(5):
     print(T_e_in)
     T_e_out_raw = -(time_hours[-1] / np.log(par_out[-1]/par_out[0]))/24 #e-folding time in days from raw number of particles
     T_e_in_raw = -(time_hours[-1] / np.log(par_in[-1]/par_in[0]))/24
-    print('quick e-folding calc done\n')
+    # print('quick e-folding calc done\n')
     sys.stdout.flush()
 
     #exponential fit

@@ -211,14 +211,14 @@ for i in range(5):
     # axs[1,0].plot(time_hours/24, zfun.lowpass(par_out_lower, f='godin'), color=linecolor, label=silllenlabel) 
     # axs[1,1].plot(time_hours/24, zfun.lowpass(par_out_upper, f='godin'), color=linecolor, label=silllenlabel) 
 
-    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_inlow_stay_in, f='godin'), color=linecolor, label=silllenlabel) #TRY WITH TOTAL PARTICLE COUNTS AND ADD STRICT LAYER SORTING
-    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_inlow_stay_inlow, f='godin'), '--', color=linecolor, label=silllenlabel)
+    axs[1,1].plot(time_hours/24, zfun.lowpass(count_start_inlow_stay_in, f='godin'), color=linecolor, label=silllenlabel) #TRY WITH TOTAL PARTICLE COUNTS AND ADD STRICT LAYER SORTING
+    axs[1,1].plot(time_hours/24, zfun.lowpass(count_start_inlow_stay_inlow, f='godin'), '--', color=linecolor, label=silllenlabel)
     axs[0,1].plot(time_hours/24, zfun.lowpass(count_start_inup_stay_in, f='godin'), color=linecolor, label=silllenlabel) 
     axs[0,1].plot(time_hours/24, zfun.lowpass(count_start_inup_stay_inup, f='godin'), '--', color=linecolor, label=silllenlabel) 
     axs[1,0].plot(time_hours/24, zfun.lowpass(count_start_outlow_stay_out, f='godin'), color=linecolor, label=silllenlabel) 
     axs[1,0].plot(time_hours/24, zfun.lowpass(count_start_outlow_stay_outlow, f='godin'), '--', color=linecolor, label=silllenlabel) 
-    axs[1,1].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_out, f='godin'), color=linecolor, label=silllenlabel+' in basin') 
-    axs[1,1].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_outup, f='godin'), '--', color=linecolor, label=silllenlabel+' in layer') 
+    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_out, f='godin'), color=linecolor, label=silllenlabel+' in basin') 
+    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_outup, f='godin'), '--', color=linecolor, label=silllenlabel+' in layer') 
 
     #could try with total number of particles and/or double axis
     
@@ -245,12 +245,14 @@ for i in range(5):
 # axs[0,0].set_xlabel('Days')
 # axs[0,0].set_ylabel('% of particles remaining in inner basin')
 # axs[0,0].set_ylabel('Particles remaining in inner basin') #TRY WITH TOTAL PARTICLE COUNT
-axs[0,0].set_ylabel('Particles remaining in inner basin') #TRY WITH TOTAL PARTICLE COUNT
-axs[0,0].set_title('Released in inner basin below sill height')
-axs[0,0].grid(True)
-axs[0,0].set_xlim(0,120)
+# axs[1,1].set_ylabel('Particles remaining in inner basin') #TRY WITH TOTAL PARTICLE COUNT
+axs[1,1].set_title('Released in inner basin below sill height')
+axs[1,1].grid(True)
+axs[1,1].set_xlim(0,120)
 # axs[0,0].set_ylim(0,100)
-axs[0,0].set_ylim(0,count_start_inlow_stay_in[0])
+# axs[1,1].set_ylim(0,count_start_inlow_stay_in[0])
+axs[1,1].set_ylim(0,12000)
+axs[1,1].set_xlabel('Days')
 
 # axs[0,1].set_xlabel('Days')
 # axs[0,1].set_ylabel('% of particles')
@@ -258,7 +260,8 @@ axs[0,1].set_title('Released in inner basin above sill height')
 axs[0,1].grid(True)
 axs[0,1].set_xlim(0,120)
 # axs[0,1].set_ylim(0,100)
-axs[0,1].set_ylim(0,count_start_inup_stay_in[0])
+# axs[0,1].set_ylim(0,count_start_inup_stay_in[0])
+axs[0,1].set_ylim(0,6000)
 
 axs[1,0].set_xlabel('Days')
 # axs[1,0].set_ylabel('% of particles remaining in outer basin')
@@ -268,16 +271,19 @@ axs[1,0].set_title('Released in outer basin below sill height')
 axs[1,0].grid(True)
 axs[1,0].set_xlim(0,120)
 # axs[1,0].set_ylim(0,100)
-axs[1,0].set_ylim(0,count_start_outlow_stay_out[0])
+# axs[1,0].set_ylim(0,count_start_outlow_stay_out[0])
+axs[1,0].set_ylim(0,12000)
 
-axs[1,1].set_xlabel('Days')
+
 # axs[1,1].set_ylabel('% of particles')
-axs[1,1].set_title('Released in outer basin above sill height')
-axs[1,1].grid(True)
-axs[1,1].set_xlim(0,120)
+axs[0,0].set_ylabel('Particles remaining')
+axs[0,0].set_title('Released in outer basin above sill height')
+axs[0,0].grid(True)
+axs[0,0].set_xlim(0,120)
 # axs[1,1].set_ylim(0,100)
-axs[1,1].set_ylim(0,count_start_outup_stay_out[0])
-axs[1,1].legend(loc='upper right')
+# axs[0,0].set_ylim(0,count_start_outup_stay_out[0])
+axs[0,0].set_ylim(0,6000)
+axs[0,0].legend(loc='upper right')
 
 # ax2.set_xlabel('Days')
 # #ax1.set_ylabel('Number of particles')
