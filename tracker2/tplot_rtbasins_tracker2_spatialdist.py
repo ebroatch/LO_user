@@ -238,7 +238,13 @@ for i in range(5):
 # axs[0,0].set_ylabel('Particles remaining in inner basin') #TRY WITH TOTAL PARTICLE COUNT
 ax.set_title('Average strict residence time [days]')
 ax.grid(True)
-ax.set_xlim(0,120)
+ax.set_xlim(0,160)
+ax.axvline(40,color='tab:brown',ls='-.') #lines showing the start and end of the sill
+ax.axvline(45,color='tab:red',ls='-.')
+ax.axvline(50,color='tab:orange',ls='-.')
+ax.axvline(60,color='tab:green',ls='-.')
+ax.axvline(80,color='tab:blue',ls='-.')
+ax.axvline(120,color='tab:purple',ls='-.')
 # axs[0,0].set_ylim(0,100)
 # axs[0,0].set_ylim(0,par_in_lower[0])
 ax.set_xlabel('Release x-position')
