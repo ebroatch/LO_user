@@ -27,12 +27,12 @@ for i in range(5):
     # rel = Lfun.choose_item(in_dir0 / exp_name, tag='.nc', exclude_tag='grid',
     #     itext='** Choose item from list **', last=False)
 
-
     #loop through five models
     if i==0:
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(45e3,0,45)
         linecolor = 'tab:red'
+        linecolor2 = plt.cm.tab20(7)
         silllenlabel = '5km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/release_2020.09.01.nc'
         tef_5km_fn = Ldir['LOo'] / 'extract/sill5km_t0_xa0/tef2/bulk_hourly_2020.09.01_2020.12.31' #this is for the Qprism timekeeper and shading
@@ -40,24 +40,28 @@ for i in range(5):
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(50e3,0,45)
         linecolor = 'tab:orange'
+        linecolor2 = plt.cm.tab20(3)
         silllenlabel = '10km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill10km_t2_xa0/sill10kmest_3d/release_2020.09.01.nc'
     elif i==2:
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(60e3,0,45)
         linecolor = 'tab:green'
+        linecolor2 = plt.cm.tab20(5)
         silllenlabel = '20km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill20kmdeep_t2_xa0/sill20kmdeepest_3d/release_2020.09.01.nc'
     elif i==3:
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(80e3,0,45)
         linecolor = 'tab:blue'
+        linecolor2 = plt.cm.tab20(1)
         silllenlabel = '40km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill40km_t2_xa0/sill40kmest_3d/release_2020.09.01.nc'
     elif i==4:
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(120e3,0,45)
         linecolor = 'tab:purple'
+        linecolor2 = plt.cm.tab20(9)
         silllenlabel = '80km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/release_2020.09.01.nc'
     
@@ -190,7 +194,7 @@ for i in range(5):
     
 
 
-    axs[0,0].plot(time_hours/24, zfun.lowpass((par_out/par_out[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY OUTER PARTICLES REMAINING
+    axs[0,0].plot(time_hours/24, zfun.lowpass((par_out/par_out[0])*100, f='godin'), color=linecolor, label=silllenlabel+' tidal avg') #PLOT ONLY OUTER PARTICLES REMAINING
     axs[0,1].plot(time_hours/24, zfun.lowpass((par_in/par_in[0])*100, f='godin'), color=linecolor, label=silllenlabel) #PLOT ONLY INNER PARTICLES REMAINING    
     # ax1.plot(time_hours/24, (par_out/par_out[0])*100, color=linecolor, label=silllenlabel) #TRY WITH NO FILTERING
     # ax3.plot(time_hours/24, (par_in/par_in[0])*100, color=linecolor, label=silllenlabel)
@@ -262,17 +266,18 @@ for i in range(5):
     popt_in3, pcov_in3 = curve_fit(func2, t_frac_raw, par_in_frac_raw, p0=p03)
 
     T_e_out_fit3 = (1/popt_out3[1])*t_scale_raw/24 #T_e from two parameter fit in days
-    T_e_in_fit3 = (1/popt_in3[1])*t_scale_raw/24 #T_e from two parameter fit in days   
+    T_e_in_fit3 = (1/popt_in3[1])*t_scale_raw/24 #T_e from two parameter fit in days
+    A_out_fit3 = popt_out3[0]
+    A_in_fit3 = popt_in3[0]
 
     print('\nT_e_out from two-param fit (unfiltered data):\n')
     print(T_e_out_fit3)
     print('\nT_e_in from two-param fit (unfiltered data):\n')
     print(T_e_in_fit3)
 
-
-    #fitting
-
-#add grey bars
+    #add fits to plot
+    axs[0,0].plot(time_hours/24, A_out_fit3 * np.exp(-time_hours/T_e_out_fit3) * 100, linestyle = '--', color=linecolor2, label=silllenlabel+' fit')
+    axs[0,1].plot(time_hours/24, A_in_fit3 * np.exp(-time_hours/T_e_in_fit3) * 100, linestyle = '--', color=linecolor2, label=silllenlabel)
 
 
 #plt.show()
@@ -295,7 +300,12 @@ axs[0,0].set_title('Particles released in outer basin')
 axs[0,0].grid(True)
 axs[0,0].set_xlim(0,120)
 axs[0,0].set_ylim(0,100)
-axs[0,0].legend(loc='upper right')
+
+#legend
+handles, labels = axs[0,0].get_legend_handles_labels()
+handles_reorder = np.concatenate((handles[::2],handles[1::2]),axis=0)
+labels_reorder = np.concatenate((labels[::2],labels[1::2]),axis=0)
+axs[0,0].legend(handles_reorder,labels_reorder,loc='upper right',ncols=2)
 
 # ax2.set_xlabel('Days')
 # #ax1.set_ylabel('Number of particles')
