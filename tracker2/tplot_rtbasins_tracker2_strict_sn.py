@@ -16,7 +16,7 @@ import tef_fun
 import datetime
 
 plt.close('all')
-fig, axs = plt.subplots(2,3,figsize=(20,8))
+fig, axs = plt.subplots(2,3,figsize=(20,8),gridspec_kw={'height_ratios': [6,1]})
 # fig, axs = plt.subplots(2,2,figsize=(15,15))
 
 for i in range(5):
@@ -310,10 +310,10 @@ for i in range(5):
         axs[1,1].grid(True)
         axs[1,2].grid(True)
 
-    axs[0,0].plot(time_hours/24, zfun.lowpass(count_est, f='godin'), color=linecolor, label=silllenlabel)
-    axs[0,0].plot(time_hours/24, zfun.lowpass(count_est_strict, f='godin'), '--', color=linecolor, label=silllenlabel)
-    axs[0,1].plot(time_hours/24, zfun.lowpass(count_insill, f='godin'), color=linecolor, label=silllenlabel) 
-    axs[0,1].plot(time_hours/24, zfun.lowpass(count_insill_strict, f='godin'), '--', color=linecolor, label=silllenlabel) 
+    axs[0,0].plot(time_hours/24, zfun.lowpass(count_est, f='godin'), color=linecolor, label=silllenlabel+' total')
+    axs[0,0].plot(time_hours/24, zfun.lowpass(count_est_strict, f='godin'), '--', color=linecolor, label=silllenlabel+' no return')
+    axs[0,1].plot(time_hours/24, zfun.lowpass(count_insill, f='godin'), color=linecolor, label=silllenlabel+' total') 
+    axs[0,1].plot(time_hours/24, zfun.lowpass(count_insill_strict, f='godin'), '--', color=linecolor, label=silllenlabel+' no return') 
     axs[0,2].plot(time_hours/24, zfun.lowpass(count_in, f='godin'), color=linecolor, label=silllenlabel+' total') 
     axs[0,2].plot(time_hours/24, zfun.lowpass(count_in_strict, f='godin'), '--', color=linecolor, label=silllenlabel+' no return') 
 

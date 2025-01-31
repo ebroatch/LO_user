@@ -17,7 +17,7 @@ import datetime
 
 plt.close('all')
 # fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
-fig, axs = plt.subplots(2,2,figsize=(15,8), gridspec_kw={'height_ratios': [6,1]}) #add sharex later
+fig, axs = plt.subplots(2,2,figsize=(15,8), gridspec_kw={'height_ratios': [6,1]})
 
 for i in range(5):
     # Choose an experiment and release to plot.
@@ -285,8 +285,8 @@ for i in range(5):
     # axs[0,0].plot(time_hours/24, A_out_fit3 * np.exp((-time_hours/24)/T_e_out_fit3) * 100, linestyle = '--', color=linecolor2, label=silllenlabel+' fit')
     # axs[0,1].plot(time_hours/24, A_in_fit3 * np.exp((-time_hours/24)/T_e_in_fit3) * 100, linestyle = '--', color=linecolor2, label=silllenlabel)
 
-    axs[0,0].plot(time_hours/24, A_out_fit2 * np.exp((-time_hours/24)/T_e_out_fit2) * 100, linestyle = '--', color=linecolor2, label=silllenlabel+' fit')
-    axs[0,1].plot(time_hours/24, A_in_fit2 * np.exp((-time_hours/24)/T_e_in_fit2) * 100, linestyle = '--', color=linecolor2, label=silllenlabel)
+    axs[0,0].plot(time_hours/24, A_out_fit2 * np.exp((-time_hours/24)/T_e_out_fit2) * 100, linestyle = ':', color=linecolor2, label=silllenlabel+' fit')
+    axs[0,1].plot(time_hours/24, A_in_fit2 * np.exp((-time_hours/24)/T_e_in_fit2) * 100, linestyle = ':', color=linecolor2, label=silllenlabel)
 
 
 #plt.show()
