@@ -12,9 +12,11 @@ import matplotlib.pyplot as plt
 import xarray as xr
 import numpy as np
 from scipy.optimize import curve_fit
+import tef_fun
+import datetime
 
 plt.close('all')
-fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,7))
+fig, axs = plt.subplots(2,3,figsize=(20,8))
 # fig, axs = plt.subplots(2,2,figsize=(15,15))
 
 for i in range(5):
@@ -33,6 +35,7 @@ for i in range(5):
         linecolor = 'tab:red'
         silllenlabel = '5km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/release_2020.09.01.nc'
+        tef_5km_fn = Ldir['LOo'] / 'extract/sill5km_t0_xa0/tef2/bulk_hourly_2020.09.01_2020.12.31' #this is for the Qprism timekeeper and shading
     elif i==1:
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(50e3,0,45)
@@ -270,14 +273,49 @@ for i in range(5):
     # axs[1,0].plot(time_hours/24, zfun.lowpass(count_start_outlow_stay_out, f='godin'), color=linecolor, label=silllenlabel) 
     # axs[1,0].plot(time_hours/24, zfun.lowpass(count_start_outlow_stay_outlow, f='godin'), '--', color=linecolor, label=silllenlabel) 
     # axs[1,1].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_out, f='godin'), color=linecolor, label=silllenlabel+' in basin') 
-    # axs[1,1].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_outup, f='godin'), '--', color=linecolor, label=silllenlabel+' in layer') 
+    # axs[1,1].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_outup, f='godin'), '--', color=linecolor, label=silllenlabel+' in layer')
 
-    ax1.plot(time_hours/24, zfun.lowpass(count_est, f='godin'), color=linecolor, label=silllenlabel)
-    ax1.plot(time_hours/24, zfun.lowpass(count_est_strict, f='godin'), '--', color=linecolor, label=silllenlabel)
-    ax2.plot(time_hours/24, zfun.lowpass(count_insill, f='godin'), color=linecolor, label=silllenlabel) 
-    ax2.plot(time_hours/24, zfun.lowpass(count_insill_strict, f='godin'), '--', color=linecolor, label=silllenlabel) 
-    ax3.plot(time_hours/24, zfun.lowpass(count_in, f='godin'), color=linecolor, label=silllenlabel+' total') 
-    ax3.plot(time_hours/24, zfun.lowpass(count_in_strict, f='godin'), '--', color=linecolor, label=silllenlabel+' no return') 
+    #add shading
+    if i==0:
+        sect_name='b3'
+        pad=36
+        tef_df, vn_list, vec_list = tef_fun.get_two_layer(tef_5km_fn, sect_name)
+        tef_df['Q_prism']=tef_df['qprism']/1000
+        Qprism = tef_df['Q_prism'].loc['2020-09-04':'2020-12-28'] #cut off extra pad because qprism uses two godin filters
+        ot=tef_df.loc['2020-09-04':'2020-12-28'].index
+        ot_hours_delta = (((ot - datetime.datetime(2020,9,1,0,0,0)).total_seconds())/3600).to_numpy()
+        axs[0,0].set_ylim(0,40000)
+        axs[0,1].set_ylim(0,20000)
+        axs[0,2].set_ylim(0,20000)
+        axs[1,0].plot(ot_hours_delta/24,Qprism.to_numpy(), color='tab:gray', linewidth=2) #cut off the weird ends
+        axs[1,1].plot(ot_hours_delta/24,Qprism.to_numpy(), color='tab:gray', linewidth=2)
+        axs[1,2].plot(ot_hours_delta/24,Qprism.to_numpy(), color='tab:gray', linewidth=2)
+        axs[1,0].set_ylabel('$Q_{prism}$ (5km)\n$[10^{3}\ m^{3}s^{-1}]$')
+        axs[1,0].set_yticks(ticks=[20,50,80])
+        axs[1,1].set_yticks(ticks=[20,50,80])
+        axs[1,2].set_yticks(ticks=[20,50,80])
+        axs[1,0].set_ylim(20,80)
+        axs[1,1].set_ylim(20,80)
+        axs[1,2].set_ylim(20,80)
+        # ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
+        snmid=(np.max(Qprism)+np.min(Qprism))/2
+        snbg=np.where(Qprism.to_numpy()>snmid, 1, 0)
+        axs[0,0].pcolor(ot_hours_delta/24, axs[0,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.5, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True) #slight change to the shading
+        axs[0,1].pcolor(ot_hours_delta/24, axs[0,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.5, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True)
+        axs[0,2].pcolor(ot_hours_delta/24, axs[0,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.5, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True)
+        axs[1,0].pcolor(ot_hours_delta/24, axs[1,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.5, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True)
+        axs[1,1].pcolor(ot_hours_delta/24, axs[1,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.5, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True)
+        axs[1,2].pcolor(ot_hours_delta/24, axs[0,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.5, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True)
+        axs[1,0].grid(True)
+        axs[1,1].grid(True)
+        axs[1,2].grid(True)
+
+    axs[0,0].plot(time_hours/24, zfun.lowpass(count_est, f='godin'), color=linecolor, label=silllenlabel)
+    axs[0,0].plot(time_hours/24, zfun.lowpass(count_est_strict, f='godin'), '--', color=linecolor, label=silllenlabel)
+    axs[0,1].plot(time_hours/24, zfun.lowpass(count_insill, f='godin'), color=linecolor, label=silllenlabel) 
+    axs[0,1].plot(time_hours/24, zfun.lowpass(count_insill_strict, f='godin'), '--', color=linecolor, label=silllenlabel) 
+    axs[0,2].plot(time_hours/24, zfun.lowpass(count_in, f='godin'), color=linecolor, label=silllenlabel+' total') 
+    axs[0,2].plot(time_hours/24, zfun.lowpass(count_in_strict, f='godin'), '--', color=linecolor, label=silllenlabel+' no return') 
 
     #could try with total number of particles and/or double axis
     
@@ -355,28 +393,36 @@ for i in range(5):
 # ax3.set_ylim(0,100)
 # ax3.legend(loc='upper right')
 
-ax1.grid(True)
-ax2.grid(True)
-ax3.grid(True)
+axs[0,0].grid(True)
+axs[0,1].grid(True)
+axs[0,2].grid(True)
 
-ax1.set_xlabel('Days')
-ax2.set_xlabel('Days')
-ax3.set_xlabel('Days')
+axs[1,0].set_xlabel('Days')
+axs[1,1].set_xlabel('Days')
+axs[1,2].set_xlabel('Days')
 
-ax1.set_xlim(0,120)
-ax2.set_xlim(0,120)
-ax3.set_xlim(0,120)
+axs[0,0].set_xlim(0,120)
+axs[0,1].set_xlim(0,120)
+axs[0,2].set_xlim(0,120)
+axs[1,0].set_xlim(0,120)
+axs[1,1].set_xlim(0,120)
+axs[1,2].set_xlim(0,120)
 
-ax1.set_ylim(0,40000)
-ax2.set_ylim(0,20000)
-ax3.set_ylim(0,20000)
+axs[0,0].set_ylim(0,40000)
+axs[0,1].set_ylim(0,20000)
+axs[0,2].set_ylim(0,20000)
 
-ax1.set_title('Whole estuary')
-ax2.set_title('Inner basin + sill')
-ax3.set_title('Inner basin')
+axs[0,0].set_title('Whole estuary')
+axs[0,1].set_title('Inner basin + sill')
+axs[0,2].set_title('Inner basin')
 
-ax1.set_ylabel('Particles remaining')
-ax3.legend(loc='upper right')
+axs[0,0].set_ylabel('Particles remaining')
+# axs[0,2].legend(loc='upper right')
+#legend
+handles, labels = axs[0,0].get_legend_handles_labels()
+handles_reorder = np.concatenate((handles[::2],handles[1::2]),axis=0)
+labels_reorder = np.concatenate((labels[::2],labels[1::2]),axis=0)
+axs[0,0].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2)
 
 
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_strict.png'
