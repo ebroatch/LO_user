@@ -305,7 +305,7 @@ axs[0,0].set_ylim(0,100)
 handles, labels = axs[0,0].get_legend_handles_labels()
 handles_reorder = np.concatenate((handles[::2],handles[1::2]),axis=0)
 labels_reorder = np.concatenate((labels[::2],labels[1::2]),axis=0)
-axs[0,0].legend(handles_reorder,labels_reorder,loc='upper right',ncols=2)
+axs[0,0].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2)
 
 # ax2.set_xlabel('Days')
 # #ax1.set_ylabel('Number of particles')
