@@ -119,7 +119,7 @@ for i in range(5):
 
     lon_vals = dsr.lon.values
     # z_start = dsr.z.values[np.newaxis, 0, :] #starting depth of the particles
-    # lon_start = dsr.lon.values[0,:] #should we add newaxis?
+    lon_start = dsr.lon.values[0,:] #should we add newaxis?
     time_hours = dsr.Time.values
     dsr.close()
     print('got lon_vals and time\n')
@@ -136,7 +136,7 @@ for i in range(5):
     # lon_in_upper = lon_in * lon_in[np.newaxis, 0, :] * z_start_upper #particles in the inner basin that started in the inner basin above sill depth
 
 
-    lon_start = lon_vals[np.newaxis, 0, :] #starting longitudes of the particles
+    # lon_start = lon_vals[np.newaxis, 0, :] #starting longitudes of the particles #DON'T ADD NEWAXIS
     lon_start_in = lon_start >= sillland #boolean array for particles starting in the inner basin
     lon_start_insill = lon_start >= sillsea #boolean array for particles starting in the inner basin and sill
 
