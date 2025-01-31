@@ -68,23 +68,23 @@ for i in range(5):
         tef_df, vn_list, vec_list = tef_fun.get_two_layer(tef_5km_fn, sect_name)
         tef_df['Q_prism']=tef_df['qprism']/1000
         ot=tef_df.index
-        ot_hours_delta = ((ot - datetime.datetime(2020,9,1,0,0,0)).total_seconds().to_numpy())//3600
+        ot_hours_delta = (((ot - datetime.datetime(2020,9,1,0,0,0)).total_seconds())/3600).to_numpy()
         axs[0,0].set_ylim(0,100)
         axs[0,1].set_ylim(0,100)
-        axs[1,0].plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=2)
-        axs[1,1].plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=2)
+        axs[1,0].plot(ot_hours_delta/24,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=2)
+        axs[1,1].plot(ot_hours_delta/24,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=2)
         axs[1,0].set_ylabel('$Q_{prism}$ (5km)\n$[10^{3}\ m^{3}s^{-1}]$')
-        axs[1,0].set_ylim(20,80)
-        axs[1,1].set_ylim(20,80)
         axs[1,0].set_yticks(ticks=[20,50,80])
         axs[1,1].set_yticks(ticks=[20,50,80])
+        axs[1,0].set_ylim(20,80)
+        axs[1,1].set_ylim(20,80)
         # ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
         snmid=(np.max(tef_df['Q_prism'].loc['2020-09-04':'2020-12-28'])+np.min(tef_df['Q_prism'].loc['2020-09-04':'2020-12-28']))/2 #need to decide what days to use for this
         snbg=np.where(tef_df['Q_prism'].to_numpy()>snmid, 1, 0)
-        axs[0,0].pcolor(ot_hours_delta, axs[0,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #add these back after figuring out time index
-        axs[0,1].pcolor(ot_hours_delta, axs[0,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
-        axs[1,0].pcolor(ot_hours_delta, axs[1,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
-        axs[1,1].pcolor(ot_hours_delta, axs[1,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+        axs[0,0].pcolor(ot_hours_delta/24, axs[0,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #add these back after figuring out time index
+        axs[0,1].pcolor(ot_hours_delta/24, axs[0,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+        axs[1,0].pcolor(ot_hours_delta/24, axs[1,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+        axs[1,1].pcolor(ot_hours_delta/24, axs[1,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
         axs[1,0].grid(True)
         axs[1,1].grid(True)
 
@@ -314,6 +314,8 @@ axs[0,1].grid(True)
 axs[0,1].set_xlim(0,120)
 axs[0,1].set_ylim(0,100)
 
+axs[1,0].set_ylim(20,80)
+axs[1,1].set_ylim(20,80)
 axs[1,0].set_xlabel('Days')
 axs[1,1].set_xlabel('Days')
 
