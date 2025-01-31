@@ -87,10 +87,10 @@ for i in range(5):
         # ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
         snmid=(np.max(Qprism)+np.min(Qprism))/2
         snbg=np.where(Qprism.to_numpy()>snmid, 1, 0)
-        axs[0,0].pcolor(ot_hours_delta/24, axs[0,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.25, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True) #add these back after figuring out time index
-        axs[0,1].pcolor(ot_hours_delta/24, axs[0,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.25, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True)
-        axs[1,0].pcolor(ot_hours_delta/24, axs[1,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.25, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True)
-        axs[1,1].pcolor(ot_hours_delta/24, axs[1,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.25, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True)
+        axs[0,0].pcolor(ot_hours_delta/24, axs[0,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.5, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True) #add these back after figuring out time index
+        axs[0,1].pcolor(ot_hours_delta/24, axs[0,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.5, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True)
+        axs[1,0].pcolor(ot_hours_delta/24, axs[1,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.5, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True)
+        axs[1,1].pcolor(ot_hours_delta/24, axs[1,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=-0.5, vmax=1.75, alpha=0.3, linewidth=0, antialiased=True)
         axs[1,0].grid(True)
         axs[1,1].grid(True)
 
