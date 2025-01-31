@@ -17,7 +17,7 @@ from scipy import stats
 plt.close('all')
 # fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
 # fig, axs = plt.subplots(2,2,figsize=(15,15))
-fig, ax = plt.subplots(1,1,figsize=(15,15))
+fig, ax = plt.subplots(1,1,figsize=(15,8))
 
 for i in range(5):
     # Choose an experiment and release to plot.
@@ -239,12 +239,13 @@ for i in range(5):
 ax.set_title('Average strict residence time [days]')
 ax.grid(True)
 ax.set_xlim(0,160)
-ax.axvline(40,color='tab:brown',ls='-.') #lines showing the start and end of the sill
-ax.axvline(45,color='tab:red',ls='-.')
-ax.axvline(50,color='tab:orange',ls='-.')
-ax.axvline(60,color='tab:green',ls='-.')
-ax.axvline(80,color='tab:blue',ls='-.')
-ax.axvline(120,color='tab:purple',ls='-.')
+ax.set_ylim(0,100)
+ax.axvline(40,color='tab:brown',ls='-.',lw=2) #lines showing the start and end of the sill
+ax.axvline(45,color='tab:red',ls='-.',lw=2)
+ax.axvline(50,color='tab:orange',ls='-.',lw=2)
+ax.axvline(60,color='tab:green',ls='-.',lw=2)
+ax.axvline(80,color='tab:blue',ls='-.',lw=2)
+ax.axvline(120,color='tab:purple',ls='-.',lw=2)
 # axs[0,0].set_ylim(0,100)
 # axs[0,0].set_ylim(0,par_in_lower[0])
 ax.set_xlabel('Release x-position')
