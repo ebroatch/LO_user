@@ -257,17 +257,17 @@ for i in range(5):
     # rt_xmean = stats.binned_statistic(lon_start, rt_strict_days, statistic='mean', bins=lon_bin_edges, range=None)
 
     #insill
-    rt_xmean_in = stats.binned_statistic(lon_start, rt_strict_days_in, statistic='mean', bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
+    rt_xmean_in = stats.binned_statistic(lon_start, rt_strict_days_in, statistic=np.nanmean, bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
     x_bin_centers_km_in = llxyfun.lon2x((rt_xmean_in.bin_edges[:-1]+rt_xmean_in.bin_edges[1:])/2,0,45)/1000 #use the subsampled bin edges for plotting
     axs[2].plot(x_bin_centers_km_in-(40+silllen),rt_xmean_in.statistic,color=linecolor,linewidth=2,label=silllenlabel)
 
     #insill
-    rt_xmean_insill = stats.binned_statistic(lon_start, rt_strict_days_insill, statistic='mean', bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
+    rt_xmean_insill = stats.binned_statistic(lon_start, rt_strict_days_insill, statistic=np.nanmean, bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
     x_bin_centers_km_insill = llxyfun.lon2x((rt_xmean_insill.bin_edges[:-1]+rt_xmean_insill.bin_edges[1:])/2,0,45)/1000 #use the subsampled bin edges for plotting
     axs[1].plot(x_bin_centers_km_insill-(40+silllen),rt_xmean_insill.statistic,color=linecolor,linewidth=2,label=silllenlabel)
 
     #estuary
-    rt_xmean_est = stats.binned_statistic(lon_start, rt_strict_days_est, statistic='mean', bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
+    rt_xmean_est = stats.binned_statistic(lon_start, rt_strict_days_est, statistic=np.nanmean, bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
     x_bin_centers_km_est = llxyfun.lon2x((rt_xmean_est.bin_edges[:-1]+rt_xmean_est.bin_edges[1:])/2,0,45)/1000 #use the subsampled bin edges for plotting
     axs[0].plot(x_bin_centers_km_est,rt_xmean_est.statistic,color=linecolor,linewidth=2,label=silllenlabel)
 

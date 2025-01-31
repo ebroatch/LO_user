@@ -261,17 +261,17 @@ for i in range(5):
     # rt_xmean = stats.binned_statistic(lon_start, rt_strict_days, statistic='mean', bins=lon_bin_edges, range=None)
 
     #insill
-    rt_smean_in = stats.binned_statistic(s_start, rt_strict_days_in, statistic='mean', bins=s_bin_edges, range=None) #try using bigger bins
+    rt_smean_in = stats.binned_statistic(s_start, rt_strict_days_in, statistic=np.nanmean, bins=s_bin_edges, range=None) #try using bigger bins
     s_bin_centers_in = (rt_smean_in.bin_edges[:-1]+rt_smean_in.bin_edges[1:])/2 #use the subsampled bin edges for plotting
     axs[2].plot(s_bin_centers_in,rt_smean_in.statistic,color=linecolor,linewidth=2,label=silllenlabel)
 
     #insill
-    rt_smean_insill = stats.binned_statistic(s_start, rt_strict_days_insill, statistic='mean', bins=s_bin_edges, range=None) #try using bigger bins
+    rt_smean_insill = stats.binned_statistic(s_start, rt_strict_days_insill, statistic=np.nanmean, bins=s_bin_edges, range=None) #try using bigger bins
     s_bin_centers_insill = (rt_smean_insill.bin_edges[:-1]+rt_smean_insill.bin_edges[1:])/2 #use the subsampled bin edges for plotting
     axs[1].plot(s_bin_centers_insill,rt_smean_insill.statistic,color=linecolor,linewidth=2,label=silllenlabel)
 
     #estuary
-    rt_smean_est = stats.binned_statistic(s_start, rt_strict_days_est, statistic='mean', bins=s_bin_edges, range=None) #try using bigger bins
+    rt_smean_est = stats.binned_statistic(s_start, rt_strict_days_est, statistic=np.nanmean, bins=s_bin_edges, range=None) #try using bigger bins
     s_bin_centers_est = (rt_smean_est.bin_edges[:-1]+rt_smean_est.bin_edges[1:])/2 #use the subsampled bin edges for plotting
     axs[0].plot(s_bin_centers_est,rt_smean_est.statistic,color=linecolor,linewidth=2,label=silllenlabel)
 
