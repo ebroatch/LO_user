@@ -13,6 +13,7 @@ import xarray as xr
 import numpy as np
 from scipy.optimize import curve_fit
 import tef_fun
+import datetime
 
 plt.close('all')
 # fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
@@ -67,6 +68,7 @@ for i in range(5):
         tef_df, vn_list, vec_list = tef_fun.get_two_layer(tef_5km_fn, sect_name)
         tef_df['Q_prism']=tef_df['qprism']/1000
         ot=tef_df.index
+        ot_hours_delta = ((ot - datetime.datetime(2020,9,1,0,0,0)).total_seconds().to_numpy())//3600
         axs[0,0].set_ylim(0,100)
         axs[0,1].set_ylim(0,100)
         axs[1,0].plot(ot,tef_df['Q_prism'].to_numpy(), color='tab:gray', linewidth=2)
@@ -77,12 +79,12 @@ for i in range(5):
         axs[1,0].set_yticks(ticks=[20,50,80])
         axs[1,1].set_yticks(ticks=[20,50,80])
         # ax0.set_xlim(pd.Timestamp('2020-09-01'), pd.Timestamp('2020-12-31'))
-        snmid=(np.max(tef_df['Q_prism'].loc['2020-09-03':'2020-12-28'])+np.min(tef_df['Q_prism'].loc['2020-09-03':'2020-12-28']))/2
+        snmid=(np.max(tef_df['Q_prism'].loc['2020-09-04':'2020-12-28'])+np.min(tef_df['Q_prism'].loc['2020-09-04':'2020-12-28']))/2 #need to decide what days to use for this
         snbg=np.where(tef_df['Q_prism'].to_numpy()>snmid, 1, 0)
-        # axs[0,0].pcolor(ot, axs[0,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #add these back after figuring out time index
-        # axs[0,1].pcolor(ot, axs[0,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
-        axs[1,0].pcolor(ot, axs[1,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
-        axs[1,1].pcolor(ot, axs[1,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+        axs[0,0].pcolor(ot_hours_delta, axs[0,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True) #add these back after figuring out time index
+        axs[0,1].pcolor(ot_hours_delta, axs[0,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+        axs[1,0].pcolor(ot_hours_delta, axs[1,0].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
+        axs[1,1].pcolor(ot_hours_delta, axs[1,1].get_ylim(), np.tile(snbg,(2,1)), cmap='Greys', vmin=0, vmax=2, alpha=0.3, linewidth=0, antialiased=True)
         axs[1,0].grid(True)
         axs[1,1].grid(True)
 
@@ -199,12 +201,23 @@ for i in range(5):
 
     #ADD CALCULATIONS TO PRINT FOR EACH MODEL
     pad=36 #could use 35 but 36 is nice bc it gives exactly 1.5 days removed on each end
+    
+    par_out_ta = zfun.lowpass(par_out, f='godin')[pad:-pad+1]
+    par_in_ta = zfun.lowpass(par_in, f='godin')[pad:-pad+1]
+
     par_out_frac_ta = zfun.lowpass((par_out/par_out[0]), f='godin')[pad:-pad+1]
     par_in_frac_ta = zfun.lowpass((par_in/par_in[0]), f='godin')[pad:-pad+1]
 
-    par_out_ta = zfun.lowpass(par_out, f='godin')[pad:-pad+1]
-    par_in_ta = zfun.lowpass(par_in, f='godin')[pad:-pad+1]
     t_ta = time_hours[pad:-pad+1]
+    par_scale_out = par_out_ta[0]
+    par_scale_in = par_in_ta[0]
+    t_scale = t_ta[-1]
+    t_frac = t_ta / t_scale
+
+    par_out_frac_raw = par_out/par_out[0]
+    par_in_frac_raw = par_in/par_in[0]
+    t_scale_raw = time_hours[-1]
+    t_frac_raw = time_hours / t_scale_raw
 
     #quick calc
     T_e_out = -(t_ta[-1] / np.log(par_out_frac_ta[-1]/1))/24 #e-folding time in days from tidally averaged values (negative because it is exponential decrease)
@@ -221,11 +234,6 @@ for i in range(5):
     #exponential fit
     def func(x, a, b, c):
         return a * np.exp(-b * x) + c
-
-    par_scale_out = par_out_ta[0]
-    par_scale_in = par_in_ta[0]
-    t_scale = t_ta[-1]
-    t_frac = t_ta / t_scale
 
     p0=(1,1,0)
     popt_out, pcov_out = curve_fit(func, t_frac, par_out_frac_ta, p0=p0)
@@ -249,7 +257,17 @@ for i in range(5):
     print('\nT_e_in from two-param fit:\n')
     print(T_e_in_fit2)
 
-    #logarithm linear regression
+    p03=(1,1)
+    popt_out3, pcov_out3 = curve_fit(func2, t_frac_raw, par_out_frac_raw, p0=p03)
+    popt_in3, pcov_in3 = curve_fit(func2, t_frac_raw, par_in_frac_raw, p0=p03)
+
+    T_e_out_fit3 = (1/popt_out3[1])*t_scale_raw/24 #T_e from two parameter fit in days
+    T_e_in_fit3 = (1/popt_in3[1])*t_scale_raw/24 #T_e from two parameter fit in days   
+
+    print('\nT_e_out from two-param fit (unfiltered data):\n')
+    print(T_e_out_fit3)
+    print('\nT_e_in from two-param fit (unfiltered data):\n')
+    print(T_e_in_fit3)
 
 
     #fitting
