@@ -57,6 +57,7 @@ for i in range(5):
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(45e3,0,45)
         linecolor = 'tab:red'
+        linecolor2 = plt.cm.tab20(7)
         silllenlabel = '5km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/release_2020.09.01.nc'
         fng = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/grid.nc'
@@ -65,6 +66,7 @@ for i in range(5):
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(50e3,0,45)
         linecolor = 'tab:orange'
+        linecolor2 = plt.cm.tab20(3)
         silllenlabel = '10km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill10km_t2_xa0/sill10kmest_3d/release_2020.09.01.nc'
         fng = '/data1/ebroatch/LO_output/tracks2/sill10km_t2_xa0/sill10kmest_3d/grid.nc'
@@ -73,6 +75,7 @@ for i in range(5):
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(60e3,0,45)
         linecolor = 'tab:green'
+        linecolor2 = plt.cm.tab20(5)
         silllenlabel = '20km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill20kmdeep_t2_xa0/sill20kmdeepest_3d/release_2020.09.01.nc'
         fng = '/data1/ebroatch/LO_output/tracks2/sill20kmdeep_t2_xa0/sill20kmdeepest_3d/grid.nc'
@@ -81,6 +84,7 @@ for i in range(5):
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(80e3,0,45)
         linecolor = 'tab:blue'
+        linecolor2 = plt.cm.tab20(1)
         silllenlabel = '40km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill40km_t2_xa0/sill40kmest_3d/release_2020.09.01.nc'
         fng = '/data1/ebroatch/LO_output/tracks2/sill40km_t2_xa0/sill40kmest_3d/grid.nc'
@@ -89,6 +93,7 @@ for i in range(5):
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(120e3,0,45)
         linecolor = 'tab:purple'
+        linecolor2 = plt.cm.tab20(9)
         silllenlabel = '80km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/release_2020.09.01.nc'
         fng = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/grid.nc'
@@ -255,25 +260,31 @@ for i in range(5):
     
     #bin based on salinity now
     # s_bin_edges = np.arange(0,34.5,0.5) #half psu increments from 0 to 34 (max s)
-    s_bin_edges = np.arange(22,34.5,0.5) #half psu increments from 0 to 34 (max s)
+    s_bin_edges = np.arange(22,34.5,0.5) #half psu increments from 0 to 34 (max s) #could try smaller/bigger bins
     # lon_bin_edges = lonp[0,:] #this also includes longitudes in the ocean half, but we can crop it out in the plot
     # lon_bin_edges_pos = np.delete(lon_bin_edges,np.where(lon_bin_edges<0))
     # x_bin_centers_km = llxyfun.lon2x((lon_bin_edges[:-1]+lon_bin_edges[1:])/2,0,45)/1000
     # rt_xmean = stats.binned_statistic(lon_start, rt_strict_days, statistic='mean', bins=lon_bin_edges, range=None)
 
-    #insill
-    rt_smean_in = stats.binned_statistic(s_start, rt_strict_days_in, statistic=np.nanmean, bins=s_bin_edges, range=None) #try using bigger bins
+    #in
+    rt_smean_in = stats.binned_statistic(s_start, rt_strict_days_in, statistic=np.nanmean, bins=s_bin_edges, range=None)
+    rt_std_in = stats.binned_statistic(s_start, rt_strict_days_in, statistic=np.nanstd, bins=s_bin_edges, range=None) #Try adding standard deviation as error
     s_bin_centers_in = (rt_smean_in.bin_edges[:-1]+rt_smean_in.bin_edges[1:])/2 #use the subsampled bin edges for plotting
+    axs[2].fill_between(s_bin_centers_in,rt_smean_in.statistic-rt_std_in.statistic,rt_smean_in.statistic+rt_std_in.statistic,color=linecolor2,alpha=0.3)
     axs[2].plot(s_bin_centers_in,rt_smean_in.statistic,color=linecolor,linewidth=2,label=silllenlabel)
 
     #insill
-    rt_smean_insill = stats.binned_statistic(s_start, rt_strict_days_insill, statistic=np.nanmean, bins=s_bin_edges, range=None) #try using bigger bins
+    rt_smean_insill = stats.binned_statistic(s_start, rt_strict_days_insill, statistic=np.nanmean, bins=s_bin_edges, range=None)
+    rt_std_insill = stats.binned_statistic(s_start, rt_strict_days_insill, statistic=np.nanstd, bins=s_bin_edges, range=None) #Try adding standard deviation as error
     s_bin_centers_insill = (rt_smean_insill.bin_edges[:-1]+rt_smean_insill.bin_edges[1:])/2 #use the subsampled bin edges for plotting
+    axs[1].fill_between(s_bin_centers_insill,rt_smean_insill.statistic-rt_std_insill.statistic,rt_smean_insill.statistic+rt_std_insill.statistic,color=linecolor2,alpha=0.3)
     axs[1].plot(s_bin_centers_insill,rt_smean_insill.statistic,color=linecolor,linewidth=2,label=silllenlabel)
 
     #estuary
-    rt_smean_est = stats.binned_statistic(s_start, rt_strict_days_est, statistic=np.nanmean, bins=s_bin_edges, range=None) #try using bigger bins
+    rt_smean_est = stats.binned_statistic(s_start, rt_strict_days_est, statistic=np.nanmean, bins=s_bin_edges, range=None)
+    rt_std_est = stats.binned_statistic(s_start, rt_strict_days_est, statistic=np.nanstd, bins=s_bin_edges, range=None) #Try adding standard deviation as error
     s_bin_centers_est = (rt_smean_est.bin_edges[:-1]+rt_smean_est.bin_edges[1:])/2 #use the subsampled bin edges for plotting
+    axs[0].fill_between(s_bin_centers_est,rt_smean_est.statistic-rt_std_est.statistic,rt_smean_est.statistic+rt_std_est.statistic,color=linecolor2,alpha=0.3)
     axs[0].plot(s_bin_centers_est,rt_smean_est.statistic,color=linecolor,linewidth=2,label=silllenlabel)
 
     # ax.hist(rt_strict_days,bins=[0,10,20,30,40,50,60,70,80,90,100,110,120], density=True, histtype='step',color=linecolor,linewidth=2,label=silllenlabel)
