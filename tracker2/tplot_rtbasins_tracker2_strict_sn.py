@@ -101,7 +101,7 @@ for i in range(5):
     # z_start_up = z_start >= -50 #boolean array for particles starting above sill depth
 
     lon_in = lon_vals >= sillland #boolean array of particles in the inner basin over time
-    lon_insill = lon_vals >= sillland #boolean array of particles in the inner basin over time
+    lon_insill = lon_vals >= sillsea #boolean array of particles in the inner basin over time
     lon_est = lon_vals >= 0 #boolean array of particles in the whole estuary over time
     # lon_out = (lon_vals <= sillsea) & (lon_vals >= 0) #boolean array of particles in the outer basin over time
 
