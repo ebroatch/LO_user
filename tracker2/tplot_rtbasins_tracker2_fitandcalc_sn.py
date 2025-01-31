@@ -276,8 +276,8 @@ for i in range(5):
     print(T_e_in_fit3)
 
     #add fits to plot
-    axs[0,0].plot(time_hours/24, A_out_fit3 * np.exp(-time_hours/T_e_out_fit3) * 100, linestyle = '--', color=linecolor2, label=silllenlabel+' fit')
-    axs[0,1].plot(time_hours/24, A_in_fit3 * np.exp(-time_hours/T_e_in_fit3) * 100, linestyle = '--', color=linecolor2, label=silllenlabel)
+    axs[0,0].plot(time_hours/24, A_out_fit3 * np.exp((-time_hours/24)/T_e_out_fit3) * 100, linestyle = '--', color=linecolor2, label=silllenlabel+' fit')
+    axs[0,1].plot(time_hours/24, A_in_fit3 * np.exp((-time_hours/24)/T_e_in_fit3) * 100, linestyle = '--', color=linecolor2, label=silllenlabel)
 
 
 #plt.show()
