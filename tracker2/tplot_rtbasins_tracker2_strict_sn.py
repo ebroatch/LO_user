@@ -408,9 +408,9 @@ axs[1,0].set_xlim(0,120)
 axs[1,1].set_xlim(0,120)
 axs[1,2].set_xlim(0,120)
 
-axs[0,0].set_ylim(0,40000)
-axs[0,1].set_ylim(0,20000)
-axs[0,2].set_ylim(0,20000)
+axs[0,0].set_ylim(0,42000)
+axs[0,1].set_ylim(0,21000)
+axs[0,2].set_ylim(0,21000)
 
 axs[0,0].set_title('Whole estuary')
 axs[0,1].set_title('Inner basin + sill')
