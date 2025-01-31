@@ -22,7 +22,7 @@ plt.close('all')
 fig, axs = plt.subplots(1,3,figsize=(20,8))
 
 axs[0].set_xlim(22,34) #x axis is the salinity range
-axs[0].set_ylim(0,100)
+axs[0].set_ylim(0,120)
 # axs[0].axvline(40,color='tab:brown',ls='-.',lw=2) #lines showing the start and end of the sill, plot first so they will be below the curves
 # axs[0].axvline(45,color='tab:red',ls='-.',lw=2)
 # axs[0].axvline(50,color='tab:orange',ls='-.',lw=2)
@@ -31,7 +31,7 @@ axs[0].set_ylim(0,100)
 # axs[0].axvline(120,color='tab:purple',ls='-.',lw=2)
 
 axs[1].set_xlim(22,34)
-axs[1].set_ylim(0,100)
+axs[1].set_ylim(0,120)
 # axs[1].axvline(0,color='tab:brown',ls='-.',lw=2) #lines showing the start and end of the sill, plot first so they will be below the curves
 # axs[1].axvline(-5,color='tab:red',ls='-.',lw=2)
 # axs[1].axvline(-10,color='tab:orange',ls='-.',lw=2)
@@ -40,7 +40,7 @@ axs[1].set_ylim(0,100)
 # axs[1].axvline(-80,color='tab:purple',ls='-.',lw=2)
 
 axs[2].set_xlim(22,34)
-axs[2].set_ylim(0,100)
+axs[2].set_ylim(0,120)
 
 for i in range(5):
     # Choose an experiment and release to plot.
@@ -260,7 +260,9 @@ for i in range(5):
     
     #bin based on salinity now
     # s_bin_edges = np.arange(0,34.5,0.5) #half psu increments from 0 to 34 (max s)
-    s_bin_edges = np.arange(22,34.5,0.5) #half psu increments from 0 to 34 (max s) #could try smaller/bigger bins
+    # s_bin_edges = np.arange(22,34.5,0.5) #half psu increments from 0 to 34 (max s) #could try smaller/bigger bins
+    s_bin_edges = np.arange(22,34.25,0.25) #quarter psu increments from 0 to 34 (max s) #could try smaller/bigger bins
+    # s_bin_edges = np.arange(22,35,1) #psu increments from 0 to 34 (max s) #could try smaller/bigger bins
     # lon_bin_edges = lonp[0,:] #this also includes longitudes in the ocean half, but we can crop it out in the plot
     # lon_bin_edges_pos = np.delete(lon_bin_edges,np.where(lon_bin_edges<0))
     # x_bin_centers_km = llxyfun.lon2x((lon_bin_edges[:-1]+lon_bin_edges[1:])/2,0,45)/1000
