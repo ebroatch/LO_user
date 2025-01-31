@@ -330,7 +330,7 @@ axs[2].grid(True)
 axs[0].set_xlabel('Release salinity [psu]')
 axs[1].set_xlabel('Release salinity [psu]')
 axs[2].set_xlabel('Release salinity [psu]')
-axs[0].legend(loc='lower right')
+axs[2].legend(loc='upper right')
 
 # axs[0,1].set_xlabel('Days')
 # # axs[0,1].set_ylabel('% of particles')
