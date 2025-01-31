@@ -151,11 +151,13 @@ for i in range(5):
     rt_strict_in = np.argmin(lon_in,axis=0).astype('float') #first time the particle is outside the inner basin
     rt_strict_in = np.where(rt_strict_in==0, tmax+1, rt_strict_in) #replace 0 with tmax+1, this sets the particles that never leave or ones that were released outside to tmax+1
     rt_strict_in = rt_strict_in * lon_start_in #this resets the particles that are not released in the inner basin to zero (necessary?)
+    rt_strict_in = np.where(rt_strict_in==0, np.nan, rt_strict_in) #this sets particles that are not released in the inner basin or sill to nan
     rt_strict_days_in = rt_strict_in/24 #convert to days
     #inner basin + sill
     rt_strict_insill = np.argmin(lon_insill,axis=0).astype('float')
     rt_strict_insill = np.where(rt_strict_insill==0, tmax+1, rt_strict_insill) #replace 0 with tmax+1, this sets the particles that never leave or ones that were released outside to tmax+1
     rt_strict_insill = rt_strict_insill * lon_start_insill #this resets the particles that are not released in the inner basin or sill to zero (necessary?)
+    rt_strict_insill = np.where(rt_strict_insill==0, np.nan, rt_strict_insill) #this sets particles that are not released in the inner basin or sill to nan
     rt_strict_days_insill = rt_strict_insill/24 #convert to days
     #whole estuary
     rt_strict_est = np.argmin(lon_est,axis=0).astype('float')
