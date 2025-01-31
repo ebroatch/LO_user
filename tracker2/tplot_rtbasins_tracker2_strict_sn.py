@@ -284,9 +284,9 @@ for i in range(5):
         Qprism = tef_df['Q_prism'].loc['2020-09-04':'2020-12-28'] #cut off extra pad because qprism uses two godin filters
         ot=tef_df.loc['2020-09-04':'2020-12-28'].index
         ot_hours_delta = (((ot - datetime.datetime(2020,9,1,0,0,0)).total_seconds())/3600).to_numpy()
-        axs[0,0].set_ylim(0,40000)
-        axs[0,1].set_ylim(0,20000)
-        axs[0,2].set_ylim(0,20000)
+        axs[0,0].set_ylim(0,42000)
+        axs[0,1].set_ylim(0,21000)
+        axs[0,2].set_ylim(0,21000)
         axs[1,0].plot(ot_hours_delta/24,Qprism.to_numpy(), color='tab:gray', linewidth=2) #cut off the weird ends
         axs[1,1].plot(ot_hours_delta/24,Qprism.to_numpy(), color='tab:gray', linewidth=2)
         axs[1,2].plot(ot_hours_delta/24,Qprism.to_numpy(), color='tab:gray', linewidth=2)

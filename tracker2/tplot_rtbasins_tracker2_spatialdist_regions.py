@@ -17,15 +17,29 @@ from scipy import stats
 plt.close('all')
 # fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
 # fig, axs = plt.subplots(2,2,figsize=(15,15))
-fig, ax = plt.subplots(1,1,figsize=(15,8))
-ax.set_xlim(0,160)
-ax.set_ylim(0,100)
-ax.axvline(40,color='tab:brown',ls='-.',lw=2) #lines showing the start and end of the sill, plot first so they will be below the curves
-ax.axvline(45,color='tab:red',ls='-.',lw=2)
-ax.axvline(50,color='tab:orange',ls='-.',lw=2)
-ax.axvline(60,color='tab:green',ls='-.',lw=2)
-ax.axvline(80,color='tab:blue',ls='-.',lw=2)
-ax.axvline(120,color='tab:purple',ls='-.',lw=2)
+# fig, ax = plt.subplots(1,1,figsize=(15,8))
+fig, axs = plt.subplots(1,3,figsize=(20,8),gridspec_kw={'width_ratios': [4,3,1]})
+
+axs[0].set_xlim(0,160)
+axs[0].set_ylim(0,100)
+axs[0].axvline(40,color='tab:brown',ls='-.',lw=2) #lines showing the start and end of the sill, plot first so they will be below the curves
+axs[0].axvline(45,color='tab:red',ls='-.',lw=2)
+axs[0].axvline(50,color='tab:orange',ls='-.',lw=2)
+axs[0].axvline(60,color='tab:green',ls='-.',lw=2)
+axs[0].axvline(80,color='tab:blue',ls='-.',lw=2)
+axs[0].axvline(120,color='tab:purple',ls='-.',lw=2)
+
+axs[1].set_xlim(-80,40) #not sure about this axis choice yet
+axs[1].set_ylim(0,100)
+axs[1].axvline(0,color='tab:brown',ls='-.',lw=2) #lines showing the start and end of the sill, plot first so they will be below the curves
+axs[1].axvline(-5,color='tab:red',ls='-.',lw=2)
+axs[1].axvline(-10,color='tab:orange',ls='-.',lw=2)
+axs[1].axvline(-20,color='tab:green',ls='-.',lw=2)
+axs[1].axvline(-40,color='tab:blue',ls='-.',lw=2)
+axs[1].axvline(-80,color='tab:purple',ls='-.',lw=2)
+
+axs[2].set_xlim(0,40) #not sure about this axis choice yet
+axs[2].set_ylim(0,100)
 
 for i in range(5):
     # Choose an experiment and release to plot.
@@ -38,6 +52,7 @@ for i in range(5):
 
     #for now just use 5,20,80 - can add 10 and 40 if it runs fast
     if i==0:
+        silllen = 5
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(45e3,0,45)
         linecolor = 'tab:red'
@@ -45,6 +60,7 @@ for i in range(5):
         fn = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/release_2020.09.01.nc'
         fng = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/grid.nc'
     elif i==1:
+        silllen = 10
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(50e3,0,45)
         linecolor = 'tab:orange'
@@ -52,6 +68,7 @@ for i in range(5):
         fn = '/data1/ebroatch/LO_output/tracks2/sill10km_t2_xa0/sill10kmest_3d/release_2020.09.01.nc'
         fng = '/data1/ebroatch/LO_output/tracks2/sill10km_t2_xa0/sill10kmest_3d/grid.nc'
     elif i==2:
+        silllen = 20
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(60e3,0,45)
         linecolor = 'tab:green'
@@ -59,6 +76,7 @@ for i in range(5):
         fn = '/data1/ebroatch/LO_output/tracks2/sill20kmdeep_t2_xa0/sill20kmdeepest_3d/release_2020.09.01.nc'
         fng = '/data1/ebroatch/LO_output/tracks2/sill20kmdeep_t2_xa0/sill20kmdeepest_3d/grid.nc'
     elif i==3:
+        silllen = 40
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(80e3,0,45)
         linecolor = 'tab:blue'
@@ -66,6 +84,7 @@ for i in range(5):
         fn = '/data1/ebroatch/LO_output/tracks2/sill40km_t2_xa0/sill40kmest_3d/release_2020.09.01.nc'
         fng = '/data1/ebroatch/LO_output/tracks2/sill40km_t2_xa0/sill40kmest_3d/grid.nc'
     elif i==4:
+        silllen = 80
         sillsea = llxyfun.x2lon(40e3,0,45)
         sillland = llxyfun.x2lon(120e3,0,45)
         linecolor = 'tab:purple'
@@ -100,7 +119,7 @@ for i in range(5):
 
     lon_vals = dsr.lon.values
     # z_start = dsr.z.values[np.newaxis, 0, :] #starting depth of the particles
-    lon_start = dsr.lon.values[0,:] #should we add newaxis?
+    # lon_start = dsr.lon.values[0,:] #should we add newaxis?
     time_hours = dsr.Time.values
     dsr.close()
     print('got lon_vals and time\n')
@@ -115,14 +134,34 @@ for i in range(5):
 
     # lon_in_lower = lon_in * lon_in[np.newaxis, 0, :] * z_start_lower #particles in the inner basin that started in the inner basin below sill depth
     # lon_in_upper = lon_in * lon_in[np.newaxis, 0, :] * z_start_upper #particles in the inner basin that started in the inner basin above sill depth
+
+
+    lon_start = lon_vals[np.newaxis, 0, :] #starting longitudes of the particles
+    lon_start_in = lon_start >= sillland #boolean array for particles starting in the inner basin
+    lon_start_insill = lon_start >= sillsea #boolean array for particles starting in the inner basin and sill
+
+    lon_in = lon_vals >= sillland #boolean array of particles in the inner basin over time
+    lon_insill = lon_vals >= sillsea #boolean array of particles in the inner basin and sill over time
+    lon_est = lon_vals >= 0 #boolean array of particles in the whole estuary over time
     print('got boolean lon arrays\n')
+
+    #get strict residence times
     tmax = time_hours[-1]
-    rt_strict = np.argmax(lon_vals<0,axis=0).astype('float')
-    rt_strict = np.where(rt_strict==0, tmax+1, rt_strict) #replace 0 with tmax+1 (every particle is in the estuary at t=0, these are particles that never leave estuary)
-    rt_strict_days = rt_strict/24 #convert to days
-
-
-
+    #inner basin
+    rt_strict_in = np.argmin(lon_in,axis=0).astype('float') #first time the particle is outside the inner basin
+    rt_strict_in = np.where(rt_strict_in==0, tmax+1, rt_strict_in) #replace 0 with tmax+1, this sets the particles that never leave or ones that were released outside to tmax+1
+    rt_strict_in = rt_strict_in * lon_start_in #this resets the particles that are not released in the inner basin to zero (necessary?)
+    rt_strict_days_in = rt_strict_in/24 #convert to days
+    #inner basin + sill
+    rt_strict_insill = np.argmin(lon_insill,axis=0).astype('float')
+    rt_strict_insill = np.where(rt_strict_insill==0, tmax+1, rt_strict_insill) #replace 0 with tmax+1, this sets the particles that never leave or ones that were released outside to tmax+1
+    rt_strict_insill = rt_strict_insill * lon_start_insill #this resets the particles that are not released in the inner basin or sill to zero (necessary?)
+    rt_strict_days_insill = rt_strict_insill/24 #convert to days
+    #whole estuary
+    rt_strict_est = np.argmin(lon_est,axis=0).astype('float')
+    rt_strict_est = np.where(rt_strict_est==0, tmax+1, rt_strict_est) #replace 0 with tmax+1 (every particle is in the estuary at t=0, these are particles that never leave estuary)
+    rt_strict_days_est = rt_strict_est/24 #convert to days
+    print('got residence times\n')
 
     # lon_out_lower = lon_out * lon_out[np.newaxis, 0, :] * z_start_lower #particles in the outer basin that started in the outer basin below sill depth
     # lon_out_upper = lon_out * lon_out[np.newaxis, 0, :] * z_start_upper #particles in the outer basin that started in the outer basin above sill depth
@@ -214,9 +253,22 @@ for i in range(5):
     lon_bin_edges_pos = np.delete(lon_bin_edges,np.where(lon_bin_edges<0))
     # x_bin_centers_km = llxyfun.lon2x((lon_bin_edges[:-1]+lon_bin_edges[1:])/2,0,45)/1000
     # rt_xmean = stats.binned_statistic(lon_start, rt_strict_days, statistic='mean', bins=lon_bin_edges, range=None)
-    rt_xmean = stats.binned_statistic(lon_start, rt_strict_days, statistic='mean', bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
-    x_bin_centers_km = llxyfun.lon2x((rt_xmean.bin_edges[:-1]+rt_xmean.bin_edges[1:])/2,0,45)/1000 #use the subsampled bin edges for plotting
-    ax.plot(x_bin_centers_km,rt_xmean.statistic,color=linecolor,linewidth=2,label=silllenlabel)
+
+    #insill
+    rt_xmean_in = stats.binned_statistic(lon_start, rt_strict_days_in, statistic='mean', bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
+    x_bin_centers_km_in = llxyfun.lon2x((rt_xmean_in.bin_edges[:-1]+rt_xmean_in.bin_edges[1:])/2,0,45)/1000 #use the subsampled bin edges for plotting
+    axs[2].plot(x_bin_centers_km_in-(40+silllen),rt_xmean_in.statistic,color=linecolor,linewidth=2,label=silllenlabel)
+
+    #insill
+    rt_xmean_insill = stats.binned_statistic(lon_start, rt_strict_days_insill, statistic='mean', bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
+    x_bin_centers_km_insill = llxyfun.lon2x((rt_xmean_insill.bin_edges[:-1]+rt_xmean_insill.bin_edges[1:])/2,0,45)/1000 #use the subsampled bin edges for plotting
+    axs[1].plot(x_bin_centers_km_insill-(40+silllen),rt_xmean_insill.statistic,color=linecolor,linewidth=2,label=silllenlabel)
+
+    #estuary
+    rt_xmean_est = stats.binned_statistic(lon_start, rt_strict_days_est, statistic='mean', bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
+    x_bin_centers_km_est = llxyfun.lon2x((rt_xmean_est.bin_edges[:-1]+rt_xmean_est.bin_edges[1:])/2,0,45)/1000 #use the subsampled bin edges for plotting
+    axs[0].plot(x_bin_centers_km,rt_xmean.statistic,color=linecolor,linewidth=2,label=silllenlabel)
+
     # ax.hist(rt_strict_days,bins=[0,10,20,30,40,50,60,70,80,90,100,110,120], density=True, histtype='step',color=linecolor,linewidth=2,label=silllenlabel)
 
     #could try with total number of particles and/or double axis
@@ -244,12 +296,21 @@ for i in range(5):
 # axs[0,0].set_xlabel('Days')
 # axs[0,0].set_ylabel('% of particles remaining in inner basin')
 # axs[0,0].set_ylabel('Particles remaining in inner basin') #TRY WITH TOTAL PARTICLE COUNT
-ax.set_title('Average strict residence time [days]')
-ax.grid(True)
+
+axs[0].set_ylabel('Average strict residence time [days]')
+axs[0].set_title('Whole estuary')
+axs[1].set_title('Inner basin + sill')
+axs[2].set_title('Inner basin')
+
+axs[0].grid(True)
+axs[1].grid(True)
+axs[2].grid(True)
 # axs[0,0].set_ylim(0,100)
 # axs[0,0].set_ylim(0,par_in_lower[0])
-ax.set_xlabel('Release x-position [km]')
-ax.legend(loc='lower right')
+axs[0].set_xlabel('Release x-position [km]')
+axs[1].set_xlabel('Release distance from landward end of sill [km]')
+axs[2].set_xlabel('Release distance from landward end of sill [km]')
+axs[0].legend(loc='lower right')
 
 # axs[0,1].set_xlabel('Days')
 # # axs[0,1].set_ylabel('% of particles')
@@ -295,7 +356,7 @@ ax.legend(loc='lower right')
 # ax3.legend(loc='upper right')
 
 
-fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_spatialdist.png'
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_spatialdist_regions.png'
 plt.savefig(fn_fig)
 plt.close()
 #plt.show()
