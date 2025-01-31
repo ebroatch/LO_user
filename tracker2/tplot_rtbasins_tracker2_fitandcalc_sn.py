@@ -237,7 +237,7 @@ for i in range(5):
     # print('quick e-folding calc done\n')
     sys.stdout.flush()
 
-    #exponential fit
+    #exponential fit with offset
     def func(x, a, b, c):
         return a * np.exp(-b * x) + c
 
@@ -248,15 +248,16 @@ for i in range(5):
     T_e_out_fit = (1/popt_out[1])*t_scale/24 #T_e from fit in days
     T_e_in_fit = (1/popt_in[1])*t_scale/24 #T_e from fit in days   
 
+    #exponential fit
     def func2(x, a, b):
-        return a * np.exp(-b * x)
+        return a * np.exp(-x/b) #change b to be time units
 
     p02=(1,1)
     popt_out2, pcov_out2 = curve_fit(func2, t_frac, par_out_frac_ta, p0=p02)
     popt_in2, pcov_in2 = curve_fit(func2, t_frac, par_in_frac_ta, p0=p02)
 
-    T_e_out_fit2 = (1/popt_out2[1])*t_scale/24 #T_e from two parameter fit in days
-    T_e_in_fit2 = (1/popt_in2[1])*t_scale/24 #T_e from two parameter fit in days  
+    T_e_out_fit2 = (popt_out2[1])*t_scale/24 #T_e from two parameter fit in days
+    T_e_in_fit2 = (popt_in2[1])*t_scale/24 #T_e from two parameter fit in days  
     A_out_fit2 = popt_out2[0]
     A_in_fit2 = popt_in2[0] 
 
@@ -265,12 +266,13 @@ for i in range(5):
     print('\nT_e_in from two-param fit:\n')
     print(T_e_in_fit2)
 
+    #exponential fit of raw data
     p03=(1,1)
     popt_out3, pcov_out3 = curve_fit(func2, t_frac_raw, par_out_frac_raw, p0=p03)
     popt_in3, pcov_in3 = curve_fit(func2, t_frac_raw, par_in_frac_raw, p0=p03)
 
-    T_e_out_fit3 = (1/popt_out3[1])*t_scale_raw/24 #T_e from two parameter fit in days
-    T_e_in_fit3 = (1/popt_in3[1])*t_scale_raw/24 #T_e from two parameter fit in days
+    T_e_out_fit3 = (popt_out3[1])*t_scale_raw/24 #T_e from two parameter fit in days
+    T_e_in_fit3 = (popt_in3[1])*t_scale_raw/24 #T_e from two parameter fit in days
     A_out_fit3 = popt_out3[0]
     A_in_fit3 = popt_in3[0]
 
