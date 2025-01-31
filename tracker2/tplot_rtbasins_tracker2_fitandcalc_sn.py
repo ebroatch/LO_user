@@ -17,7 +17,7 @@ import datetime
 
 plt.close('all')
 # fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
-fig, axs = plt.subplots(2,2,figsize=(15,8), sharey=True, gridspec_kw={'height_ratios': [6,1]}) #add sharex later
+fig, axs = plt.subplots(2,2,figsize=(15,8), gridspec_kw={'height_ratios': [6,1]}) #add sharex later
 
 for i in range(5):
     # Choose an experiment and release to plot.
@@ -305,7 +305,7 @@ axs[0,0].legend(loc='upper right')
 # ax2.set_xlim(0,120)
 # ax2.set_ylim(0,100)
 
-axs[0,1].set_xlabel('Days')
+# axs[0,1].set_xlabel('Days')
 #ax3.set_ylabel('Number of particles')
 axs[0,1].set_title('Particles released in inner basin')
 # ax3.set_title('Particles released in inner basin (unfiltered)')
@@ -314,6 +314,8 @@ axs[0,1].grid(True)
 axs[0,1].set_xlim(0,120)
 axs[0,1].set_ylim(0,100)
 
+axs[1,0].set_xlim(0,120)
+axs[1,1].set_xlim(0,120)
 axs[1,0].set_ylim(20,80)
 axs[1,1].set_ylim(20,80)
 axs[1,0].set_xlabel('Days')
