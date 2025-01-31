@@ -267,7 +267,7 @@ for i in range(5):
     #estuary
     rt_xmean_est = stats.binned_statistic(lon_start, rt_strict_days_est, statistic='mean', bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
     x_bin_centers_km_est = llxyfun.lon2x((rt_xmean_est.bin_edges[:-1]+rt_xmean_est.bin_edges[1:])/2,0,45)/1000 #use the subsampled bin edges for plotting
-    axs[0].plot(x_bin_centers_km,rt_xmean.statistic,color=linecolor,linewidth=2,label=silllenlabel)
+    axs[0].plot(x_bin_centers_km_est,rt_xmean_est.statistic,color=linecolor,linewidth=2,label=silllenlabel)
 
     # ax.hist(rt_strict_days,bins=[0,10,20,30,40,50,60,70,80,90,100,110,120], density=True, histtype='step',color=linecolor,linewidth=2,label=silllenlabel)
 
