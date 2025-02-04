@@ -346,7 +346,7 @@ for i in range(5):
     # axs[0,2].plot(time_hours/24, zfun.lowpass(count_in, f='godin'), color=linecolor, label=silllenlabel+' total') 
     # axs[0,2].plot(time_hours/24, zfun.lowpass(count_in_strict, f='godin'), '--', color=linecolor, label=silllenlabel+' no return') 
 
-    axs[i].stackplot(time_hours/24,ret_count_0_ta,ret_count_1_ta,ret_count_2_ta,ret_count_3_ta,ret_count_4plus_ta,colors=['tab:grey',plt.cm.tab20b(2),'tab:cyan','tab:olive','tab:magenta'],labels=['0','1','2','3','4+'])
+    axs[i].stackplot(time_hours/24,ret_count_0_ta,ret_count_1_ta,ret_count_2_ta,ret_count_3_ta,ret_count_4plus_ta,colors=['tab:grey',plt.cm.tab20b(2),'tab:cyan','tab:olive','tab:pink'],labels=['0','1','2','3','4+'])
 
     #could try with total number of particles and/or double axis
     
