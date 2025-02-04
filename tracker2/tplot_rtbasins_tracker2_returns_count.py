@@ -346,7 +346,7 @@ for i in range(5):
     # axs[0,2].plot(time_hours/24, zfun.lowpass(count_in, f='godin'), color=linecolor, label=silllenlabel+' total') 
     # axs[0,2].plot(time_hours/24, zfun.lowpass(count_in_strict, f='godin'), '--', color=linecolor, label=silllenlabel+' no return') 
 
-    axs[i].stackplot(time_hours/24,ret_count_0_ta,ret_count_1_ta,ret_count_2_ta,ret_count_3_ta,ret_count_4plus_ta,labels=['0','1','2','3','4+'])
+    axs[i].stackplot(time_hours/24,ret_count_0_ta,ret_count_1_ta,ret_count_2_ta,ret_count_3_ta,ret_count_4plus_ta,c=['tab:grey',plt.cm.tab20b(2),'tab:cyan','tab:olive','tab:magenta'],labels=['0','1','2','3','4+'])
 
     #could try with total number of particles and/or double axis
     
@@ -459,14 +459,14 @@ axs[0].set_ylim(0,18000)
 # axs[0,1].set_title('Inner basin + sill')
 # axs[0,2].set_title('Inner basin')
 
-axs[0].set_title('5 km')
-axs[1].set_title('10 km')
-axs[2].set_title('20 km')
-axs[3].set_title('40 km')
-axs[4].set_title('80 km')
+axs[0].set_title('5 km',c='tab:red')
+axs[1].set_title('10 km',c='tab:orange')
+axs[2].set_title('20 km',c='tab:green')
+axs[3].set_title('40 km',c='tab:blue')
+axs[4].set_title('80 km',c='tab:purple')
 
 axs[0].set_ylabel('Particles remaining')
-axs[4].legend()
+axs[0].legend(title='Number of returns')
 # axs[0,2].legend(loc='upper right')
 #legend
 # handles, labels = axs[0,0].get_legend_handles_labels()
