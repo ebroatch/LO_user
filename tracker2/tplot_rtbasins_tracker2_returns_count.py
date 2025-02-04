@@ -116,10 +116,10 @@ for i in range(5):
 
     #count number of returns to inner basin
     ret_exit = np.zeros(lon_in.shape) 
-    ret_exit[1:,:] = np.diff(lon_in, axis=0) #-1 for exit, +1 for return
+    ret_exit[1:,:] = np.diff(lon_in.astype(int), axis=0) #-1 for exit, +1 for return !!!important to cast lon_in as int or this won't work, it will count exits and returns as 1!!!
     ret = np.where(ret_exit==1, 1, 0) #only keep the returns as +1 for the first hour that the particle is back inside the domain
     ret_total = np.cumsum(ret, axis=0) #the number of returns a particle has made
-    ret_in_total = np.where(lon_in==0,np.nan,ret_total) #remove the particles that are currently outside
+    ret_in_total = np.where(lon_in==0,np.nan,ret_total) #remove the particles that are currently outside !!!need to use lon_in==False and not 0
     ret_in_total = np.where(lon_start_in==0,np.nan,ret_in_total) #remove the particles that started outside
 
     ret_0 = ret_in_total==0
