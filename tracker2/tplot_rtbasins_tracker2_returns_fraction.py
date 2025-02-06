@@ -17,7 +17,12 @@ import datetime
 
 plt.close('all')
 # fig, axs = plt.subplots(1,5,figsize=(25,5),sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
-# fig, axs = plt.subplots(2,2,figsize=(15,15))
+fig, ax = plt.subplots(1,1,figsize=(15,8))
+alpha_24_plot=np.zeros(5)
+alpha_34_plot=np.zeros(5)
+alpha_31_plot=np.zeros(5)
+alpha_21_plot=np.zeros(5)
+silllens_plot=[5,10,20,40,80]
 
 for i in range(5):
     # Choose an experiment and release to plot.
@@ -157,6 +162,10 @@ for i in range(5):
     print('\nouter basin reflux (alpha_21): ')
     print(alpha_21)   
 
+    alpha_24_plot[i]=alpha_24
+    alpha_34_plot[i]=alpha_34
+    alpha_31_plot[i]=alpha_31
+    alpha_21_plot[i]=alpha_21
 
     # lon_insill = lon_vals >= sillsea #boolean array of particles in the inner basin over time
     # lon_est = lon_vals >= 0 #boolean array of particles in the whole estuary over time
@@ -416,7 +425,10 @@ for i in range(5):
     
     #dsg.close()
 
-
+ax.plot(silllens_plot,alpha_34_plot,c='tab:pink',ls='-',label=r'Inner basin reflux $\alpha_{34}$')
+ax.plot(silllens_plot,alpha_21_plot,c='tab:cyan',ls='-',label=r'Outer basin reflux $\alpha_{21}$')
+ax.plot(silllens_plot,alpha_24_plot,c=plt.cm.tab20(13),ls='--',label=r'Efflux from inner basin $\alpha_{24}$')
+ax.plot(silllens_plot,alpha_31_plot,c=plt.cm.tab20(19),ls='--',label=r'Efflux from outer basin $\alpha_{31}$')
 #plt.show()
 #pfun.end_plot()
 
@@ -429,6 +441,13 @@ for i in range(5):
 #     #axs[j].set_ylim(0, 30)
 
 #plt.show()
+ax.set_xlabel('Sill length [km]')
+ax.set_ylabel('Efflux/reflux coefficients')
+ax.set_xlim(0,100)
+ax.set_ylim(0,1)
+ax.set_title('Efflux/reflux fractions from particle trajectories')
+ax.grid(True)
+ax.legend()
 # axs[0,0].set_xlabel('Days')
 # axs[0,0].set_ylabel('% of particles remaining in inner basin')
 # axs[0,0].set_ylabel('Particles remaining in inner basin') #TRY WITH TOTAL PARTICLE COUNT
@@ -438,6 +457,7 @@ for i in range(5):
 # axs[0,0].set_xlim(0,120)
 # # axs[0,0].set_ylim(0,100)
 # axs[0,0].set_ylim(0,count_start_inlow_stay_in[0])
+
 
 # # axs[0,1].set_xlabel('Days')
 # # axs[0,1].set_ylabel('% of particles')
@@ -534,9 +554,9 @@ for i in range(5):
 # axs[0,0].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2)
 
 
-# fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_returns_fraction.png' #UNCOMMENT TO PLOT
-# plt.savefig(fn_fig)
-# plt.close()
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_returns_fraction.png' #UNCOMMENT TO PLOT
+plt.savefig(fn_fig)
+plt.close()
 
 #plt.show()
 
