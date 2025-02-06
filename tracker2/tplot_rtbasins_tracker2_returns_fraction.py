@@ -129,7 +129,7 @@ for i in range(5):
 
     inout_bool = (region_codes_transition_consecutive[:-1,:]==pattern_inout[0]) & (region_codes_transition_consecutive[1:,:]==pattern_inout[1]) #boolean arrays of where the patterns are found
     inin_bool = (region_codes_transition_consecutive[:-1,:]==pattern_inin[0]) & (region_codes_transition_consecutive[1:,:]==pattern_inin[1])
-    outin_bool = (region_codes_transition_consecutive[:-1,:]==pattern_outin[0]) & (region_codes_transition_consecutive[1:,:]==pattern_outout[1])
+    outin_bool = (region_codes_transition_consecutive[:-1,:]==pattern_outin[0]) & (region_codes_transition_consecutive[1:,:]==pattern_outin[1])
     outout_bool = (region_codes_transition_consecutive[:-1,:]==pattern_outout[0]) & (region_codes_transition_consecutive[1:,:]==pattern_outout[1])
 
     inout_count = np.sum(inout_bool)
