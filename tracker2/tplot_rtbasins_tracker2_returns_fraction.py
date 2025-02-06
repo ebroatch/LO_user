@@ -114,7 +114,7 @@ for i in range(5):
     #get the transitions all in a row with zeros removed
     region_codes_transition_nan = np.where(region_codes_transition==0,np.nan,region_codes_transition) #change 0 to nan so that we can remove them and only look at consecutive transitions
     a = (~np.isnan(region_codes_transition_nan)).argsort(0, kind='mergesort') #this gives the indices to sort the array with the nans first along the time axis, use mergesort to preserve order of other elements
-    region_codes_transition_consecutive = region_codes_transition_nan[a, np.arange(a.shape[1])[:, None]] #this should sort all the nans to the top of the column
+    region_codes_transition_consecutive = region_codes_transition_nan[a, np.arange(a.shape[1])[None,:]] #this should sort all the nans to the top of the column
     print('got transition array\n')
 
     #now we need to search for different patterns within the columns which indicate visits to the sill as efflux or reflux, and count them
