@@ -113,7 +113,7 @@ for i in range(5):
     region_codes_transition = np.diff(region_codes,axis=0) #this gives 0 for staying in same region, +1 for inner to sill, -1 for sill to inner, +2 for outer to sill, -2 for sill to outer
     #get the transitions all in a row with zeros removed
     region_codes_transition_nan = np.where(region_codes_transition==0,np.nan,region_codes_transition) #change 0 to nan so that we can remove them and only look at consecutive transitions
-    a = np.argsort((~np.isnan(region_codes_transition_nan)), axis=0, kind='mergesort',stable=True) #this gives the indices to sort the array with the nans first along the time axis
+    a = (~np.isnan(region_codes_transition_nan)).argsort(0, kind='mergesort') #this gives the indices to sort the array with the nans first along the time axis, use mergesort to preserve order of other elements
     region_codes_transition_consecutive = region_codes_transition_nan[a, np.arange(a.shape[1])[:, None]] #this should sort all the nans to the top of the column
     print('got transition array\n')
 
