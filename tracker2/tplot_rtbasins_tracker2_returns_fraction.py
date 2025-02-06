@@ -425,10 +425,10 @@ for i in range(5):
     
     #dsg.close()
 
-ax.plot(silllens_plot,alpha_34_plot,c='tab:pink',ls='-',label=r'Inner basin reflux $\alpha_{34}$')
-ax.plot(silllens_plot,alpha_21_plot,c='tab:cyan',ls='-',label=r'Outer basin reflux $\alpha_{21}$')
-ax.plot(silllens_plot,alpha_24_plot,c=plt.cm.tab20(13),ls='--',label=r'Efflux from inner basin $\alpha_{24}$')
-ax.plot(silllens_plot,alpha_31_plot,c=plt.cm.tab20(19),ls='--',label=r'Efflux from outer basin $\alpha_{31}$')
+ax.plot(silllens_plot,alpha_34_plot,marker='o',c='tab:pink',ls='-',label=r'Inner basin reflux $\alpha_{34}$')
+ax.plot(silllens_plot,alpha_21_plot,marker='o',c='tab:cyan',ls='-',label=r'Outer basin reflux $\alpha_{21}$')
+ax.plot(silllens_plot,alpha_24_plot,marker='o',c=plt.cm.tab20(13),ls='--',label=r'Efflux from inner basin $\alpha_{24}$')
+ax.plot(silllens_plot,alpha_31_plot,marker='o',c=plt.cm.tab20(19),ls='--',label=r'Efflux from outer basin $\alpha_{31}$')
 #plt.show()
 #pfun.end_plot()
 
@@ -443,7 +443,7 @@ ax.plot(silllens_plot,alpha_31_plot,c=plt.cm.tab20(19),ls='--',label=r'Efflux fr
 #plt.show()
 ax.set_xlabel('Sill length [km]')
 ax.set_ylabel('Efflux/reflux coefficients')
-ax.set_xlim(0,100)
+ax.set_xlim(0,80)
 ax.set_ylim(0,1)
 ax.set_title('Efflux/reflux fractions from particle trajectories')
 ax.grid(True)
