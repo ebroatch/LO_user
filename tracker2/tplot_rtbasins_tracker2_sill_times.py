@@ -142,65 +142,65 @@ for i in range(5):
     print('max duration:')
     print(np.max(durations))
     print('min duration:')
-    print(np.max(durations))
+    print(np.min(durations))
     #split the durations by type of transit
     
 
-    #make array with code number for each region
-    region_codes = lon_in.astype(int)+(2*lon_sill.astype(int)) #this gives 0 for outer basin and ocean, 2 for sill, and 1 for inner basin
-    print('got region codes\n')
-    #find transitions between regions
-    region_codes_transition = np.diff(region_codes,axis=0) #this gives 0 for staying in same region, +1 for inner to sill, -1 for sill to inner, +2 for outer to sill, -2 for sill to outer
-    #get the transitions all in a row with zeros removed
-    region_codes_transition_nan = np.where(region_codes_transition==0,np.nan,region_codes_transition) #change 0 to nan so that we can remove them and only look at consecutive transitions
-    a = (~np.isnan(region_codes_transition_nan)).argsort(0, kind='mergesort') #this gives the indices to sort the array with the nans first along the time axis, use mergesort to preserve order of other elements
-    region_codes_transition_consecutive = region_codes_transition_nan[a, np.arange(a.shape[1])[None,:]] #this should sort all the nans to the top of the column
-    print('got transition array\n')
+    # #make array with code number for each region
+    # region_codes = lon_in.astype(int)+(2*lon_sill.astype(int)) #this gives 0 for outer basin and ocean, 2 for sill, and 1 for inner basin
+    # print('got region codes\n')
+    # #find transitions between regions
+    # region_codes_transition = np.diff(region_codes,axis=0) #this gives 0 for staying in same region, +1 for inner to sill, -1 for sill to inner, +2 for outer to sill, -2 for sill to outer
+    # #get the transitions all in a row with zeros removed
+    # region_codes_transition_nan = np.where(region_codes_transition==0,np.nan,region_codes_transition) #change 0 to nan so that we can remove them and only look at consecutive transitions
+    # a = (~np.isnan(region_codes_transition_nan)).argsort(0, kind='mergesort') #this gives the indices to sort the array with the nans first along the time axis, use mergesort to preserve order of other elements
+    # region_codes_transition_consecutive = region_codes_transition_nan[a, np.arange(a.shape[1])[None,:]] #this should sort all the nans to the top of the column
+    # print('got transition array\n')
 
-    #now we need to search for different patterns within the columns which indicate visits to the sill as efflux or reflux, and count them
-    #+1,-2 is in->sill->out (efflux)
-    #+1,-1 is in->sill->in (reflux to inner basin)
-    #+2,-1 is out->sill->in (efflux)
-    #+2,-2 is out->sill->out (reflux to outer basin)
-    pattern_inout = [1,-2]
-    pattern_inin = [1,-1]
-    pattern_outin = [2,-1]
-    pattern_outout = [2,-2]
+    # #now we need to search for different patterns within the columns which indicate visits to the sill as efflux or reflux, and count them
+    # #+1,-2 is in->sill->out (efflux)
+    # #+1,-1 is in->sill->in (reflux to inner basin)
+    # #+2,-1 is out->sill->in (efflux)
+    # #+2,-2 is out->sill->out (reflux to outer basin)
+    # pattern_inout = [1,-2]
+    # pattern_inin = [1,-1]
+    # pattern_outin = [2,-1]
+    # pattern_outout = [2,-2]
 
-    inout_bool = (region_codes_transition_consecutive[:-1,:]==pattern_inout[0]) & (region_codes_transition_consecutive[1:,:]==pattern_inout[1]) #boolean arrays of where the patterns are found
-    inin_bool = (region_codes_transition_consecutive[:-1,:]==pattern_inin[0]) & (region_codes_transition_consecutive[1:,:]==pattern_inin[1])
-    outin_bool = (region_codes_transition_consecutive[:-1,:]==pattern_outin[0]) & (region_codes_transition_consecutive[1:,:]==pattern_outin[1])
-    outout_bool = (region_codes_transition_consecutive[:-1,:]==pattern_outout[0]) & (region_codes_transition_consecutive[1:,:]==pattern_outout[1])
+    # inout_bool = (region_codes_transition_consecutive[:-1,:]==pattern_inout[0]) & (region_codes_transition_consecutive[1:,:]==pattern_inout[1]) #boolean arrays of where the patterns are found
+    # inin_bool = (region_codes_transition_consecutive[:-1,:]==pattern_inin[0]) & (region_codes_transition_consecutive[1:,:]==pattern_inin[1])
+    # outin_bool = (region_codes_transition_consecutive[:-1,:]==pattern_outin[0]) & (region_codes_transition_consecutive[1:,:]==pattern_outin[1])
+    # outout_bool = (region_codes_transition_consecutive[:-1,:]==pattern_outout[0]) & (region_codes_transition_consecutive[1:,:]==pattern_outout[1])
 
-    inout_count = np.sum(inout_bool)
-    inin_count = np.sum(inin_bool)
-    outin_count = np.sum(outin_bool)
-    outout_count = np.sum(outout_bool)
+    # inout_count = np.sum(inout_bool)
+    # inin_count = np.sum(inin_bool)
+    # outin_count = np.sum(outin_bool)
+    # outout_count = np.sum(outout_bool)
 
-    print('got pattern counts\n')
-    print('\nin->sill->out: ')
-    print(inout_count)
-    print('\nin->sill->in: ')
-    print(inin_count)
-    print('\nout->sill->in: ')
-    print(outin_count)
-    print('\nout->sill->out: ')
-    print(outout_count)
+    # print('got pattern counts\n')
+    # print('\nin->sill->out: ')
+    # print(inout_count)
+    # print('\nin->sill->in: ')
+    # print(inin_count)
+    # print('\nout->sill->in: ')
+    # print(outin_count)
+    # print('\nout->sill->out: ')
+    # print(outout_count)
 
-    #next, find the efflux reflux fractions
-    alpha_24 = inout_count/(inout_count+inin_count)
-    alpha_34 = inin_count/(inout_count+inin_count)
-    print('\ninner basin reflux (alpha_34): ')
-    print(alpha_34)
-    alpha_31 = outin_count/(outin_count+outout_count)
-    alpha_21 = outout_count/(outin_count+outout_count)
-    print('\nouter basin reflux (alpha_21): ')
-    print(alpha_21)   
+    # #next, find the efflux reflux fractions
+    # alpha_24 = inout_count/(inout_count+inin_count)
+    # alpha_34 = inin_count/(inout_count+inin_count)
+    # print('\ninner basin reflux (alpha_34): ')
+    # print(alpha_34)
+    # alpha_31 = outin_count/(outin_count+outout_count)
+    # alpha_21 = outout_count/(outin_count+outout_count)
+    # print('\nouter basin reflux (alpha_21): ')
+    # print(alpha_21)   
 
-    alpha_24_plot[i]=alpha_24
-    alpha_34_plot[i]=alpha_34
-    alpha_31_plot[i]=alpha_31
-    alpha_21_plot[i]=alpha_21
+    # alpha_24_plot[i]=alpha_24
+    # alpha_34_plot[i]=alpha_34
+    # alpha_31_plot[i]=alpha_31
+    # alpha_21_plot[i]=alpha_21
 
     # lon_insill = lon_vals >= sillsea #boolean array of particles in the inner basin over time
     # lon_est = lon_vals >= 0 #boolean array of particles in the whole estuary over time
