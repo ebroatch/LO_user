@@ -24,7 +24,7 @@ plt.close('all')
 # alpha_21_plot=np.zeros(5)
 # silllens_plot=[5,10,20,40,80]
 
-for i in range(1):
+for i in [0,2,3,4]:#range(1):
     # Choose an experiment and release to plot.
     # in_dir0 = Ldir['LOo'] / 'tracks'
     # exp_name = Lfun.choose_item(in_dir0, tag='', exclude_tag='.csv',
@@ -143,6 +143,18 @@ for i in range(1):
     print(np.max(durations))
     print('min duration:')
     print(np.min(durations))
+    #debugging
+    print('particle column mismatch:')
+    print(np.count_nonzero(on_ind[1]!=off_ind[1]))
+    print('number of first off to fix:')
+    print(np.count_nonzero(first_off<first_on))
+    print('number of first offs fixed:')
+    print(np.count_nonzero(sill_transition==-1)-np.count_nonzero(sill_transition_ends==-1))
+    print('number of last on to fix:')
+    print(np.count_nonzero(last_off<last_on))
+    print('number of last ons fixed:')
+    print(np.count_nonzero(sill_transition==1)-np.count_nonzero(sill_transition_ends==1))
+    
     #split the durations by type of transit
     
 
