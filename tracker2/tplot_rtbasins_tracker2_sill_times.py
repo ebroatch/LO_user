@@ -24,7 +24,7 @@ plt.close('all')
 # alpha_21_plot=np.zeros(5)
 # silllens_plot=[5,10,20,40,80]
 
-for i in range(5):
+for i in range(1):
     # Choose an experiment and release to plot.
     # in_dir0 = Ldir['LOo'] / 'tracks'
     # exp_name = Lfun.choose_item(in_dir0, tag='', exclude_tag='.csv',
@@ -123,7 +123,7 @@ for i in range(5):
     sill_transition_ends = np.zeros(sill_transition.shape)
     sill_transition_ends[:,:] = sill_transition #make a copy that we will alter the first and last on/off values if necessary
     #if the particle started on the sill, the first off (-1) will be before the first on (+1) and we will replace it with a 0
-    sill_transition_ends[first_off,np.arange(sill_transition.shape[1])]=(first_off>first_on)*(-1) #keep the first off as -1 unless it comes before the first on
+    sill_transition_ends[first_off,np.arange(sill_transition.shape[1])]=(first_on<first_off)*(-1) #keep the first off as -1 unless it comes before the first on
     #if the particle ended on the sill, the last on (1) will be after the last off (-1) and we will replace it with a 0
     sill_transition_ends[last_on,np.arange(sill_transition.shape[1])]=(last_on<last_off) #keep the last on as 1 unless it comes after the last off
     #now every column should have an equal number of on and off, and in each pair on comes before off
