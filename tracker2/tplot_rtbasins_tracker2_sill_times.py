@@ -24,7 +24,7 @@ plt.close('all')
 # alpha_21_plot=np.zeros(5)
 # silllens_plot=[5,10,20,40,80]
 
-for i in [0,2,3,4]:#range(1):
+for i in range(5):
     # Choose an experiment and release to plot.
     # in_dir0 = Ldir['LOo'] / 'tracks'
     # exp_name = Lfun.choose_item(in_dir0, tag='', exclude_tag='.csv',
