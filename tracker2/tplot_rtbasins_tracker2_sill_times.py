@@ -126,6 +126,11 @@ for i in [0,2,3,4]:#range(1):
     sill_transition_ends[first_off,np.arange(sill_transition.shape[1])]=(first_on<first_off)*(-1) #keep the first off as -1 unless it comes before the first on
     #if the particle ended on the sill, the last on (1) will be after the last off (-1) and we will replace it with a 0
     sill_transition_ends[last_on,np.arange(sill_transition.shape[1])]=(last_on<last_off) #keep the last on as 1 unless it comes after the last off
+    #because we use argmax and argmin, first and last indices will be set to zero or len-1 respectively if the on or off transition is not present
+    #this causes problems if there is only one transition in the column, because the comparison of first_on<first_off and last_on<last_off will not detect the unpaired transition
+    #therefore, if there is only one nonzero element in the column, set it to zero
+    unpaired_par = np.where(np.count_nonzero(sill_transition_ends,axis=0)==1) #this gives the column/particle index of any unpaired single transition
+    sill_transition_ends[:,unpaired_par]=0 #set those columns to all zero
     #now every column should have an equal number of on and off, and in each pair on comes before off
     #now find the indices of on and off
     on_ind=np.where(np.transpose(sill_transition_ends)==1)[::-1] #indices for on, sill_transition_ends[on_ind[0],on_ind[1]]=all 1's
@@ -136,6 +141,7 @@ for i in [0,2,3,4]:#range(1):
     off_times=off_ind[0]+1
     onoff_par=on_ind[1] #this gives the column/particle number that goes with the on and off times
     #get the durations that particles spend on the sill
+    #NEED TO ALSO ADD DIRECT (<1h) TRANSITS!!!
     durations=off_times-on_times
     print('average duration:')
     print(np.mean(durations))
