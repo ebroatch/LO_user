@@ -142,9 +142,9 @@ for i in range(5):
     #+2,-2 is out->sill->out (reflux to outer basin)
     #-3 is direct in->out (transit sill in <1h)
     #+3 is direct out->in (transit sill in <1h)
-    pattern_inout = [1,-2]
-    pattern_inin = [1,-1]
-    pattern_outin = [2,-1]
+    pattern_inout = [-1,-2]
+    pattern_inin = [-1,1]
+    pattern_outin = [2,1]
     pattern_outout = [2,-2]
     direct_inout = -3
     direct_outin = +3
