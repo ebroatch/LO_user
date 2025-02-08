@@ -159,7 +159,7 @@ for i in range(5):
     outin_count = np.sum(outin_bool)
     outout_count = np.sum(outout_bool)
 
-    direct_inout_count = np.sum(region_codes_transition_consecutive==direct_inout) #for now, count these separately - if significant we can include in the efflux reflux coefs
+    direct_inout_count = np.sum(region_codes_transition_consecutive==direct_inout) #these are included with the regular count when calculating the alphas (only matters for the 5km model)
     direct_outin_count = np.sum(region_codes_transition_consecutive==direct_outin)
 
     print('got pattern counts\n')
@@ -178,12 +178,12 @@ for i in range(5):
 
 
     #next, find the efflux reflux fractions
-    alpha_24 = inout_count/(inout_count+inin_count)
-    alpha_34 = inin_count/(inout_count+inin_count)
+    alpha_24 = (inout_count+direct_inout_count)/(inout_count+direct_inout_count+inin_count)
+    alpha_34 = inin_count/(inout_count+direct_inout_count+inin_count)
     print('\ninner basin reflux (alpha_34): ')
     print(alpha_34)
-    alpha_31 = outin_count/(outin_count+outout_count)
-    alpha_21 = outout_count/(outin_count+outout_count)
+    alpha_31 = (outin_count+direct_outin_count)/(outin_count+direct_outin_count+outout_count)
+    alpha_21 = outout_count/(outin_count+direct_outin_count+outout_count)
     print('\nouter basin reflux (alpha_21): ')
     print(alpha_21)   
 
