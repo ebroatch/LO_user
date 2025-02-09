@@ -16,7 +16,7 @@ import tef_fun
 import datetime
 
 plt.close('all')
-fig, axs = plt.subplots(1,5,figsize=(25,5),sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
+fig, axs = plt.subplots(1,5,figsize=(25,5))#,sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
 # fig, ax = plt.subplots(1,1,figsize=(15,8))
 inout_duration_plot=np.zeros(5)
 inin_duration_plot=np.zeros(5)
