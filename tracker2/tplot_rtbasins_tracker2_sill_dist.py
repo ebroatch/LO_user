@@ -169,7 +169,7 @@ for i in range(5):
     print('average max lon outer basin reflux:')
     print(np.max(outout_max_lon))
     #convert the longitude into km from the end of the sill
-    inin_dist_reached = (40+silllens_plot[i])-llxyfun.lon2x(outout_max_lon,0,45)/1e3
+    inin_dist_reached = (40+silllens_plot[i])-llxyfun.lon2x(inin_min_lon,0,45)/1e3
     outout_dist_reached = llxyfun.lon2x(outout_max_lon,0,45)/1e3 - 40
     print('average distance reached inner basin reflux')
     print(np.mean(inin_dist_reached))
