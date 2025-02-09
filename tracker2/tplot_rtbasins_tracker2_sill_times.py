@@ -219,12 +219,21 @@ for i in range(5):
     outout_duration_plot[i]=np.mean(outout_durations)
 
     binmax=np.max(durations)
-    binlist=np.arange(0,np.ceil(binmax/2),2)
+    binlist=np.arange(-0.5,binmax+1.5,1)
+    bincenters=np.arange(0,binmax+1,1)
     #now let's plot some histograms
-    axs[i].hist(inin_durations,bins=binlist,histtype='step',color='tab:pink',label='Inner basin reflux')
-    axs[i].hist(outout_durations,bins=binlist,histtype='step',color='tab:blue',label='Outer basin reflux')
-    axs[i].hist(inout_durations,bins=binlist,histtype='step',color=plt.cm.tab20(13),label='Efflux from inner basin')
-    axs[i].hist(outin_durations,bins=binlist,histtype='step',color=plt.cm.tab20(19),label='Efflux from outer basin')
+    hist_inin,binedges_inin = np.histogram(inin_durations,bins=binlist)
+    hist_outout,binedges_outout = np.histogram(outout_durations,bins=binlist)
+    hist_inout,binedges_inout = np.histogram(inout_durations,bins=binlist)
+    hist_outin,binedges_outin = np.histogram(outin_durations,bins=binlist)
+    axs[i].plot(bincenters,hist_inin,lw=2,color='tab:pink',label='Inner basin reflux')
+    axs[i].plot(bincenters,hist_inin,lw=2,color='tab:blue',label='Outer basin reflux')
+    axs[i].plot(bincenters,hist_inin,lw=2,color=plt.cm.tab20(13),label='Efflux from inner basin')
+    axs[i].plot(bincenters,hist_inin,lw=2,color=plt.cm.tab20(19),label='Efflux from outer basin')
+    # axs[i].hist(inin_durations,bins=binlist,histtype='step',color='tab:pink',label='Inner basin reflux')
+    # axs[i].hist(outout_durations,bins=binlist,histtype='step',color='tab:blue',label='Outer basin reflux')
+    # axs[i].hist(inout_durations,bins=binlist,histtype='step',color=plt.cm.tab20(13),label='Efflux from inner basin')
+    # axs[i].hist(outin_durations,bins=binlist,histtype='step',color=plt.cm.tab20(19),label='Efflux from outer basin')
 
     # #make array with code number for each region
     # region_codes = lon_in.astype(int)+(2*lon_sill.astype(int)) #this gives 0 for outer basin and ocean, 2 for sill, and 1 for inner basin
