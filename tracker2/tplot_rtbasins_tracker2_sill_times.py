@@ -66,7 +66,7 @@ for i in range(5):
         silllenlabel = '80km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/release_2020.09.01.nc'
     
-    print(silllenlabel+'\n')
+    print('\n'+silllenlabel+'\n')
 
     # get Datasets
     #fn = in_dir0 / exp_name / rel
@@ -205,6 +205,12 @@ for i in range(5):
     print('\nnumber of out->in direct: ')
     print(direct_outin_count)
     #append these <1h transits to the durations as zeros
+    inout_durations_full = np.concatenate((inout_durations,np.zeros(direct_inout_count)))
+    outin_durations_full = np.concatenate((outin_durations,np.zeros(direct_outin_count)))
+    print('average duration in-out including direct:')
+    print(np.mean(inout_durations_full))
+    print('average duration out-in including direct:')
+    print(np.mean(outin_durations_full))
     # #make array with code number for each region
     # region_codes = lon_in.astype(int)+(2*lon_sill.astype(int)) #this gives 0 for outer basin and ocean, 2 for sill, and 1 for inner basin
     # print('got region codes\n')
