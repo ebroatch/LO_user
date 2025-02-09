@@ -22,6 +22,7 @@ inout_duration_plot=np.zeros(5)
 inin_duration_plot=np.zeros(5)
 outin_duration_plot=np.zeros(5)
 outout_duration_plot=np.zeros(5)
+all_duration_plot=np.zeros(5)
 silllens_plot=[5,10,20,40,80]
 
 for i in range(5):
@@ -217,6 +218,7 @@ for i in range(5):
     inin_duration_plot[i]=np.mean(inin_durations)
     outin_duration_plot[i]=np.mean(outin_durations_full)
     outout_duration_plot[i]=np.mean(outout_durations)
+    all_duration_plot[i]=np.mean(durations)
 
     binmax=np.max(durations)
     binlist=np.arange(-0.5,binmax+1.5,1)
@@ -590,6 +592,7 @@ ax.plot(silllens_plot,inin_duration_plot,marker='o',c='tab:pink',ls='-',label=r'
 ax.plot(silllens_plot,outout_duration_plot,marker='o',c='tab:cyan',ls='-',label=r'Outer basin reflux')
 ax.plot(silllens_plot,inout_duration_plot,marker='o',c=plt.cm.tab20(13),ls='--',label=r'Efflux from inner basin')
 ax.plot(silllens_plot,outin_duration_plot,marker='o',c=plt.cm.tab20(19),ls='--',label=r'Efflux from outer basin')
+ax.plot(silllens_plot,all_duration_plot,marker='o',c='tab:gray',ls=':',label=r'All visits to sill')
 ax.set_xlabel('Sill length [km]')
 ax.set_ylabel('Average duration [h]')
 ax.set_xlim(0,80)
