@@ -704,7 +704,7 @@ ax.set_title('Extent along sill reached by refluxed particles')
 ax.grid(True)
 lines, labels = ax.get_legend_handles_labels()
 lines2, labels2 = axtwin.get_legend_handles_labels()
-axtwin.legend(lines + lines2, labels + labels2, loc=0)
+axtwin.legend(lines + lines2, labels + labels2, loc='lower right')
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_dist_avg.png' #UNCOMMENT TO PLOT
 fig.savefig(fn_fig)
 plt.close()
