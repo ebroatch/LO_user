@@ -141,7 +141,6 @@ for i in range(5):
     off_times=off_ind[0]+1
     onoff_par=on_ind[1] #this gives the column/particle number that goes with the on and off times
     #get the durations that particles spend on the sill
-    #NEED TO ALSO ADD DIRECT (<1h) TRANSITS!!!
     durations=off_times-on_times
     print('average duration:')
     print(np.mean(durations))
@@ -150,20 +149,62 @@ for i in range(5):
     print('min duration:')
     print(np.min(durations))
     #debugging
-    print('particle column mismatch:')
-    print(np.count_nonzero(on_ind[1]!=off_ind[1]))
-    print('number of first off to fix:')
-    print(np.count_nonzero(first_off<first_on))
-    print('number of first offs fixed:')
-    print(np.count_nonzero(sill_transition==-1)-np.count_nonzero(sill_transition_ends==-1))
-    print('number of last on to fix:')
-    print(np.count_nonzero(last_off<last_on))
-    print('number of last ons fixed:')
-    print(np.count_nonzero(sill_transition==1)-np.count_nonzero(sill_transition_ends==1))
+    # print('particle column mismatch:')
+    # print(np.count_nonzero(on_ind[1]!=off_ind[1]))
+    # print('number of first off to fix:')
+    # print(np.count_nonzero(first_off<first_on))
+    # print('number of first offs fixed:')
+    # print(np.count_nonzero(sill_transition==-1)-np.count_nonzero(sill_transition_ends==-1))
+    # print('number of last on to fix:')
+    # print(np.count_nonzero(last_off<last_on))
+    # print('number of last ons fixed:')
+    # print(np.count_nonzero(sill_transition==1)-np.count_nonzero(sill_transition_ends==1))
     
     #split the durations by type of transit
-    
+    #use a similar strategy to the returns fraction calculation
+    #make array with code number for each region
+    region_codes = (3*lon_in.astype(int))+(2*lon_sill.astype(int)) #NEW CODES: this gives 0 for outer basin and ocean, 2 for sill, and 3 for inner basin
+    print('got region codes\n')
+    #find transitions between regions
+    region_codes_transition = np.diff(region_codes,axis=0) #WITH NEW CODES this gives 0 staying in same region,-1 inner to sill,+1 sill to inner,+2 outer to sill,-2 sill to outer,+3 outer to inner direct,-3 inner to outer direct
+    #the region_codes array is the same size as lon_vals
+    #use the on_times and off_times to find which region the particles go to and from
+    on_from = region_codes[on_times-1,onoff_par] #need to subtract 1 because on_times are the first time the particle is on the sill, we want the time before
+    off_to = region_codes[off_times,onoff_par]
+    #now find the durations for only a single type of visit
+    inout_durations = np.where((on_from==3)&(off_to==0),durations,np.nan)
+    inin_durations = np.where((on_from==3)&(off_to==3),durations,np.nan)
+    outin_durations = np.where((on_from==0)&(off_to==3),durations,np.nan)
+    outout_durations = np.where((on_from==0)&(off_to==0),durations,np.nan)
+    #remove the nans
+    inout_durations = inout_durations[~np.isnan(inout_durations)]
+    inin_durations = inin_durations[~np.isnan(inin_durations)]
+    outin_durations = outin_durations[~np.isnan(outin_durations)]
+    outout_durations = outout_durations[~np.isnan(outout_durations)]
+    #these are the durations for each type of visit
+    #print some info
+    print('average duration in-out:')
+    print(np.mean(inout_durations))
+    print('average duration in-in:')
+    print(np.mean(inin_durations))
+    print('average duration out-in:')
+    print(np.mean(outin_durations))
+    print('average duration out-out:')
+    print(np.mean(outout_durations))
 
+    #up to this point we have ignored direct transits from inner-outer or outer-inner basins
+    #if the particle transits the sill in less than 1 hour, it may not be recorded on the sill in the hourly track file
+    #use the region codes to determine how many times this happens
+    #we can add these as zeros to the inout and outin duratoins
+    direct_inout_code = -3
+    direct_outin_code = +3
+    direct_inout_count = np.sum(region_codes_transition==direct_inout_code) #only matters for the 5km model
+    direct_outin_count = np.sum(region_codes_transition==direct_outin_code)
+    print('\nnumber of in->out direct: ')
+    print(direct_inout_count)
+    print('\nnumber of out->in direct: ')
+    print(direct_outin_count)
+    #append these <1h transits to the durations as zeros
     # #make array with code number for each region
     # region_codes = lon_in.astype(int)+(2*lon_sill.astype(int)) #this gives 0 for outer basin and ocean, 2 for sill, and 1 for inner basin
     # print('got region codes\n')
