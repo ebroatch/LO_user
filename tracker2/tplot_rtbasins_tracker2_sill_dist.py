@@ -148,8 +148,8 @@ for i in range(5):
     reduce_inds[1::2]=off_ind
     #now we can find the maximum or minimum longitude in each slice interval using reduceat
     #every other interval will be the time off the sill so we will discard those
-    max_lon_visit = np.maximum.reduceat(lon_vals_flat,reduce_inds)
-    min_lon_visit = np.minimum.reduceat(lon_vals_flat,reduce_inds)
+    max_lon_visit = np.maximum.reduceat(lon_vals_flat,reduce_inds.astype(int))
+    min_lon_visit = np.minimum.reduceat(lon_vals_flat,reduce_inds.astype(int))
     max_lon_sill_visit = max_lon_visit[0::2]
     min_lon_sill_visit = min_lon_visit[0::2]
     #also get the durations
