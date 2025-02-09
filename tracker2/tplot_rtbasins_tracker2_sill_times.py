@@ -16,13 +16,13 @@ import tef_fun
 import datetime
 
 plt.close('all')
-# fig, axs = plt.subplots(1,5,figsize=(25,5),sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
+fig, axs = plt.subplots(1,5,figsize=(25,5),sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
 # fig, ax = plt.subplots(1,1,figsize=(15,8))
-# alpha_24_plot=np.zeros(5)
-# alpha_34_plot=np.zeros(5)
-# alpha_31_plot=np.zeros(5)
-# alpha_21_plot=np.zeros(5)
-# silllens_plot=[5,10,20,40,80]
+inout_duration_plot=np.zeros(5)
+inin_duration_plot=np.zeros(5)
+outin_duration_plot=np.zeros(5)
+outout_duration_plot=np.zeros(5)
+silllens_plot=[5,10,20,40,80]
 
 for i in range(5):
     # Choose an experiment and release to plot.
@@ -211,6 +211,21 @@ for i in range(5):
     print(np.mean(inout_durations_full))
     print('average duration out-in including direct:')
     print(np.mean(outin_durations_full))
+    
+    #save some values for plotting later
+    inout_duration_plot[i]=np.mean(inout_durations_full)
+    inin_duration_plot[i]=np.mean(inin_durations)
+    outin_duration_plot[i]=np.mean(outin_durations_full)
+    outout_duration_plot[i]=np.mean(outout_durations)
+
+    binmax=np.max(durations)
+    binlist=np.arange(0,np.ceil(binmax/2),2)
+    #now let's plot some histograms
+    axs[i].hist(inin_durations,bins=binlist,histtype='step',color='tab:pink',label='Inner basin reflux')
+    axs[i].hist(outout_durations,bins=binlist,histtype='step',color='tab:blue',label='Outer basin reflux')
+    axs[i].hist(inin_durations,bins=binlist,histtype='step',color=plt.cm.tab20(13),label='Efflux from inner basin')
+    axs[i].hist(outout_durations,bins=binlist,histtype='step',color=plt.cm.tab20(19),label='Efflux from outer basin')
+
     # #make array with code number for each region
     # region_codes = lon_in.astype(int)+(2*lon_sill.astype(int)) #this gives 0 for outer basin and ocean, 2 for sill, and 1 for inner basin
     # print('got region codes\n')
@@ -524,6 +539,47 @@ for i in range(5):
     sys.stdout.flush()
     
     #dsg.close()
+
+# Add details to histogram plot
+axs[0].set_title('5 km',color='tab:red')
+axs[1].set_title('10 km',color='tab:orange')
+axs[2].set_title('20 km',color='tab:green')
+axs[3].set_title('40 km',color='tab:blue')
+axs[4].set_title('80 km',color='tab:purple')
+axs[0].set_ylabel('# of particles')
+axs[0].set_xlabel('Time on sill [h]')
+axs[1].set_xlabel('Time on sill [h]')
+axs[2].set_xlabel('Time on sill [h]')
+axs[3].set_xlabel('Time on sill [h]')
+axs[4].set_xlabel('Time on sill [h]')
+axs[0].grid(True)
+axs[1].grid(True)
+axs[2].grid(True)
+axs[3].grid(True)
+axs[4].grid(True)
+axs[0].legend()
+fig.suptitle('Histograms of particle durations on sill')
+
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_times_hist.png' #UNCOMMENT TO PLOT
+plt.savefig(fn_fig)
+plt.close()
+
+#ANOTHER FIGURE WITH THE AVERAGES ALL IN ONE PLOT
+fig, ax = plt.subplots(1,1,figsize=(15,8))
+ax.plot(silllens_plot,inin_duration_plot,marker='o',c='tab:pink',ls='-',label=r'Inner basin reflux')
+ax.plot(silllens_plot,outout_duration_plot,marker='o',c='tab:cyan',ls='-',label=r'Outer basin reflux')
+ax.plot(silllens_plot,inout_duration_plot,marker='o',c=plt.cm.tab20(13),ls='--',label=r'Efflux from inner basin')
+ax.plot(silllens_plot,outin_duration_plot,marker='o',c=plt.cm.tab20(19),ls='--',label=r'Efflux from outer basin')
+ax.set_xlabel('Sill length [km]')
+ax.set_ylabel('Average duration [h]')
+ax.set_xlim(0,80)
+ax.set_ylim(0,205)
+ax.set_title('Particle duration on sill')
+ax.grid(True)
+ax.legend()
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_times_avg.png' #UNCOMMENT TO PLOT
+plt.savefig(fn_fig)
+plt.close()
 
 # ax.plot(silllens_plot,alpha_34_plot,marker='o',c='tab:pink',ls='-',label=r'Inner basin reflux $\alpha_{34}$')
 # ax.plot(silllens_plot,alpha_21_plot,marker='o',c='tab:cyan',ls='-',label=r'Outer basin reflux $\alpha_{21}$')
