@@ -17,10 +17,11 @@ import datetime
 
 plt.close('all')
 fig, axs = plt.subplots(1,5,figsize=(25,5))#,sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
+fig2, axs2 = plt.subplots(1,5,figsize=(25,5))#,sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
 # fig, ax = plt.subplots(1,1,figsize=(15,8))
-inout_duration_plot=np.zeros(5)
+inin_dist_plot=np.zeros(5)
+outout_dist_plot=np.zeros(5)
 inin_duration_plot=np.zeros(5)
-outin_duration_plot=np.zeros(5)
 outout_duration_plot=np.zeros(5)
 silllens_plot=[5,10,20,40,80]
 
@@ -180,14 +181,26 @@ for i in range(5):
     outout_durations = np.where((on_from==0)&(off_to==0),durations,np.nan)
     inin_durations = inin_durations[~np.isnan(inin_durations)]
     outout_durations = outout_durations[~np.isnan(outout_durations)]
+    #SAVE VALUES FOR PLOTTING LATER
+    inin_dist_plot[i]=np.mean(inin_dist_reached)
+    outout_dist_plot[i]=np.mean(outout_dist_reached)
+    inin_duration_plot[i]=np.mean(inin_durations)
+    outout_duration_plot[i]=np.mean(outout_durations)
+    #PLOT HISTOGRAM
 
-    #NEXT: SAVE VALUES FOR PLOTTING LATER
-    ##PLOT HISTOGRAM
-    #PLOT AVERAGES
     #PLOT DISTANCE REACHED VS TIME ON SILL
+    binmax=silllens_plot[i]
+    binlist=np.arange(0,binmax+1,1)
+    bincenters=np.arange(0.5,binmax+0.5,1)
+    #now let's plot some histograms
+    hist_inin,binedges_inin = np.histogram(inin_dist_reached,bins=binlist,density=True)
+    hist_outout,binedges_outout = np.histogram(outout_dist_reached,bins=binlist,density=True)
+    axs[i].plot(bincenters,hist_inin,lw=2,color='tab:pink',label='Inner basin reflux')
+    axs[i].plot(bincenters,hist_outout,lw=2,color='tab:blue',label='Outer basin reflux')
 
-
-
+    #SCATTER PLOT OF DISTANCE VS DURATION
+    axs2[i].scatter(inin_durations,inin_dist_reached,marker='o',color='tab:pink',alpha=0.3,label='Inner basin reflux')
+    axs2[i].scatter(outout_durations,outout_dist_reached,marker='o',color='tab:blue',alpha=0.3,label='Outer basin reflux')
 
     # #now find the indices of on and off
     # on_ind=np.where(np.transpose(sill_transition_ends)==1)[::-1] #indices for on, sill_transition_ends[on_ind[0],on_ind[1]]=all 1's
@@ -606,57 +619,95 @@ for i in range(5):
     
     #dsg.close()
 
-# # Add details to histogram plot
-# axs[0].set_title('5 km',color='tab:red')
-# axs[1].set_title('10 km',color='tab:orange')
-# axs[2].set_title('20 km',color='tab:green')
-# axs[3].set_title('40 km',color='tab:blue')
-# axs[4].set_title('80 km',color='tab:purple')
-# # axs[0].set_ylabel('# of particles')
-# axs[0].set_ylabel('fraction of particles')
-# axs[0].set_xlabel('Time on sill [h]')
-# axs[1].set_xlabel('Time on sill [h]')
-# axs[2].set_xlabel('Time on sill [h]')
-# axs[3].set_xlabel('Time on sill [h]')
-# axs[4].set_xlabel('Time on sill [h]')
-# axs[0].grid(True)
-# axs[1].grid(True)
-# axs[2].grid(True)
-# axs[3].grid(True)
-# axs[4].grid(True)
-# axs[0].set_xlim(0,14)
-# axs[1].set_xlim(0,40)
-# axs[2].set_xlim(0,75)
-# axs[3].set_xlim(0,200)
-# axs[4].set_xlim(0,250)
-# axs[0].set_ylim(bottom=0)
-# axs[1].set_ylim(bottom=0)
-# axs[2].set_ylim(bottom=0)
-# axs[3].set_ylim(bottom=0)
-# axs[4].set_ylim(bottom=0)
-# axs[4].legend()
-# fig.suptitle('Histograms of particle durations on sill')
+# Add details to histogram plot
+axs[0].set_title('5 km',color='tab:red')
+axs[1].set_title('10 km',color='tab:orange')
+axs[2].set_title('20 km',color='tab:green')
+axs[3].set_title('40 km',color='tab:blue')
+axs[4].set_title('80 km',color='tab:purple')
+# axs[0].set_ylabel('# of particles')
+axs[0].set_ylabel('fraction of particles')
+axs[0].set_xlabel('Distance reached [km]')
+axs[1].set_xlabel('Distance reached [km]')
+axs[2].set_xlabel('Distance reached [km]')
+axs[3].set_xlabel('Distance reached [km]')
+axs[4].set_xlabel('Distance reached [km]')
+axs[0].grid(True)
+axs[1].grid(True)
+axs[2].grid(True)
+axs[3].grid(True)
+axs[4].grid(True)
+axs[0].set_xlim(0,5)
+axs[1].set_xlim(0,10)
+axs[2].set_xlim(0,20)
+axs[3].set_xlim(0,40)
+axs[4].set_xlim(0,80)
+axs[0].set_ylim(bottom=0)
+axs[1].set_ylim(bottom=0)
+axs[2].set_ylim(bottom=0)
+axs[3].set_ylim(bottom=0)
+axs[4].set_ylim(bottom=0)
+axs[4].legend()
+fig.suptitle('Histograms of particle distances reached along sill')
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_dist_hist.png' #UNCOMMENT TO PLOT
+fig.savefig(fn_fig)
 
-# fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_times_hist.png' #UNCOMMENT TO PLOT
-# plt.savefig(fn_fig)
-# plt.close()
+# Add details to scatter plot
+axs2[0].set_title('5 km',color='tab:red')
+axs2[1].set_title('10 km',color='tab:orange')
+axs2[2].set_title('20 km',color='tab:green')
+axs2[3].set_title('40 km',color='tab:blue')
+axs2[4].set_title('80 km',color='tab:purple')
+# axs[0].set_ylabel('# of particles')
+axs2[0].set_ylabel('Distance reached [km]')
+axs2[0].set_xlabel('Duration [h]')
+axs2[1].set_xlabel('Duration [h]')
+axs2[2].set_xlabel('Duration [h]')
+axs2[3].set_xlabel('Duration [h]')
+axs2[4].set_xlabel('Duration [h]')
+axs2[0].grid(True)
+axs2[1].grid(True)
+axs2[2].grid(True)
+axs2[3].grid(True)
+axs2[4].grid(True)
+axs2[0].set_xlim(0,14) #might need to adjust these
+axs2[1].set_xlim(0,40)
+axs2[2].set_xlim(0,75)
+axs2[3].set_xlim(0,200)
+axs2[4].set_xlim(0,250)
+axs2[0].set_ylim(0,5)
+axs2[1].set_ylim(0,10)
+axs2[2].set_ylim(0,20)
+axs2[3].set_ylim(0,40)
+axs2[4].set_ylim(0,80)
+axs2[4].legend()
+fig2.suptitle('Particle distance reached by duration spent on sill')
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_dist_scatter.png' #UNCOMMENT TO PLOT
+fig2.savefig(fn_fig)
 
-# #ANOTHER FIGURE WITH THE AVERAGES ALL IN ONE PLOT
-# fig, ax = plt.subplots(1,1,figsize=(15,8))
-# ax.plot(silllens_plot,inin_duration_plot,marker='o',c='tab:pink',ls='-',label=r'Inner basin reflux')
-# ax.plot(silllens_plot,outout_duration_plot,marker='o',c='tab:cyan',ls='-',label=r'Outer basin reflux')
-# ax.plot(silllens_plot,inout_duration_plot,marker='o',c=plt.cm.tab20(13),ls='--',label=r'Efflux from inner basin')
-# ax.plot(silllens_plot,outin_duration_plot,marker='o',c=plt.cm.tab20(19),ls='--',label=r'Efflux from outer basin')
-# ax.set_xlabel('Sill length [km]')
-# ax.set_ylabel('Average duration [h]')
-# ax.set_xlim(0,80)
-# ax.set_ylim(0,205)
-# ax.set_title('Particle duration on sill')
-# ax.grid(True)
-# ax.legend()
-# fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_times_avg.png' #UNCOMMENT TO PLOT
-# plt.savefig(fn_fig)
-# plt.close()
+plt.close('all')
+
+#ANOTHER FIGURE WITH THE AVERAGES ALL IN ONE PLOT
+fig, ax = plt.subplots(1,1,figsize=(15,8))
+axtwin = ax.twiny()
+ax.plot(silllens_plot,inin_dist_plot,marker='o',c='tab:pink',ls='-',label=r'Distance reached (inner basin reflux)')
+ax.plot(silllens_plot,outout_dist_plot,marker='o',c='tab:cyan',ls='-',label=r'Distance reached  (outer basin reflux)')
+axtwin.plot(silllens_plot,inin_duration_plot,marker='^',c=plt.cm.tab20(13),ls='--',label=r'Duration (inner basin reflux)')
+axtwin.plot(silllens_plot,outout_duration_plot,marker='^',c=plt.cm.tab20(19),ls='--',label=r'Duration (outer basin reflux)')
+ax.set_xlabel('Sill length [km]')
+ax.set_ylabel('Average distance reached along sill [km]')
+axtwin.set_ylabel('Average duration spent on sill [h]')
+ax.set_xlim(0,80)
+ax.set_ylim(0,12)
+axtwin.set_ylim(0,20)
+ax.set_title('Extent along sill reached by refluxed particles')
+ax.grid(True)
+lines, labels = ax.get_legend_handles_labels()
+lines2, labels2 = axtwin.get_legend_handles_labels()
+axtwin.legend(lines + lines2, labels + labels2, loc=0)
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_dist_avg.png' #UNCOMMENT TO PLOT
+fig.savefig(fn_fig)
+plt.close()
 
 # ax.plot(silllens_plot,alpha_34_plot,marker='o',c='tab:pink',ls='-',label=r'Inner basin reflux $\alpha_{34}$')
 # ax.plot(silllens_plot,alpha_21_plot,marker='o',c='tab:cyan',ls='-',label=r'Outer basin reflux $\alpha_{21}$')
