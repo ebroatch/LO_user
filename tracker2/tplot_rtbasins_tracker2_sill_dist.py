@@ -689,7 +689,7 @@ plt.close('all')
 
 #ANOTHER FIGURE WITH THE AVERAGES ALL IN ONE PLOT
 fig, ax = plt.subplots(1,1,figsize=(15,8))
-axtwin = ax.twiny()
+axtwin = ax.twinx()
 ax.plot(silllens_plot,inin_dist_plot,marker='o',c='tab:pink',ls='-',label=r'Distance reached (inner basin reflux)')
 ax.plot(silllens_plot,outout_dist_plot,marker='o',c='tab:cyan',ls='-',label=r'Distance reached  (outer basin reflux)')
 axtwin.plot(silllens_plot,inin_duration_plot,marker='^',c=plt.cm.tab20(13),ls='--',label=r'Duration (inner basin reflux)')
