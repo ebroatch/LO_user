@@ -167,14 +167,14 @@ for i in range(5):
     print('average min lon inner basin reflux')
     print(np.mean(inin_min_lon))
     print('average max lon outer basin reflux:')
-    print(np.max(outout_max_lon))
+    print(np.mean(outout_max_lon))
     #convert the longitude into km from the end of the sill
     inin_dist_reached = (40+silllens_plot[i])-llxyfun.lon2x(inin_min_lon,0,45)/1e3
     outout_dist_reached = llxyfun.lon2x(outout_max_lon,0,45)/1e3 - 40
     print('average distance reached inner basin reflux')
     print(np.mean(inin_dist_reached))
     print('average distance reached outer basin reflux:')
-    print(np.max(outout_dist_reached))
+    print(np.mean(outout_dist_reached))
     #also get the durations for the reflux visits
     inin_durations = np.where((on_from==3)&(off_to==3),durations,np.nan)
     outout_durations = np.where((on_from==0)&(off_to==0),durations,np.nan)
