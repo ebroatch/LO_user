@@ -12,12 +12,14 @@ import matplotlib.pyplot as plt
 import xarray as xr
 import numpy as np
 from scipy.optimize import curve_fit
+from scipy import stats
 import tef_fun
 import datetime
 
 plt.close('all')
 fig, axs = plt.subplots(1,5,figsize=(25,5))#,sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
 fig2, axs2 = plt.subplots(1,5,figsize=(25,5))#,sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
+fig3, ax3 = plt.subplots(1,1,figsize=(15,8))
 # fig, ax = plt.subplots(1,1,figsize=(15,8))
 inin_dist_plot=np.zeros(5)
 outout_dist_plot=np.zeros(5)
@@ -198,9 +200,20 @@ for i in range(5):
     axs[i].plot(bincenters,hist_inin,lw=2,color='tab:pink',label='Inner basin reflux')
     axs[i].plot(bincenters,hist_outout,lw=2,color='tab:blue',label='Outer basin reflux')
 
+    #make an additional plot all the histograms on one plot
+    ax3.plot(bincenters,hist_inin,lw=2,color=linecolor,label=silllenlabel+' inner basin reflux')
+    ax3.plot(bincenters,hist_outout,lw=2,color=linecolor,ls='--',label=silllenlabel+' outer basin reflux')
+
     #SCATTER PLOT OF DISTANCE VS DURATION
     axs2[i].scatter(inin_durations,inin_dist_reached,marker='o',color='tab:pink',alpha=0.3,label='Inner basin reflux')
     axs2[i].scatter(outout_durations,outout_dist_reached,marker='o',color='tab:blue',alpha=0.3,label='Outer basin reflux')
+    durbinmax=np.max(durations)
+    durbinlist=np.arange(-0.5,durbinmax+1.5,1)
+    durbincenters=np.arange(0,durbinmax+1,1)
+    inin_dist_durmean=stats.binned_statistic(inin_durations, inin_dist_reached, statistic='mean', bins=durbinlist, range=None)
+    outout_dist_durmean=stats.binned_statistic(outout_durations, outout_dist_reached, statistic='mean', bins=durbinlist, range=None)
+    axs2[i].plot(durbincenters,inin_dist_durmean.statistic,c=plt.cm.tab20(13),linewidth=2,ls='--',label='Inner basin reflux average')
+    axs2[i].plot(durbincenters,outout_dist_durmean.statistic,c=plt.cm.tab20(19),linewidth=2,ls='--',label='Outer basin reflux average')
 
     # #now find the indices of on and off
     # on_ind=np.where(np.transpose(sill_transition_ends)==1)[::-1] #indices for on, sill_transition_ends[on_ind[0],on_ind[1]]=all 1's
@@ -652,6 +665,18 @@ fig.suptitle('Histograms of particle distances reached along sill')
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_dist_hist.png' #UNCOMMENT TO PLOT
 fig.savefig(fn_fig)
 
+# Add details to single histogram plot
+ax3.set_title('Histograms of particle distances reached along sill')
+# axs[0].set_ylabel('# of particles')
+ax3.set_ylabel('fraction of particles')
+ax3.set_xlabel('Distance reached [km]')
+ax3.grid(True)
+ax3.set_xlim(0,80)
+ax3.set_ylim(bottom=0)
+ax3.legend()
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_dist_hist_alt.png' #UNCOMMENT TO PLOT
+fig3.savefig(fn_fig)
+
 # Add details to scatter plot
 axs2[0].set_title('5 km',color='tab:red')
 axs2[1].set_title('10 km',color='tab:orange')
@@ -671,15 +696,20 @@ axs2[2].grid(True)
 axs2[3].grid(True)
 axs2[4].grid(True)
 axs2[0].set_xlim(0,14) #might need to adjust these
-axs2[1].set_xlim(0,40)
-axs2[2].set_xlim(0,75)
-axs2[3].set_xlim(0,200)
-axs2[4].set_xlim(0,250)
-axs2[0].set_ylim(0,5)
-axs2[1].set_ylim(0,10)
-axs2[2].set_ylim(0,20)
-axs2[3].set_ylim(0,40)
-axs2[4].set_ylim(0,80)
+axs2[1].set_xlim(0,50)
+axs2[2].set_xlim(0,100)
+axs2[3].set_xlim(0,300)
+axs2[4].set_xlim(0,400)
+# axs2[0].set_ylim(0,5)
+# axs2[1].set_ylim(0,10)
+# axs2[2].set_ylim(0,20)
+# axs2[3].set_ylim(0,40)
+# axs2[4].set_ylim(0,80)
+axs2[0].set_ylim(0,10) #just to check edges
+axs2[1].set_ylim(0,15)
+axs2[2].set_ylim(0,25)
+axs2[3].set_ylim(0,45)
+axs2[4].set_ylim(0,85)
 axs2[4].legend()
 fig2.suptitle('Particle distance reached by duration spent on sill')
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_dist_scatter.png' #UNCOMMENT TO PLOT
@@ -699,7 +729,7 @@ ax.set_ylabel('Average distance reached along sill [km]')
 axtwin.set_ylabel('Average duration spent on sill [h]')
 ax.set_xlim(0,80)
 ax.set_ylim(0,12)
-axtwin.set_ylim(0,20)
+axtwin.set_ylim(0,24)
 ax.set_title('Extent along sill reached by refluxed particles')
 ax.grid(True)
 lines, labels = ax.get_legend_handles_labels()
