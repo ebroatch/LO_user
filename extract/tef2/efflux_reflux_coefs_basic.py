@@ -139,8 +139,8 @@ for i in range(len(gctags)):
     sin_A_mean[i] = tef_df['salt_p'].mean()
     sout_A_mean[i] = tef_df['salt_m'].mean()
 
-    Q1[i] = tef_df['Q_p'].mean()
-    Q2[i] = tef_df['Q_m'].mean()
+    Q1[i] = np.abs(tef_df['Q_p'].mean()) #ADD ABSOLUTE VALUE TO WORK WITH THE FORMULAS (NEED TO CHECK THAT THIS DOESN'T LOSE SIGN INFO)
+    Q2[i] = np.abs(tef_df['Q_m'].mean())
     S1[i] = tef_df['salt_p'].mean()
     S2[i] = tef_df['salt_m'].mean()
 
@@ -194,8 +194,8 @@ for i in range(len(gctags)):
     sin_B_mean[i] = tef_df['salt_p'].mean()
     sout_B_mean[i] = tef_df['salt_m'].mean()
 
-    Q3[i] = tef_df['Q_p'].mean()
-    Q4[i] = tef_df['Q_m'].mean()
+    Q3[i] = np.abs(tef_df['Q_p'].mean())
+    Q4[i] = np.abs(tef_df['Q_m'].mean())
     S3[i] = tef_df['salt_p'].mean()
     S4[i] = tef_df['salt_m'].mean()
 
