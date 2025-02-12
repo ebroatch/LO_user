@@ -121,6 +121,7 @@ for i in range(len(gctags)):
     print('First and last qprism peaks:')
     print(peak_list[1])
     print(peak_list[-1])
+    print(peak_list[-1]-peak_list[1])
 
     # get tide info from the tide excursion calculator
     excur_dir = out_dir0 / ('tide_excursion_' + Ldir['ds0'] + '_' + Ldir['ds1'])
@@ -150,14 +151,14 @@ for i in range(len(gctags)):
     S1[i] = tef_df['salt_p'].mean()
     S2[i] = tef_df['salt_m'].mean()
 
-    print('\nQ_in_A (Q1):')
-    print(Qin_A_mean[i])
-    print('\nQ_out_A (Q2):')
-    print(Qout_A_mean[i])
-    print('\ns_in_A (S1):')
-    print(sin_A_mean[i])
-    print('\ns_out_A (S2):')
-    print(sout_A_mean[i])
+    # print('\nQ_in_A (Q1):')
+    # print(Qin_A_mean[i])
+    # print('\nQ_out_A (Q2):')
+    # print(Qout_A_mean[i])
+    # print('\ns_in_A (S1):')
+    # print(sin_A_mean[i])
+    # print('\ns_out_A (S2):')
+    # print(sout_A_mean[i])
                     
 #Section 2 (b5)
 for i in range(len(gctags)):
@@ -181,6 +182,7 @@ for i in range(len(gctags)):
     print('First and last qprism peaks:')
     print(peak_list[1])
     print(peak_list[-1])
+    print(peak_list[-1]-peak_list[1])
 
     # get tide info from the tide excursion calculator
     excur_dir = out_dir0 / ('tide_excursion_' + Ldir['ds0'] + '_' + Ldir['ds1'])
@@ -210,23 +212,23 @@ for i in range(len(gctags)):
     S3[i] = tef_df['salt_p'].mean()
     S4[i] = tef_df['salt_m'].mean()
 
-    print('\nQ_in_B (Q3):')
-    print(Qin_B_mean[i])
-    print('\nQ_out_B (Q4):')
-    print(Qout_B_mean[i])
-    print('\ns_in_B (S3):')
-    print(sin_B_mean[i])
-    print('\ns_out_B (S4):')
-    print(sout_B_mean[i])
+    # print('\nQ_in_B (Q3):')
+    # print(Qin_B_mean[i])
+    # print('\nQ_out_B (Q4):')
+    # print(Qout_B_mean[i])
+    # print('\ns_in_B (S3):')
+    # print(sin_B_mean[i])
+    # print('\ns_out_B (S4):')
+    # print(sout_B_mean[i])
 
 #check volume and salt conservation
 vol_residual = Q1-Q2-Q3+Q4
 salt_residual = (Q1*S1)-(Q2*S2)-(Q3*S3)+(Q4*S4)
 
-print('\nvolume residuals:')
-print(vol_residual)
-print('\nsalt residuals:')
-print(salt_residual)
+# print('\nvolume residuals:')
+# print(vol_residual)
+# print('\nsalt residuals:')
+# print(salt_residual)
 
 #calculate alphas
 alpha_21_basic = (Q2/Q1)*((S2-S4)/(S1-S4))
@@ -234,17 +236,17 @@ alpha_31_basic = (Q3/Q1)*((S3-S4)/(S1-S4))
 alpha_24_basic = (Q2/Q4)*((S1-S2)/(S1-S4))
 alpha_34_basic = (Q3/Q4)*((S1-S3)/(S1-S4))
 
-print('\nalpha_21 (outer basin reflux): ')
-print(alpha_21_basic)
-print('\nalpha_31 (efflux from outer basin): ')
-print(alpha_31_basic)
-print('\nalpha_34 (inner basin reflux): ')
-print(alpha_34_basic)
-print('\nalpha_24 (efflux from inner basin): ')
-print(alpha_24_basic)
+# print('\nalpha_21 (outer basin reflux): ')
+# print(alpha_21_basic)
+# print('\nalpha_31 (efflux from outer basin): ')
+# print(alpha_31_basic)
+# print('\nalpha_34 (inner basin reflux): ')
+# print(alpha_34_basic)
+# print('\nalpha_24 (efflux from inner basin): ')
+# print(alpha_24_basic)
 
-print('\nalpha_21+alpha_31 (outer basin fractions): ')
-print(alpha_21_basic+alpha_31_basic)
-print('\nalpha_24+alpha_34 (outer basin fractions): ')
-print(alpha_24_basic+alpha_34_basic)
+# print('\nalpha_21+alpha_31 (outer basin fractions): ')
+# print(alpha_21_basic+alpha_31_basic)
+# print('\nalpha_24+alpha_34 (outer basin fractions): ')
+# print(alpha_24_basic+alpha_34_basic)
 
