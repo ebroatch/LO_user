@@ -117,7 +117,7 @@ for i in range(len(gctags)):
     tef_df['Q_m'] = tef_df['q_m']/1000
     tef_df['Q_prism']=tef_df['qprism']/1000
 
-    peak_list = scipy.signal.find_peaks(tef_df['Q_prism'])
+    peak_list, peak_props = scipy.signal.find_peaks(tef_df['Q_prism'])
     print('First and last qprism peaks:')
     print(peak_list[1])
     print(peak_list[-1])
@@ -177,6 +177,7 @@ for i in range(len(gctags)):
     tef_df['Q_m'] = tef_df['q_m']/1000
     tef_df['Q_prism']=tef_df['qprism']/1000
 
+    peak_list, peak_props = scipy.signal.find_peaks(tef_df['Q_prism'])
     print('First and last qprism peaks:')
     print(peak_list[1])
     print(peak_list[-1])
