@@ -18,6 +18,7 @@ import xarray as xr
 from lo_tools import Lfun, zfun
 from lo_tools import plotting_functions as pfun
 import tef_fun
+import scipy.signal.find_peaks
 
 from lo_tools import extract_argfun as exfun
 Ldir = exfun.intro() # this handles the argument passing
@@ -98,7 +99,7 @@ yv = g.lat_v.values
 
 # GET AVERAGE TEF VARIABLES FROM BOTH SECTIONS
 
-#Section 1 (b1)
+#Section A (b1)
 for i in range(len(gctags)):
     print(silllens[i])
     gctag=gctags[i]
@@ -115,6 +116,11 @@ for i in range(len(gctags)):
     tef_df['Q_p'] = tef_df['q_p']/1000
     tef_df['Q_m'] = tef_df['q_m']/1000
     tef_df['Q_prism']=tef_df['qprism']/1000
+
+    peak_list = scipy.signal.find_peaks(tef_df['Q_prism'])
+    print('First and last qprism peaks:')
+    print(peak_list[1])
+    print(peak_list[-1])
 
     # get tide info from the tide excursion calculator
     excur_dir = out_dir0 / ('tide_excursion_' + Ldir['ds0'] + '_' + Ldir['ds1'])
@@ -170,6 +176,10 @@ for i in range(len(gctags)):
     tef_df['Q_p'] = tef_df['q_p']/1000
     tef_df['Q_m'] = tef_df['q_m']/1000
     tef_df['Q_prism']=tef_df['qprism']/1000
+
+    print('First and last qprism peaks:')
+    print(peak_list[1])
+    print(peak_list[-1])
 
     # get tide info from the tide excursion calculator
     excur_dir = out_dir0 / ('tide_excursion_' + Ldir['ds0'] + '_' + Ldir['ds1'])
