@@ -98,6 +98,9 @@ xv = g.lon_v.values
 yv = g.lat_v.values
 
 # GET AVERAGE TEF VARIABLES FROM BOTH SECTIONS
+# use 7 spring neap cycles, starting at index 257 and going to 2741 - these are the peaks in the 5km Qprism but similar for the other models
+start_avg_ind = 257
+end_avg_ind = 2741
 
 #Section A (b1)
 for i in range(len(gctags)):
@@ -141,24 +144,24 @@ for i in range(len(gctags)):
     # print('\nNeap Qindeltas:')
     # print(Qindeltas_neap)
 
-    Qin_A_mean[i] = tef_df['Q_p'].mean() #CHANGE THESE TO USE INTEGER SN CYCLES
+    Qin_A_mean[i] = tef_df['Q_p'].mean() #This is the basic mean of whole timeseries
     Qout_A_mean[i] = tef_df['Q_m'].mean()
     sin_A_mean[i] = tef_df['salt_p'].mean()
     sout_A_mean[i] = tef_df['salt_m'].mean()
 
-    Q1[i] = np.abs(tef_df['Q_p'].mean()) #ADD ABSOLUTE VALUE TO WORK WITH THE FORMULAS (NEED TO CHECK THAT THIS DOESN'T LOSE SIGN INFO)
-    Q2[i] = np.abs(tef_df['Q_m'].mean())
-    S1[i] = tef_df['salt_p'].mean()
-    S2[i] = tef_df['salt_m'].mean()
+    Q1[i] = tef_df['Q_p'][start_avg_ind:end_avg_ind].mean() #average over 7 s/n cycles
+    Q2[i] = -tef_df['Q_m'][start_avg_ind:end_avg_ind].mean() #average over 7 s/n cycles and change sign so that all Q are positive
+    S1[i] = tef_df['salt_p'][start_avg_ind:end_avg_ind].mean()
+    S2[i] = tef_df['salt_m'][start_avg_ind:end_avg_ind].mean()
 
-    # print('\nQ_in_A (Q1):')
-    # print(Qin_A_mean[i])
-    # print('\nQ_out_A (Q2):')
-    # print(Qout_A_mean[i])
-    # print('\ns_in_A (S1):')
-    # print(sin_A_mean[i])
-    # print('\ns_out_A (S2):')
-    # print(sout_A_mean[i])
+    print('\nQ_in_A, Q1):')
+    print(Qin_A_mean[i], Q1[i])
+    print('\nQ_out_A, Q2:')
+    print(Qout_A_mean[i], Q2[i])
+    print('\ns_in_A, S1:')
+    print(sin_A_mean[i], S1[i])
+    print('\ns_out_A, S2:')
+    print(sout_A_mean[i], S2[i])
                     
 #Section 2 (b5)
 for i in range(len(gctags)):
@@ -207,28 +210,28 @@ for i in range(len(gctags)):
     sin_B_mean[i] = tef_df['salt_p'].mean()
     sout_B_mean[i] = tef_df['salt_m'].mean()
 
-    Q3[i] = np.abs(tef_df['Q_p'].mean())
-    Q4[i] = np.abs(tef_df['Q_m'].mean())
-    S3[i] = tef_df['salt_p'].mean()
-    S4[i] = tef_df['salt_m'].mean()
+    Q3[i] = tef_df['Q_p'][start_avg_ind:end_avg_ind].mean() #average over 7 s/n cycles
+    Q4[i] = -tef_df['Q_m'][start_avg_ind:end_avg_ind].mean() #average over 7 s/n cycles and change sign so that all Q are positive
+    S3[i] = tef_df['salt_p'][start_avg_ind:end_avg_ind].mean()
+    S4[i] = tef_df['salt_m'][start_avg_ind:end_avg_ind].mean()
 
-    # print('\nQ_in_B (Q3):')
-    # print(Qin_B_mean[i])
-    # print('\nQ_out_B (Q4):')
-    # print(Qout_B_mean[i])
-    # print('\ns_in_B (S3):')
-    # print(sin_B_mean[i])
-    # print('\ns_out_B (S4):')
-    # print(sout_B_mean[i])
+    print('\nQ_in_B, Q3:')
+    print(Qin_B_mean[i], Q3[i])
+    print('\nQ_out_B, Q4:')
+    print(Qout_B_mean[i], Q4[i])
+    print('\ns_in_B, S3:')
+    print(sin_B_mean[i], S3[i])
+    print('\ns_out_B, S4:')
+    print(sout_B_mean[i], S4[i])
 
 #check volume and salt conservation
 vol_residual = Q1-Q2-Q3+Q4
 salt_residual = (Q1*S1)-(Q2*S2)-(Q3*S3)+(Q4*S4)
 
-# print('\nvolume residuals:')
-# print(vol_residual)
-# print('\nsalt residuals:')
-# print(salt_residual)
+print('\nvolume residuals:')
+print(vol_residual)
+print('\nsalt residuals:')
+print(salt_residual)
 
 #calculate alphas
 alpha_21_basic = (Q2/Q1)*((S2-S4)/(S1-S4))
@@ -236,17 +239,17 @@ alpha_31_basic = (Q3/Q1)*((S3-S4)/(S1-S4))
 alpha_24_basic = (Q2/Q4)*((S1-S2)/(S1-S4))
 alpha_34_basic = (Q3/Q4)*((S1-S3)/(S1-S4))
 
-# print('\nalpha_21 (outer basin reflux): ')
-# print(alpha_21_basic)
-# print('\nalpha_31 (efflux from outer basin): ')
-# print(alpha_31_basic)
-# print('\nalpha_34 (inner basin reflux): ')
-# print(alpha_34_basic)
-# print('\nalpha_24 (efflux from inner basin): ')
-# print(alpha_24_basic)
+print('\nalpha_21 (outer basin reflux): ')
+print(alpha_21_basic)
+print('\nalpha_31 (efflux from outer basin): ')
+print(alpha_31_basic)
+print('\nalpha_34 (inner basin reflux): ')
+print(alpha_34_basic)
+print('\nalpha_24 (efflux from inner basin): ')
+print(alpha_24_basic)
 
-# print('\nalpha_21+alpha_31 (outer basin fractions): ')
-# print(alpha_21_basic+alpha_31_basic)
-# print('\nalpha_24+alpha_34 (outer basin fractions): ')
-# print(alpha_24_basic+alpha_34_basic)
+print('\nalpha_21+alpha_31 (outer basin fractions): ')
+print(alpha_21_basic+alpha_31_basic)
+print('\nalpha_24+alpha_34 (outer basin fractions): ')
+print(alpha_24_basic+alpha_34_basic)
 
