@@ -317,7 +317,7 @@ ax.plot(silllens_plot,alpha_31_adj,marker='o',c=plt.cm.tab20(19),ls='--',label=r
 ax.set_xlabel('Sill length [km]')
 ax.set_ylabel('Efflux/reflux coefficients')
 ax.set_xlim(0,85)
-ax.set_ylim(-1.1,1.1)
+ax.set_ylim(-0.1,1.1)
 ax.set_title('Efflux/reflux fractions from TEF')
 ax.grid(True)
 ax.legend()
