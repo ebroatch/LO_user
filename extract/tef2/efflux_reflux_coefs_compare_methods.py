@@ -366,7 +366,7 @@ ax.plot(silllens_plot,alpha_31_par,marker='o',c=plt.cm.tab20(19),ls=':',label=r'
 ax.set_xlabel('Sill length [km]')
 ax.set_ylabel('Efflux/reflux coefficients')
 ax.set_xlim(0,85)
-ax.set_ylim(-0.2,1.2)
+ax.set_ylim(-0.3,1.2)
 ax.set_title('Efflux/reflux fractions')
 ax.grid(True)
 
@@ -374,7 +374,7 @@ h, l = ax.get_legend_handles_labels()
 ph = [plt.plot([],marker="", ls="")[0]]*4
 handles = ph + h
 labels = [r'Inner basin reflux $\alpha_{34}$:', r'Outer basin reflux $\alpha_{21}$:',r'Efflux from inner basin $\alpha_{24}$:',r'Efflux from outer basin $\alpha_{31}$:'] + l
-ax.legend(handles, labels, ncol=4)
+ax.legend(handles, labels, ncol=4, loc='lower right')
 
 fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_compare_methods.png' #UNCOMMENT TO PLOT
 plt.savefig(fn_fig)
