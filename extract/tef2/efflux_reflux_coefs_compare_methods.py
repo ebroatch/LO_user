@@ -386,7 +386,7 @@ ph = [plt.plot([],marker="", ls="")[0]]*4
 handles = ph + h
 labels = [r'Inner basin reflux $\alpha_{34}$:', r'Efflux from inner basin $\alpha_{24}$',r'Efflux from inner basin $\alpha_{24}$',r'Efflux from outer basin $\alpha_{31}$'] + l
 plt.legend(handles, labels, ncol=4)
-ax.legend(ncols=3)
+ax.legend(ncol=4)
 
 fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_compare_methods.png' #UNCOMMENT TO PLOT
 plt.savefig(fn_fig)
