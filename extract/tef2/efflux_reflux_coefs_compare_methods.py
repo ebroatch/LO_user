@@ -358,10 +358,10 @@ ax.plot(silllens_plot,alpha_34_par_ta,marker='o',c='tab:pink',ls='--',label='Tid
 ax.plot(silllens_plot,alpha_21_par_ta,marker='o',c='tab:cyan',ls='--',label='Tidally averaged particles')
 ax.plot(silllens_plot,alpha_24_par_ta,marker='o',c=plt.cm.tab20(13),ls='--',label='Tidally averaged particles')
 ax.plot(silllens_plot,alpha_31_par_ta,marker='o',c=plt.cm.tab20(19),ls='--',label='Tidally averaged particles')
-ax.plot(silllens_plot,alpha_34_par_ta,marker='o',c='tab:pink',ls=':',label='Particles')
-ax.plot(silllens_plot,alpha_21_par_ta,marker='o',c='tab:cyan',ls=':',label='Particles')
-ax.plot(silllens_plot,alpha_24_par_ta,marker='o',c=plt.cm.tab20(13),ls=':',label='Particles')
-ax.plot(silllens_plot,alpha_31_par_ta,marker='o',c=plt.cm.tab20(19),ls=':',label='Particles')
+ax.plot(silllens_plot,alpha_34_par,marker='o',c='tab:pink',ls=':',label='Particles')
+ax.plot(silllens_plot,alpha_21_par,marker='o',c='tab:cyan',ls=':',label='Particles')
+ax.plot(silllens_plot,alpha_24_par,marker='o',c=plt.cm.tab20(13),ls=':',label='Particles')
+ax.plot(silllens_plot,alpha_31_par,marker='o',c=plt.cm.tab20(19),ls=':',label='Particles')
 
 ax.set_xlabel('Sill length [km]')
 ax.set_ylabel('Efflux/reflux coefficients')
@@ -374,8 +374,8 @@ h, l = ax.get_legend_handles_labels()
 ph = [plt.plot([],marker="", ls="")[0]]*4
 handles = ph + h
 labels = [r'Inner basin reflux $\alpha_{34}$:', r'Efflux from inner basin $\alpha_{24}$',r'Efflux from inner basin $\alpha_{24}$',r'Efflux from outer basin $\alpha_{31}$'] + l
-plt.legend(handles, labels, ncol=4)
-ax.legend(ncol=4)
+ax.legend(handles, labels, ncol=4)
+
 
 fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_compare_methods.png' #UNCOMMENT TO PLOT
 plt.savefig(fn_fig)
