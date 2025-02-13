@@ -108,15 +108,6 @@ alpha_31_basic = (Q3/Q1)*((S3-S4)/(S1-S4))
 alpha_24_basic = (Q2/Q4)*((S1-S2)/(S1-S4))
 alpha_34_basic = (Q3/Q4)*((S1-S3)/(S1-S4))
 
-print('\nalpha_21 (outer basin reflux): ')
-print(alpha_21_basic)
-print('\nalpha_31 (efflux from outer basin): ')
-print(alpha_31_basic)
-print('\nalpha_34 (inner basin reflux): ')
-print(alpha_34_basic)
-print('\nalpha_24 (efflux from inner basin): ')
-print(alpha_24_basic)
-
 #check volume and salt conservation
 vol_residual = Q1-Q2-Q3+Q4
 salt_residual = (Q1*S1)-(Q2*S2)-(Q3*S3)+(Q4*S4)
@@ -146,6 +137,8 @@ alpha_21_adj = (Q2_adj/Q1_adj)*((S2_adj-S4_adj)/(S1_adj-S4_adj))
 alpha_31_adj = (Q3_adj/Q1_adj)*((S3_adj-S4_adj)/(S1_adj-S4_adj))
 alpha_24_adj = (Q2_adj/Q4_adj)*((S1_adj-S2_adj)/(S1_adj-S4_adj))
 alpha_34_adj = (Q3_adj/Q4_adj)*((S1_adj-S3_adj)/(S1_adj-S4_adj))
+
+print('got alphas from tef')
 
 ########## PARTICLES (NOT TIDALLY AVERAGED) ##########
 alpha_24_par=np.zeros(5)
@@ -186,8 +179,6 @@ for i in range(5):
         linecolor = 'tab:purple'
         silllenlabel = '80km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/release_2020.09.01.nc'
-    
-    print(silllenlabel+'\n')
 
     # get Datasets
     dsr = xr.open_dataset(fn, decode_times=False)
@@ -204,14 +195,12 @@ for i in range(5):
 
     #make array with code number for each region
     region_codes = (3*lon_in.astype(int))+(2*lon_sill.astype(int)) #NEW CODES: this gives 0 for outer basin and ocean, 2 for sill, and 3 for inner basin
-    print('got region codes\n')
     #find transitions between regions
     region_codes_transition = np.diff(region_codes,axis=0) #WITH NEW CODES this gives 0 staying in same region,-1 inner to sill,+1 sill to inner,+2 outer to sill,-2 sill to outer,+3 outer to inner direct,-3 inner to outer direct
     #get the transitions all in a row with zeros removed
     region_codes_transition_nan = np.where(region_codes_transition==0,np.nan,region_codes_transition) #change 0 to nan so that we can remove them and only look at consecutive transitions
     a = (~np.isnan(region_codes_transition_nan)).argsort(0, kind='mergesort') #this gives the indices to sort the array with the nans first along the time axis, use mergesort to preserve order of other elements
     region_codes_transition_consecutive = region_codes_transition_nan[a, np.arange(a.shape[1])[None,:]] #this should sort all the nans to the top of the column
-    print('got transition array\n')
 
     #now we need to search for different patterns within the columns which indicate visits to the sill as efflux or reflux, and count them
     #NEW CODES:
@@ -252,6 +241,8 @@ for i in range(5):
     alpha_31_par[i]=alpha_31
     alpha_21_par[i]=alpha_21
 
+print('got alphas from particles')
+
 ########## PARTICLES (TIDALLY AVERAGED) ##########
 alpha_24_par_ta=np.zeros(5)
 alpha_34_par_ta=np.zeros(5)
@@ -291,8 +282,6 @@ for i in range(5):
         linecolor = 'tab:purple'
         silllenlabel = '80km'
         fn = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/release_2020.09.01.nc'
-    
-    print(silllenlabel+'\n')
 
     # get Datasets
     dsr = xr.open_dataset(fn, decode_times=False)
@@ -310,14 +299,12 @@ for i in range(5):
 
     #make array with code number for each region
     region_codes = (3*lon_in.astype(int))+(2*lon_sill.astype(int)) #NEW CODES: this gives 0 for outer basin and ocean, 2 for sill, and 3 for inner basin
-    print('got region codes\n')
     #find transitions between regions
     region_codes_transition = np.diff(region_codes,axis=0) #WITH NEW CODES this gives 0 staying in same region,-1 inner to sill,+1 sill to inner,+2 outer to sill,-2 sill to outer,+3 outer to inner direct,-3 inner to outer direct
     #get the transitions all in a row with zeros removed
     region_codes_transition_nan = np.where(region_codes_transition==0,np.nan,region_codes_transition) #change 0 to nan so that we can remove them and only look at consecutive transitions
     a = (~np.isnan(region_codes_transition_nan)).argsort(0, kind='mergesort') #this gives the indices to sort the array with the nans first along the time axis, use mergesort to preserve order of other elements
     region_codes_transition_consecutive = region_codes_transition_nan[a, np.arange(a.shape[1])[None,:]] #this should sort all the nans to the top of the column
-    print('got transition array\n')
 
     #now we need to search for different patterns within the columns which indicate visits to the sill as efflux or reflux, and count them
     #NEW CODES:
@@ -357,6 +344,8 @@ for i in range(5):
     alpha_34_par_ta[i]=alpha_34
     alpha_31_par_ta[i]=alpha_31
     alpha_21_par_ta[i]=alpha_21
+
+print('got alphas from tidally averaged particles')
 
 ########## PLOTTING ##########
 fig, ax = plt.subplots(1,1,figsize=(15,8))
