@@ -307,3 +307,22 @@ print('alpha_31: ',100*(alpha_31_adj-alpha_31_basic)/alpha_31_basic)
 print('alpha_24: ',100*(alpha_24_adj-alpha_24_basic)/alpha_24_basic)
 print('alpha_34: ',100*(alpha_34_adj-alpha_34_basic)/alpha_34_basic)
 
+fig, ax = plt.subplots(1,1,figsize=(15,8))
+
+ax.plot(silllens_plot,alpha_34_adj,marker='o',c='tab:pink',ls='-',label=r'Inner basin reflux $\alpha_{34}$')
+ax.plot(silllens_plot,alpha_21_adj,marker='o',c='tab:cyan',ls='-',label=r'Outer basin reflux $\alpha_{21}$')
+ax.plot(silllens_plot,alpha_24_adj,marker='o',c=plt.cm.tab20(13),ls='--',label=r'Efflux from inner basin $\alpha_{24}$')
+ax.plot(silllens_plot,alpha_31_adj,marker='o',c=plt.cm.tab20(19),ls='--',label=r'Efflux from outer basin $\alpha_{31}$')
+
+ax.set_xlabel('Sill length [km]')
+ax.set_ylabel('Efflux/reflux coefficients')
+ax.set_xlim(0,85)
+ax.set_ylim(-1.1,1.1)
+ax.set_title('Efflux/reflux fractions from TEF')
+ax.grid(True)
+ax.legend()
+
+fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_TEF_adjust.png' #UNCOMMENT TO PLOT
+plt.savefig(fn_fig)
+plt.close()
+
