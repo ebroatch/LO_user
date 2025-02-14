@@ -177,7 +177,7 @@ for i in range(len(gctags)):
 
     #calculate storage term with centered differences #make sure to use 3600s and volume divided by 1000
     ddt_S_top = (S_top.values[2:]-S_top.values[:-2])/(2*3600)
-    ddt_S_top = np.concatenate([np.nan],ddt_S_top,[np.nan])
+    ddt_S_top = np.concatenate(([np.nan],ddt_S_top,[np.nan]))
     storage_21 = (1/(Q1*(S1-S4)))*V_top*ddt_S_top
     storage_24 = (1/(Q4*(S4-S1)))*V_top*ddt_S_top
 
