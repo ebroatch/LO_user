@@ -142,13 +142,13 @@ for i in range(len(gctags)):
     sect_df_fn = tef2_dir / ('sect_df_' + gctag + '.p')
     sect_df = pd.read_pickle(sect_df_fn)
     #get the b1 part of the sect_df
-    sect_df_b1=[sect_df.sn=='b1']
+    sect_df_b1=sect_df[sect_df.sn=='b1']
     #get the index of the u values
     b1_ind_u=sect_df_b1.i.values[0]
     #get the longitude of the section from lon_u
     b1_lon_u=lon_u[0,b1_ind_u]
     #do the same for b5
-    sect_df_b5=[sect_df.sn=='b5']
+    sect_df_b5=sect_df[sect_df.sn=='b5']
     b5_ind_u=sect_df_b5.i.values[0]
     b5_lon_u=lon_u[0,b5_ind_u]
     #mask the h array ouside of the sill area
