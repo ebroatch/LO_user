@@ -125,7 +125,7 @@ for i in range(len(gctags)):
     S_top = tef_df['salt_m']
 
     #Get the volume of the sill area
-    grid_dir = Ldir['LOd'] / 'grids' / gridname
+    grid_dir = Ldir['data'] / 'grids' / gridname
     #get grid info
     g = xr.open_dataset(grid_dir / 'grid.nc')
     h = g.h.values
