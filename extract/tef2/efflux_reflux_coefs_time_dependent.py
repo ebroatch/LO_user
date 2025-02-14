@@ -58,21 +58,22 @@ sect_mid='b3'
 plot_color = ['tab:red','tab:orange','tab:green','tab:blue','tab:purple'] #COLORS FOR 5 models
 
 silllens=['5km', '10km', '20km', '40km', '80km']
+gridnames = ['sill5km', 'sill10km', 'sill20kmdeep', 'sill40km', 'sill80km']
 gctags=['sill5km_c0', 'sill10km_c0', 'sill20kmdeep_c0', 'sill40km_c0', 'sill80km_c0']
 gtagexs=['sill5km_t0_xa0', 'sill10km_t2_xa0', 'sill20kmdeep_t2_xa0', 'sill40km_t2_xa0', 'sill80km_t2_xa0']
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 
-# grid info
-g = xr.open_dataset(Ldir['grid'] / 'grid.nc')
-h = g.h.values
-h[g.mask_rho.values==0] = np.nan
-xrho = g.lon_rho.values
-yrho = g.lat_rho.values
-xp, yp = pfun.get_plon_plat(xrho,yrho)
-xu = g.lon_u.values
-yu = g.lat_u.values
-xv = g.lon_v.values
-yv = g.lat_v.values
+# # grid info
+# g = xr.open_dataset(Ldir['grid'] / 'grid.nc')
+# h = g.h.values
+# h[g.mask_rho.values==0] = np.nan
+# xrho = g.lon_rho.values
+# yrho = g.lat_rho.values
+# xp, yp = pfun.get_plon_plat(xrho,yrho)
+# xu = g.lon_u.values
+# yu = g.lat_u.values
+# xv = g.lon_v.values
+# yv = g.lat_v.values
 
 #Loop over sill lengths
 for i in range(len(gctags)):
@@ -80,6 +81,7 @@ for i in range(len(gctags)):
     print(silllens[i])
     gctag=gctags[i]
     gtagex=gtagexs[i]
+    gridname=gridnames[i]
     in_dir = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('bulk_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
     
     #Section b1
@@ -123,9 +125,43 @@ for i in range(len(gctags)):
     S_top = tef_df['salt_m']
 
     #Get the volume of the sill area
-    #get grid stuff
+    grid_dir = Ldir['LOd'] / 'grids' / gridname
+    #get grid info
+    g = xr.open_dataset(grid_dir / 'grid.nc')
+    h = g.h.values
+    mask_rho=g.mask_rho.values
+    h[g.mask_rho.values==0] = np.nan
+    lon_rho = g.lon_rho.values
+    lat_rho = g.lat_rho.values
+    lon_u = g.lon_u.values
+    DX = 1/g.pm.values
+    DY = 1/g.pn.values
+    DA = DX*DY
     #find the volume between the two longitudes
+    #get the actual longitude of the sections
+    sect_df_fn = tef2_dir / ('sect_df_' + gctag + '.p')
+    sect_df = pd.read_pickle(sect_df_fn)
+    #get the b1 part of the sect_df
+    sect_df_b1=[sect_df.sn=='b1']
+    #get the index of the u values
+    b1_ind_u=sect_df_b1.i.values[0]
+    #get the longitude of the section from lon_u
+    b1_lon_u=lon_u[0,b1_ind_u]
+    #do the same for b5
+    sect_df_b5=[sect_df.sn=='b5']
+    b5_ind_u=sect_df_b5.i.values[0]
+    b5_lon_u=lon_u[0,b5_ind_u]
+    #mask the h array ouside of the sill area
+    h_sill = g.h.values
+    h_sill[mask_rho==0] = np.nan #mask the land
+    h_sill[lon_rho<b1_lon_u] = np.nan #mask seaward of sill
+    h_sill[lon_rho>b5_lon_u] = np.nan #mask landward of sill
+    #get the sill volume
+    V_sill = np.nansum(DA*h_sill)
     #divide by 2
+    V_top = V_sill/2 #for now, assume layer volume is half of sill
+    V_bottom = V_sill/2
+    print(V_sill)
 
     # #check volume and salt conservation
     # vol_residual = Q1-Q2-Q3+Q4
@@ -138,6 +174,7 @@ for i in range(len(gctags)):
     alpha_34_basic = (Q3/Q4)*((S1-S3)/(S1-S4))
 
     #calculate storage term with centered differences #make sure to use 3600s and volume divided by 1000
+    # d_dt_salt_top = 
 
 
 
