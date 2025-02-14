@@ -187,8 +187,8 @@ for i in range(len(gctags)):
     alpha_34_td = 1-alpha_24_td
 
     #plot
-    ax.plot(tef_df.index,alpha_34_td,ls='-',c=plot_color[i],label=r'Inner basin reflux $\alpha_{34} '+silllens[i])
-    ax.plot(tef_df.index,alpha_21_td,ls='--',c=plot_color[i],label=r'Outer basin reflux $\alpha_{21} '+silllens[i])
+    ax.plot(tef_df.index,alpha_34_td,ls='-',c=plot_color[i],label=r'Inner basin reflux $\alpha_{34}$ '+silllens[i])
+    ax.plot(tef_df.index,alpha_21_td,ls='--',c=plot_color[i],label=r'Outer basin reflux $\alpha_{21}$ '+silllens[i])
 
 #add plot elements
 ax.set_xlabel('Time')
@@ -197,6 +197,7 @@ ax.set_ylim(-10,10)
 ax.set_title('Time-dependent efflux/reflux coefficients')
 ax.grid(True)
 ax.legend()
+ax.set_xlim('2020-09-01','2021-01-01')
 
 fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent.png' #UNCOMMENT TO PLOT
 plt.savefig(fn_fig)
