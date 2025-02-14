@@ -78,8 +78,8 @@ out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 fig, ax = plt.subplots(1,1,figsize=(15,8))
 
 #Loop over sill lengths
-# for i in range(len(gctags)):
-for i in range(len(gctags)-1):
+for i in range(len(gctags)):
+# for i in range(len(gctags)-1):
     #model and extraction info
     print(silllens[i])
     gctag=gctags[i]
@@ -188,8 +188,8 @@ for i in range(len(gctags)-1):
     alpha_34_td = 1-alpha_24_td
 
     #plot
-    ax.plot(tef_df.index,alpha_34_td,ls='-',c=plot_color[i],label=r'Inner basin reflux $\alpha_{34}$ '+silllens[i])
-    ax.plot(tef_df.index,alpha_21_td,ls='--',c=plot_color[i],label=r'Outer basin reflux $\alpha_{21}$ '+silllens[i])
+    ax.plot(tef_df.index,alpha_34_td,ls='-',c=plot_color[i],label=r'$\alpha_{34}$ '+silllens[i])
+    ax.plot(tef_df.index,alpha_21_td,ls='--',c=plot_color[i],label=r'$\alpha_{21}$ '+silllens[i])
 
 #add plot elements
 ax.set_xlabel('Time')
@@ -199,6 +199,12 @@ ax.set_title('Time-dependent efflux/reflux coefficients')
 ax.grid(True)
 ax.legend(ncol=5)
 ax.set_xlim('2020-09-01','2021-01-01')
+
+h, l = ax.get_legend_handles_labels()
+ph = [plt.plot([],marker="", ls="")[0]]*4
+handles = ph + h
+labels = [r'Inner basin reflux:', r'Outer basin reflux:'] + l
+ax.legend(handles, labels, ncol=6)
 
 fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent.png' #UNCOMMENT TO PLOT
 plt.savefig(fn_fig)
