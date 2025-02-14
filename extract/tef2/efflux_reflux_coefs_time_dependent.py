@@ -193,7 +193,7 @@ for i in range(len(gctags)):
 #add plot elements
 ax.set_xlabel('Time')
 ax.set_ylabel('Reflux coefficient')
-ax.set_ylim(0,1)
+ax.set_ylim(-10,10)
 ax.set_title('Time-dependent efflux/reflux coefficients')
 ax.grid(True)
 ax.legend()
