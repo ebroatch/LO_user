@@ -58,7 +58,6 @@ sect_mid='b3'
 plot_color = ['tab:red','tab:orange','tab:green','tab:blue','tab:purple'] #COLORS FOR 5 models
 
 silllens=['5km', '10km', '20km', '40km', '80km']
-silllens_r=[r'5km', r'10km', r'20km', r'40km', r'80km']
 gridnames = ['sill5km', 'sill10km', 'sill20kmdeep', 'sill40km', 'sill80km']
 gctags=['sill5km_c0', 'sill10km_c0', 'sill20kmdeep_c0', 'sill40km_c0', 'sill80km_c0']
 gtagexs=['sill5km_t0_xa0', 'sill10km_t2_xa0', 'sill20kmdeep_t2_xa0', 'sill40km_t2_xa0', 'sill80km_t2_xa0']
@@ -188,8 +187,8 @@ for i in range(len(gctags)):
     alpha_34_td = 1-alpha_24_td
 
     #plot
-    ax.plot(tef_df.index,alpha_34_td,ls='-',c=plot_color[i],label=r'Inner basin reflux $\alpha_{34} '+silllens_r)
-    ax.plot(tef_df.index,alpha_21_td,ls='--',c=plot_color[i],label=r'Outer basin reflux $\alpha_{21} '+silllens_r)
+    ax.plot(tef_df.index,alpha_34_td,ls='-',c=plot_color[i],label=r'Inner basin reflux $\alpha_{34} '+silllens[i])
+    ax.plot(tef_df.index,alpha_21_td,ls='--',c=plot_color[i],label=r'Outer basin reflux $\alpha_{21} '+silllens[i])
 
 #add plot elements
 ax.set_xlabel('Time')
