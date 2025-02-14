@@ -171,10 +171,15 @@ for i in range(len(gctags)-1):
     # salt_residual = (Q1*S1)-(Q2*S2)-(Q3*S3)+(Q4*S4)
 
     #calculate alphas basic without adjustment or storage term
-    alpha_21_basic = (Q2/Q1)*((S2-S4)/(S1-S4))
-    alpha_31_basic = (Q3/Q1)*((S3-S4)/(S1-S4))
-    alpha_24_basic = (Q2/Q4)*((S1-S2)/(S1-S4))
-    alpha_34_basic = (Q3/Q4)*((S1-S3)/(S1-S4))
+    alpha_21_basic_timeseries = (Q2/Q1)*((S2-S4)/(S1-S4))
+    alpha_31_basic_timeseries = (Q3/Q1)*((S3-S4)/(S1-S4))
+    alpha_24_basic_timeseries = (Q2/Q4)*((S1-S2)/(S1-S4))
+    alpha_34_basic_timeseries = (Q3/Q4)*((S1-S3)/(S1-S4))
+
+    print('outer reflux w/o storage')
+    print(alpha_21_basic_timeseries.mean())
+    print('inner reflux w/o storage')
+    print(alpha_34_basic_timeseries.mean())
 
     #calculate storage term with centered differences #make sure to use 3600s and volume divided by 1000
     ddt_S_top = (S_top.values[2:]-S_top.values[:-2])/(2*3600)
@@ -183,9 +188,14 @@ for i in range(len(gctags)-1):
     storage_24 = (1/(Q4*(S4-S1)))*V_top*ddt_S_top
 
     #calculate time dependent alphas
-    alpha_21_td = alpha_21_basic + storage_21
-    alpha_24_td = alpha_24_basic + storage_24
+    alpha_21_td = alpha_21_basic_timeseries + storage_21
+    alpha_24_td = alpha_24_basic_timeseries + storage_24
     alpha_34_td = 1-alpha_24_td
+
+    print('outer reflux w/ storage')
+    print(alpha_21_td.mean())
+    print('inner reflux w/ storage')
+    print(alpha_34_td.mean())
 
     #plot
     ax.plot(tef_df.index,alpha_34_td,ls='-',c=plot_color[i],label=r'$\alpha_{34}$ '+silllens[i])
