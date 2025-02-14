@@ -78,8 +78,8 @@ out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 fig, ax = plt.subplots(1,1,figsize=(15,8))
 
 #Loop over sill lengths
-for i in range(len(gctags)):
-# for i in range(len(gctags)-1):
+# for i in range(len(gctags)):
+for i in range(len(gctags)-1):
     #model and extraction info
     print(silllens[i])
     gctag=gctags[i]
