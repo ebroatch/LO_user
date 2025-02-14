@@ -75,6 +75,8 @@ out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 # xv = g.lon_v.values
 # yv = g.lat_v.values
 
+fig, ax = plt.subplots(1,1,figsize=(15,8))
+
 #Loop over sill lengths
 for i in range(len(gctags)):
     #model and extraction info
@@ -89,12 +91,12 @@ for i in range(len(gctags)):
     bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
     tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir, sect_name)         
     # adjust units
-    tef_df['Q_p'] = tef_df['q_p']/1000
-    tef_df['Q_m'] = tef_df['q_m']/1000
-    tef_df['Q_prism']=tef_df['qprism']/1000
+    # tef_df['Q_p'] = tef_df['q_p']/1000
+    # tef_df['Q_m'] = tef_df['q_m']/1000
+    # tef_df['Q_prism']=tef_df['qprism']/1000
     # get variables for efflux-reflux calculation
-    Q1 = tef_df['Q_p']
-    Q2 = -tef_df['Q_m']
+    Q1 = tef_df['q_p'] #keep original units for comparing with V_sill
+    Q2 = -tef_df['q_m']
     S1 = tef_df['salt_p']
     S2 = tef_df['salt_m']
 
@@ -103,12 +105,12 @@ for i in range(len(gctags)):
     bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
     tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir, sect_name)
     # adjust units
-    tef_df['Q_p'] = tef_df['q_p']/1000
-    tef_df['Q_m'] = tef_df['q_m']/1000
-    tef_df['Q_prism']=tef_df['qprism']/1000
+    # tef_df['Q_p'] = tef_df['q_p']/1000
+    # tef_df['Q_m'] = tef_df['q_m']/1000
+    # tef_df['Q_prism']=tef_df['qprism']/1000
     # get variables for efflux-reflux calculation
-    Q3 = tef_df['Q_p']
-    Q4 = -tef_df['Q_m']
+    Q3 = tef_df['q_p'] #keep original units for comparing with V_sill
+    Q4 = -tef_df['q_m']
     S3 = tef_df['salt_p']
     S4 = tef_df['salt_m']
 
@@ -116,10 +118,10 @@ for i in range(len(gctags)):
     sect_name = sect_mid
     bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
     tef_df, vn_list, vec_list = tef_fun.get_two_layer(in_dir, sect_name)
-    # adjust units
-    tef_df['Q_p'] = tef_df['q_p']/1000
-    tef_df['Q_m'] = tef_df['q_m']/1000
-    tef_df['Q_prism']=tef_df['qprism']/1000
+    # # adjust units
+    # tef_df['Q_p'] = tef_df['q_p']/1000
+    # tef_df['Q_m'] = tef_df['q_m']/1000
+    # tef_df['Q_prism']=tef_df['qprism']/1000
     # get variables for storage term in efflux-reflux calculation
     S_bottom = tef_df['salt_p']
     S_top = tef_df['salt_m']
@@ -174,8 +176,31 @@ for i in range(len(gctags)):
     alpha_34_basic = (Q3/Q4)*((S1-S3)/(S1-S4))
 
     #calculate storage term with centered differences #make sure to use 3600s and volume divided by 1000
-    # d_dt_salt_top = 
+    ddt_S_top = (S_top.values[2:]-S_top.values[:-2])/(2*3600)
+    ddt_S_top = np.concatenate([np.nan],ddt_S_top,[np.nan])
+    storage_21 = (1/(Q1*(S1-S4)))*V_top*ddt_S_top
+    storage_24 = (1/(Q4*(S4-S1)))*V_top*ddt_S_top
 
+    #calculate time dependent alphas
+    alpha_21_td = alpha_21_basic + storage_21
+    alpha_24_td = alpha_24_basic + storage_24
+    alpha_34_td = 1-alpha_24_td
+
+    #plot
+    ax.plot(tef_df.index,alpha_34_td,ls='-',c=plot_color[i],label=r'Inner basin reflux $\alpha_{34}'+silllens)
+    ax.plot(tef_df.index,alpha_21_td,ls='--',c=plot_color[i],label=r'Outer basin reflux $\alpha_{21}'+silllens)
+
+#add plot elements
+ax.set_xlabel('Time')
+ax.set_ylabel('Reflux coefficient')
+ax.set_ylim(0,1)
+ax.set_title('Time-dependent efflux/reflux coefficients')
+ax.grid(True)
+ax.legend()
+
+fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent.png' #UNCOMMENT TO PLOT
+plt.savefig(fn_fig)
+plt.close()
 
 
 # print('\nalpha_21 (outer basin reflux): ')
