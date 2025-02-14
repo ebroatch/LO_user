@@ -196,7 +196,7 @@ ax.set_ylabel('Reflux coefficient')
 ax.set_ylim(-10,10)
 ax.set_title('Time-dependent efflux/reflux coefficients')
 ax.grid(True)
-ax.legend()
+ax.legend(ncols=5)
 ax.set_xlim('2020-09-01','2021-01-01')
 
 fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent.png' #UNCOMMENT TO PLOT
