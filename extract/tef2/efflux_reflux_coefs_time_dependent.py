@@ -83,8 +83,8 @@ start_avg_ind = 257
 end_avg_ind = 2741
 
 #Loop over sill lengths
-for i in range(len(gctags)):
-# for i in range(len(gctags)-1):
+# for i in range(len(gctags)):
+for i in range(len(gctags)-1):
     #model and extraction info
     print(silllens[i])
     gctag=gctags[i]
@@ -229,7 +229,8 @@ for i in range(len(gctags)):
 #add plot elements
 ax.set_xlabel('Time')
 ax.set_ylabel('Reflux coefficient')
-ax.set_ylim(-4,4)
+# ax.set_ylim(-4,4)
+ax.set_ylim(0,1)
 # ax.set_title('Time-dependent efflux/reflux coefficients')
 ax.set_title('Time-dependent efflux/reflux coefficients from bottom layer budget')
 ax.grid(True)
@@ -240,7 +241,8 @@ h, l = ax.get_legend_handles_labels()
 ph = [plt.plot([],marker="", ls="")[0]]*2
 handles = ph + h
 labels = [r'Inner basin reflux:', r'Outer basin reflux:'] + l
-ax.legend(handles, labels, ncol=6)
+# ax.legend(handles, labels, ncol=6)
+ax.legend(handles,labels,ncol=5)
 
 fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent.png' #UNCOMMENT TO PLOT
 plt.savefig(fn_fig)
