@@ -204,6 +204,11 @@ for i in range(len(gctags)-1):
     alpha_21_td_bottom = 1-alpha_31_td_bottom
     alpha_24_td_bottom = 1-alpha_34_td_bottom
 
+    #count times when salinity condition is not met
+    print('S4>S3 count: ',(S4>S3).sum()) #technically some of these should be inequalities
+    print('S3>S1 count: ',(S3>S1).sum())
+    print('S4>S2 count: ',(S4>S2).sum())
+    print('S2>S1 count: ',(S2>S1).sum())
 
     #print some values
     print('outer reflux w/o storage')
