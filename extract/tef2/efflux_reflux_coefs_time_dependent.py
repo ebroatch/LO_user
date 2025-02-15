@@ -221,14 +221,17 @@ for i in range(len(gctags)):
 
     #plot
     plot_time = tef_df.index[start_avg_ind:end_avg_ind]
-    ax.plot(plot_time,alpha_34_td_top,ls='-',c=plot_color[i],label=r'$\alpha_{34}$ '+silllens[i])
-    ax.plot(plot_time,alpha_21_td_top,ls='--',c=plot_color[i],label=r'$\alpha_{21}$ '+silllens[i])
+    # ax.plot(plot_time,alpha_34_td_top,ls='-',c=plot_color[i],label=r'$\alpha_{34}$ '+silllens[i])
+    # ax.plot(plot_time,alpha_21_td_top,ls='--',c=plot_color[i],label=r'$\alpha_{21}$ '+silllens[i])
+    ax.plot(plot_time,alpha_34_td_bottom,ls='-',c=plot_color[i],label=r'$\alpha_{34}$ '+silllens[i])
+    ax.plot(plot_time,alpha_21_td_bottom,ls='--',c=plot_color[i],label=r'$\alpha_{21}$ '+silllens[i])
 
 #add plot elements
 ax.set_xlabel('Time')
 ax.set_ylabel('Reflux coefficient')
-ax.set_ylim(-3,3)
-ax.set_title('Time-dependent efflux/reflux coefficients')
+ax.set_ylim(-4,4)
+# ax.set_title('Time-dependent efflux/reflux coefficients')
+ax.set_title('Time-dependent efflux/reflux coefficients from bottom layer budget')
 ax.grid(True)
 ax.legend(ncol=5)
 ax.set_xlim('2020-09-01','2021-01-01')
