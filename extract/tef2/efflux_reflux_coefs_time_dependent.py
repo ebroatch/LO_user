@@ -237,7 +237,7 @@ ax.legend(ncol=5)
 ax.set_xlim('2020-09-01','2021-01-01')
 
 h, l = ax.get_legend_handles_labels()
-ph = [plt.plot([],marker="", ls="")[0]]*4
+ph = [plt.plot([],marker="", ls="")[0]]*2
 handles = ph + h
 labels = [r'Inner basin reflux:', r'Outer basin reflux:'] + l
 ax.legend(handles, labels, ncol=6)
