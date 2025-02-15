@@ -220,7 +220,7 @@ for i in range(len(gctags)):
     print(alpha_34_td_bottom.mean())
 
     #plot
-    plot_time = tef_df.index[start_avg_ind-1:end_avg_ind+1]
+    plot_time = tef_df.index[start_avg_ind:end_avg_ind]
     ax.plot(plot_time,alpha_34_td_top,ls='-',c=plot_color[i],label=r'$\alpha_{34}$ '+silllens[i])
     ax.plot(plot_time,alpha_21_td_top,ls='--',c=plot_color[i],label=r'$\alpha_{21}$ '+silllens[i])
 
