@@ -135,8 +135,8 @@ for j in range(len(depths)):
     cmap = plt.colormaps['turbo']
     norm = matplotlib.colors.BoundaryNorm(levels, ncolors=cmap.N, extend='max')
     # cs=ax.pcolormesh(lonbin,latbin,np.transpose(rtdmap),vmin=0,vmax=(tmax-1)/24,cmap=cm.matter)
-    cs=ax.pcolormesh(lonbin,latbin,np.transpose(rt_est_map),vmin=0,vmax=tmax/24,cmap='turbo',norm=norm)
-    csb=axb.pcolormesh(lonbin,latbin,np.transpose(rt_in_map),vmin=0,vmax=tmax/24,cmap='turbo',norm=norm)
+    cs=ax.pcolormesh(lonbin,latbin,np.transpose(rt_est_map),cmap='turbo',norm=norm)
+    csb=axb.pcolormesh(lonbin,latbin,np.transpose(rt_in_map),cmap='turbo',norm=norm)
     
     #again, need to change this for other sill lengths
     aa = [0,1.3,44.95,45.05]
