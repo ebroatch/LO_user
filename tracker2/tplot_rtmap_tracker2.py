@@ -137,8 +137,8 @@ for j in range(len(depths)):
     # cs=ax.pcolormesh(lonbin,latbin,np.transpose(rtdmap),vmin=0,vmax=(tmax-1)/24,cmap=cm.matter)
     # cs=ax.pcolormesh(lonbin,latbin,np.transpose(rt_est_map),cmap='turbo',norm=norm)
     # csb=axb.pcolormesh(lonbin,latbin,np.transpose(rt_in_map),cmap='turbo',norm=norm)
-    cs=ax.contourf((lonbin[0:]+lonbin[:-1])/2,(latbin[0:]+latbin[:-1])/2,np.transpose(rt_est_map),cmap='turbo',levels=[0,10,20,30,40,50,60,70,80,90,100,110,120],extend='max') #try with contour
-    csb=axb.contourf((lonbin[0:]+lonbin[:-1])/2,(latbin[0:]+latbin[:-1])/2,np.transpose(rt_in_map),cmap='turbo',levels=[0,10,20,30,40,50,60,70,80,90,100,110,120],extend='max')
+    cs=ax.contourf((lonbin[1:]+lonbin[:-1])/2,(latbin[1:]+latbin[:-1])/2,np.transpose(rt_est_map),cmap='turbo',levels=[0,10,20,30,40,50,60,70,80,90,100,110,120],extend='max') #try with contour
+    csb=axb.contourf((lonbin[1:]+lonbin[:-1])/2,(latbin[1:]+latbin[:-1])/2,np.transpose(rt_in_map),cmap='turbo',levels=[0,10,20,30,40,50,60,70,80,90,100,110,120],extend='max')
     
     #again, need to change this for other sill lengths
     aa = [0,1.3,44.95,45.05]
