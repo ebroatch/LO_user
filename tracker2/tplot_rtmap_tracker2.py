@@ -114,7 +114,7 @@ for j in range(len(depths)):
 
     #sort the residence times based on their starting layer
     rt_strict_days_in_depth = np.where((z_start>(depth-5)) & (z_start<(depth+5)),rt_strict_days_in,np.nan) #set all particles starting outside the depth layer to nan
-    rt_strict_days_est_depth = np.where((z_start>(depth-5)) & (z_start<(depth+5)),rt_strict_days_in,np.nan) #set all particles starting outside the depth layer to nan
+    rt_strict_days_est_depth = np.where((z_start>(depth-5)) & (z_start<(depth+5)),rt_strict_days_est,np.nan) #set all particles starting outside the depth layer to nan
     # lon = dsr.lon.where((dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)),drop=True).values
     # lat = dsr.lat.where((dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)),drop=True).values
 
@@ -142,7 +142,7 @@ for j in range(len(depths)):
     ax.set_title(str(depth)+'m depth estuary residence time')
 
     aab = [sillland,1.15,44.95,45.05]
-    axb.axis(aa)
+    axb.axis(aab)
     pfun.dar(axb)
     axb.set_xlabel('Longitude')
     axb.set_ylabel('Latitude')
