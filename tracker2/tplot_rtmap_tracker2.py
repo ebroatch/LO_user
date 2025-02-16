@@ -124,9 +124,9 @@ for j in range(len(depths)):
     lonbin=lonp[0,:] #use the lonp and latp values as bin edges (lon_rho are centered within them)
     latbin=latp[:,0]
     # ret = stats.binned_statistic_2d(lon_start,lat_start,rtd,'mean',bins=[lonbin,latbin])
-    ret_in = stats.binned_statistic_2d(lon_start,lat_start,rt_strict_days_in_depth,'mean',bins=[lonbin,latbin])
+    ret_in = stats.binned_statistic_2d(lon_start,lat_start,rt_strict_days_in_depth,np.nanmean,bins=[lonbin,latbin])
     rt_in_map = ret_in.statistic
-    ret_est = stats.binned_statistic_2d(lon_start,lat_start,rt_strict_days_est_depth,'mean',bins=[lonbin,latbin])
+    ret_est = stats.binned_statistic_2d(lon_start,lat_start,rt_strict_days_est_depth,np.nanmean,bins=[lonbin,latbin])
     rt_est_map = ret_est.statistic
 
     #plot
