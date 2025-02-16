@@ -113,8 +113,8 @@ for j in range(len(depths)):
     axb=axsb[j]
 
     #sort the residence times based on their starting layer
-    rt_strict_days_in_depth = rt_strict_days_in.where((z_start>(depth-5)) & (z_start<(depth+5)),rt_strict_days_in,np.nan) #set all particles starting outside the depth layer to nan
-    rt_strict_days_est_depth = rt_strict_days_est.where((z_start>(depth-5)) & (z_start<(depth+5)),rt_strict_days_in,np.nan) #set all particles starting outside the depth layer to nan
+    rt_strict_days_in_depth = np.where((z_start>(depth-5)) & (z_start<(depth+5)),rt_strict_days_in,np.nan) #set all particles starting outside the depth layer to nan
+    rt_strict_days_est_depth = np.where((z_start>(depth-5)) & (z_start<(depth+5)),rt_strict_days_in,np.nan) #set all particles starting outside the depth layer to nan
     # lon = dsr.lon.where((dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)),drop=True).values
     # lat = dsr.lat.where((dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)),drop=True).values
 
