@@ -132,7 +132,7 @@ for j in range(len(depths)):
     #plot
     levels = [0,10,20,30,40,50,60,70,80,90,100,110,120]
     cmap = plt.colormaps['turbo']
-    norm = plt.color.BoundaryNorm(levels, ncolors=cmap.N, extend='max')
+    norm = plt.colors.BoundaryNorm(levels, ncolors=cmap.N, extend='max')
     # cs=ax.pcolormesh(lonbin,latbin,np.transpose(rtdmap),vmin=0,vmax=(tmax-1)/24,cmap=cm.matter)
     cs=ax.pcolormesh(lonbin,latbin,np.transpose(rt_est_map),vmin=0,vmax=tmax/24,cmap='turbo',norm=norm)
     csb=axb.pcolormesh(lonbin,latbin,np.transpose(rt_in_map),vmin=0,vmax=tmax/24,cmap='turbo',norm=norm)
