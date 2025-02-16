@@ -91,8 +91,8 @@ depths = np.array([-12.5, -112.5, -187.5])
 plt.close('all')
 #fig, axs = plt.subplots(2,4, sharex=True, sharey=True, figsize=(15,10))
 #fig, axs = plt.subplots(2,1, sharex=True, sharey=True)
-fig = plt.figure(figsize=(12,12))
-gs = fig.add_gridspec(nrows=3,ncols=3, width_ratios=[10,5,1], height_ratios=[1,1,1])
+fig = plt.figure(figsize=(18,12))
+gs = fig.add_gridspec(nrows=3,ncols=3, width_ratios=[20,8,1], height_ratios=[1,1,1])
 ax1 = fig.add_subplot(gs[0,0]) 
 ax2 = fig.add_subplot(gs[1,0])
 ax3 = fig.add_subplot(gs[2,0])
@@ -131,8 +131,8 @@ for j in range(len(depths)):
 
     #plot
     # cs=ax.pcolormesh(lonbin,latbin,np.transpose(rtdmap),vmin=0,vmax=(tmax-1)/24,cmap=cm.matter)
-    cs=ax.pcolormesh(lonbin,latbin,np.transpose(rt_est_map),vmin=0,vmax=tmax/24,cmap=cm.matter)
-    csb=axb.pcolormesh(lonbin,latbin,np.transpose(rt_in_map),vmin=0,vmax=tmax/24,cmap=cm.matter)
+    cs=ax.pcolormesh(lonbin,latbin,np.transpose(rt_est_map),vmin=0,vmax=tmax/24,cmap='turbo')
+    csb=axb.pcolormesh(lonbin,latbin,np.transpose(rt_in_map),vmin=0,vmax=tmax/24,cmap='turbo')
     
     aa = [0,1.15,44.95,45.05]
     ax.axis(aa)
