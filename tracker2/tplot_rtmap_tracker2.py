@@ -93,7 +93,7 @@ plt.close('all')
 #fig, axs = plt.subplots(2,4, sharex=True, sharey=True, figsize=(15,10))
 #fig, axs = plt.subplots(2,1, sharex=True, sharey=True)
 fig = plt.figure(figsize=(18,12))
-gs = fig.add_gridspec(nrows=3,ncols=3, width_ratios=[22,8,1], height_ratios=[1,1,1])
+gs = fig.add_gridspec(nrows=3,ncols=3, width_ratios=[20,8,1], height_ratios=[1,1,1])
 ax1 = fig.add_subplot(gs[0,0]) 
 ax2 = fig.add_subplot(gs[1,0])
 ax3 = fig.add_subplot(gs[2,0])
@@ -135,8 +135,10 @@ for j in range(len(depths)):
     cmap = plt.colormaps['turbo']
     norm = matplotlib.colors.BoundaryNorm(levels, ncolors=cmap.N, extend='max')
     # cs=ax.pcolormesh(lonbin,latbin,np.transpose(rtdmap),vmin=0,vmax=(tmax-1)/24,cmap=cm.matter)
-    cs=ax.pcolormesh(lonbin,latbin,np.transpose(rt_est_map),cmap='turbo',norm=norm)
-    csb=axb.pcolormesh(lonbin,latbin,np.transpose(rt_in_map),cmap='turbo',norm=norm)
+    # cs=ax.pcolormesh(lonbin,latbin,np.transpose(rt_est_map),cmap='turbo',norm=norm)
+    # csb=axb.pcolormesh(lonbin,latbin,np.transpose(rt_in_map),cmap='turbo',norm=norm)
+    cs=ax.contourf(lonbin,latbin,np.transpose(rt_est_map),cmap='turbo',levels=[0,10,20,30,40,50,60,70,80,90,100,110,120],extend='max') #try with contour
+    csb=axb.contourf(lonbin,latbin,np.transpose(rt_in_map),cmap='turbo',levels=[0,10,20,30,40,50,60,70,80,90,100,110,120],extend='max')
     
     #again, need to change this for other sill lengths
     aa = [0,1.3,44.95,45.05]
