@@ -49,15 +49,19 @@ sillsea = llxyfun.x2lon(40e3,0,45)
 sillland = llxyfun.x2lon(60e3,0,45)
 
 #get boolean arrays
+lon_est = lon_vals >= 0 #boolean array of particles in the whole estuary over time
+lon_in = lon_vals >= sillland #boolean array of particles in the inner basin over time
 lon_start_in = lon_start >= sillland #boolean array for particles starting in the inner basin
 # lon_start_insill = lon_start >= sillsea #boolean array for particles starting in the inner basin and sill
-lon_in = lon_vals >= sillland #boolean array of particles in the inner basin over time
 # lon_insill = lon_vals >= sillsea #boolean array of particles in the inner basin and sill over time
-lon_est = lon_vals >= 0 #boolean array of particles in the whole estuary over time
 print('got boolean lon arrays\n')
 
 #get strict residence times
 tmax = time_hours[-1]
+#whole estuary
+rt_strict_est = np.argmin(lon_est,axis=0).astype('float')
+rt_strict_est = np.where(rt_strict_est==0, tmax+1, rt_strict_est) #replace 0 with tmax+1 (every particle is in the estuary at t=0, these are particles that never leave estuary)
+rt_strict_days_est = rt_strict_est/24 #convert to days
 #inner basin
 rt_strict_in = np.argmin(lon_in,axis=0).astype('float') #first time the particle is outside the inner basin
 rt_strict_in = np.where(rt_strict_in==0, tmax+1, rt_strict_in) #replace 0 with tmax+1, this sets the particles that never leave or ones that were released outside to tmax+1
@@ -70,12 +74,15 @@ rt_strict_days_in = rt_strict_in/24 #convert to days
 # rt_strict_insill = rt_strict_insill * lon_start_insill #this resets the particles that are not released in the inner basin or sill to zero (necessary?)
 # rt_strict_insill = np.where(rt_strict_insill==0, np.nan, rt_strict_insill) #this sets particles that are not released in the inner basin or sill to nan
 # rt_strict_days_insill = rt_strict_insill/24 #convert to days
-#whole estuary
-rt_strict_est = np.argmin(lon_est,axis=0).astype('float')
-rt_strict_est = np.where(rt_strict_est==0, tmax+1, rt_strict_est) #replace 0 with tmax+1 (every particle is in the estuary at t=0, these are particles that never leave estuary)
-rt_strict_days_est = rt_strict_est/24 #convert to days
 print('got residence times\n')
 
+#get exposure times
+exposuret_est = np.sum(lon_est,axis=0)
+exposuret_days_est = exposuret_est/24
+exposuret_in = np.sum(lon_in,axis=0)
+exposuret_in = exposuret_in * lon_start_in #this resets the particles that are not released in the inner basin to zero (necessary?)
+exposuret_in = np.where(exposuret_in==0, np.nan, exposuret_in) #this sets particles that are not released in the inner basin or sill to nan
+exposuret_days_in = exposuret_in/24
 
 # subsample output for plotting
 # npmax = 600 # max number of points to plot
@@ -93,31 +100,44 @@ plt.close('all')
 #fig, axs = plt.subplots(2,4, sharex=True, sharey=True, figsize=(15,10))
 #fig, axs = plt.subplots(2,1, sharex=True, sharey=True)
 fig = plt.figure(figsize=(18,12))
-gs = fig.add_gridspec(nrows=3,ncols=3, width_ratios=[20,8,1], height_ratios=[1,1,1])
-ax1 = fig.add_subplot(gs[0,0]) 
-ax2 = fig.add_subplot(gs[1,0])
-ax3 = fig.add_subplot(gs[2,0])
-ax1b = fig.add_subplot(gs[0,1]) 
-ax2b = fig.add_subplot(gs[1,1])
-ax3b = fig.add_subplot(gs[2,1])
+gs = fig.add_gridspec(nrows=6,ncols=3, width_ratios=[20,8,1], height_ratios=[1,1,1])
+ax1 = fig.add_subplot(gs[0,0])
+ax1b = fig.add_subplot(gs[1,0])  
+ax2 = fig.add_subplot(gs[2,0])
+ax2b = fig.add_subplot(gs[3,0]) 
+ax3 = fig.add_subplot(gs[4,0])
+ax3b = fig.add_subplot(gs[5,0]) 
+ax1c = fig.add_subplot(gs[0,1])
+ax1d = fig.add_subplot(gs[1,1]) 
+ax2c = fig.add_subplot(gs[2,1])
+ax2d = fig.add_subplot(gs[3,1])
+ax3c = fig.add_subplot(gs[4,1])
+ax3d = fig.add_subplot(gs[5,1])
 # ax4 = fig.add_subplot(gs[3,0])
-axc = fig.add_subplot(gs[:,2])
+axcb = fig.add_subplot(gs[:,2])
 # axs=[ax1,ax2,ax3,ax4,ax5]
 # axs=[ax1,ax2,ax3,axc]
 axs=[ax1,ax2,ax3]
 axsb=[ax1b,ax2b,ax3b]
+axsc=[ax1b,ax2b,ax3b]
+axsd=[ax1b,ax2b,ax3b]
 
 
 for j in range(len(depths)):
     depth = depths[j]
     ax=axs[j]
     axb=axsb[j]
+    axc=axsc[j]
+    axd=axsd[j]
 
     #sort the residence times based on their starting layer
-    rt_strict_days_in_depth = np.where((z_start>(depth-5)) & (z_start<(depth+5)),rt_strict_days_in,np.nan) #set all particles starting outside the depth layer to nan
     rt_strict_days_est_depth = np.where((z_start>(depth-5)) & (z_start<(depth+5)),rt_strict_days_est,np.nan) #set all particles starting outside the depth layer to nan
+    rt_strict_days_in_depth = np.where((z_start>(depth-5)) & (z_start<(depth+5)),rt_strict_days_in,np.nan) #set all particles starting outside the depth layer to nan
+    exposuret_days_est_depth = np.where((z_start>(depth-5)) & (z_start<(depth+5)),exposuret_days_est,np.nan) #set all particles starting outside the depth layer to nan
+    exposuret_days_in_depth = np.where((z_start>(depth-5)) & (z_start<(depth+5)),exposuret_days_in,np.nan) #set all particles starting outside the depth layer to nan
     # lon = dsr.lon.where((dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)),drop=True).values
     # lat = dsr.lat.where((dsr.z.sel(Time=0)>(depth-5)) & (dsr.z.sel(Time=0)<(depth+5)),drop=True).values
+
 
     #bin the results in 2d so that we can make a map
     # lont0 = lon[0,:] #starting lat and lon which we will use to bin the residence times
@@ -125,35 +145,54 @@ for j in range(len(depths)):
     lonbin=lonp[0,:] #use the lonp and latp values as bin edges (lon_rho are centered within them)
     latbin=latp[:,0]
     # ret = stats.binned_statistic_2d(lon_start,lat_start,rtd,'mean',bins=[lonbin,latbin])
-    ret_in = stats.binned_statistic_2d(lon_start,lat_start,rt_strict_days_in_depth,np.nanmean,bins=[lonbin,latbin])
-    rt_in_map = ret_in.statistic
     ret_est = stats.binned_statistic_2d(lon_start,lat_start,rt_strict_days_est_depth,np.nanmean,bins=[lonbin,latbin])
     rt_est_map = ret_est.statistic
+    ret_in = stats.binned_statistic_2d(lon_start,lat_start,rt_strict_days_in_depth,np.nanmean,bins=[lonbin,latbin])
+    rt_in_map = ret_in.statistic
+    ret_est_exposure = stats.binned_statistic_2d(lon_start,lat_start,exposuret_days_est_depth,np.nanmean,bins=[lonbin,latbin])
+    exposuret_est_map = ret_est_exposure.statistic
+    ret_in_exposure = stats.binned_statistic_2d(lon_start,lat_start,exposuret_days_in_depth,np.nanmean,bins=[lonbin,latbin])
+    exposuret_in_map = ret_in_exposure.statistic
+
 
     #plot
     levels = [0,10,20,30,40,50,60,70,80,90,100,110,120]
     cmap = plt.colormaps['turbo']
     norm = matplotlib.colors.BoundaryNorm(levels, ncolors=cmap.N, extend='max')
     # cs=ax.pcolormesh(lonbin,latbin,np.transpose(rtdmap),vmin=0,vmax=(tmax-1)/24,cmap=cm.matter)
-    # cs=ax.pcolormesh(lonbin,latbin,np.transpose(rt_est_map),cmap='turbo',norm=norm)
-    # csb=axb.pcolormesh(lonbin,latbin,np.transpose(rt_in_map),cmap='turbo',norm=norm)
-    cs=ax.contourf((lonbin[1:]+lonbin[:-1])/2,(latbin[1:]+latbin[:-1])/2,np.transpose(rt_est_map),cmap='turbo',levels=[0,10,20,30,40,50,60,70,80,90,100,110,120],extend='max') #try with contour
-    csb=axb.contourf((lonbin[1:]+lonbin[:-1])/2,(latbin[1:]+latbin[:-1])/2,np.transpose(rt_in_map),cmap='turbo',levels=[0,10,20,30,40,50,60,70,80,90,100,110,120],extend='max')
+    cs=ax.pcolormesh(lonbin,latbin,np.transpose(rt_est_map),cmap='turbo',norm=norm)
+    csb=axb.pcolormesh(lonbin,latbin,np.transpose(exposuret_est_map),cmap='turbo',norm=norm)
+    csc=axc.pcolormesh(lonbin,latbin,np.transpose(rt_in_map),cmap='turbo',norm=norm)
+    csd=axd.pcolormesh(lonbin,latbin,np.transpose(exposuret_in_map),cmap='turbo',norm=norm)
+    # cs=ax.contourf((lonbin[1:]+lonbin[:-1])/2,(latbin[1:]+latbin[:-1])/2,np.transpose(rt_est_map),cmap='turbo',levels=[0,10,20,30,40,50,60,70,80,90,100,110,120],extend='max') #try with contour
+    # csb=axb.contourf((lonbin[1:]+lonbin[:-1])/2,(latbin[1:]+latbin[:-1])/2,np.transpose(rt_in_map),cmap='turbo',levels=[0,10,20,30,40,50,60,70,80,90,100,110,120],extend='max')
     
     #again, need to change this for other sill lengths
     aa = [0,1.3,44.95,45.05]
     ax.axis(aa)
     pfun.dar(ax)
-    ax.set_xlabel('Longitude')
+    # ax.set_xlabel('Longitude')
     ax.set_ylabel('Latitude')
     ax.set_title(str(depth)+'m depth estuary residence time')
-
-    aab = [sillland,1.3,44.95,45.05]
-    axb.axis(aab)
+    axb.axis(aa)
     pfun.dar(axb)
-    axb.set_xlabel('Longitude')
     axb.set_ylabel('Latitude')
-    axb.set_title(str(depth)+'m depth inner basin residence time')
+    axb.set_title(str(depth)+'m depth estuary exposure time')
+    if j==(len(depths)-1):
+        axb.set_xlabel('Longitude')
+
+    aac = [sillland,1.3,44.95,45.05]
+    axc.axis(aac)
+    pfun.dar(axc)
+    # axc.set_xlabel('Longitude')
+    axc.set_ylabel('Latitude')
+    axc.set_title(str(depth)+'m depth inner basin residence time')
+    axd.axis(aac)
+    pfun.dar(axd)
+    axd.set_ylabel('Latitude')   
+    axd.set_title(str(depth)+'m depth inner basin exposure time')
+    if j==(len(depths)-1):
+        axd.set_xlabel('Longitude')
 
 
     # # make a mask that is False from the time a particle first leaves the domain
@@ -221,8 +260,8 @@ for j in range(len(depths)):
     # ax.plot(lon[0,:], lat[0,:], '.g', alpha=.3, markeredgecolor='none')
     #ax.plot(lon[-1,:], lat[-1,:], '.r', alpha=.3, markeredgecolor='none')
 
-fig.colorbar(cs,cax=axc,extend='max',label='Residence time [days]')
-plt.suptitle('Residence times at different depths')
+fig.colorbar(cs,cax=axcb,extend='max',label='Residence time [days]')
+plt.suptitle('Residence and exposure times at different depths')
 
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtmap_tracker2.png'
 plt.savefig(fn_fig)
