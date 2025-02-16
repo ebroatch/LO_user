@@ -76,6 +76,16 @@ rt_strict_days_in = rt_strict_in/24 #convert to days
 # rt_strict_days_insill = rt_strict_insill/24 #convert to days
 print('got residence times\n')
 
+print('average estuary residence time [days]')
+print(np.nanmean(rt_strict_days_est))
+print('% of particles with residence time >120d')
+print(np.count_nonzero(rt_strict_est==tmax+1)/np.count_nonzero(~np.isnan(rt_strict_est)))
+print('average inner basin residence time [days]')
+print(np.nanmean(rt_strict_days_in))
+print('% of particles with residence time >120d')
+print(np.count_nonzero(rt_strict_in==tmax+1)/np.count_nonzero(~np.isnan(rt_strict_in)))
+
+
 #get exposure times
 exposuret_est = np.sum(lon_est,axis=0)
 exposuret_days_est = exposuret_est/24
@@ -83,6 +93,11 @@ exposuret_in = np.sum(lon_in,axis=0)
 exposuret_in = exposuret_in * lon_start_in #this resets the particles that are not released in the inner basin to zero (necessary?)
 exposuret_in = np.where(exposuret_in==0, np.nan, exposuret_in) #this sets particles that are not released in the inner basin or sill to nan
 exposuret_days_in = exposuret_in/24
+
+print('average estuary residence time [days]')
+print(np.nanmean(exposuret_days_est))
+print('average inner basin exposure time [days]')
+print(np.nanmean(exposuret_days_in))
 
 # subsample output for plotting
 # npmax = 600 # max number of points to plot
