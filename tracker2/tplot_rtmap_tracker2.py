@@ -316,7 +316,7 @@ for j in range(len(depths)):
     #ax.plot(lon[-1,:], lat[-1,:], '.r', alpha=.3, markeredgecolor='none')
 
 fig.colorbar(cs,cax=axcb,extend='max',label='Residence time [days]')
-plt.suptitle('Residence and exposure times at different depths for '+silllenlabel+'km sill model')
+plt.suptitle('Residence and exposure times at different depths for '+silllenlabel+' sill model')
 
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtmap_tracker2.png'
 plt.savefig(fn_fig)
