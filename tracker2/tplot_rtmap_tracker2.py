@@ -46,7 +46,26 @@ print('got grid data')
 #NOTE: THIS IS ONLY FOR THE 20KM SILL CURRENTLY!!!
 #add some if statements to change sillland depending on grid name
 sillsea = llxyfun.x2lon(40e3,0,45)
-sillland = llxyfun.x2lon(60e3,0,45)
+if exp_name == 'sill20kmdeepest_3d':
+    sillland = llxyfun.x2lon(60e3,0,45)
+    lonlim = 1.3
+    estlenkm = 100
+elif exp_name == 'sill5kmest_3d':
+    sillland = llxyfun.x2lon(45e3,0,45)
+    lonlim = 1.1
+    estlenkm = 85
+elif exp_name == 'sill10kmest_3d':
+    sillland = llxyfun.x2lon(50e3,0,45)
+    lonlim = 1.2
+    estlenkm = 90
+elif exp_name == 'sill40kmest_3d':
+    sillland = llxyfun.x2lon(80e3,0,45)
+    lonlim = 1.6
+    estlenkm = 120
+elif exp_name == 'sill80kmest_3d':
+    sillland = llxyfun.x2lon(120e3,0,45)
+    lonlim = 2.1
+    estlenkm = 160
 
 #get boolean arrays
 lon_est = lon_vals >= 0 #boolean array of particles in the whole estuary over time
@@ -114,8 +133,9 @@ depths = np.array([-12.5, -112.5, -187.5])
 plt.close('all')
 #fig, axs = plt.subplots(2,4, sharex=True, sharey=True, figsize=(15,10))
 #fig, axs = plt.subplots(2,1, sharex=True, sharey=True)
+wr1= 8*estlenkm/40
 fig = plt.figure(figsize=(18,12))
-gs = fig.add_gridspec(nrows=6,ncols=3, width_ratios=[20,8,1], height_ratios=[1,1,1,1,1,1])
+gs = fig.add_gridspec(nrows=6,ncols=3, width_ratios=[wr1,8,1], height_ratios=[1,1,1,1,1,1])
 ax1 = fig.add_subplot(gs[0,0])
 ax1b = fig.add_subplot(gs[1,0])  
 ax2 = fig.add_subplot(gs[2,0])
@@ -183,7 +203,7 @@ for j in range(len(depths)):
     # csb=axb.contourf((lonbin[1:]+lonbin[:-1])/2,(latbin[1:]+latbin[:-1])/2,np.transpose(rt_in_map),cmap='turbo',levels=[0,10,20,30,40,50,60,70,80,90,100,110,120],extend='max')
     
     #again, need to change this for other sill lengths
-    aa = [0,1.3,44.95,45.05]
+    aa = [0,lonlim,44.95,45.05]
     ax.axis(aa)
     pfun.dar(ax)
     # ax.set_xlabel('Longitude')
@@ -196,7 +216,7 @@ for j in range(len(depths)):
     if j==(len(depths)-1):
         axb.set_xlabel('Longitude')
 
-    aac = [sillland,1.3,44.95,45.05]
+    aac = [sillland,lonlim,44.95,45.05]
     axc.axis(aac)
     pfun.dar(axc)
     # axc.set_xlabel('Longitude')
