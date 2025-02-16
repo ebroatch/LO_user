@@ -13,16 +13,62 @@ import numpy as np
 from scipy import stats
 from cmocean import cm
 
-# Choose an experiment and release to plot.
-in_dir0 = Ldir['LOo'] / 'tracks'
-exp_name = Lfun.choose_item(in_dir0, tag='', exclude_tag='.csv',
-    itext='** Choose experiment from list **', last=False)
-rel = Lfun.choose_item(in_dir0 / exp_name, tag='.nc', exclude_tag='grid',
-    itext='** Choose item from list **', last=False)
+#Choose sill and set parameters accordingly
+sill_choice = input("Enter sill length choice [km]: ")
+sill_choice = int(sill_choice)
+
+if sill_choice==5:
+    sillsea = llxyfun.x2lon(40e3,0,45)
+    sillland = llxyfun.x2lon(45e3,0,45)
+    lonlim = 1.1
+    estlenkm = 85
+    silllenlabel = '5km'
+    fn = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/release_2020.09.01.nc'
+    fng = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/grid.nc'
+elif sill_choice==10:
+    sillsea = llxyfun.x2lon(40e3,0,45)
+    sillland = llxyfun.x2lon(50e3,0,45)
+    lonlim = 1.2
+    estlenkm = 90
+    silllenlabel = '10km'
+    fn = '/data1/ebroatch/LO_output/tracks2/sill10km_t2_xa0/sill10kmest_3d/release_2020.09.01.nc'
+    fng = '/data1/ebroatch/LO_output/tracks2/sill10km_t2_xa0/sill10kmest_3d/grid.nc'
+elif sill_choice==20:
+    sillsea = llxyfun.x2lon(40e3,0,45)
+    sillland = llxyfun.x2lon(60e3,0,45)
+    lonlim = 1.3
+    estlenkm = 100
+    silllenlabel = '20km'
+    fn = '/data1/ebroatch/LO_output/tracks2/sill20kmdeep_t2_xa0/sill20kmdeepest_3d/release_2020.09.01.nc'
+    fng = '/data1/ebroatch/LO_output/tracks2/sill20kmdeep_t2_xa0/sill20kmdeepest_3d/grid.nc'
+elif sill_choice==40:
+    sillsea = llxyfun.x2lon(40e3,0,45)
+    sillland = llxyfun.x2lon(80e3,0,45)
+    lonlim = 1.6
+    estlenkm = 120
+    silllenlabel = '40km'
+    fn = '/data1/ebroatch/LO_output/tracks2/sill40km_t2_xa0/sill40kmest_3d/release_2020.09.01.nc'
+    fng = '/data1/ebroatch/LO_output/tracks2/sill40km_t2_xa0/sill40kmest_3d/grid.nc'
+elif sill_choice==80:
+    sillsea = llxyfun.x2lon(40e3,0,45)
+    sillland = llxyfun.x2lon(120e3,0,45)
+    lonlim = 2.1
+    estlenkm = 160
+    silllenlabel = '80km'
+    fn = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/release_2020.09.01.nc'
+    fng = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/grid.nc'
+else:
+    print('Sill length must be 5, 10, 20, 40, or 80')
+
+# # Choose an experiment and release to plot.
+# in_dir0 = Ldir['LOo'] / 'tracks'
+# exp_name = Lfun.choose_item(in_dir0, tag='', exclude_tag='.csv',
+#     itext='** Choose experiment from list **', last=False)
+# rel = Lfun.choose_item(in_dir0 / exp_name, tag='.nc', exclude_tag='grid',
+#     itext='** Choose item from list **', last=False)
 
 # get Datasets
 # get track data
-fn = in_dir0 / exp_name / rel
 dsr = xr.open_dataset(fn, decode_times=False)
 NT, NP = dsr.lon.shape
 lon_vals = dsr.lon.values
@@ -34,38 +80,12 @@ time_hours = dsr.Time.values
 dsr.close()
 print('got track data')
 # get some grid fields
-fng = in_dir0 / exp_name / 'grid.nc'
 dsg = xr.open_dataset(fng)
 lonp, latp = pfun.get_plon_plat(dsg.lon_rho.values, dsg.lat_rho.values)
 hh = dsg.h.values
 maskr = dsg.mask_rho.values
 dsg.close()
 print('got grid data')
-
-#define longitude for ends of sills
-#NOTE: THIS IS ONLY FOR THE 20KM SILL CURRENTLY!!!
-#add some if statements to change sillland depending on grid name
-sillsea = llxyfun.x2lon(40e3,0,45)
-if exp_name == 'sill20kmdeepest_3d':
-    sillland = llxyfun.x2lon(60e3,0,45)
-    lonlim = 1.3
-    estlenkm = 100
-elif exp_name == 'sill5kmest_3d':
-    sillland = llxyfun.x2lon(45e3,0,45)
-    lonlim = 1.1
-    estlenkm = 85
-elif exp_name == 'sill10kmest_3d':
-    sillland = llxyfun.x2lon(50e3,0,45)
-    lonlim = 1.2
-    estlenkm = 90
-elif exp_name == 'sill40kmest_3d':
-    sillland = llxyfun.x2lon(80e3,0,45)
-    lonlim = 1.6
-    estlenkm = 120
-elif exp_name == 'sill80kmest_3d':
-    sillland = llxyfun.x2lon(120e3,0,45)
-    lonlim = 2.1
-    estlenkm = 160
 
 #get boolean arrays
 lon_est = lon_vals >= 0 #boolean array of particles in the whole estuary over time
