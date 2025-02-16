@@ -79,11 +79,11 @@ print('got residence times\n')
 print('average estuary residence time [days]')
 print(np.nanmean(rt_strict_days_est))
 print('% of particles with residence time >120d')
-print(np.count_nonzero(rt_strict_est==tmax+1)/np.count_nonzero(~np.isnan(rt_strict_est)))
+print(100*np.count_nonzero(rt_strict_est==tmax+1)/np.count_nonzero(~np.isnan(rt_strict_est)))
 print('average inner basin residence time [days]')
 print(np.nanmean(rt_strict_days_in))
 print('% of particles with residence time >120d')
-print(np.count_nonzero(rt_strict_in==tmax+1)/np.count_nonzero(~np.isnan(rt_strict_in)))
+print(100*np.count_nonzero(rt_strict_in==tmax+1)/np.count_nonzero(~np.isnan(rt_strict_in)))
 
 
 #get exposure times
@@ -94,7 +94,7 @@ exposuret_in = exposuret_in * lon_start_in #this resets the particles that are n
 exposuret_in = np.where(exposuret_in==0, np.nan, exposuret_in) #this sets particles that are not released in the inner basin or sill to nan
 exposuret_days_in = exposuret_in/24
 
-print('average estuary residence time [days]')
+print('average estuary exposure time [days]')
 print(np.nanmean(exposuret_days_est))
 print('average inner basin exposure time [days]')
 print(np.nanmean(exposuret_days_in))
@@ -115,7 +115,7 @@ plt.close('all')
 #fig, axs = plt.subplots(2,4, sharex=True, sharey=True, figsize=(15,10))
 #fig, axs = plt.subplots(2,1, sharex=True, sharey=True)
 fig = plt.figure(figsize=(18,12))
-gs = fig.add_gridspec(nrows=6,ncols=3, width_ratios=[20,8,1], height_ratios=[1,1,1])
+gs = fig.add_gridspec(nrows=6,ncols=3, width_ratios=[20,8,1], height_ratios=[1,1,1,1,1,1])
 ax1 = fig.add_subplot(gs[0,0])
 ax1b = fig.add_subplot(gs[1,0])  
 ax2 = fig.add_subplot(gs[2,0])
