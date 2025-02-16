@@ -92,7 +92,7 @@ plt.close('all')
 #fig, axs = plt.subplots(2,4, sharex=True, sharey=True, figsize=(15,10))
 #fig, axs = plt.subplots(2,1, sharex=True, sharey=True)
 fig = plt.figure(figsize=(18,12))
-gs = fig.add_gridspec(nrows=3,ncols=3, width_ratios=[20,8,1], height_ratios=[1,1,1])
+gs = fig.add_gridspec(nrows=3,ncols=3, width_ratios=[22,8,1], height_ratios=[1,1,1])
 ax1 = fig.add_subplot(gs[0,0]) 
 ax2 = fig.add_subplot(gs[1,0])
 ax3 = fig.add_subplot(gs[2,0])
@@ -130,18 +130,22 @@ for j in range(len(depths)):
     rt_est_map = ret_est.statistic
 
     #plot
+    levels = [0,10,20,30,40,50,60,70,80,90,100,110,120]
+    cmap = plt.colormaps['turbo']
+    norm = plt.color.BoundaryNorm(levels, ncolors=cmap.N, extend='max')
     # cs=ax.pcolormesh(lonbin,latbin,np.transpose(rtdmap),vmin=0,vmax=(tmax-1)/24,cmap=cm.matter)
-    cs=ax.pcolormesh(lonbin,latbin,np.transpose(rt_est_map),vmin=0,vmax=tmax/24,cmap='turbo')
-    csb=axb.pcolormesh(lonbin,latbin,np.transpose(rt_in_map),vmin=0,vmax=tmax/24,cmap='turbo')
+    cs=ax.pcolormesh(lonbin,latbin,np.transpose(rt_est_map),vmin=0,vmax=tmax/24,cmap='turbo',norm=norm)
+    csb=axb.pcolormesh(lonbin,latbin,np.transpose(rt_in_map),vmin=0,vmax=tmax/24,cmap='turbo',norm=norm)
     
-    aa = [0,1.15,44.95,45.05]
+    #again, need to change this for other sill lengths
+    aa = [0,1.3,44.95,45.05]
     ax.axis(aa)
     pfun.dar(ax)
     ax.set_xlabel('Longitude')
     ax.set_ylabel('Latitude')
     ax.set_title(str(depth)+'m depth estuary residence time')
 
-    aab = [sillland,1.15,44.95,45.05]
+    aab = [sillland,1.3,44.95,45.05]
     axb.axis(aab)
     pfun.dar(axb)
     axb.set_xlabel('Longitude')
