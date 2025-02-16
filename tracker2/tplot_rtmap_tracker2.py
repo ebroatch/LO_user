@@ -134,8 +134,8 @@ axcb = fig.add_subplot(gs[:,2])
 # axs=[ax1,ax2,ax3,axc]
 axs=[ax1,ax2,ax3]
 axsb=[ax1b,ax2b,ax3b]
-axsc=[ax1b,ax2b,ax3b]
-axsd=[ax1b,ax2b,ax3b]
+axsc=[ax1c,ax2c,ax3c]
+axsd=[ax1d,ax2d,ax3d]
 
 
 for j in range(len(depths)):
