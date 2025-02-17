@@ -89,8 +89,8 @@ start_avg_ind = 257
 end_avg_ind = 2741
 
 #Loop over sill lengths
-# for i in range(len(gctags)):
-for i in range(len(gctags)-1):
+for i in range(len(gctags)):
+# for i in range(len(gctags)-1):
     #model and extraction info
     print(silllens[i])
     gctag=gctags[i]
