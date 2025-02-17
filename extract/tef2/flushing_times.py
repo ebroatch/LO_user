@@ -70,17 +70,16 @@ start_avg_ind = 257
 end_avg_ind = 2741
 
 #Loop over sill lengths
-# for i in range(len(gctags)):
+for i in range(len(gctags)):
 # for i in range(len(gctags)-1):
-for i in [0,2]:
+# for i in [0,2]:
     #model and extraction info
     print(silllens[i])
     gctag=gctags[i]
     gtagex=gtagexs[i]
     gridname=gridnames[i]
     in_dir = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('bulk_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
-    seg_est_fn = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('segments_' + Ldir['ds0'] + '_' + Ldir['ds1'] + '_' + gridname + '_cest_rivA1.nc')
-    seg_inner_fn = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('segments_' + Ldir['ds0'] + '_' + Ldir['ds1'] + '_' + gridname + '_cinner_rivA1.nc')
+    seg_est_inner_fn = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('segments_' + Ldir['ds0'] + '_' + Ldir['ds1'] + '_' + gridname + '_cei_rivA1.nc')
     
     #Whole estuary
     sect_name = sect_est #a1
@@ -153,8 +152,7 @@ for i in [0,2]:
 
     # Next, get the average salinity of the estuary and inner basin
     # These use the segment extractions for collections cest and cinner
-    seg_est_ds = xr.open_dataset(seg_est_fn)
-    seg_inner_ds = xr.open_dataset(seg_inner_fn)
+    seg_est_inner_ds = xr.open_dataset(seg_est_inner_fn)
 
 print('Estuary flushing [days]: ',flushing_est_days)
 print('Inner basin flushing [days]: ',flushing_inner_days)
