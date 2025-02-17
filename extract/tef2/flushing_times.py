@@ -79,8 +79,8 @@ for i in [0,2]:
     gtagex=gtagexs[i]
     gridname=gridnames[i]
     in_dir = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('bulk_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
-    seg_est_fn = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('segments_' + Ldir['ds0'] + '_' + Ldir['ds1'] + '_' + Ldir['gridname'] + '_cest_rivA1.nc')
-    seg_inner_fn = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('segments_' + Ldir['ds0'] + '_' + Ldir['ds1'] + '_' + Ldir['gridname'] + '_cinner_rivA1.nc')
+    seg_est_fn = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('segments_' + Ldir['ds0'] + '_' + Ldir['ds1'] + '_' + gridname + '_cest_rivA1.nc')
+    seg_inner_fn = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('segments_' + Ldir['ds0'] + '_' + Ldir['ds1'] + '_' + gridname + '_cinner_rivA1.nc')
     
     #Whole estuary
     sect_name = sect_est #a1
