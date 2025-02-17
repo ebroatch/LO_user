@@ -188,9 +188,9 @@ print('Inner basin saltwater flushing [days]: ',flushing_salt_inner_days)
 ax1.plot(silllens_plot,flushing_est_days,c='k',marker='o',label='Volume flushing')
 ax1.plot(silllens_plot,flushing_fresh_est_days,c='tab:cyan',marker='o',label='Freshwater flushing')
 ax1.plot(silllens_plot,flushing_salt_est_days,c='tab:olive',marker='o',label='Saltwater flushing')
-ax1.plot(silllens_plot,flushing_inner_days,c='k',marker='o',label='Volume flushing')
-ax1.plot(silllens_plot,flushing_fresh_inner_days,c='tab:cyan',marker='o',label='Freshwater flushing')
-ax1.plot(silllens_plot,flushing_salt_inner_days,c='tab:olive',marker='o',label='Saltwater flushing')
+ax2.plot(silllens_plot,flushing_inner_days,c='k',marker='o',label='Volume flushing')
+ax2.plot(silllens_plot,flushing_fresh_inner_days,c='tab:cyan',marker='o',label='Freshwater flushing')
+ax2.plot(silllens_plot,flushing_salt_inner_days,c='tab:olive',marker='o',label='Saltwater flushing')
 
 #add plot elements
 ax1.set_xlabel('Sill length')
