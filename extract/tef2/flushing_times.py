@@ -70,14 +70,17 @@ start_avg_ind = 257
 end_avg_ind = 2741
 
 #Loop over sill lengths
-for i in range(len(gctags)):
+# for i in range(len(gctags)):
 # for i in range(len(gctags)-1):
+for i in range(1):
     #model and extraction info
     print(silllens[i])
     gctag=gctags[i]
     gtagex=gtagexs[i]
     gridname=gridnames[i]
     in_dir = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('bulk_hourly_' + Ldir['ds0'] + '_' + Ldir['ds1'])
+    seg_est_fn = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('segments_' + Ldir['ds0'] + '_' + Ldir['ds1'] + '_' + Ldir['gridname'] + '_cest_rivA1.nc')
+    seg_inner_fn = Ldir['LOo'] / 'extract' / gtagex / 'tef2' / ('segments_' + Ldir['ds0'] + '_' + Ldir['ds1'] + '_' + Ldir['gridname'] + '_cinner_rivA1.nc')
     
     #Whole estuary
     sect_name = sect_est #a1
@@ -103,7 +106,8 @@ for i in range(len(gctags)):
     Qout_inner = -tef_df['q_m'][start_avg_ind:end_avg_ind].mean()
     sout_inner = tef_df['salt_m'][start_avg_ind:end_avg_ind].mean()
 
-    #Get the volume of the inner basin and estuary
+    #Get the volume of the estuary and inner basin
+    #Might be able to get this from the segments?
     grid_dir = Ldir['data'] / 'grids' / gridname
     #get grid info
     g = xr.open_dataset(grid_dir / 'grid.nc')
@@ -141,32 +145,16 @@ for i in range(len(gctags)):
     h_inner[lon_rho<b5_lon_u] = np.nan #mask seaward of inner basin
     V_inner = np.nansum(DA*h_inner)
 
+    #Calculate the flushing times
     flushing_est[i] = V_est/Qout_est
     flushing_inner[i] = V_inner/Qout_inner
-
     flushing_est_days[i] = flushing_est[i]/(24*3600)
     flushing_inner_days[i] = flushing_inner[i]/(24*3600)
 
-    # #print some values
-    # print('outer reflux w/o storage')
-    # print(alpha_21_basic_timeseries.mean())
-    # print('outer reflux w/ storage (top layer calc)')
-    # print(alpha_21_td_top.mean())
-    # print('outer reflux w/ storage (bottom layer calc)')
-    # print(alpha_21_td_bottom.mean())
-    # print('inner reflux w/o storage')
-    # print(alpha_34_basic_timeseries.mean())
-    # print('inner reflux w/ storage (top layer calc)')
-    # print(alpha_34_td_top.mean())
-    # print('inner reflux w/ storage (bottom layer calc)')
-    # print(alpha_34_td_bottom.mean())
-
-    # #plot
-    # plot_time = tef_df.index[start_avg_ind:end_avg_ind]
-    # # ax.plot(plot_time,alpha_34_td_top,ls='-',c=plot_color[i],label=r'$\alpha_{34}$ '+silllens[i])
-    # # ax.plot(plot_time,alpha_21_td_top,ls='--',c=plot_color[i],label=r'$\alpha_{21}$ '+silllens[i])
-    # ax.plot(plot_time,alpha_34_td_bottom,ls='-',c=plot_color[i],label=r'$\alpha_{34}$ '+silllens[i])
-    # ax.plot(plot_time,alpha_21_td_bottom,ls='--',c=plot_color[i],label=r'$\alpha_{21}$ '+silllens[i])
+    # Next, get the average salinity of the estuary and inner basin
+    # These use the segment extractions for collections cest and cinner
+    seg_est_ds = xr.open_dataset(seg_est_fn)
+    seg_inner_ds = xr.open_dataset(seg_inner_fn)
 
 print('Estuary flushing [days]: ',flushing_est_days)
 print('Inner basin flushing [days]: ',flushing_inner_days)
