@@ -34,10 +34,14 @@ flushing_inner=np.zeros(5)
 flushing_est_days=np.zeros(5)
 flushing_inner_days=np.zeros(5)
 
-flushing_fresh_est=np.zeros(5)
-flushing_fresh_inner=np.zeros(5)
-flushing_salt_est=np.zeros(5)
-flushing_salt_inner=np.zeros(5)
+# flushing_fresh_est=np.zeros(5)
+# flushing_fresh_inner=np.zeros(5)
+# flushing_salt_est=np.zeros(5)
+# flushing_salt_inner=np.zeros(5)
+flushing_fresh_est_days=np.zeros(5)
+flushing_fresh_inner_days=np.zeros(5)
+flushing_salt_est_days=np.zeros(5)
+flushing_salt_inner_days=np.zeros(5)
 
 silllens_plot=[5,10,20,40,80]
 
@@ -68,6 +72,8 @@ fig, ax = plt.subplots(1,1,figsize=(15,8))
 # use 7 spring neap cycles, starting at index 257 and going to 2741 - these are the peaks in the 5km Qprism but similar for the other models
 start_avg_ind = 257
 end_avg_ind = 2741
+start_avg_dt = '2020-09-13 05:00:00'
+end_avg_dt = '2020-12-25 16:00:00' #this is tef_df.index[2740], the time indexing doesn't seem to be open half interval
 
 #Loop over sill lengths
 for i in range(len(gctags)):
@@ -151,11 +157,32 @@ for i in range(len(gctags)):
     flushing_inner_days[i] = flushing_inner[i]/(24*3600)
 
     # Next, get the average salinity of the estuary and inner basin
-    # These use the segment extractions for collections cest and cinner
+    # These use the segment extractions for collections cei
+    # the inner basin is segment b5i_p
+    # for the whole estuary, need to get the weighted average of segment b5i_p and b5i_m
     seg_est_inner_ds = xr.open_dataset(seg_est_inner_fn)
+    sbar_inner_ts = seg_est_inner_ds.salt.sel(seg='b5i_p',time=slice(start_avg_dt,end_avg_dt)).values
+    sbar_outer_sill_ts = seg_est_inner_ds.salt.sel(seg='b5i_m',time=slice(start_avg_dt,end_avg_dt)).values
+    vol_inner_ts = seg_est_inner_ds.volume.sel(seg='b5i_p',time=slice(start_avg_dt,end_avg_dt)).values
+    vol_outer_sill_ts = seg_est_inner_ds.volume.sel(seg='b5i_m',time=slice(start_avg_dt,end_avg_dt)).values
+    sbar_est_ts = ((sbar_inner_ts*vol_inner_ts)+(sbar_outer_sill_ts*vol_outer_sill_ts))/(vol_inner_ts+vol_outer_sill_ts)
+    # get the time average values
+    sbar_inner = sbar_inner_ts.mean()
+    sbar_est = sbar_est_ts.mean()
+    # to get the freshwater and saltwater fraction, define socn
+    socn = 34
+    #Calculate the freshwater and saltwater flushing times
+    flushing_fresh_est_days[i] = ((socn-sbar_est)/(socn-sout_est))*flushing_est_days
+    flushing_fresh_inner_days[i] = ((socn-sbar_inner)/(socn-sout_inner))*flushing_inner_days
+    flushing_salt_est_days[i] = (sbar_est/sout_est)*flushing_est_days
+    flushing_salt_inner_days[i] = (sbar_inner)/(sout_inner)*flushing_inner_days
 
 print('Estuary flushing [days]: ',flushing_est_days)
 print('Inner basin flushing [days]: ',flushing_inner_days)
+print('Estuary freshwater flushing [days]: ',flushing_fresh_est_days)
+print('Inner basin freshwater flushing [days]: ',flushing_fresh_inner_days)
+print('Estuary saltwater flushing [days]: ',flushing_salt_est_days)
+print('Inner basin saltwater flushing [days]: ',flushing_salt_inner_days)
 # #add plot elements
 # ax.set_xlabel('Time')
 # ax.set_ylabel('Reflux coefficient')
