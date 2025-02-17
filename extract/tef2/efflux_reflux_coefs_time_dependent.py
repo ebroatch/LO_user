@@ -50,6 +50,12 @@ alpha_34_basic=np.zeros(5)
 alpha_31_basic=np.zeros(5)
 alpha_21_basic=np.zeros(5)
 silllens_plot=[5,10,20,40,80]
+alpha_34_td_top_avg=np.zeros(5)
+alpha_21_td_top_avg=np.zeros(5)
+alpha_34_td_bottom_avg=np.zeros(5)
+alpha_21_td_bottom_avg=np.zeros(5)
+alpha_34_basic_avg=np.zeros(5)
+alpha_21_basic_avg=np.zeros(5)
 
 sect_1 ='b1'
 sect_2='b5'
@@ -193,7 +199,6 @@ for i in range(len(gctags)-1):
     alpha_31_td_top = 1-alpha_21_td_top
     alpha_34_td_top = 1-alpha_24_td_top
 
-
     #to test the method, try calculating the same terms from the bottom layer budget
     ddt_S_bottom = (S_bottom.values[2:]-S_bottom.values[:-2])/(2*3600)
     storage_31_bottom = (1/(Q1*(S1-S4)))*V_bottom*ddt_S_bottom    
@@ -203,6 +208,18 @@ for i in range(len(gctags)-1):
     alpha_34_td_bottom = alpha_34_basic_timeseries + storage_34_bottom
     alpha_21_td_bottom = 1-alpha_31_td_bottom
     alpha_24_td_bottom = 1-alpha_34_td_bottom
+
+    #get averages for summary plot
+    alpha_34_td_top_avg[i] = alpha_34_td_top.mean()
+    alpha_21_td_top_avg[i] = alpha_21_td_top.mean()
+    alpha_34_td_bottom_avg[i] = alpha_34_td_bottom.mean()
+    alpha_21_td_bottom_avg[i] = alpha_21_td_bottom.mean()
+
+    #get basic (unadjusted) time average value
+    alpha_21_basic_avg[i] = (Q2.mean()/Q1.mean())*((S2.mean()-S4.mean())/(S1.mean()-S4.mean()))
+    # alpha_31_basic_avg[i] = (Q3.mean()/Q1.mean())*((S3.mean()-S4.mean())/(S1.mean()-S4.mean()))
+    # alpha_24_basic_avg[i] = (Q2.mean()/Q4.mean())*((S1.mean()-S2.mean())/(S1.mean()-S4.mean()))
+    alpha_34_basic_avg[i] = (Q3.mean()/Q4.mean())*((S1.mean()-S3.mean())/(S1.mean()-S4.mean()))
 
     #count times when salinity condition is not met
     print('S4>S3 count: ',(S4>S3).sum()) #technically some of these should be inequalities
@@ -253,6 +270,37 @@ fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent.png' #UNCOM
 plt.savefig(fn_fig)
 plt.close()
 
+#Averages plot
+fig, [ax1,ax2] = plt.subplots(1,2,figsize=(16,8))
+#plot
+ax1.plot(silllens_plot,alpha_21_td_top_avg,c='tab:orange',marker='o',label='Time-dependent (from top layer budget)')
+ax1.plot(silllens_plot,alpha_21_td_bottom_avg,c='tab:blue',marker='o',label='Time-dependent (from bottom layer budget)')
+ax1.plot(silllens_plot,alpha_21_basic_avg,c='tab:grey',marker='o',label='Time-averaged')
+ax2.plot(silllens_plot,alpha_34_td_top_avg,c='tab:orange',marker='o')
+ax2.plot(silllens_plot,alpha_34_td_bottom_avg,c='tab:blue',marker='o')
+ax2.plot(silllens_plot,alpha_34_basic_avg,c='tab:grey',marker='o')
+
+#add plot elements
+ax1.set_xlabel('Sill length')
+ax1.set_ylabel('Average reflux coefficient')
+ax1.set_xlim(0,85)
+ax1.set_ylim(0,1)
+ax1.set_title(r'Outer basin reflux $\alpha_{21}$')
+ax1.grid(True)
+ax1.legend()
+
+ax2.set_xlabel('Sill length')
+# ax2.set_ylabel('Flushing time [days]')
+ax2.set_xlim(0,85)
+ax2.set_ylim(0,1)
+ax2.set_title(r'Inner basin reflux $\alpha_{34}$')
+ax2.grid(True)
+# ax2.legend()
+plt.suptitle('Time-dependent reflux coefficients')
+
+fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent_avg.png' #UNCOMMENT TO PLOT
+plt.savefig(fn_fig)
+plt.close()
 
 # print('\nalpha_21 (outer basin reflux): ')
 # print(alpha_21_basic)
