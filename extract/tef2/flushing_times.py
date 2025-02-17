@@ -66,7 +66,7 @@ out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 # xv = g.lon_v.values
 # yv = g.lat_v.values
 
-fig, ax = plt.subplots(1,1,figsize=(15,8))
+fig, [ax1,ax2] = plt.subplots(2,1,figsize=(16,8))
 
 # take a subset of the data so that we are averaging over an integer number of spring neap cycles at the end
 # use 7 spring neap cycles, starting at index 257 and going to 2741 - these are the peaks in the 5km Qprism but similar for the other models
@@ -183,16 +183,31 @@ print('Estuary freshwater flushing [days]: ',flushing_fresh_est_days)
 print('Inner basin freshwater flushing [days]: ',flushing_fresh_inner_days)
 print('Estuary saltwater flushing [days]: ',flushing_salt_est_days)
 print('Inner basin saltwater flushing [days]: ',flushing_salt_inner_days)
-# #add plot elements
-# ax.set_xlabel('Time')
-# ax.set_ylabel('Reflux coefficient')
-# # ax.set_ylim(-4,4)
-# ax.set_ylim(0,1)
-# # ax.set_title('Time-dependent efflux/reflux coefficients')
-# ax.set_title('Time-dependent efflux/reflux coefficients from bottom layer budget')
-# ax.grid(True)
-# ax.legend(ncol=5)
-# ax.set_xlim('2020-09-01','2021-01-01')
+
+#plot
+ax1.plot(silllens_plot,flushing_est_days,c='k',marker='o',label='Volume flushing')
+ax1.plot(silllens_plot,flushing_fresh_est_days,c='tab:cyan',marker='o',label='Freshwater flushing')
+ax1.plot(silllens_plot,flushing_salt_est_days,c='tab:olive',marker='o',label='Saltwater flushing')
+ax1.plot(silllens_plot,flushing_inner_days,c='k',marker='o',label='Volume flushing')
+ax1.plot(silllens_plot,flushing_fresh_inner_days,c='tab:cyan',marker='o',label='Freshwater flushing')
+ax1.plot(silllens_plot,flushing_salt_inner_days,c='tab:olive',marker='o',label='Saltwater flushing')
+
+#add plot elements
+ax1.set_xlabel('Sill length')
+ax1.set_ylabel('Flushing time [days]')
+ax1.set_ylim(0,85)
+ax1.set_ylim(30,75)
+ax1.set_title('Estuary')
+ax1.grid(True)
+
+ax2.set_xlabel('Sill length')
+# ax2.set_ylabel('Flushing time [days]')
+ax2.set_ylim(0,85)
+ax2.set_ylim(30,75)
+ax2.set_title('Inner basin')
+ax2.grid(True)
+ax2.legend()
+plt.suptitle('Volume, freshwater, and saltwater flushing times')
 
 # h, l = ax.get_legend_handles_labels()
 # ph = [plt.plot([],marker="", ls="")[0]]*2
@@ -201,9 +216,9 @@ print('Inner basin saltwater flushing [days]: ',flushing_salt_inner_days)
 # # ax.legend(handles, labels, ncol=6)
 # ax.legend(handles,labels,ncol=5)
 
-# fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent.png' #UNCOMMENT TO PLOT
-# plt.savefig(fn_fig)
-# plt.close()
+fn_fig = Ldir['LOo'] / 'plots' / 'flushing_times.png' #UNCOMMENT TO PLOT
+plt.savefig(fn_fig)
+plt.close()
 
 
 # print('\nalpha_21 (outer basin reflux): ')
