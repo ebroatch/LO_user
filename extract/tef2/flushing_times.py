@@ -172,10 +172,10 @@ for i in range(len(gctags)):
     # to get the freshwater and saltwater fraction, define socn
     socn = 34
     #Calculate the freshwater and saltwater flushing times
-    flushing_fresh_est_days[i] = ((socn-sbar_est)/(socn-sout_est))*flushing_est_days
-    flushing_fresh_inner_days[i] = ((socn-sbar_inner)/(socn-sout_inner))*flushing_inner_days
-    flushing_salt_est_days[i] = (sbar_est/sout_est)*flushing_est_days
-    flushing_salt_inner_days[i] = (sbar_inner)/(sout_inner)*flushing_inner_days
+    flushing_fresh_est_days[i] = ((socn-sbar_est)/(socn-sout_est))*flushing_est_days[i]
+    flushing_fresh_inner_days[i] = ((socn-sbar_inner)/(socn-sout_inner))*flushing_inner_days[i]
+    flushing_salt_est_days[i] = (sbar_est/sout_est)*flushing_est_days[i]
+    flushing_salt_inner_days[i] = (sbar_inner)/(sout_inner)*flushing_inner_days[i]
 
 print('Estuary flushing [days]: ',flushing_est_days)
 print('Inner basin flushing [days]: ',flushing_inner_days)
