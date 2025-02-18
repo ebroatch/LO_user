@@ -288,7 +288,7 @@ for i in range(len(gctags)):
     alpha_34_td_top_smooth = 1-alpha_24_td_top_smooth
 
     #to test the method, try calculating the same terms from the bottom layer budget
-    ddt_S_bottom_smooth_cd = (S_bottom_smooth.values[2:]-S_bottom_smooth.values[:-2])/(2*3600)
+    ddt_S_bottom_smooth_cd = (S_bottom_smooth[2:]-S_bottom_smooth[:-2])/(2*3600)
     storage_31_bottom_smooth = (1/(Q1_smooth*(S1_smooth-S4_smooth)))*V_bottom*dSdt_bottom_smooth    
     storage_34_bottom_smooth = (1/(Q4_smooth*(S4_smooth-S1_smooth)))*V_bottom*dSdt_bottom_smooth
 
