@@ -91,7 +91,8 @@ start_avg_ind = 257
 end_avg_ind = 2741
 
 #parameters for smoothing
-sg_window_size = 35
+# sg_window_size = 35
+sg_window_size = 71
 sg_order = 3
 
 #Loop over sill lengths
@@ -363,10 +364,10 @@ axs2[1,0].set_xlabel('Time')
 axs2[1,1].set_xlabel('Time')
 axs2[0,0].set_ylabel('Reflux coefficient')
 axs2[1,0].set_ylabel('Reflux coefficient')
-axs2[0,0].set_ylim(-1.5,5.5)
-axs2[0,1].set_ylim(-1.5,5.5)
-axs2[1,0].set_ylim(-0.25,1.75)
-axs2[1,1].set_ylim(-0.25,1.75)
+# axs2[0,0].set_ylim(-1.5,5.5)
+# axs2[0,1].set_ylim(-1.5,5.5)
+# axs2[1,0].set_ylim(-0.25,1.75)
+# axs2[1,1].set_ylim(-0.25,1.75)
 axs2[0,0].axhline(0,c='k')
 axs2[0,1].axhline(0,c='k')
 axs2[1,0].axhline(0,c='k')
