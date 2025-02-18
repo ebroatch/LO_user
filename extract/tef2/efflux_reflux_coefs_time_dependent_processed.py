@@ -284,6 +284,8 @@ ax3.legend()
 ax4.legend()
 ax5.legend()
 ax6.legend()
+ax1.set_ylim(-0.0001,0.0001)
+ax6.set_ylim(-5,5)
 plt.suptitle('Components of top layer alpha_21 storage term')
 
 fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent_storagetest.png' #UNCOMMENT TO PLOT
