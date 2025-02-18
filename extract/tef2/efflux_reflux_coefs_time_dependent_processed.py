@@ -83,6 +83,8 @@ out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 
 fig, ax = plt.subplots(1,1,figsize=(15,8))
 
+fig2, axs2 = plt.subplots(2,1,figsize=(16,16))
+
 # take a subset of the data so that we are averaging over an integer number of spring neap cycles at the end
 # use 7 spring neap cycles, starting at index 257 and going to 2741 - these are the peaks in the 5km Qprism but similar for the other models
 start_avg_ind = 257
@@ -327,6 +329,12 @@ for i in range(len(gctags)):
     alpha_21_td_bottom_smooth = 1-alpha_31_td_bottom_smooth
     alpha_24_td_bottom_smooth = 1-alpha_34_td_bottom_smooth
 
+    #smooth plot
+    axs2[0].plot(plot_time,alpha_34_td_top_smooth,ls='-',c=plot_color[i],label=r'Top layer '+silllens[i])
+    axs2[0].plot(plot_time,alpha_34_td_bottom_smooth,ls='--',c=plot_color[i],label=r'Bottom layer '+silllens[i])
+    axs2[1].plot(plot_time,alpha_21_td_top_smooth,ls='-',c=plot_color[i],label=r'Top layer '+silllens[i])
+    axs2[1].plot(plot_time,alpha_21_td_bottom,ls='--',c=plot_color[i],label=r'Bottom layer '+silllens[i])
+
 
 #add plot elements
 ax.set_xlabel('Time')
@@ -347,7 +355,35 @@ labels = [r'Inner basin reflux:', r'Outer basin reflux:'] + l
 ax.legend(handles,labels,ncol=5)
 
 fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent.png' #UNCOMMENT TO PLOT
-plt.savefig(fn_fig)
+fig.savefig(fn_fig)
+# plt.close()
+
+#add plot elements for smoothed plot
+axs2[1].set_xlabel('Time')
+axs2[0].set_ylabel('Reflux coefficient')
+axs2[1].set_ylabel('Reflux coefficient')
+axs2[0].set_ylim(-2,2)
+axs2[1].set_ylim(-2,2)
+# ax.set_ylim(0,1)
+# ax.set_title('Time-dependent efflux/reflux coefficients')
+fig2.suptitle('Time-dependent efflux/reflux coefficients (clipped/smoothed data)')
+axs2[0].set_title(r'Inner basin reflux $\alpha_{34}$')
+axs2[0].set_title(r'Outer basin reflux $\alpha_{21}$')
+axs2[0].grid(True)
+axs2[1].grid(True)
+axs2[1].legend(ncol=5)
+axs2[0].set_xlim('2020-09-01','2021-01-01')
+axs2[1].set_xlim('2020-09-01','2021-01-01')
+
+# h, l = ax.get_legend_handles_labels()
+# ph = [plt.plot([],marker="", ls="")[0]]*2
+# handles = ph + h
+# labels = [r'Inner basin reflux:', r'Outer basin reflux:'] + l
+# # ax.legend(handles, labels, ncol=6)
+# ax.legend(handles,labels,ncol=5)
+
+fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent_smooth.png' #UNCOMMENT TO PLOT
+fig2.savefig(fn_fig)
 plt.close()
 
 #The problem is in the storage_21 term, but what part?
