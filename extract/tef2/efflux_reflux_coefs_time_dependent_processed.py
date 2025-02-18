@@ -91,8 +91,8 @@ start_avg_ind = 257
 end_avg_ind = 2741
 
 #parameters for smoothing
-sg_window_size = 25
-sg_order = 5
+sg_window_size = 35
+sg_order = 3
 
 #Loop over sill lengths
 for i in range(len(gctags)):
@@ -333,7 +333,7 @@ for i in range(len(gctags)):
     axs2[0].plot(plot_time,alpha_34_td_top_smooth,ls='-',c=plot_color[i],label=r'Top layer '+silllens[i])
     axs2[0].plot(plot_time,alpha_34_td_bottom_smooth,ls='--',c=plot_color[i],label=r'Bottom layer '+silllens[i])
     axs2[1].plot(plot_time,alpha_21_td_top_smooth,ls='-',c=plot_color[i],label=r'Top layer '+silllens[i])
-    axs2[1].plot(plot_time,alpha_21_td_bottom,ls='--',c=plot_color[i],label=r'Bottom layer '+silllens[i])
+    axs2[1].plot(plot_time,alpha_21_td_bottom_smooth,ls='--',c=plot_color[i],label=r'Bottom layer '+silllens[i])
 
 
 #add plot elements
