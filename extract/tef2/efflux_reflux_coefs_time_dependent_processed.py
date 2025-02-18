@@ -83,7 +83,7 @@ out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 
 fig, ax = plt.subplots(1,1,figsize=(15,8))
 
-fig2, axs2 = plt.subplots(2,1,figsize=(16,16))
+fig2, axs2 = plt.subplots(2,2,figsize=(16,8),sharey='rows',sharex=True)
 
 # take a subset of the data so that we are averaging over an integer number of spring neap cycles at the end
 # use 7 spring neap cycles, starting at index 257 and going to 2741 - these are the peaks in the 5km Qprism but similar for the other models
@@ -330,10 +330,10 @@ for i in range(len(gctags)):
     alpha_24_td_bottom_smooth = 1-alpha_34_td_bottom_smooth
 
     #smooth plot
-    axs2[0].plot(plot_time,alpha_34_td_top_smooth,ls='-',c=plot_color[i],label=r'Top layer '+silllens[i])
-    axs2[0].plot(plot_time,alpha_34_td_bottom_smooth,ls='--',c=plot_color[i],label=r'Bottom layer '+silllens[i])
-    axs2[1].plot(plot_time,alpha_21_td_top_smooth,ls='-',c=plot_color[i],label=r'Top layer '+silllens[i])
-    axs2[1].plot(plot_time,alpha_21_td_bottom_smooth,ls='--',c=plot_color[i],label=r'Bottom layer '+silllens[i])
+    axs2[0,0].plot(plot_time,alpha_21_td_top_smooth,ls='-',c=plot_color[i],label=silllens[i])
+    axs2[0,1].plot(plot_time,alpha_34_td_top_smooth,ls='-',c=plot_color[i],label=silllens[i])
+    axs2[1,0].plot(plot_time,alpha_21_td_bottom_smooth,ls='-',c=plot_color[i],label=silllens[i])
+    axs2[1,1].plot(plot_time,alpha_34_td_bottom_smooth,ls='-',c=plot_color[i],label=silllens[i])
 
 
 #add plot elements
@@ -359,21 +359,29 @@ fig.savefig(fn_fig)
 # plt.close()
 
 #add plot elements for smoothed plot
-axs2[1].set_xlabel('Time')
-axs2[0].set_ylabel('Reflux coefficient')
-axs2[1].set_ylabel('Reflux coefficient')
-axs2[0].set_ylim(-2,2)
-axs2[1].set_ylim(-2,2)
+axs2[1,0].set_xlabel('Time')
+axs2[1,1].set_xlabel('Time')
+axs2[0,0].set_ylabel('Reflux coefficient')
+axs2[1,0].set_ylabel('Reflux coefficient')
+axs2[0,0].set_ylim(-2,2)
+axs2[1,0].set_ylim(-2,2)
 # ax.set_ylim(0,1)
 # ax.set_title('Time-dependent efflux/reflux coefficients')
-fig2.suptitle('Time-dependent efflux/reflux coefficients (clipped/smoothed data)')
-axs2[0].set_title(r'Inner basin reflux $\alpha_{34}$')
-axs2[0].set_title(r'Outer basin reflux $\alpha_{21}$')
-axs2[0].grid(True)
-axs2[1].grid(True)
-axs2[1].legend(ncol=5)
-axs2[0].set_xlim('2020-09-01','2021-01-01')
-axs2[1].set_xlim('2020-09-01','2021-01-01')
+fig2.suptitle('Time-dependent efflux/reflux coefficients (clipped/smoothed data)\nSavitzky-Golay filter (window length:'+str(sg_window_size)+', order:'+str(sg_order)+')')
+axs2[0,0].set_title(r'Outer basin reflux $\alpha_{21}$ from top layer budget')
+axs2[0,1].set_title(r'Inner basin reflux $\alpha_{34}$ from top layer budget')
+axs2[1,0].set_title(r'Outer basin reflux $\alpha_{21}$ from bottom layer budget')
+axs2[1,1].set_title(r'Inner basin reflux $\alpha_{34}$ from bottom layer budget')
+axs2[0,0].grid(True)
+axs2[0,1].grid(True)
+axs2[1,0].grid(True)
+axs2[1,1].grid(True)
+axs2[0,0].legend(ncol=5)
+axs2[0,1].legend(ncol=5)
+axs2[1,0].legend(ncol=5)
+axs2[1,1].legend(ncol=5)
+# axs2[1,0].set_xlim('2020-09-01','2021-01-01')
+# axs2[1,1].set_xlim('2020-09-01','2021-01-01')
 
 # h, l = ax.get_legend_handles_labels()
 # ph = [plt.plot([],marker="", ls="")[0]]*2
