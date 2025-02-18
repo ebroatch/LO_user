@@ -271,7 +271,7 @@ plt.savefig(fn_fig)
 plt.close()
 
 #The problem is in the storage_21 term, but what part?
-fig, [ax1,ax2,ax3,ax4,ax5,ax6] = plt.subplots(4,1,figsize=(16,16))
+fig, [ax1,ax2,ax3,ax4,ax5,ax6] = plt.subplots(6,1,figsize=(16,16))
 ax1.plot(plot_time,ddt_S_top,ls='-',label=r'$d/dt(S_{top})$')
 ax2.plot(plot_time,Q1,ls='-',label=r'Q1')
 ax2.plot(plot_time,1/Q1,ls='-',label=r'1/Q1')
