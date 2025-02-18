@@ -89,7 +89,7 @@ start_avg_ind = 257
 end_avg_ind = 2741
 
 #parameters for smoothing
-sg_window_size = 13
+sg_window_size = 25
 sg_order = 5
 
 #Loop over sill lengths
@@ -371,7 +371,7 @@ plt.close()
 # # ax6.set_ylim(-5,5)
 # plt.suptitle('Components of top layer alpha_21 storage term')
 
-fig, axs = plt.subplots(9,2,figsize=(16,16),sharey='row',sharex=True)
+fig, axs = plt.subplots(9,2,figsize=(16,16),sharex=True)
 axs[0,0].plot(plot_time,alpha_21_td_top,ls='-',label=r'Time dependent \alpha_{21}')
 axs[1,0].plot(plot_time,alpha_21_basic_timeseries,ls='-',label=r'Basic \alpha_{21} timeseries')
 axs[2,0].plot(plot_time,storage_21_top,ls='-',label=r'storage term')
@@ -418,7 +418,7 @@ axs[8,1].legend()
 # ax6.set_ylim(-5,5)
 plt.suptitle(r'Components of top layer time dependent \alpha_{21}')
 axs[0,0].set_title('Raw data')
-axs[0,1].set_title('Savitzky-Golay filter (window length:'+str(sg_window_size)+', order:'+str(sg_order))
+axs[0,1].set_title('Savitzky-Golay filter (window length:'+str(sg_window_size)+', order:'+str(sg_order)+')')
 
 fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent_storagetest.png' #UNCOMMENT TO PLOT
 plt.savefig(fn_fig)
