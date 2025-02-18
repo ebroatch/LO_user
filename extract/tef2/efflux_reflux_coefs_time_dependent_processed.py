@@ -159,8 +159,8 @@ for i in range(len(gctags)):
     S_top_values = tef_df['salt_m'].values
     # S_bottom_clip = np.where(np.abs(scipy.signal.medfilt(S_bottom_values)-S_bottom_values)>0.5,np.concatenate(([np.nan],(S_bottom_values[:-2]+S_bottom_values[2:])/2,[np.nan])),S_bottom_values)
     # S_top_clip = np.where(np.abs(scipy.signal.medfilt(S_top_values)-S_top_values)>0.5,np.concatenate(([np.nan],(S_top_values[:-2]+S_top_values[2:])/2,[np.nan])),S_top_values)
-    S_bottom_clip = np.where(np.abs(scipy.signal.medfilt(S_bottom_values,5)-S_bottom_values)>0.5,np.signal.medfilt(S_bottom_values,5),S_bottom_values)
-    S_top_clip = np.where(np.abs(scipy.signal.medfilt(S_top_values,5)-S_top_values)>0.5,np.signal.medfilt(S_top_values,5),S_top_values)
+    S_bottom_clip = np.where(np.abs(scipy.signal.medfilt(S_bottom_values,5)-S_bottom_values)>0.5,scipy.signal.medfilt(S_bottom_values,5),S_bottom_values)
+    S_top_clip = np.where(np.abs(scipy.signal.medfilt(S_top_values,5)-S_top_values)>0.5,scipy.signal.medfilt(S_top_values,5),S_top_values)
     #now, smooth with savgol filter
     # S_bottom_smooth = scipy.signal.savgol_filter(tef_df['salt_p'],sg_window_size,sg_order)[start_avg_ind-1:end_avg_ind+1]
     # S_top_smooth = scipy.signal.savgol_filter(tef_df['salt_m'],sg_window_size,sg_order)[start_avg_ind-1:end_avg_ind+1]
