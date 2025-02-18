@@ -92,7 +92,7 @@ end_avg_ind = 2741
 
 #parameters for smoothing
 # sg_window_size = 35
-sg_window_size = 71
+sg_window_size = 121
 sg_order = 3
 
 #Loop over sill lengths
