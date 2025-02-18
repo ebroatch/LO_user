@@ -276,7 +276,7 @@ for i in range(len(gctags)):
     alpha_34_basic_timeseries_smooth = (Q3_smooth/Q4_smooth)*((S1_smooth-S3_smooth)/(S1_smooth-S4_smooth))
 
     #calculate storage term with centered differences #make sure to use 3600s
-    ddt_S_top_smooth_cd = (S_top_smooth.values[2:]-S_top_smooth.values[:-2])/(2*3600) #get derivative from centered differences on smoothed data, can also use filter dervative
+    ddt_S_top_smooth_cd = (S_top_smooth[2:]-S_top_smooth[:-2])/(2*3600) #get derivative from centered differences on smoothed data, can also use filter dervative
     # ddt_S_top = np.concatenate(([np.nan],ddt_S_top,[np.nan]))
     storage_21_top_smooth = (1/(Q1_smooth*(S1_smooth-S4_smooth)))*V_top*dSdt_top_smooth
     storage_24_top_smooth = (1/(Q4_smooth*(S4_smooth-S1_smooth)))*V_top*dSdt_top_smooth
