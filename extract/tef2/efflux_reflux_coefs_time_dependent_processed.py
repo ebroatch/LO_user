@@ -83,7 +83,7 @@ out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 
 fig, ax = plt.subplots(1,1,figsize=(15,8))
 
-fig2, axs2 = plt.subplots(2,2,figsize=(16,8),sharey='row',sharex=True)
+fig2, axs2 = plt.subplots(2,2,figsize=(16,8),sharex=True)
 
 # take a subset of the data so that we are averaging over an integer number of spring neap cycles at the end
 # use 7 spring neap cycles, starting at index 257 and going to 2741 - these are the peaks in the 5km Qprism but similar for the other models
@@ -363,8 +363,8 @@ axs2[1,0].set_xlabel('Time')
 axs2[1,1].set_xlabel('Time')
 axs2[0,0].set_ylabel('Reflux coefficient')
 axs2[1,0].set_ylabel('Reflux coefficient')
-axs2[0,0].set_ylim(-2.5,2.5)
-axs2[1,0].set_ylim(-0.5,2)
+# axs2[0,0].set_ylim(-2.5,2.5)
+# axs2[1,0].set_ylim(-0.5,2)
 # ax.set_ylim(0,1)
 # ax.set_title('Time-dependent efflux/reflux coefficients')
 fig2.suptitle('Time-dependent efflux/reflux coefficients (clipped/smoothed data)\nSavitzky-Golay filter (window length:'+str(sg_window_size)+', order:'+str(sg_order)+')')
@@ -376,9 +376,9 @@ axs2[0,0].grid(True)
 axs2[0,1].grid(True)
 axs2[1,0].grid(True)
 axs2[1,1].grid(True)
-axs2[0,0].legend(ncol=5)
-axs2[0,1].legend(ncol=5)
-axs2[1,0].legend(ncol=5)
+# axs2[0,0].legend(ncol=5)
+# axs2[0,1].legend(ncol=5)
+# axs2[1,0].legend(ncol=5)
 axs2[1,1].legend(ncol=5)
 axs2[1,0].xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
 axs2[1,1].xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
