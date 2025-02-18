@@ -116,10 +116,17 @@ for i in range(len(gctags)):
     S1 = tef_df['salt_p'][start_avg_ind:end_avg_ind]
     S2 = tef_df['salt_m'][start_avg_ind:end_avg_ind]
 
+    S1_values = tef_df['salt_p'].values
+    S2_values = tef_df['salt_m'].values
+    S1_clip = np.where(np.abs(scipy.signal.medfilt(S1_values,9)-S1_values)>0.5,scipy.signal.medfilt(S1_values,9),S1_values)
+    S2_clip = np.where(np.abs(scipy.signal.medfilt(S2_values,9)-S2_values)>0.5,scipy.signal.medfilt(S2_values,9),S2_values)
+
     Q1_smooth = scipy.signal.savgol_filter(tef_df['q_p'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
     Q2_smooth = scipy.signal.savgol_filter(-tef_df['q_m'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
-    S1_smooth = scipy.signal.savgol_filter(tef_df['salt_p'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
-    S2_smooth = scipy.signal.savgol_filter(tef_df['salt_m'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    # S1_smooth = scipy.signal.savgol_filter(tef_df['salt_p'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    # S2_smooth = scipy.signal.savgol_filter(tef_df['salt_m'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    S1_smooth = scipy.signal.savgol_filter(S1_clip,sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    S2_smooth = scipy.signal.savgol_filter(S2_clip,sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
 
     #Section b5
     sect_name = sect_2
@@ -135,10 +142,17 @@ for i in range(len(gctags)):
     S3 = tef_df['salt_p'][start_avg_ind:end_avg_ind]
     S4 = tef_df['salt_m'][start_avg_ind:end_avg_ind]
 
+    S3_values = tef_df['salt_p'].values
+    S4_values = tef_df['salt_m'].values
+    S3_clip = np.where(np.abs(scipy.signal.medfilt(S3_values,9)-S3_values)>0.5,scipy.signal.medfilt(S3_values,9),S3_values)
+    S4_clip = np.where(np.abs(scipy.signal.medfilt(S4_values,9)-S4_values)>0.5,scipy.signal.medfilt(S4_values,9),S4_values)
+
     Q3_smooth = scipy.signal.savgol_filter(tef_df['q_p'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
     Q4_smooth = scipy.signal.savgol_filter(-tef_df['q_m'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
-    S3_smooth = scipy.signal.savgol_filter(tef_df['salt_p'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
-    S4_smooth = scipy.signal.savgol_filter(tef_df['salt_m'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    # S3_smooth = scipy.signal.savgol_filter(tef_df['salt_p'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    # S4_smooth = scipy.signal.savgol_filter(tef_df['salt_m'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    S3_smooth = scipy.signal.savgol_filter(S3_clip,sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    S4_smooth = scipy.signal.savgol_filter(S4_clip,sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
 
     #Section b3 - we are using this to get an estimate of salinities in the upper and lower layers on the sill
     sect_name = sect_mid
@@ -159,8 +173,8 @@ for i in range(len(gctags)):
     S_top_values = tef_df['salt_m'].values
     # S_bottom_clip = np.where(np.abs(scipy.signal.medfilt(S_bottom_values)-S_bottom_values)>0.5,np.concatenate(([np.nan],(S_bottom_values[:-2]+S_bottom_values[2:])/2,[np.nan])),S_bottom_values)
     # S_top_clip = np.where(np.abs(scipy.signal.medfilt(S_top_values)-S_top_values)>0.5,np.concatenate(([np.nan],(S_top_values[:-2]+S_top_values[2:])/2,[np.nan])),S_top_values)
-    S_bottom_clip = np.where(np.abs(scipy.signal.medfilt(S_bottom_values,9)-S_bottom_values)>1,scipy.signal.medfilt(S_bottom_values,9),S_bottom_values)
-    S_top_clip = np.where(np.abs(scipy.signal.medfilt(S_top_values,9)-S_top_values)>1,scipy.signal.medfilt(S_top_values,9),S_top_values)
+    S_bottom_clip = np.where(np.abs(scipy.signal.medfilt(S_bottom_values,9)-S_bottom_values)>0.5,scipy.signal.medfilt(S_bottom_values,9),S_bottom_values)
+    S_top_clip = np.where(np.abs(scipy.signal.medfilt(S_top_values,9)-S_top_values)>0.5,scipy.signal.medfilt(S_top_values,9),S_top_values)
     # S_bottom_clip = np.where(np.abs(scipy.signal.medfilt(S_bottom_values,9)-S_bottom_values)>1,scipy.signal.medfilt(S_bottom_values,9),S_bottom_values)
     # S_top_clip = np.where(np.abs(scipy.signal.medfilt(S_top_values,9)-S_top_values)>1,scipy.signal.medfilt(S_top_values,9),S_top_values)
     #now, smooth with savgol filter
