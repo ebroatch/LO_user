@@ -88,6 +88,10 @@ fig, ax = plt.subplots(1,1,figsize=(15,8))
 start_avg_ind = 257
 end_avg_ind = 2741
 
+#parameters for smoothing
+sg_window_size = 13
+sg_order = 5
+
 #Loop over sill lengths
 for i in range(len(gctags)):
 # for i in range(len(gctags)-1):
@@ -112,6 +116,11 @@ for i in range(len(gctags)):
     S1 = tef_df['salt_p'][start_avg_ind:end_avg_ind]
     S2 = tef_df['salt_m'][start_avg_ind:end_avg_ind]
 
+    Q1_smooth = scipy.signal.savgol_filter(tef_df['q_p'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    Q2_smooth = scipy.signal.savgol_filter(-tef_df['q_m'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    S1_smooth = scipy.signal.savgol_filter(tef_df['salt_p'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    S2_smooth = scipy.signal.savgol_filter(tef_df['salt_m'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+
     #Section b5
     sect_name = sect_2
     bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
@@ -126,6 +135,11 @@ for i in range(len(gctags)):
     S3 = tef_df['salt_p'][start_avg_ind:end_avg_ind]
     S4 = tef_df['salt_m'][start_avg_ind:end_avg_ind]
 
+    Q3_smooth = scipy.signal.savgol_filter(tef_df['q_p'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    Q4_smooth = scipy.signal.savgol_filter(-tef_df['q_m'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    S3_smooth = scipy.signal.savgol_filter(tef_df['salt_p'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+    S4_smooth = scipy.signal.savgol_filter(tef_df['salt_m'],sg_window_size,sg_order)[start_avg_ind:end_avg_ind]
+
     #Section b3 - we are using this to get an estimate of salinities in the upper and lower layers on the sill
     sect_name = sect_mid
     bulk = xr.open_dataset(in_dir / (sect_name + '.nc'))
@@ -137,6 +151,12 @@ for i in range(len(gctags)):
     # get variables for storage term in efflux-reflux calculation
     S_bottom = tef_df['salt_p'][start_avg_ind-1:end_avg_ind+1] #keep one extra value on each side for the salt
     S_top = tef_df['salt_m'][start_avg_ind-1:end_avg_ind+1] #this way when we do centered differences the length will be the same as the other variables
+
+    S_bottom_smooth = scipy.signal.savgol_filter(tef_df['salt_p'],sg_window_size,sg_order)[start_avg_ind-1:end_avg_ind+1]
+    S_top_smooth = scipy.signal.savgol_filter(tef_df['salt_m'],sg_window_size,sg_order)[start_avg_ind-1:end_avg_ind+1]
+
+    dSdt_bottom_smooth = (1/3600)*scipy.signal.savgol_filter(tef_df['salt_p'],sg_window_size,sg_order,deriv=1)[start_avg_ind:end_avg_ind] #use the filter to take the derivative
+    dSdt_top_smooth = (1/3600)*scipy.signal.savgol_filter(tef_df['salt_m'],sg_window_size,sg_order,deriv=1)[start_avg_ind:end_avg_ind]
 
     #Get the volume of the sill area
     grid_dir = Ldir['data'] / 'grids' / gridname
@@ -248,6 +268,36 @@ for i in range(len(gctags)):
     ax.plot(plot_time,alpha_34_td_bottom,ls='-',c=plot_color[i],label=r'$\alpha_{34}$ '+silllens[i])
     ax.plot(plot_time,alpha_21_td_bottom,ls='--',c=plot_color[i],label=r'$\alpha_{21}$ '+silllens[i])
 
+    #try getting smoothed version
+    #calculate alphas basic from timeseries (not means) without adjustment or storage term
+    alpha_21_basic_timeseries_smooth = (Q2_smooth/Q1_smooth)*((S2_smooth-S4_smooth)/(S1_smooth-S4_smooth))
+    alpha_31_basic_timeseries_smooth = (Q3_smooth/Q1_smooth)*((S3_smooth-S4_smooth)/(S1_smooth-S4_smooth))
+    alpha_24_basic_timeseries_smooth = (Q2_smooth/Q4_smooth)*((S1_smooth-S2_smooth)/(S1_smooth-S4_smooth))
+    alpha_34_basic_timeseries_smooth = (Q3_smooth/Q4_smooth)*((S1_smooth-S3_smooth)/(S1_smooth-S4_smooth))
+
+    #calculate storage term with centered differences #make sure to use 3600s
+    ddt_S_top_smooth_cd = (S_top_smooth.values[2:]-S_top_smooth.values[:-2])/(2*3600) #get derivative from centered differences on smoothed data, can also use filter dervative
+    # ddt_S_top = np.concatenate(([np.nan],ddt_S_top,[np.nan]))
+    storage_21_top_smooth = (1/(Q1_smooth*(S1_smooth-S4_smooth)))*V_top*dSdt_top_smooth
+    storage_24_top_smooth = (1/(Q4_smooth*(S4_smooth-S1_smooth)))*V_top*dSdt_top_smooth
+
+    #calculate time dependent alphas
+    alpha_21_td_top_smooth = alpha_21_basic_timeseries_smooth + storage_21_top_smooth
+    alpha_24_td_top_smooth = alpha_24_basic_timeseries_smooth + storage_24_top_smooth
+    alpha_31_td_top_smooth = 1-alpha_21_td_top_smooth
+    alpha_34_td_top_smooth = 1-alpha_24_td_top_smooth
+
+    #to test the method, try calculating the same terms from the bottom layer budget
+    ddt_S_bottom_smooth_cd = (S_bottom_smooth.values[2:]-S_bottom_smooth.values[:-2])/(2*3600)
+    storage_31_bottom_smooth = (1/(Q1_smooth*(S1_smooth-S4_smooth)))*V_bottom*dSdt_bottom_smooth    
+    storage_34_bottom_smooth = (1/(Q4_smooth*(S4_smooth-S1_smooth)))*V_bottom*dSdt_bottom_smooth
+
+    alpha_31_td_bottom_smooth = alpha_31_basic_timeseries_smooth + storage_31_bottom_smooth
+    alpha_34_td_bottom_smooth = alpha_34_basic_timeseries_smooth + storage_34_bottom_smooth
+    alpha_21_td_bottom_smooth = 1-alpha_31_td_bottom_smooth
+    alpha_24_td_bottom_smooth = 1-alpha_34_td_bottom_smooth
+
+
 #add plot elements
 ax.set_xlabel('Time')
 ax.set_ylabel('Reflux coefficient')
@@ -271,25 +321,76 @@ plt.savefig(fn_fig)
 plt.close()
 
 #The problem is in the storage_21 term, but what part?
-fig, [ax1,ax2,ax3,ax4,ax5,ax6] = plt.subplots(6,1,figsize=(16,16))
-ax1.plot(plot_time,ddt_S_top,ls='-',label=r'$d/dt(S_{top})$')
-ax2.plot(plot_time,S_top[1:-1],ls='-',label=r'$S_{top}$')
-ax3.plot(plot_time,Q1,ls='-',label=r'Q1')
+# fig, [ax1,ax2,ax3,ax4,ax5,ax6] = plt.subplots(6,1,figsize=(16,16))
+# ax1.plot(plot_time,ddt_S_top,ls='-',label=r'$d/dt(S_{top})$')
+# ax2.plot(plot_time,S_top[1:-1],ls='-',label=r'$S_{top}$')
+# ax3.plot(plot_time,Q1,ls='-',label=r'Q1')
+# # ax3.plot(plot_time,1/Q1,ls='-',label=r'1/Q1')
+# ax4.plot(plot_time,S1-S4,ls='-',label=r'S1-S4')
+# ax5.plot(plot_time,S1,label=r'S1')
+# ax6.plot(plot_time,S4,label=r'S4')
+# # ax5.plot(plot_time,1/(S1-S4),ls='-',label=r'1/(S1-S4)')
+# # ax6.plot(plot_time,storage_21_top,ls='-',label=r'storage_21_top')
+# ax1.legend()
+# ax2.legend()
+# ax3.legend()
+# ax4.legend()
+# ax5.legend()
+# ax6.legend()
+# ax1.set_ylim(-0.0001,0.0001)
+# # ax6.set_ylim(-5,5)
+# plt.suptitle('Components of top layer alpha_21 storage term')
+
+fig, axs = plt.subplots(9,2,figsize=(16,16),sharey='row')
+axs[0,0].plot(plot_time,alpha_21_td_top,ls='-',label=r'Time dependent \alpha_{21}')
+axs[0,1].plot(plot_time,alpha_21_basic_timeseries,ls='-',label=r'Basic \alpha_{21} timeseries')
+axs[0,2].plot(plot_time,storage_21_top,ls='-',label=r'storage term')
+axs[0,3].plot(plot_time,ddt_S_top,ls='-',label=r'$d/dt(S_{top})$')
+axs[0,4].plot(plot_time,S_top[1:-1],ls='-',label=r'$S_{top}$')
+axs[0,5].plot(plot_time,Q1,ls='-',label=r'Q1')
 # ax3.plot(plot_time,1/Q1,ls='-',label=r'1/Q1')
-ax4.plot(plot_time,S1-S4,ls='-',label=r'S1-S4')
-ax5.plot(plot_time,S1,label=r'S1')
-ax6.plot(plot_time,S4,label=r'S4')
+axs[0,6].plot(plot_time,S1-S4,ls='-',label=r'S1-S4')
+axs[0,7].plot(plot_time,S1,label=r'S1')
+axs[0,8].plot(plot_time,S4,label=r'S4')
+
+axs[0,0].plot(plot_time,alpha_21_td_top_smooth,ls='-',label=r'Time dependent \alpha_{21}')
+axs[0,1].plot(plot_time,alpha_21_basic_timeseries_smooth,ls='-',label=r'Basic \alpha_{21} timeseries')
+axs[0,2].plot(plot_time,storage_21_top_smooth,ls='-',label=r'storage term')
+axs[0,3].plot(plot_time,ddt_S_top_smooth_cd,ls='-',label=r'$d/dt(S_{top})$ smoothed + centered differences')
+axs[0,3].plot(plot_time,dSdt_top_smooth,ls='-',label=r'$d/dt(S_{top})$ derivative from SG filter')
+axs[0,4].plot(plot_time,S_top_smooth[1:-1],ls='-',label=r'$S_{top}$')
+axs[0,5].plot(plot_time,Q1_smooth,ls='-',label=r'Q1')
+# ax3.plot(plot_time,1/Q1,ls='-',label=r'1/Q1')
+axs[0,6].plot(plot_time,S1_smooth-S4_smooth,ls='-',label=r'S1-S4')
+axs[0,7].plot(plot_time,S1_smooth,label=r'S1')
+axs[0,8].plot(plot_time,S4_smooth,label=r'S4')
 # ax5.plot(plot_time,1/(S1-S4),ls='-',label=r'1/(S1-S4)')
 # ax6.plot(plot_time,storage_21_top,ls='-',label=r'storage_21_top')
-ax1.legend()
-ax2.legend()
-ax3.legend()
-ax4.legend()
-ax5.legend()
-ax6.legend()
-ax1.set_ylim(-0.0001,0.0001)
+axs[0,0].legend()
+axs[0,1].legend()
+axs[0,2].legend()
+axs[0,3].legend()
+axs[0,4].legend()
+axs[0,5].legend()
+axs[0,6].legend()
+axs[0,7].legend()
+axs[0,8].legend()
+axs[0,9].legend()
+axs[1,0].legend()
+axs[1,1].legend()
+axs[1,2].legend()
+axs[1,3].legend()
+axs[1,4].legend()
+axs[1,5].legend()
+axs[1,6].legend()
+axs[1,7].legend()
+axs[1,8].legend()
+axs[1,9].legend()
+# axs[0,0].set_ylim(-0.0001,0.0001)
 # ax6.set_ylim(-5,5)
-plt.suptitle('Components of top layer alpha_21 storage term')
+plt.suptitle(r'Components of top layer time dependent \alpha_{21}')
+axs[0,0].set_title('Raw data')
+axs[0,1].set_title('Savitzky-Golay filter (window length:'+str(sg_window_size)+', order:'+str(sg_order))
 
 fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_time_dependent_storagetest.png' #UNCOMMENT TO PLOT
 plt.savefig(fn_fig)
