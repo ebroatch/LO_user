@@ -154,18 +154,23 @@ for i in range(len(gctags)):
 
     #first, clip out where salinity changes more than 0.5 psu in an hour using a median filter
     #if a value is more than 0.5psu different from the median with the two surrounding points, replace with the average of the two nearest points
+    #NEW: if a value is more than 0.5psu different from 5 point median, replace with the median
     S_bottom_values = tef_df['salt_p'].values
     S_top_values = tef_df['salt_m'].values
-    S_bottom_clip = np.where(np.abs(scipy.signal.medfilt(S_bottom_values)-S_bottom_values)>0.5,np.concatenate(([np.nan],(S_bottom_values[:-2]+S_bottom_values[2:])/2,[np.nan])),S_bottom_values)
-    S_top_clip = np.where(np.abs(scipy.signal.medfilt(S_top_values)-S_top_values)>0.5,np.concatenate(([np.nan],(S_top_values[:-2]+S_top_values[2:])/2,[np.nan])),S_top_values)
+    # S_bottom_clip = np.where(np.abs(scipy.signal.medfilt(S_bottom_values)-S_bottom_values)>0.5,np.concatenate(([np.nan],(S_bottom_values[:-2]+S_bottom_values[2:])/2,[np.nan])),S_bottom_values)
+    # S_top_clip = np.where(np.abs(scipy.signal.medfilt(S_top_values)-S_top_values)>0.5,np.concatenate(([np.nan],(S_top_values[:-2]+S_top_values[2:])/2,[np.nan])),S_top_values)
+    S_bottom_clip = np.where(np.abs(scipy.signal.medfilt(S_bottom_values,5)-S_bottom_values)>0.5,np.signal.medfilt(S_bottom_values,5),S_bottom_values)
+    S_top_clip = np.where(np.abs(scipy.signal.medfilt(S_top_values,5)-S_top_values)>0.5,np.signal.medfilt(S_top_values,5),S_top_values)
     #now, smooth with savgol filter
     # S_bottom_smooth = scipy.signal.savgol_filter(tef_df['salt_p'],sg_window_size,sg_order)[start_avg_ind-1:end_avg_ind+1]
     # S_top_smooth = scipy.signal.savgol_filter(tef_df['salt_m'],sg_window_size,sg_order)[start_avg_ind-1:end_avg_ind+1]
     S_bottom_smooth = scipy.signal.savgol_filter(S_bottom_clip,sg_window_size,sg_order)[start_avg_ind-1:end_avg_ind+1]
     S_top_smooth = scipy.signal.savgol_filter(S_top_clip,sg_window_size,sg_order)[start_avg_ind-1:end_avg_ind+1]
 
-    dSdt_bottom_smooth = (1/3600)*scipy.signal.savgol_filter(tef_df['salt_p'],sg_window_size,sg_order,deriv=1)[start_avg_ind:end_avg_ind] #use the filter to take the derivative
-    dSdt_top_smooth = (1/3600)*scipy.signal.savgol_filter(tef_df['salt_m'],sg_window_size,sg_order,deriv=1)[start_avg_ind:end_avg_ind]
+    # dSdt_bottom_smooth = (1/3600)*scipy.signal.savgol_filter(tef_df['salt_p'],sg_window_size,sg_order,deriv=1)[start_avg_ind:end_avg_ind] #use the filter to take the derivative
+    # dSdt_top_smooth = (1/3600)*scipy.signal.savgol_filter(tef_df['salt_m'],sg_window_size,sg_order,deriv=1)[start_avg_ind:end_avg_ind]
+    dSdt_bottom_smooth = (1/3600)*scipy.signal.savgol_filter(S_bottom_clip,sg_window_size,sg_order,deriv=1)[start_avg_ind:end_avg_ind] #use the filter to take the derivative
+    dSdt_top_smooth = (1/3600)*scipy.signal.savgol_filter(S_top_clip,sg_window_size,sg_order,deriv=1)[start_avg_ind:end_avg_ind]
 
     #Get the volume of the sill area
     grid_dir = Ldir['data'] / 'grids' / gridname
