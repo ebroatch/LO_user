@@ -262,7 +262,7 @@ for i in range(len(gctags)):
     elif (S1_test[i] > S1_minlim[i]) & (S4_test[i] > S4_maxlim[i]): #set S4 to max and use S1 to deal with residual
         print('S4 too large for ',silllens[i],', adjusting!')
         print('before adjustment: S1=',S1_test,',S4=',S4_test)
-        S4_adj[i] = S4_maxlim - 0.0001
+        S4_adj[i] = S4_maxlim[i] - 0.0001
         S1_adj[i] = (salt_input_output_mean - (Q4_adj*S4_adj))/Q1_adj
         print('after adjustment: S1=',S1_adj,',S4=',S4_adj)
     else:
