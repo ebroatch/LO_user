@@ -284,13 +284,13 @@ for i in range(len(gctags)):
         S2_adj[i] = S2_maxlim[i] - 0.0001
         S3_adj[i] = (salt_input_output_mean[i] - (Q2_adj[i]*S2_adj[i]))/Q3_adj[i]
         print('after adjustment: S2=',S2_adj[i],',S3=',S3_adj[i])
-    elif (S2_test[i] > S2_minlim[i]) & (S2_test[i] < S2_maxlim[i]) & (S3_test[i] > S3_minlim[i]) & (S3_test[i] < S3_maxlim[i]): #set S3 to min and use S2 to deal with residual
+    elif (S2_test[i] > S2_minlim[i]) & (S2_test[i] < S2_maxlim[i]) & (S3_test[i] < S3_minlim[i]) & (S3_test[i] < S3_maxlim[i]): #set S3 to min and use S2 to deal with residual
         print('S3 too small for ',silllens[i],', adjusting!')
         print('before adjustment: S2=',S2_test[i],',S3=',S3_test[i])
         S3_adj[i] = S3_minlim[i] + 0.0001
         S2_adj[i] = (salt_input_output_mean[i] - (Q3_adj[i]*S3_adj[i]))/Q2_adj[i]
         print('after adjustment: S2=',S2_adj[i],',S3=',S3_adj[i])
-    elif (S2_test[i] > S2_minlim[i]) & (S2_test[i] < S2_maxlim[i]) & (S3_test[i] > S3_minlim[i]) & (S3_test[i] < S3_maxlim[i]): #set S3 to max and use S2 to deal with residual
+    elif (S2_test[i] > S2_minlim[i]) & (S2_test[i] < S2_maxlim[i]) & (S3_test[i] > S3_minlim[i]) & (S3_test[i] > S3_maxlim[i]): #set S3 to max and use S2 to deal with residual
         print('S3 too large for ',silllens[i],', adjusting!')
         print('before adjustment: S2=',S2_test[i],',S3=',S3_test[i])
         S3_adj[i] = S3_maxlim[i] - 0.0001
