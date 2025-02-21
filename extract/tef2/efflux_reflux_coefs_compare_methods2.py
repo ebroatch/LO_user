@@ -128,12 +128,18 @@ S3_adj[:]=S3
 S4_adj[:]=S4
 #create arrays to store maximum and minimum allowable values for the salinities
 #fill these when testing the four salinity inequalities
-S1_minlim = np.nan*np.ones(4) #minimum limits on the salinities
-S2_minlim = np.nan*np.ones(4)
-S3_minlim = np.nan*np.ones(4)
-S2_maxlim = np.nan*np.ones(4) #maximum limits on the salinities
-S3_maxlim = np.nan*np.ones(4)
-S4_maxlim = np.nan*np.ones(4)
+S1_minlim = np.zeros(5) #minimum limits on the salinities
+S2_minlim = np.zeros(5)
+S3_minlim = np.zeros(5)
+S2_maxlim = np.zeros(5) #maximum limits on the salinities
+S3_maxlim = np.zeros(5)
+S4_maxlim = np.zeros(5)
+# S1_minlim = np.nan*np.ones(4) #minimum limits on the salinities
+# S2_minlim = np.nan*np.ones(4)
+# S3_minlim = np.nan*np.ones(4)
+# S2_maxlim = np.nan*np.ones(4) #maximum limits on the salinities
+# S3_maxlim = np.nan*np.ones(4)
+# S4_maxlim = np.nan*np.ones(4)
 
 #adjust the salinities and transports to satisfy the salinity inequalities and volume and salt conservation
 #since these are small arrays, we can use a for loop :)
@@ -142,8 +148,8 @@ for i in range(len(gctags)):
     #check the salinity inequalities, and if it is not met, set the salinities to the mean value of the two
     #first inequality: S4<=S2
     S2S4_mean = (S2_adj[i]+S4_adj[i])/2
-    S2_minlim[0]=S2S4_mean
-    S4_maxlim[0]=S2S4_mean
+    S2_minlim[i]=S2S4_mean
+    S4_maxlim[i]=S2S4_mean
     if S4_adj[i]>S2_adj[i]:
         print('S4>S2 for ',silllens[i],', adjusting!')
         S2_adj[i] = S2S4_mean + 0.0001
@@ -155,8 +161,8 @@ for i in range(len(gctags)):
 
     #second inequality: S2<S1
     S1S2_mean = (S1_adj[i]+S2_adj[i])/2
-    S1_minlim[1]=S1S2_mean
-    S2_maxlim[1]=S1S2_mean
+    S1_minlim[i]=S1S2_mean
+    S2_maxlim[i]=S1S2_mean
     if S2_adj[i]>S1_adj[i]:
         print('S2>S1 for ',silllens[i],', adjusting!')
         S1_adj[i] = S1S2_mean + 0.0001
@@ -168,8 +174,9 @@ for i in range(len(gctags)):
 
     #third inequality: S4<S3
     S3S4_mean = (S3_adj[i]+S4_adj[i])/2
-    S3_minlim[2]=S3S4_mean
-    S4_maxlim[2]=S3S4_mean
+    S3_minlim[i]=S3S4_mean
+    if S4_maxlim[i] > S3S4_mean:
+        S4_maxlim[i]=S3S4_mean
     if S4_adj[i]>S3_adj[i]:
         print('S4>S3 for ',silllens[i],', adjusting!')
         S3_adj[i] = S3S4_mean + 0.0001
@@ -181,8 +188,9 @@ for i in range(len(gctags)):
 
     #fourth inequality: S3<=S1
     S1S3_mean = (S1_adj[i]+S3_adj[i])/2
-    S1_minlim[3]=S1S3_mean
-    S3_maxlim[3]=S1S3_mean
+    if S1_minlim[i] < S1S3_mean:
+        S1_minlim[i]=S1S3_mean
+    S3_maxlim[i]=S1S3_mean
     if S3_adj[i]>S1_adj[i]:
         print('S3>S1 for ',silllens[i],', adjusting!')
         S1_adj[i] = S1S3_mean + 0.0001
@@ -233,12 +241,12 @@ print('S2<S1 : ',S2<S1)
 print('S4<S3 : ',S4<S3)
 print('S3<=S1 : ',S3<S1)
 
-print('S4<maxlim:', S4<np.nanmin(S4_maxlim))
-print('S2>minlim:', S2>np.nanmax(S2_minlim))
-print('S2<maxlim:', S2<np.nanmin(S2_maxlim))
-print('S3>minlim:', S3>np.nanmax(S3_minlim))
-print('S3<maxlim:', S3<np.nanmin(S3_maxlim))
-print('S1>minlim:', S1>np.nanmax(S1_minlim))
+print('S4<maxlim:', S4<S4_maxlim)
+print('S2>minlim:', S2>S2_minlim)
+print('S2<maxlim:', S2<S2_maxlim)
+print('S3>minlim:', S3>S3_minlim)
+print('S3<maxlim:', S3<S3_maxlim)
+print('S1>minlim:', S1>S1_minlim)
 
 # #check volume and salt conservation
 # vol_residual = Q1-Q2-Q3+Q4
