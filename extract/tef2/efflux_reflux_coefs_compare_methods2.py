@@ -312,17 +312,17 @@ print('adjusted values: S4a=',S4_adj)
 print('budget Q1S1-Q2S2-Q3S3+Q4S4=',Q1_adj-Q2_adj-Q3_adj+Q4_adj)
 
 #check again that the salinity inequalities are still satisfied
-print('S4<=S2 : ',S4<S2)
-print('S2<S1 : ',S2<S1)
-print('S4<S3 : ',S4<S3)
-print('S3<=S1 : ',S3<S1)
+print('S4<=S2 : ',S4_adj<S2_adj)
+print('S2<S1 : ',S2_adj<S1_adj)
+print('S4<S3 : ',S4_adj<S3_adj)
+print('S3<=S1 : ',S3_adj<S1_adj)
 
-print('S4<maxlim:', S4<S4_maxlim)
-print('S2>minlim:', S2>S2_minlim)
-print('S2<maxlim:', S2<S2_maxlim)
-print('S3>minlim:', S3>S3_minlim)
-print('S3<maxlim:', S3<S3_maxlim)
-print('S1>minlim:', S1>S1_minlim)
+print('S4<maxlim:', S4_adj<S4_maxlim)
+print('S2>minlim:', S2_adj>S2_minlim)
+print('S2<maxlim:', S2_adj<S2_maxlim)
+print('S3>minlim:', S3_adj>S3_minlim)
+print('S3<maxlim:', S3_adj<S3_maxlim)
+print('S1>minlim:', S1_adj>S1_minlim)
 
 # #check volume and salt conservation
 # vol_residual = Q1-Q2-Q3+Q4
