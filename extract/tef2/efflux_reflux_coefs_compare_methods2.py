@@ -145,8 +145,8 @@ for i in range(len(gctags)):
     S2S4_mean = (S2_adj[i]+S4_adj[i])/2
     if S4_adj[i]>S2_adj[i]:
         print('S4>S2 for ',silllens[i],', adjusting!')
-        S2_adj[i] = S2S4_mean[i] + 0.0001
-        S4_adj[i] = S2S4_mean[i] - 0.0001
+        S2_adj[i] = S2S4_mean + 0.0001
+        S4_adj[i] = S2S4_mean - 0.0001
         Q2_adj[i] = (Q2[i]*S2[i])/S2_adj[i] #adjust volumes so that salt transports stay the same
         Q4_adj[i] = (Q4[i]*S4[i])/S4_adj[i]
         print('original values: S2 =',S2[i],'S4 =',S4[i],'Q2 =',Q2[i],'Q4 =',Q4[i])
@@ -156,8 +156,8 @@ for i in range(len(gctags)):
     S1S2_mean = (S1_adj[i]+S2_adj[i])/2
     if S2_adj[i]>S1_adj[i]:
         print('S2>S1 for ',silllens[i],', adjusting!')
-        S1_adj[i] = S1S2_mean[i] + 0.0001
-        S2_adj[i] = S1S2_mean[i] - 0.0001
+        S1_adj[i] = S1S2_mean + 0.0001
+        S2_adj[i] = S1S2_mean - 0.0001
         Q1_adj[i] = (Q1[i]*S1[i])/S1_adj[i] #adjust volumes so that salt transports stay the same
         Q2_adj[i] = (Q2[i]*S2[i])/S2_adj[i]
         print('original values: S1 =',S1[i],'S2 =',S2[i],'Q1 =',Q1[i],'Q2 =',Q2[i])
@@ -167,8 +167,8 @@ for i in range(len(gctags)):
     S3S4_mean = (S3_adj[i]+S4_adj[i])/2
     if S4_adj[i]>S3_adj[i]:
         print('S4>S3 for ',silllens[i],', adjusting!')
-        S3_adj[i] = S3S4_mean[i] + 0.0001
-        S4_adj[i] = S3S4_mean[i] - 0.0001
+        S3_adj[i] = S3S4_mean + 0.0001
+        S4_adj[i] = S3S4_mean - 0.0001
         Q3_adj[i] = (Q3[i]*S3[i])/S3_adj[i] #adjust volumes so that salt transports stay the same
         Q4_adj[i] = (Q4[i]*S4[i])/S4_adj[i]
         print('original values: S3 =',S3[i],'S4 =',S4[i],'Q3 =',Q3[i],'Q4 =',Q4[i])
@@ -178,8 +178,8 @@ for i in range(len(gctags)):
     S1S3_mean = (S1_adj[i]+S3_adj[i])/2
     if S3_adj[i]>S1_adj[i]:
         print('S3>S1 for ',silllens[i],', adjusting!')
-        S1_adj[i] = S1S3_mean[i] + 0.0001
-        S3_adj[i] = S1S3_mean[i] - 0.0001
+        S1_adj[i] = S1S3_mean + 0.0001
+        S3_adj[i] = S1S3_mean - 0.0001
         Q1_adj[i] = (Q1[i]*S1[i])/S1_adj[i] #adjust volumes so that salt transports stay the same
         Q3_adj[i] = (Q3[i]*S3[i])/S3_adj[i]
         print('original values: S1 =',S1[i],'S3 =',S3[i],'Q1 =',Q1[i],'Q3 =',Q3[i])
