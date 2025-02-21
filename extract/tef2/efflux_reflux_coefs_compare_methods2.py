@@ -119,9 +119,9 @@ alpha_34_basic = (Q3/Q4)*((S1-S3)/(S1-S4))
 #first, satisfy salinity inequalities
 #start by filling the adjusted variable arrays with the original TEF averages
 Q1_adj[:]=Q1
-Q1_adj[:]=Q1
-Q1_adj[:]=Q1
-Q1_adj[:]=Q1
+Q2_adj[:]=Q2
+Q3_adj[:]=Q3
+Q4_adj[:]=Q4
 S1_adj[:]=S1
 S2_adj[:]=S2
 S3_adj[:]=S3
