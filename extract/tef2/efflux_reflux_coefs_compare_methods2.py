@@ -214,9 +214,9 @@ Q_input_output_mean = (Q_input + Q_output)/2 #average size of the total input an
 Q_input_adjust = Q_input_output_mean - Q_input  #total adjustment needed to the inputs
 Q_output_adjust = Q_input_output_mean - Q_output #total adjustment needed to the outputs
 Q1_adj = Q1_adj + Q_input_adjust/2
-Q1_adj = Q2_adj + Q_output_adjust/2
-Q1_adj = Q3_adj + Q_output_adjust/2
-Q1_adj = Q4_adj + Q_input_adjust/2
+Q2_adj = Q2_adj + Q_output_adjust/2
+Q3_adj = Q3_adj + Q_output_adjust/2
+Q4_adj = Q4_adj + Q_input_adjust/2
 print('After adjustment for perfect volume conservation:')
 print('original values: Q1 =',Q1)
 print('adjusted values: Q1a=',Q1_adj)
