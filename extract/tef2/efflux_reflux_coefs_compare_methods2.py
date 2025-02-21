@@ -255,16 +255,16 @@ for i in range(len(gctags)):
         S4_adj[i]=S4_test[i]
     elif (S1_test[i] < S1_minlim[i]) & (S4_test[i] < S4_maxlim[i]): #set S1 to min and use S4 to deal with residual
         print('S1 too small for ',silllens[i],', adjusting!')
-        print('before adjustment: S1=',S1_test,',S4=',S4_test)
+        print('before adjustment: S1=',S1_test[i],',S4=',S4_test[i])
         S1_adj[i] = S1_minlim[i] + 0.0001
-        S4_adj[i] = (salt_input_output_mean - (Q1_adj*S1_adj))/Q4_adj
-        print('after adjustment: S1=',S1_adj,',S4=',S4_adj)
+        S4_adj[i] = (salt_input_output_mean[i] - (Q1_adj[i]*S1_adj[i]))/Q4_adj[i]
+        print('after adjustment: S1=',S1_adj[i],',S4=',S4_adj[i])
     elif (S1_test[i] > S1_minlim[i]) & (S4_test[i] > S4_maxlim[i]): #set S4 to max and use S1 to deal with residual
         print('S4 too large for ',silllens[i],', adjusting!')
-        print('before adjustment: S1=',S1_test,',S4=',S4_test)
+        print('before adjustment: S1=',S1_test[i],',S4=',S4_test[i])
         S4_adj[i] = S4_maxlim[i] - 0.0001
-        S1_adj[i] = (salt_input_output_mean - (Q4_adj*S4_adj))/Q1_adj
-        print('after adjustment: S1=',S1_adj,',S4=',S4_adj)
+        S1_adj[i] = (salt_input_output_mean[i] - (Q4_adj[i]*S4_adj[i]))/Q1_adj[i]
+        print('after adjustment: S1=',S1_adj[i],',S4=',S4_adj[i])
     else:
         print('mean salinity adjustment will not succeed for inputs to',silllens[i])
     
@@ -274,28 +274,28 @@ for i in range(len(gctags)):
         S3_adj[i]=S3_test[i]
     elif (S2_test[i] < S2_minlim[i]) & (S2_test[i] < S2_maxlim[i]) & (S3_test[i] > S3_minlim[i]) & (S3_test[i] < S3_maxlim[i]): #set S2 to min and use S3 to deal with residual
         print('S2 too small for ',silllens[i],', adjusting!')
-        print('before adjustment: S2=',S2_test,',S3=',S3_test)
+        print('before adjustment: S2=',S2_test[i],',S3=',S3_test[i])
         S2_adj[i] = S2_minlim[i] + 0.0001
-        S3_adj[i] = (salt_input_output_mean - (Q2_adj*S2_adj))/Q3_adj
-        print('after adjustment: S2=',S2_adj,',S3=',S3_adj)
+        S3_adj[i] = (salt_input_output_mean[i] - (Q2_adj[i]*S2_adj[i]))/Q3_adj[i]
+        print('after adjustment: S2=',S2_adj[i],',S3=',S3_adj[i])
     elif (S2_test[i] > S2_minlim[i]) & (S2_test[i] > S2_maxlim[i]) & (S3_test[i] > S3_minlim[i]) & (S3_test[i] < S3_maxlim[i]): #set S2 to max and use S3 to deal with residual
         print('S2 too large for ',silllens[i],', adjusting!')
-        print('before adjustment: S2=',S2_test,',S3=',S3_test)
+        print('before adjustment: S2=',S2_test[i],',S3=',S3_test[i])
         S2_adj[i] = S2_maxlim[i] - 0.0001
-        S3_adj[i] = (salt_input_output_mean - (Q2_adj*S2_adj))/Q3_adj
-        print('after adjustment: S2=',S2_adj,',S3=',S3_adj)
+        S3_adj[i] = (salt_input_output_mean[i] - (Q2_adj[i]*S2_adj[i]))/Q3_adj[i]
+        print('after adjustment: S2=',S2_adj[i],',S3=',S3_adj[i])
     elif (S2_test[i] > S2_minlim[i]) & (S2_test[i] < S2_maxlim[i]) & (S3_test[i] > S3_minlim[i]) & (S3_test[i] < S3_maxlim[i]): #set S3 to min and use S2 to deal with residual
         print('S3 too small for ',silllens[i],', adjusting!')
-        print('before adjustment: S2=',S2_test,',S3=',S3_test)
+        print('before adjustment: S2=',S2_test[i],',S3=',S3_test[i])
         S3_adj[i] = S3_minlim[i] + 0.0001
-        S2_adj[i] = (salt_input_output_mean - (Q3_adj*S3_adj))/Q2_adj
-        print('after adjustment: S2=',S2_adj,',S3=',S3_adj)
+        S2_adj[i] = (salt_input_output_mean[i] - (Q3_adj[i]*S3_adj[i]))/Q2_adj[i]
+        print('after adjustment: S2=',S2_adj[i],',S3=',S3_adj[i])
     elif (S2_test[i] > S2_minlim[i]) & (S2_test[i] < S2_maxlim[i]) & (S3_test[i] > S3_minlim[i]) & (S3_test[i] < S3_maxlim[i]): #set S3 to max and use S2 to deal with residual
         print('S3 too large for ',silllens[i],', adjusting!')
-        print('before adjustment: S2=',S2_test,',S3=',S3_test)
+        print('before adjustment: S2=',S2_test[i],',S3=',S3_test[i])
         S3_adj[i] = S3_maxlim[i] - 0.0001
-        S2_adj[i] = (salt_input_output_mean - (Q3_adj*S3_adj))/Q2_adj
-        print('after adjustment: S2=',S2_adj,',S3=',S3_adj)
+        S2_adj[i] = (salt_input_output_mean[i] - (Q3_adj[i]*S3_adj[i]))/Q2_adj[i]
+        print('after adjustment: S2=',S2_adj[i],',S3=',S3_adj[i])
     else:
         print('mean salinity adjustment will not succeed for outputs to',silllens[i])
 
