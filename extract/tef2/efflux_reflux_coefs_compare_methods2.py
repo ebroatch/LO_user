@@ -200,13 +200,23 @@ for i in range(len(gctags)):
         print('original values: S1 =',S1[i],'S3 =',S3[i],'Q1 =',Q1[i],'Q3 =',Q3[i])
         print('adjusted values: S1a=',S1_adj[i],'S3a=',S3_adj[i],'Q1a=',Q1_adj[i],'Q3a=',Q3_adj[i])
 
-#next, check the volume conservation with the adjusted transports
-vol_residual = Q1_adj-Q2_adj-Q3_adj+Q4_adj
-#adjust volumes for perfect conservation
-Q1_adj=Q1_adj-0.25*vol_residual #distribute the error evenly between the four transports, different signs are due to direction
-Q2_adj=Q2_adj+0.25*vol_residual
-Q3_adj=Q3_adj+0.25*vol_residual
-Q4_adj=Q4_adj-0.25*vol_residual
+# #next, check the volume conservation with the adjusted transports
+# vol_residual = Q1_adj-Q2_adj-Q3_adj+Q4_adj
+# #adjust volumes for perfect conservation
+# Q1_adj=Q1_adj-0.25*vol_residual #distribute the error evenly between the four transports, different signs are due to direction
+# Q2_adj=Q2_adj+0.25*vol_residual
+# Q3_adj=Q3_adj+0.25*vol_residual
+# Q4_adj=Q4_adj-0.25*vol_residual
+# next, adjust for perfect volume conservation
+Q_input = Q1_adj + Q4_adj #total input to the sill zone
+Q_output = Q2_adj + Q3_adj #total output from the sill zone
+Q_input_output_mean = (Q_input + Q_output)/2 #average size of the total input and total output from the sill zone
+Q_input_adjust = Q_input_output_mean - Q_input  #total adjustment needed to the inputs
+Q_output_adjust = Q_input_output_mean - Q_output #total adjustment needed to the outputs
+Q1_adj = Q1_adj + Q_input_adjust/2
+Q1_adj = Q2_adj + Q_output_adjust/2
+Q1_adj = Q3_adj + Q_output_adjust/2
+Q1_adj = Q4_adj + Q_input_adjust/2
 print('After adjustment for perfect volume conservation:')
 print('original values: Q1 =',Q1)
 print('adjusted values: Q1a=',Q1_adj)
@@ -216,14 +226,80 @@ print('original values: Q3 =',Q3)
 print('adjusted values: Q3a=',Q3_adj)
 print('original values: Q4 =',Q4)
 print('adjusted values: Q4a=',Q4_adj)
+print('budget Q1-Q2-Q3+Q4=',Q1_adj-Q2_adj-Q3_adj+Q4_adj)
 
-#next, check the salt conservation with the updated transports and salinities
-salt_residual_adj = (Q1_adj*S1_adj)-(Q2_adj*S2_adj)-(Q3_adj*S3_adj)+(Q4_adj*S4_adj)
-#allocate the salt transport error evenly between the four transports, and find the salinities necessary to keep the volume transports as Q_adj
-S1_adj = (Q1_adj*S1_adj - 0.25*salt_residual_adj)/Q1_adj
-S2_adj = (Q2_adj*S2_adj + 0.25*salt_residual_adj)/Q2_adj
-S3_adj = (Q3_adj*S3_adj + 0.25*salt_residual_adj)/Q3_adj
-S4_adj = (Q4_adj*S4_adj - 0.25*salt_residual_adj)/Q4_adj
+# #next, check the salt conservation with the updated transports and salinities
+# salt_residual_adj = (Q1_adj*S1_adj)-(Q2_adj*S2_adj)-(Q3_adj*S3_adj)+(Q4_adj*S4_adj)
+# #first, try allocating the salt transport error evenly between the four transports, and find the salinities necessary to keep the volume transports as Q_adj
+# S1_test = (Q1_adj*S1_adj - 0.25*salt_residual_adj)/Q1_adj
+# S2_test = (Q2_adj*S2_adj + 0.25*salt_residual_adj)/Q2_adj
+# S3_test = (Q3_adj*S3_adj + 0.25*salt_residual_adj)/Q3_adj
+# S4_test = (Q4_adj*S4_adj - 0.25*salt_residual_adj)/Q4_adj
+# next, adjust for perfect salt conservation
+salt_input = (Q1_adj * S1_adj) + (Q4_adj * S4_adj) #total input to the sill zone
+salt_output = (Q2_adj * S2_adj) + (Q3_adj * S3_adj) #total output from the sill zone
+salt_input_output_mean = (salt_input+salt_output)/2 #average size of the total input and total output from the sill zone
+salt_input_adjust = salt_input_output_mean - salt_input  #total adjustment needed to the inputs
+salt_output_adjust = salt_input_output_mean - salt_output #total adjustment needed to the outputs
+#first, try allocating the salt transport error evenly between the four transports, and find the salinities necessary to keep the volume transports as Q_adj
+S1_test = ((Q1_adj*S1_adj) + (salt_input_adjust/2))/Q1_adj
+S2_test = ((Q2_adj*S2_adj) + (salt_output_adjust/2))/Q2_adj
+S3_test = ((Q3_adj*S3_adj) + (salt_output_adjust/2))/Q3_adj
+S4_test = ((Q4_adj*S4_adj) + (salt_input_adjust/2))/Q4_adj
+#if this works with the salinity ranges defined by the means of the inequalities (S1_minlim, S2_maxlim, etc.. as defined above) set those salinities
+#otherwise, set the salinity to the mean and make up the salt transport necessary in the other inflow/outflow
+for i in range(len(gctags)):
+    #inputs
+    if (S1_test[i] > S1_minlim[i]) & (S4_test[i] < S4_maxlim[i]):
+        S1_adj[i]=S1_test[i]
+        S4_adj[i]=S4_test[i]
+    elif (S1_test[i] < S1_minlim[i]) & (S4_test[i] < S4_maxlim[i]): #set S1 to min and use S4 to deal with residual
+        print('S1 too small for ',silllens[i],', adjusting!')
+        print('before adjustment: S1=',S1_test,',S4=',S4_test)
+        S1_adj[i] = S1_minlim[i] + 0.0001
+        S4_adj[i] = (salt_input_output_mean - (Q1_adj*S1_adj))/Q4_adj
+        print('after adjustment: S1=',S1_adj,',S4=',S4_adj)
+    elif (S1_test[i] > S1_minlim[i]) & (S4_test[i] > S4_maxlim[i]): #set S4 to max and use S1 to deal with residual
+        print('S4 too large for ',silllens[i],', adjusting!')
+        print('before adjustment: S1=',S1_test,',S4=',S4_test)
+        S4_adj[i] = S4_maxlim - 0.0001
+        S1_adj[i] = (salt_input_output_mean - (Q4_adj*S4_adj))/Q1_adj
+        print('after adjustment: S1=',S1_adj,',S4=',S4_adj)
+    else:
+        print('mean salinity adjustment will not succeed for inputs to',silllens[i])
+    
+    #outputs
+    if (S2_test[i] > S2_minlim[i]) & (S2_test[i] < S2_maxlim[i]) & (S3_test[i] > S3_minlim[i]) & (S3_test[i] < S3_maxlim[i]):
+        S2_adj[i]=S2_test[i]
+        S3_adj[i]=S3_test[i]
+    elif (S2_test[i] < S2_minlim[i]) & (S2_test[i] < S2_maxlim[i]) & (S3_test[i] > S3_minlim[i]) & (S3_test[i] < S3_maxlim[i]): #set S2 to min and use S3 to deal with residual
+        print('S2 too small for ',silllens[i],', adjusting!')
+        print('before adjustment: S2=',S2_test,',S3=',S3_test)
+        S2_adj[i] = S2_minlim[i] + 0.0001
+        S3_adj[i] = (salt_input_output_mean - (Q2_adj*S2_adj))/Q3_adj
+        print('after adjustment: S2=',S2_adj,',S3=',S3_adj)
+    elif (S2_test[i] > S2_minlim[i]) & (S2_test[i] > S2_maxlim[i]) & (S3_test[i] > S3_minlim[i]) & (S3_test[i] < S3_maxlim[i]): #set S2 to max and use S3 to deal with residual
+        print('S2 too large for ',silllens[i],', adjusting!')
+        print('before adjustment: S2=',S2_test,',S3=',S3_test)
+        S2_adj[i] = S2_maxlim[i] - 0.0001
+        S3_adj[i] = (salt_input_output_mean - (Q2_adj*S2_adj))/Q3_adj
+        print('after adjustment: S2=',S2_adj,',S3=',S3_adj)
+    elif (S2_test[i] > S2_minlim[i]) & (S2_test[i] < S2_maxlim[i]) & (S3_test[i] > S3_minlim[i]) & (S3_test[i] < S3_maxlim[i]): #set S3 to min and use S2 to deal with residual
+        print('S3 too small for ',silllens[i],', adjusting!')
+        print('before adjustment: S2=',S2_test,',S3=',S3_test)
+        S3_adj[i] = S3_minlim[i] + 0.0001
+        S2_adj[i] = (salt_input_output_mean - (Q3_adj*S3_adj))/Q2_adj
+        print('after adjustment: S2=',S2_adj,',S3=',S3_adj)
+    elif (S2_test[i] > S2_minlim[i]) & (S2_test[i] < S2_maxlim[i]) & (S3_test[i] > S3_minlim[i]) & (S3_test[i] < S3_maxlim[i]): #set S3 to max and use S2 to deal with residual
+        print('S3 too large for ',silllens[i],', adjusting!')
+        print('before adjustment: S2=',S2_test,',S3=',S3_test)
+        S3_adj[i] = S3_maxlim[i] - 0.0001
+        S2_adj[i] = (salt_input_output_mean - (Q3_adj*S3_adj))/Q2_adj
+        print('after adjustment: S2=',S2_adj,',S3=',S3_adj)
+    else:
+        print('mean salinity adjustment will not succeed for outputs to',silllens[i])
+
+
 print('After adjustment for perfect salt conservation:')
 print('original values: S1 =',S1)
 print('adjusted values: S1a=',S1_adj)
@@ -233,9 +309,9 @@ print('original values: S3 =',S3)
 print('adjusted values: S3a=',S3_adj)
 print('original values: S4 =',S4)
 print('adjusted values: S4a=',S4_adj)
+print('budget Q1S1-Q2S2-Q3S3+Q4S4=',Q1_adj-Q2_adj-Q3_adj+Q4_adj)
 
-#check that the salinity inequalities are still satisfied
-#if not, will need to add additional salt adjustment options to the code
+#check again that the salinity inequalities are still satisfied
 print('S4<=S2 : ',S4<S2)
 print('S2<S1 : ',S2<S1)
 print('S4<S3 : ',S4<S3)
@@ -278,7 +354,7 @@ alpha_31_adj = (Q3_adj/Q1_adj)*((S3_adj-S4_adj)/(S1_adj-S4_adj))
 alpha_24_adj = (Q2_adj/Q4_adj)*((S1_adj-S2_adj)/(S1_adj-S4_adj))
 alpha_34_adj = (Q3_adj/Q4_adj)*((S1_adj-S3_adj)/(S1_adj-S4_adj))
 
-print('got alphas from tef')
+
 print('After all adjustments:')
 print('original values: alpha_21 =',alpha_21_basic)
 print('adjusted values: alpha_21a=',alpha_21_adj)
@@ -288,6 +364,8 @@ print('original values: alpha_24 =',alpha_24_basic)
 print('adjusted values: alpha_24a=',alpha_24_adj)
 print('original values: alpha_34 =',alpha_34_basic)
 print('adjusted values: alpha_34a=',alpha_34_adj)
+
+print('got alphas from tef')
 
 ########## PARTICLES (TIDALLY AVERAGED) ##########
 alpha_24_par_ta=np.zeros(5)
