@@ -471,11 +471,11 @@ axs[4].set_title('80 km',color='tab:purple')
 
 axs[0].set_ylabel('Particles remaining')
 
-axs[0].legend(title='Number of re-entries')
-axs[1].legend(title='Number of re-entries')
-axs[2].legend(title='Number of re-entries')
-axs[3].legend(title='Number of re-entries')
-axs[4].legend(title='Number of re-entries')
+axs[0].legend(title='Re-entries')
+axs[1].legend(title='Re-entries')
+axs[2].legend(title='Re-entries')
+axs[3].legend(title='Re-entries')
+axs[4].legend(title='Re-entries')
 # fig.legend(ncol=1, loc='outside right center')
 
 axs[0].set_box_aspect(1)
