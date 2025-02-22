@@ -17,7 +17,7 @@ import datetime
 
 plt.close('all')
 # fig, axs = plt.subplots(1,5,figsize=(25,5),sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
-fig, axs = plt.subplots(1,5,figsize=(18,6),sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
+fig, axs = plt.subplots(1,5,figsize=(18,6),sharey=True,layout='constrained')#,gridspec_kw={'height_ratios': [6,1]})
 # fig, axs = plt.subplots(2,2,figsize=(15,15))
 
 for i in range(5):
@@ -347,10 +347,7 @@ for i in range(5):
     # axs[0,2].plot(time_hours/24, zfun.lowpass(count_in, f='godin'), color=linecolor, label=silllenlabel+' total') 
     # axs[0,2].plot(time_hours/24, zfun.lowpass(count_in_strict, f='godin'), '--', color=linecolor, label=silllenlabel+' no return') 
 
-    if i==0: #to limit repeated labels in legend
-        axs[i].stackplot(time_hours/24,ret_count_0_ta,ret_count_1_ta,ret_count_2_ta,ret_count_3_ta,ret_count_4plus_ta,colors=['tab:grey',plt.cm.tab20b(2),'tab:cyan','tab:olive','tab:pink'],labels=['0','1','2','3','4+'])
-    else:
-        axs[i].stackplot(time_hours/24,ret_count_0_ta,ret_count_1_ta,ret_count_2_ta,ret_count_3_ta,ret_count_4plus_ta,colors=['tab:grey',plt.cm.tab20b(2),'tab:cyan','tab:olive','tab:pink'])
+    axs[i].stackplot(time_hours/24,ret_count_0_ta,ret_count_1_ta,ret_count_2_ta,ret_count_3_ta,ret_count_4plus_ta,colors=['tab:grey',plt.cm.tab20b(2),'tab:cyan','tab:olive','tab:pink'],labels=['0','1','2','3','4+'])
     #could try with total number of particles and/or double axis
     
     # axs[0,0].plot(time_hours/24, (par_out/par_out[0])*100, color=linecolor, label=silllenlabel) #TRY WITH NO FILTERING
@@ -474,11 +471,11 @@ axs[4].set_title('80 km',color='tab:purple')
 
 axs[0].set_ylabel('Particles remaining')
 
-axs[0].legend(title='Reentries')
-axs[1].legend(title='Reentries')
-axs[2].legend(title='Reentries')
-axs[3].legend(title='Reentries')
-axs[4].legend(title='Reentries')
+axs[0].legend(title='Number of re-entries')
+axs[1].legend(title='Number of re-entries')
+axs[2].legend(title='Number of re-entries')
+axs[3].legend(title='Number of re-entries')
+axs[4].legend(title='Number of re-entries')
 # fig.legend(ncol=1, loc='outside right center')
 
 axs[0].set_box_aspect(1)
