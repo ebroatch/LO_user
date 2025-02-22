@@ -17,7 +17,7 @@ import datetime
 
 plt.close('all')
 # fig, axs = plt.subplots(1,5,figsize=(25,5),sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
-fig, axs = plt.subplots(1,5,figsize=(18,6),sharey=True,layout='constrained')#,gridspec_kw={'height_ratios': [6,1]})
+fig, axs = plt.subplots(1,5,figsize=(18,6),sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
 # fig, axs = plt.subplots(2,2,figsize=(15,15))
 
 for i in range(5):
@@ -474,12 +474,12 @@ axs[4].set_title('80 km',color='tab:purple')
 
 axs[0].set_ylabel('Particles remaining')
 
-# axs[0].legend(title='Number of reentries')
-# axs[1].legend(title='Number of reentries')
-# axs[2].legend(title='Number of reentries')
-# axs[3].legend(title='Number of reentries')
-# axs[4].legend(title='Number of reentries')
-fig.legend(ncol=1, loc='outside right center')
+axs[0].legend(title='Reentries')
+axs[1].legend(title='Reentries')
+axs[2].legend(title='Reentries')
+axs[3].legend(title='Reentries')
+axs[4].legend(title='Reentries')
+# fig.legend(ncol=1, loc='outside right center')
 
 axs[0].set_box_aspect(1)
 axs[1].set_box_aspect(1)
