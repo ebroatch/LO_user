@@ -472,29 +472,57 @@ for i in range(5):
 print('got alphas from tidally averaged particles')
 
 ########## PLOTTING ##########
-fig, ax = plt.subplots(1,1,figsize=(15,8))
+# fig, ax = plt.subplots(1,1,figsize=(15,8))
 
+# #Only plot the reflux fractions
+# ax.plot(silllens_plot,alpha_34_basic,marker='o',c='tab:pink',ls=':',label=r'TEF $\alpha_{34}$')
+# ax.plot(silllens_plot,alpha_21_basic,marker='o',c='tab:cyan',ls=':',label=r'TEF $\alpha_{21}$')
+# ax.plot(silllens_plot,alpha_34_adj,marker='o',c='tab:pink',ls='-',label=r'Adjusted TEF $\alpha_{34}$')
+# ax.plot(silllens_plot,alpha_21_adj,marker='o',c='tab:cyan',ls='-',label=r'Adjusted TEF $\alpha_{21}$')
+# ax.plot(silllens_plot,alpha_34_par_ta,marker='o',c='tab:pink',ls='--',label=r'Tidally averaged particles $\alpha_{34}$')
+# ax.plot(silllens_plot,alpha_21_par_ta,marker='o',c='tab:cyan',ls='--',label=r'Tidally averaged particles $\alpha_{21}$')
+
+# ax.set_xlabel('Sill length [km]')
+# ax.set_ylabel('Reflux fractions')
+# ax.set_xlim(0,85)
+# ax.set_ylim(-0.3,1.2)
+# ax.set_title('Efflux/reflux coefficients from TEF and particle tracking')
+# ax.grid(True)
+
+# h, l = ax.get_legend_handles_labels()
+# ph = [plt.plot([],marker="", ls="")[0]]*4
+# handles = ph + h
+# labels = [r'Inner basin reflux $\alpha_{34}$:', r'Outer basin reflux $\alpha_{21}$:',r'Efflux from inner basin $\alpha_{24}$:',r'Efflux from outer basin $\alpha_{31}$:'] + l
+# ax.legend(handles, labels, ncol=4, loc='lower right')
+
+# fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_compare_methods2.png' #UNCOMMENT TO PLOT
+# plt.savefig(fn_fig)
+# plt.close()
+
+#try a different plot style
+pfun.start_plot(fs=14)
+fig, [ax1,ax2] = plt.subplots(1,2,figsize=(8,5))
 #Only plot the reflux fractions
-ax.plot(silllens_plot,alpha_34_basic,marker='o',c='tab:pink',ls=':',label=r'TEF $\alpha_{34}$')
-ax.plot(silllens_plot,alpha_21_basic,marker='o',c='tab:cyan',ls=':',label=r'TEF $\alpha_{21}$')
-ax.plot(silllens_plot,alpha_34_adj,marker='o',c='tab:pink',ls='-',label=r'Adjusted TEF $\alpha_{34}$')
-ax.plot(silllens_plot,alpha_21_adj,marker='o',c='tab:cyan',ls='-',label=r'Adjusted TEF $\alpha_{21}$')
-ax.plot(silllens_plot,alpha_34_par_ta,marker='o',c='tab:pink',ls='--',label=r'Tidally averaged particles $\alpha_{34}$')
-ax.plot(silllens_plot,alpha_21_par_ta,marker='o',c='tab:cyan',ls='--',label=r'Tidally averaged particles $\alpha_{21}$')
-
-ax.set_xlabel('Sill length [km]')
-ax.set_ylabel('Reflux fractions')
-ax.set_xlim(0,85)
-ax.set_ylim(-0.3,1.2)
-ax.set_title('Efflux/reflux coefficients from TEF and particle tracking')
-ax.grid(True)
-
-h, l = ax.get_legend_handles_labels()
-ph = [plt.plot([],marker="", ls="")[0]]*4
-handles = ph + h
-labels = [r'Inner basin reflux $\alpha_{34}$:', r'Outer basin reflux $\alpha_{21}$:',r'Efflux from inner basin $\alpha_{24}$:',r'Efflux from outer basin $\alpha_{31}$:'] + l
-ax.legend(handles, labels, ncol=4, loc='lower right')
-
+ax1.plot(silllens_plot,alpha_21_basic,marker='o',c='navy',ls=':',label=r'TEF')
+ax2.plot(silllens_plot,alpha_34_basic,marker='o',c='navy',ls=':',label=r'TEF')
+ax1.plot(silllens_plot,alpha_21_adj,marker='o',c='navy',ls='-',label=r'Adjusted TEF')
+ax2.plot(silllens_plot,alpha_34_adj,marker='o',c='navy',ls='-',label=r'Adjusted TEF')
+ax1.plot(silllens_plot,alpha_21_par_ta,marker='o',c='mediumorchid',ls='-',label=r'Tidally averaged particles')
+ax2.plot(silllens_plot,alpha_34_par_ta,marker='o',c='mediumorchid',ls='-',label=r'Tidally averaged particles')
+ax1.set_xlabel('Sill length [km]')
+ax2.set_xlabel('Sill length [km]')
+ax1.set_ylabel('Reflux fractions')
+ax1.set_title(r'Outer basin reflux coefficient $\alpha_{21}$')
+ax2.set_title(r'Inner basin reflux coefficient $\alpha_{34}$')
+fig.suptitle('Efflux/reflux from TEF and particle tracking')
+ax1.grid(True)
+ax2.grid(True)
+ax1.legend(loc='upper right')
+ax2.legend(loc='upper right')
+ax1.set_xlim(0,85)
+ax2.set_xlim(0,85)
+ax1.set_ylim(-0.1,0.8)
+ax2.set_ylim(-0.1,0.8)
 fn_fig = Ldir['LOo'] / 'plots' / 'efflux_reflux_coefs_compare_methods2.png' #UNCOMMENT TO PLOT
 plt.savefig(fn_fig)
 plt.close()
