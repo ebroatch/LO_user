@@ -17,7 +17,7 @@ import datetime
 
 plt.close('all')
 # fig, axs = plt.subplots(1,5,figsize=(25,5),sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
-fig, axs = plt.subplots(1,5,figsize=(12,6))#,gridspec_kw={'height_ratios': [6,1]})
+fig, axs = plt.subplots(1,5,figsize=(18,6),sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
 # fig, axs = plt.subplots(2,2,figsize=(15,15))
 
 for i in range(5):
