@@ -295,19 +295,21 @@ axs[1].grid(True)
 # axs[0,0].set_ylim(0,par_in_lower[0])
 axs[0].set_xlabel('Release depth [m]')
 axs[1].set_xlabel('Release depth [m]')
-axs[0].legend(loc='upper left',bbox_to_anchor=(0.05,1))
-axs[1].legend(loc='upper left',bbox_to_anchor=(0.05,1))
+# axs[0].legend(loc='upper left',bbox_to_anchor=(0.05,1))
+# axs[1].legend(loc='upper left',bbox_to_anchor=(0.05,1))
+axs[0].legend(loc='lower right')
+axs[1].legend(loc='lower right')
 axs[0].set_box_aspect(1)
 axs[1].set_box_aspect(1)
 axs[0].text(.02, .98, 'A', horizontalalignment='left', verticalalignment='top', transform=axs[0].transAxes, fontsize=14, fontweight='bold')
 axs[1].text(.02, .98, 'B', horizontalalignment='left', verticalalignment='top', transform=axs[1].transAxes, fontsize=14, fontweight='bold')
 
 axs[0].set_xlim(0,200) #x axis is the depth
-axs[0].set_ylim(0,80)
+axs[0].set_ylim(0,65)
 # axs[0].invert_xaxis()
 
 axs[1].set_xlim(0,200)
-axs[1].set_ylim(0,80)
+axs[1].set_ylim(0,65)
 # axs[2].invert_xaxis()
 
 
