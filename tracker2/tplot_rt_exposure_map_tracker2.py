@@ -177,7 +177,7 @@ plt.close('all')
 # wr1= 8*estlenkm/40
 # wr1=8*((lonlim)/(lonlim-sillland))
 wr1=8*((llxyfun.x2lon(160*1e3,0,45)+0.1)/(lonlim-sillland))
-fig = plt.figure(figsize=(20,7))
+fig = plt.figure(figsize=(24,6))
 # fig = plt.figure(figsize=(12,6))
 gs = fig.add_gridspec(nrows=4,ncols=3, width_ratios=[wr1,8,1], height_ratios=[1,1,1,1])
 ax1 = fig.add_subplot(gs[0,0])
