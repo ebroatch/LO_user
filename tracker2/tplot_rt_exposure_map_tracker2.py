@@ -176,7 +176,7 @@ plt.close('all')
 #fig, axs = plt.subplots(2,1, sharex=True, sharey=True)
 # wr1= 8*estlenkm/40
 # wr1=8*((lonlim)/(lonlim-sillland))
-lonlim = 2.1
+lonlim = 2.15
 wr1=8*((lonlim)/(lonliminner-sillland))
 fig = plt.figure(figsize=(20,7))
 # fig = plt.figure(figsize=(12,6))
@@ -341,7 +341,7 @@ for j in range(len(depths)):
 fig.colorbar(cs,cax=axcb,extend='max',label='Time scale [days]')
 # plt.suptitle('Residence and exposure times at different depths for '+silllenlabel+' sill model')
 #ADD SILL LENGTH!!!!
-axs[0].text(0.01, 45.051, silllenlabel+' sill model', horizontalalignment='left', verticalalignment='bottom')
+axs[0].text(0, 45.051, silllenlabel+' sill model', horizontalalignment='left', verticalalignment='bottom')
 
 # axs[0].text(estlenlon+0.05, 45, 'A', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 # axs[1].text(estlenlon+0.05, 45, 'B', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
@@ -351,13 +351,13 @@ axs[0].text(0.01, 45.051, silllenlabel+' sill model', horizontalalignment='left'
 # axsc[1].text(estlenlon+0.05, 45, 'F', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 # axsd[0].text(estlenlon+0.05, 45, 'G', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 # axsd[1].text(estlenlon+0.05, 45, 'H', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
-axs[0].text(2.05, 45, 'A', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+axs[0].text(2.1, 45, 'A', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 axsc[0].text(estlenlon+0.05, 45, 'B', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
-axsb[0].text(2.05, 45, 'C', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+axsb[0].text(2.1, 45, 'C', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 axsd[0].text(estlenlon+0.05, 45, 'D', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
-axs[1].text(2.05, 45, 'E', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+axs[1].text(2.1, 45, 'E', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 axsc[1].text(estlenlon+0.05, 45, 'F', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
-axsb[1].text(2.05, 45, 'G', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+axsb[1].text(2.1, 45, 'G', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 axsd[1].text(estlenlon+0.05, 45, 'H', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rt_exposure_map_tracker2.png'
