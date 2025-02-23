@@ -31,7 +31,7 @@ if sill_choice==5:
     sillland = llxyfun.x2lon(45e3,0,45)
     # lonlim = 1.1
     estlenkm = 85
-    # estlenlon = llxyfun.x2lon(estlenkm*1e3,0,45)
+    estlenlon = llxyfun.x2lon(estlenkm*1e3,0,45)
     lonliminner = estlenlon+0.1
     silllenlabel = '5km'
     fn = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/release_2020.09.01.nc'
