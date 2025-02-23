@@ -155,7 +155,8 @@ depthstr = ['12.5m','187.5m']
 plt.close('all')
 #fig, axs = plt.subplots(2,4, sharex=True, sharey=True, figsize=(15,10))
 #fig, axs = plt.subplots(2,1, sharex=True, sharey=True)
-wr1= 8*estlenkm/40
+# wr1= 8*estlenkm/40
+wr1=8*((lonlim+0.05)/(lonlim+0.05-sillland))
 fig = plt.figure(figsize=(18,6))
 # fig = plt.figure(figsize=(12,6))
 gs = fig.add_gridspec(nrows=4,ncols=3, width_ratios=[wr1,8,1], height_ratios=[1,1,1,1])
@@ -221,7 +222,7 @@ for j in range(len(depths)):
     # csb=axb.contourf((lonbin[1:]+lonbin[:-1])/2,(latbin[1:]+latbin[:-1])/2,np.transpose(rt_in_map),cmap='turbo',levels=[0,10,20,30,40,50,60,70,80,90,100,110,120],extend='max')
     
     #set limits
-    aa = [0,lonlim+0.1,44.95,45.05]
+    aa = [0,lonlim+0.05,44.95,45.05]
     ax.axis(aa)
     pfun.dar(ax)
     # ax.set_xlabel('Longitude')
@@ -235,7 +236,7 @@ for j in range(len(depths)):
     ax.set_title('Whole estuary residence time ('+depthstr[j]+' depth)')
     axb.set_title('Whole estuary exposure time ('+depthstr[j]+' depth)')
 
-    aac = [sillland,lonlim+0.1,44.95,45.05]
+    aac = [sillland,lonlim+0.05,44.95,45.05]
     axc.axis(aac)
     pfun.dar(axc)
     # axc.set_xlabel('Longitude')
@@ -317,7 +318,7 @@ for j in range(len(depths)):
 fig.colorbar(cs,cax=axcb,extend='max',label='Time scale [days]')
 # plt.suptitle('Residence and exposure times at different depths for '+silllenlabel+' sill model')
 #ADD SILL LENGTH!!!!
-axsb[0].text(.99, .99, silllenlabel+' sill model', horizontalalignment='right', verticalalignment='top', transform=axsb[0].transAxes)
+axs[0].text(.005, .99, silllenlabel+' sill model', horizontalalignment='left', verticalalignment='top', transform=axsb[0].transAxes)
 
 axs[0].text(.95, .5, 'A', horizontalalignment='right', verticalalignment='center', transform=axs[0].transAxes, fontsize=14, fontweight='bold')
 axs[1].text(.95, .5, 'B', horizontalalignment='right', verticalalignment='center', transform=axs[1].transAxes, fontsize=14, fontweight='bold')
