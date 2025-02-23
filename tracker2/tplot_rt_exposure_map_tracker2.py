@@ -244,12 +244,12 @@ for j in range(len(depths)):
     #set limits
     aa = [0,lonlim,44.95,45.05]
     ax.axis(aa)
-    pfun.dar(ax)
+    dar2(ax)
     # ax.set_xlabel('Longitude')
     ax.set_ylabel('Latitude')
 
     axb.axis(aa)
-    pfun.dar(axb)
+    dar2(axb)
     axb.set_ylabel('Latitude')
     if j==(len(depths)-1):
         axb.set_xlabel('Longitude')
