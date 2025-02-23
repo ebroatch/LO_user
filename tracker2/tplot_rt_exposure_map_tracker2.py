@@ -167,7 +167,7 @@ plt.close('all')
 #fig, axs = plt.subplots(2,1, sharex=True, sharey=True)
 # wr1= 8*estlenkm/40
 wr1=8*((lonlim)/(lonlim-sillland))
-fig = plt.figure(figsize=(18,8))
+fig = plt.figure(figsize=(30,8))
 # fig = plt.figure(figsize=(12,6))
 gs = fig.add_gridspec(nrows=4,ncols=3, width_ratios=[wr1,8,1], height_ratios=[1,1,1,1])
 ax1 = fig.add_subplot(gs[0,0])
