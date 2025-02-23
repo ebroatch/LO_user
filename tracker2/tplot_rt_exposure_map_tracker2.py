@@ -177,7 +177,7 @@ plt.close('all')
 # wr1= 8*estlenkm/40
 # wr1=8*((lonlim)/(lonlim-sillland))
 wr1=8*((llxyfun.x2lon(160*1e3,0,45)+0.1)/(lonlim-sillland))
-fig = plt.figure(figsize=(20,6))
+fig = plt.figure(figsize=(20,6),sharey=True)
 # fig = plt.figure(figsize=(12,6))
 gs = fig.add_gridspec(nrows=4,ncols=3, width_ratios=[wr1,8,1], height_ratios=[1,1,1,1])
 ax1 = fig.add_subplot(gs[0,0])
@@ -260,14 +260,16 @@ for j in range(len(depths)):
     axc.axis(aac)
     pfun.dar(axc)
     # axc.set_xlabel('Longitude')
-    axc.set_ylabel('Latitude')
+    # axc.set_ylabel('Latitude')
     axd.axis(aac)
     pfun.dar(axd)
-    axd.set_ylabel('Latitude')   
+    # axd.set_ylabel('Latitude')   
     if j==(len(depths)-1):
         axd.set_xlabel('Longitude')
     axc.set_title('Inner basin residence time ('+depthstr[j]+' depth)')
     axd.set_title('Inner basin exposure time ('+depthstr[j]+' depth)')
+    axc.yaxis.set_tick_params(labelleft=True)
+    axd.yaxis.set_tick_params(labelleft=True)
 
 
     # # make a mask that is False from the time a particle first leaves the domain
