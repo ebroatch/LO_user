@@ -318,14 +318,15 @@ fig.colorbar(cs,cax=axcb,extend='max',label='Time scale [days]')
 # plt.suptitle('Residence and exposure times at different depths for '+silllenlabel+' sill model')
 #ADD SILL LENGTH!!!!
 axsb[0].text(.99, .99, silllenlabel+' sill model', horizontalalignment='right', verticalalignment='top', transform=axsb[0].transAxes)
+
 axs[0].text(.95, .5, 'A', horizontalalignment='right', verticalalignment='center', transform=axs[0].transAxes, fontsize=14, fontweight='bold')
 axs[1].text(.95, .5, 'B', horizontalalignment='right', verticalalignment='center', transform=axs[1].transAxes, fontsize=14, fontweight='bold')
-axsb[0].text(.95, .5, 'C', horizontalalignment='right', verticalalignment='center', transform=axs[2].transAxes, fontsize=14, fontweight='bold')
-axsb[1].text(.95, .5, 'D', horizontalalignment='right', verticalalignment='center', transform=axs[3].transAxes, fontsize=14, fontweight='bold')
-axsc[0].text(.95, .5, 'E', horizontalalignment='right', verticalalignment='center', transform=axs[4].transAxes, fontsize=14, fontweight='bold')
-axsc[1].text(.95, .5, 'F', horizontalalignment='right', verticalalignment='center', transform=axs[2].transAxes, fontsize=14, fontweight='bold')
-axsd[0].text(.95, .5, 'G', horizontalalignment='right', verticalalignment='center', transform=axs[3].transAxes, fontsize=14, fontweight='bold')
-axsd[1].text(.95, .5, 'H', horizontalalignment='right', verticalalignment='center', transform=axs[4].transAxes, fontsize=14, fontweight='bold')
+axsb[0].text(.95, .5, 'C', horizontalalignment='right', verticalalignment='center', transform=axsb[0].transAxes, fontsize=14, fontweight='bold')
+axsb[1].text(.95, .5, 'D', horizontalalignment='right', verticalalignment='center', transform=axsb[1].transAxes, fontsize=14, fontweight='bold')
+axsc[0].text(.95, .5, 'E', horizontalalignment='right', verticalalignment='center', transform=axsc[0].transAxes, fontsize=14, fontweight='bold')
+axsc[1].text(.95, .5, 'F', horizontalalignment='right', verticalalignment='center', transform=axsc[1].transAxes, fontsize=14, fontweight='bold')
+axsd[0].text(.95, .5, 'G', horizontalalignment='right', verticalalignment='center', transform=axsd[0].transAxes, fontsize=14, fontweight='bold')
+axsd[1].text(.95, .5, 'H', horizontalalignment='right', verticalalignment='center', transform=axsd[1].transAxes, fontsize=14, fontweight='bold')
 
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rt_exposure_map_tracker2.png'
 plt.savefig(fn_fig)
