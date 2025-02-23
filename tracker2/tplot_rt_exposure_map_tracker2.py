@@ -13,6 +13,15 @@ import numpy as np
 from scipy import stats
 from cmocean import cm
 
+def dar2(ax):
+    """
+    Fixes the plot aspect ratio to be locally Cartesian.
+    AND anchor to right side
+    """
+    yl = ax.get_ylim()
+    yav = (yl[0] + yl[1])/2
+    ax.set_aspect(1/np.cos(np.pi*yav/180),anchor='E')
+
 #Choose sill and set parameters accordingly
 sill_choice = input("Enter sill length choice [km]: ")
 sill_choice = int(sill_choice)
@@ -168,9 +177,9 @@ plt.close('all')
 # wr1= 8*estlenkm/40
 # wr1=8*((lonlim)/(lonlim-sillland))
 wr1=8*((llxyfun.x2lon(160*1e3,0,45)+0.1)/(lonlim-sillland))
-fig = plt.figure(figsize=(25,8))
+fig = plt.figure(figsize=(20,8))
 # fig = plt.figure(figsize=(12,6))
-gs = fig.add_gridspec(nrows=4,ncols=3, width_ratios=[wr1,8,1], height_ratios=[1,1,1,1],layout='compressed')
+gs = fig.add_gridspec(nrows=4,ncols=3, width_ratios=[wr1,8,1], height_ratios=[1,1,1,1])
 ax1 = fig.add_subplot(gs[0,0])
 ax1b = fig.add_subplot(gs[1,0])  
 ax2 = fig.add_subplot(gs[2,0])
