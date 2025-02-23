@@ -31,8 +31,8 @@ if sill_choice==5:
     sillland = llxyfun.x2lon(45e3,0,45)
     # lonlim = 1.1
     estlenkm = 85
-    estlenlon = llxyfun.x2lon(estlenkm*1e3,0,45)
-    lonlim = estlenlon+0.1
+    # estlenlon = llxyfun.x2lon(estlenkm*1e3,0,45)
+    lonliminner = estlenlon+0.1
     silllenlabel = '5km'
     fn = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/release_2020.09.01.nc'
     fng = '/data1/ebroatch/LO_output/tracks2/sill5km_t0_xa0/sill5kmest_3d/grid.nc'
@@ -42,7 +42,7 @@ elif sill_choice==10:
     # lonlim = 1.2
     estlenkm = 90
     estlenlon = llxyfun.x2lon(estlenkm*1e3,0,45)
-    lonlim = estlenlon+0.1
+    lonliminner = estlenlon+0.1
     silllenlabel = '10km'
     fn = '/data1/ebroatch/LO_output/tracks2/sill10km_t2_xa0/sill10kmest_3d/release_2020.09.01.nc'
     fng = '/data1/ebroatch/LO_output/tracks2/sill10km_t2_xa0/sill10kmest_3d/grid.nc'
@@ -52,7 +52,7 @@ elif sill_choice==20:
     # lonlim = 1.3
     estlenkm = 100
     estlenlon = llxyfun.x2lon(estlenkm*1e3,0,45)
-    lonlim = estlenlon+0.1
+    lonliminner = estlenlon+0.1
     silllenlabel = '20km'
     fn = '/data1/ebroatch/LO_output/tracks2/sill20kmdeep_t2_xa0/sill20kmdeepest_3d/release_2020.09.01.nc'
     fng = '/data1/ebroatch/LO_output/tracks2/sill20kmdeep_t2_xa0/sill20kmdeepest_3d/grid.nc'
@@ -62,7 +62,7 @@ elif sill_choice==40:
     # lonlim = 1.6
     estlenkm = 120
     estlenlon = llxyfun.x2lon(estlenkm*1e3,0,45)
-    lonlim = estlenlon+0.1
+    lonliminner = estlenlon+0.1
     silllenlabel = '40km'
     fn = '/data1/ebroatch/LO_output/tracks2/sill40km_t2_xa0/sill40kmest_3d/release_2020.09.01.nc'
     fng = '/data1/ebroatch/LO_output/tracks2/sill40km_t2_xa0/sill40kmest_3d/grid.nc'
@@ -72,7 +72,7 @@ elif sill_choice==80:
     # lonlim = 2.1
     estlenkm = 160
     estlenlon = llxyfun.x2lon(estlenkm*1e3,0,45)
-    lonlim = estlenlon+0.1
+    lonliminner = estlenlon+0.1
     silllenlabel = '80km'
     fn = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/release_2020.09.01.nc'
     fng = '/data1/ebroatch/LO_output/tracks2/sill80km_t2_xa0/sill80kmest_3d/grid.nc'
@@ -176,18 +176,19 @@ plt.close('all')
 #fig, axs = plt.subplots(2,1, sharex=True, sharey=True)
 # wr1= 8*estlenkm/40
 # wr1=8*((lonlim)/(lonlim-sillland))
-wr1=8*((llxyfun.x2lon(160*1e3,0,45)+0.1)/(lonlim-sillland))
-fig = plt.figure(figsize=(20,6))
+lonlim = 2.1
+wr1=8*((lonlim)/(lonliminner-sillland))
+fig = plt.figure(figsize=(20,7))
 # fig = plt.figure(figsize=(12,6))
 gs = fig.add_gridspec(nrows=4,ncols=3, width_ratios=[wr1,8,1], height_ratios=[1,1,1,1])
 ax1 = fig.add_subplot(gs[0,0])
 ax1b = fig.add_subplot(gs[1,0])  
 ax2 = fig.add_subplot(gs[2,0])
 ax2b = fig.add_subplot(gs[3,0]) 
-ax1c = fig.add_subplot(gs[0,1],sharey=ax1)
-ax1d = fig.add_subplot(gs[1,1],sharey=ax1b) 
-ax2c = fig.add_subplot(gs[2,1],sharey=ax2)
-ax2d = fig.add_subplot(gs[3,1],sharey=ax2b)
+ax1c = fig.add_subplot(gs[0,1])
+ax1d = fig.add_subplot(gs[1,1]) 
+ax2c = fig.add_subplot(gs[2,1])
+ax2d = fig.add_subplot(gs[3,1])
 axcb = fig.add_subplot(gs[:,2])
 # axs=[ax1,ax2,ax3,ax4,ax5]
 # axs=[ax1,ax2,ax3,axc]
@@ -244,19 +245,19 @@ for j in range(len(depths)):
     #set limits
     aa = [0,lonlim,44.95,45.05]
     ax.axis(aa)
-    dar2(ax)
+    pfun.dar(ax)
     # ax.set_xlabel('Longitude')
     ax.set_ylabel('Latitude')
 
     axb.axis(aa)
-    dar2(axb)
+    pfun.dar(axb)
     axb.set_ylabel('Latitude')
     if j==(len(depths)-1):
         axb.set_xlabel('Longitude')
     ax.set_title('Whole estuary residence time ('+depthstr[j]+' depth)')
     axb.set_title('Whole estuary exposure time ('+depthstr[j]+' depth)')
 
-    aac = [sillland,lonlim,44.95,45.05]
+    aac = [sillland,lonliminner,44.95,45.05]
     axc.axis(aac)
     pfun.dar(axc)
     # axc.set_xlabel('Longitude')
@@ -342,13 +343,21 @@ fig.colorbar(cs,cax=axcb,extend='max',label='Time scale [days]')
 #ADD SILL LENGTH!!!!
 axs[0].text(0.01, 45.049, silllenlabel+' sill model', horizontalalignment='left', verticalalignment='top')
 
-axs[0].text(estlenlon+0.05, 45, 'A', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+# axs[0].text(estlenlon+0.05, 45, 'A', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+# axs[1].text(estlenlon+0.05, 45, 'B', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+# axsb[0].text(estlenlon+0.05, 45, 'C', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+# axsb[1].text(estlenlon+0.05, 45, 'D', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+# axsc[0].text(estlenlon+0.05, 45, 'E', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+# axsc[1].text(estlenlon+0.05, 45, 'F', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+# axsd[0].text(estlenlon+0.05, 45, 'G', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+# axsd[1].text(estlenlon+0.05, 45, 'H', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+axs[0].text(2.05, 45, 'A', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 axs[1].text(estlenlon+0.05, 45, 'B', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
-axsb[0].text(estlenlon+0.05, 45, 'C', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+axsb[0].text(2.05, 45, 'C', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 axsb[1].text(estlenlon+0.05, 45, 'D', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
-axsc[0].text(estlenlon+0.05, 45, 'E', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+axsc[0].text(2.05, 45, 'E', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 axsc[1].text(estlenlon+0.05, 45, 'F', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
-axsd[0].text(estlenlon+0.05, 45, 'G', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
+axsd[0].text(2.05, 45, 'G', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 axsd[1].text(estlenlon+0.05, 45, 'H', horizontalalignment='center', verticalalignment='center', fontsize=14, fontweight='bold')
 
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rt_exposure_map_tracker2.png'
