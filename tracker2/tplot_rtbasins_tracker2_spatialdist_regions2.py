@@ -23,12 +23,12 @@ fig, axs = plt.subplots(1,2,figsize=(12,6),gridspec_kw={'width_ratios': [4,1]})
 
 axs[0].set_xlim(0,160)
 axs[0].set_ylim(0,100)
-axs[0].axvline(40,color='tab:brown',ls='-.',lw=2) #lines showing the start and end of the sill, plot first so they will be below the curves
-axs[0].axvline(45,color='tab:red',ls='-.',lw=2)
-axs[0].axvline(50,color='tab:orange',ls='-.',lw=2)
-axs[0].axvline(60,color='tab:green',ls='-.',lw=2)
-axs[0].axvline(80,color='tab:blue',ls='-.',lw=2)
-axs[0].axvline(120,color='tab:purple',ls='-.',lw=2)
+axs[0].axvline(40,color='k',ls='-.') #lines showing the start and end of the sill, plot first so they will be below the curves
+axs[0].axvline(45,color='tab:red',ls='-.')
+axs[0].axvline(50,color='tab:orange',ls='-.')
+axs[0].axvline(60,color='tab:green',ls='-.')
+axs[0].axvline(80,color='tab:blue',ls='-.')
+axs[0].axvline(120,color='tab:purple',ls='-.')
 
 axs[1].set_xlim(0,40) #not sure about this axis choice yet
 axs[1].set_ylim(0,100)
@@ -252,14 +252,14 @@ for i in range(5):
     rt_std_in = stats.binned_statistic(lon_start, rt_strict_days_in, statistic='std', bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
     x_bin_centers_km_in = llxyfun.lon2x((rt_xmean_in.bin_edges[:-1]+rt_xmean_in.bin_edges[1:])/2,0,45)/1000 #use the subsampled bin edges for plotting
     # axs[1].fill_between(x_bin_centers_km_in-(40+silllen),rt_xmean_in.statistic-rt_std_in.statistic,rt_xmean_in.statistic+rt_std_in.statistic,color=linecolor2,alpha=0.3)
-    axs[1].plot(x_bin_centers_km_in-(40+silllen),rt_xmean_in.statistic,color=linecolor,linewidth=2,label=silllenlabel)
+    axs[1].plot(x_bin_centers_km_in-(40+silllen),rt_xmean_in.statistic,color=linecolor,label=silllenlabel)
 
     #estuary
     rt_xmean_est = stats.binned_statistic(lon_start, rt_strict_days_est, statistic='mean', bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
     rt_std_est = stats.binned_statistic(lon_start, rt_strict_days_est, statistic='std', bins=lon_bin_edges_pos[::5], range=None) #try using bigger bins
     x_bin_centers_km_est = llxyfun.lon2x((rt_xmean_est.bin_edges[:-1]+rt_xmean_est.bin_edges[1:])/2,0,45)/1000 #use the subsampled bin edges for plotting
     # axs[0].fill_between(x_bin_centers_km_est,rt_xmean_est.statistic-rt_std_est.statistic,rt_xmean_est.statistic+rt_std_est.statistic,color=linecolor2,alpha=0.3)
-    axs[0].plot(x_bin_centers_km_est,rt_xmean_est.statistic,color=linecolor,linewidth=2,label=silllenlabel)
+    axs[0].plot(x_bin_centers_km_est,rt_xmean_est.statistic,color=linecolor,label=silllenlabel)
 
     # ax.hist(rt_strict_days,bins=[0,10,20,30,40,50,60,70,80,90,100,110,120], density=True, histtype='step',color=linecolor,linewidth=2,label=silllenlabel)
 
@@ -295,10 +295,14 @@ axs[1].set_title('Inner basin')
 
 axs[0].grid(True)
 axs[1].grid(True)
+axs[0].set_xticks([0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160])
+axs[1].set_xticks([0,10,20,30,40])
+axs[0].set_yticks([0,10,20,30,40,50,60,70,80,90,100])
+axs[1].set_yticks([0,10,20,30,40,50,60,70,80,90,100])
 # axs[0,0].set_ylim(0,100)
 # axs[0,0].set_ylim(0,par_in_lower[0])
 axs[0].set_xlabel('Release x-position [km]')
-axs[1].set_xlabel('Release x-position [km]\nrelative to landward end of sill ')
+axs[1].set_xlabel('Release x-position [km]\nfrom landward end of sill ')
 axs[0].legend(loc='upper left')
 axs[1].legend(loc='upper left')
 axs[0].set_aspect(1)
