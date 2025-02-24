@@ -60,23 +60,24 @@ for i in range(len(gctags)):
     # the inner basin is segment b5i_p
     # for the whole estuary, need to get the weighted average of segment b5i_p and b5i_m
     seg_est_inner_ds = xr.open_dataset(seg_est_inner_fn)
-    sbar_inner_ts = seg_est_inner_ds.salt
-    sbar_outer_sill_ts = seg_est_inner_ds.salt
-    vol_inner_ts = seg_est_inner_ds.volume
-    vol_outer_sill_ts = seg_est_inner_ds.volume
+    plot_time = seg_est_inner_ds.time.values
+    sbar_inner_ts = seg_est_inner_ds.salt.sel(seg='b5i_p').values
+    sbar_outer_sill_ts = seg_est_inner_ds.salt.sel(seg='b5i_m').values
+    vol_inner_ts = seg_est_inner_ds.volume.sel(seg='b5i_p').values
+    vol_outer_sill_ts = seg_est_inner_ds.volume.sel(seg='b5i_m').values
     sbar_est_ts = ((sbar_inner_ts*vol_inner_ts)+(sbar_outer_sill_ts*vol_outer_sill_ts))/(vol_inner_ts+vol_outer_sill_ts)
     # get the time average values
     sbar_inner = sbar_inner_ts.mean()
     sbar_est = sbar_est_ts.mean()
 
     #plot the salinities #MIGHT NEED TO TIDALLY AVERAGE??
-    axs[0,0].plot(sbar_est_ts,c=plot_colors[i],label=silllens[i])
-    axs[0,1].plot(sbar_inner_ts,c=plot_colors[i],label=silllens[i])
-    axs[1,0].plot(sbar_est_ts,c=plot_colors[i],label=silllens[i]) #we will change the axis limits to make these more zoomed
-    axs[1,1].plot(sbar_inner_ts,c=plot_colors[i],label=silllens[i])
+    axs[0,0].plot(plot_time, sbar_est_ts,c=plot_colors[i],label=silllens[i])
+    axs[0,1].plot(plot_time, sbar_inner_ts,c=plot_colors[i],label=silllens[i])
+    axs[1,0].plot(plot_time, sbar_est_ts,c=plot_colors[i],label=silllens[i]) #we will change the axis limits to make these more zoomed
+    axs[1,1].plot(plot_time, sbar_inner_ts,c=plot_colors[i],label=silllens[i])
 
 axs[0,0].set_title(r'Whole estuary mean salinity $\bar{s}$')
-axs[1,0].set_title(r'Inner basin mean salinity $\bar{s}$')
+axs[0,1].set_title(r'Inner basin mean salinity $\bar{s}$')
 axs[0,0].text(.04, .02, 'A', horizontalalignment='left', verticalalignment='bottom', transform=axs[0,0].transAxes, fontsize=14, fontweight='bold')
 axs[0,1].text(.04, .02, 'B', horizontalalignment='left', verticalalignment='bottom', transform=axs[0,1].transAxes, fontsize=14, fontweight='bold')
 axs[1,0].text(.04, .02, 'C', horizontalalignment='left', verticalalignment='bottom', transform=axs[1,0].transAxes, fontsize=14, fontweight='bold')
