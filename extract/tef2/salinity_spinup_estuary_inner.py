@@ -41,6 +41,20 @@ gtagexs=['sill5km_t0_xa0', 'sill10km_t2_xa0', 'sill20kmdeep_t2_xa0', 'sill40km_t
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 plot_colors = ['tab:red','tab:orange','tab:green','tab:blue','tab:purple']
 
+#Choose sill and set parameters accordingly
+ta_choice = input("Tidally average? (y/n): ")
+if ta_choice == 'Y':
+    tayn = True
+elif ta_choice == 'N':
+    tayn = False
+elif ta_choice == 'y':
+    tayn = True
+elif ta_choice == 'n':
+    tayn = False
+else:
+    tayn = False
+    print('input not recognized, no tidal average applied')
+
 fig, axs = plt.subplots(2,2,figsize=(15,8))
 
 #Loop over sill lengths
@@ -71,17 +85,26 @@ for i in range(len(gctags)):
     sbar_est = sbar_est_ts.mean()
 
     #plot the salinities #MIGHT NEED TO TIDALLY AVERAGE??
-    axs[0,0].plot(plot_time, sbar_est_ts,c=plot_colors[i],label=silllens[i])
-    axs[0,1].plot(plot_time, sbar_inner_ts,c=plot_colors[i],label=silllens[i])
-    axs[1,0].plot(plot_time, sbar_est_ts,c=plot_colors[i],label=silllens[i]) #we will change the axis limits to make these more zoomed
-    axs[1,1].plot(plot_time, sbar_inner_ts,c=plot_colors[i],label=silllens[i])
+    if tayn == False: #no tidal average
+        axs[0,0].plot(plot_time, sbar_est_ts,c=plot_colors[i],label=silllens[i])
+        axs[0,1].plot(plot_time, sbar_inner_ts,c=plot_colors[i],label=silllens[i])
+        axs[1,0].plot(plot_time, sbar_est_ts,c=plot_colors[i],label=silllens[i]) #we will change the axis limits to make these more zoomed
+        axs[1,1].plot(plot_time, sbar_inner_ts,c=plot_colors[i],label=silllens[i])
+    elif tayn == True: #tidal average
+        axs[0,0].plot(plot_time, zfun.lowpass(sbar_est_ts, f='godin'),c=plot_colors[i],label=silllens[i])
+        axs[0,1].plot(plot_time, zfun.lowpass(sbar_inner_ts, f='godin'),c=plot_colors[i],label=silllens[i])
+        axs[1,0].plot(plot_time, zfun.lowpass(sbar_est_ts, f='godin'),c=plot_colors[i],label=silllens[i]) #we will change the axis limits to make these more zoomed
+        axs[1,1].plot(plot_time, zfun.lowpass(sbar_inner_ts, f='godin'),c=plot_colors[i],label=silllens[i])
 
-axs[0,0].set_title(r'Whole estuary mean salinity $\bar{s}$')
-axs[0,1].set_title(r'Inner basin mean salinity $\bar{s}$')
+
+axs[0,0].set_title(r'Whole estuary mean salinity $\bar{s}$ (full year run)')
+axs[0,1].set_title(r'Inner basin mean salinity $\bar{s}$ (full year run)')
+axs[0,0].set_title(r'Whole estuary mean salinity $\bar{s}$ (four months used for analysis)')
+axs[0,1].set_title(r'Inner basin mean salinity $\bar{s}$ (four months used for analysis)')
 axs[0,0].text(.02, .02, 'A', horizontalalignment='left', verticalalignment='bottom', transform=axs[0,0].transAxes, fontsize=14, fontweight='bold')
 axs[0,1].text(.02, .02, 'B', horizontalalignment='left', verticalalignment='bottom', transform=axs[0,1].transAxes, fontsize=14, fontweight='bold')
-axs[1,0].text(.02, .02, 'C', horizontalalignment='left', verticalalignment='bottom', transform=axs[1,0].transAxes, fontsize=14, fontweight='bold')
-axs[1,1].text(.02, .02, 'D', horizontalalignment='left', verticalalignment='bottom', transform=axs[1,1].transAxes, fontsize=14, fontweight='bold')
+axs[1,0].text(.02, .98, 'C', horizontalalignment='left', verticalalignment='top', transform=axs[1,0].transAxes, fontsize=14, fontweight='bold')
+axs[1,1].text(.02, .98, 'D', horizontalalignment='left', verticalalignment='top', transform=axs[1,1].transAxes, fontsize=14, fontweight='bold')
 axs[0,0].xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 axs[0,1].xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 axs[1,0].xaxis.set_major_formatter(mdates.DateFormatter('%b'))
@@ -92,10 +115,10 @@ axs[0,0].set_xlim('2020-01-01','2020-12-31')
 axs[0,1].set_xlim('2020-01-01','2020-12-31')
 axs[1,0].set_xlim('2020-09-01','2020-12-31')
 axs[1,1].set_xlim('2020-09-01','2020-12-31')
-axs[0,0].set_ylim(0,31.5)
-axs[0,1].set_ylim(0,31.5)
-axs[1,0].set_ylim(27,31.5)
-axs[1,1].set_ylim(27,31.5)
+axs[0,0].set_ylim(0,32)
+axs[0,1].set_ylim(0,32)
+axs[1,0].set_ylim(27,32)
+axs[1,1].set_ylim(27,32)
 axs[0,0].grid(True)
 axs[0,1].grid(True)
 axs[1,0].grid(True)
