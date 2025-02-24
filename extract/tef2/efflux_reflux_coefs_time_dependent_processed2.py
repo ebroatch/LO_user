@@ -90,7 +90,7 @@ out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 
 # fig, ax = plt.subplots(1,1,figsize=(15,8))
 
-fig2, axs = plt.subplots(2,2,figsize=(12,9),sharex=True,gridspec_kw={'height_ratios': [6,6,1]})
+fig2, axs = plt.subplots(3,2,figsize=(12,9),sharex=True,gridspec_kw={'height_ratios': [6,6,1]})
 
 # take a subset of the data so that we are averaging over an integer number of spring neap cycles at the end
 # use 7 spring neap cycles, starting at index 257 and going to 2741 - these are the peaks in the 5km Qprism but similar for the other models
