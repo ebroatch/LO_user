@@ -190,8 +190,6 @@ for i in range(len(gctags)):
         axs[2,0].set_ylabel('$Q_{prism}$ (5km b3)\n$[10^{3}\ m^{3}s^{-1}]$')
         axs[2,0].set_yticks(ticks=[20,50,80])
         axs[2,1].set_yticks(ticks=[20,50,80])
-        axs[2,0].grid(True)
-        axs[2,1].grid(True)
         axs[2,0].set_ylim(20,80)
         axs[2,1].set_ylim(20,80)
         snmid=(np.max(Qprism_b3)+np.min(Qprism_b3))/2
@@ -380,7 +378,7 @@ for i in range(len(gctags)):
     axs[1,0].plot(plot_time_days_delta,alpha_21_td_bottom_smooth,ls='-',c=plot_color[i],label=silllens[i])
     axs[1,1].plot(plot_time_days_delta,alpha_34_td_bottom_smooth,ls='-',c=plot_color[i],label=silllens[i])
 
-    #smoot averages for summary plot
+    #smooth averages for summary plot
     alpha_34_basic_smooth_avg[i] = np.nanmean(alpha_34_basic_timeseries_smooth)
     alpha_21_basic_smooth_avg[i] = np.nanmean(alpha_21_basic_timeseries_smooth)
     alpha_34_td_top_smooth_avg[i] = np.nanmean(alpha_34_td_top_smooth)
@@ -439,6 +437,8 @@ axs[0,0].grid(True)
 axs[0,1].grid(True)
 axs[1,0].grid(True)
 axs[1,1].grid(True)
+axs[2,0].grid(True)
+axs[2,1].grid(True)
 axs[0,0].legend(loc='upper left')
 axs[0,1].legend(loc='upper left')
 axs[1,0].legend(loc='upper left')
@@ -456,8 +456,8 @@ axs[2,0].set_xlim(0,120)
 axs[2,1].set_xlim(0,120)
 axs[0,0].set_ylim(-1.5,4.5)
 axs[0,1].set_ylim(-1.5,4.5)
-axs[1,0].set_ylim(-0.25,1.75)
-axs[1,1].set_ylim(-0.25,1.75)
+axs[1,0].set_ylim(-0.25,2)
+axs[1,1].set_ylim(-0.25,2)
 axs[2,0].set_xlabel('Time [days]')
 axs[2,1].set_xlabel('Time [days]')
 
@@ -474,6 +474,8 @@ plt.close()
 
 #Averages plot
 fig, [ax1,ax2] = plt.subplots(1,2,figsize=(12,6))
+ax1.axhline(y=0,color='tab:gray',linewidth=1)
+ax2.axhline(y=0,color='tab:gray',linewidth=1)
 #plot
 ax1.plot(silllens_plot,alpha_21_td_top_smooth_avg,c='crimson',marker='o',label='From upper layer budget')
 ax1.plot(silllens_plot,alpha_21_td_bottom_smooth_avg,c='royalblue',marker='o',label='From lower layer budget)')
