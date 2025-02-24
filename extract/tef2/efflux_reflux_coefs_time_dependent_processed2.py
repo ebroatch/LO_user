@@ -90,7 +90,11 @@ out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 
 # fig, ax = plt.subplots(1,1,figsize=(15,8))
 
-fig2, axs = plt.subplots(3,2,figsize=(12,9),sharex=True,gridspec_kw={'height_ratios': [6,6,1]})
+fig2, axs = plt.subplots(3,2,figsize=(15,9),gridspec_kw={'height_ratios': [6,6,1]})
+axs[0,0].axhline(y=0,color='tab:gray',linewidth=1)
+axs[0,1].axhline(y=0,color='tab:gray',linewidth=1)
+axs[1,0].axhline(y=0,color='tab:gray',linewidth=1)
+axs[1,1].axhline(y=0,color='tab:gray',linewidth=1)
 
 # take a subset of the data so that we are averaging over an integer number of spring neap cycles at the end
 # use 7 spring neap cycles, starting at index 257 and going to 2741 - these are the peaks in the 5km Qprism but similar for the other models
@@ -186,6 +190,8 @@ for i in range(len(gctags)):
         axs[2,0].set_ylabel('$Q_{prism}$ (5km b3)\n$[10^{3}\ m^{3}s^{-1}]$')
         axs[2,0].set_yticks(ticks=[20,50,80])
         axs[2,1].set_yticks(ticks=[20,50,80])
+        axs[2,0].grid(True)
+        axs[2,1].grid(True)
         axs[2,0].set_ylim(20,80)
         axs[2,1].set_ylim(20,80)
         snmid=(np.max(Qprism_b3)+np.min(Qprism_b3))/2
@@ -375,12 +381,12 @@ for i in range(len(gctags)):
     axs[1,1].plot(plot_time_days_delta,alpha_34_td_bottom_smooth,ls='-',c=plot_color[i],label=silllens[i])
 
     #smoot averages for summary plot
-    alpha_34_basic_smooth_avg[i] = alpha_34_basic_timeseries_smooth.mean()
-    alpha_21_basic_smooth_avg[i] = alpha_21_basic_timeseries_smooth.mean()
-    alpha_34_td_top_smooth_avg[i] = alpha_34_td_top_smooth.mean()
-    alpha_21_td_top_smooth_avg[i] = alpha_21_td_top_smooth.mean()
-    alpha_34_td_bottom_smooth_avg[i] = alpha_34_td_bottom_smooth.mean()
-    alpha_21_td_bottom_smooth_avg[i] = alpha_21_td_bottom_smooth.mean()
+    alpha_34_basic_smooth_avg[i] = np.nanmean(alpha_34_basic_timeseries_smooth)
+    alpha_21_basic_smooth_avg[i] = np.nanmean(alpha_21_basic_timeseries_smooth)
+    alpha_34_td_top_smooth_avg[i] = np.nanmean(alpha_34_td_top_smooth)
+    alpha_21_td_top_smooth_avg[i] = np.nanmean(alpha_21_td_top_smooth)
+    alpha_34_td_bottom_smooth_avg[i] = np.nanmean(alpha_34_td_bottom_smooth)
+    alpha_21_td_bottom_smooth_avg[i] = np.nanmean(alpha_21_td_bottom_smooth)
 
 
 # #add plot elements
@@ -448,8 +454,8 @@ axs[1,0].set_xlim(0,120)
 axs[1,1].set_xlim(0,120)
 axs[2,0].set_xlim(0,120)
 axs[2,1].set_xlim(0,120)
-axs[0,0].set_ylim(-1.5,4)
-axs[0,1].set_ylim(-1.5,4)
+axs[0,0].set_ylim(-1.5,4.5)
+axs[0,1].set_ylim(-1.5,4.5)
 axs[1,0].set_ylim(-0.25,1.75)
 axs[1,1].set_ylim(-0.25,1.75)
 axs[2,0].set_xlabel('Time [days]')
@@ -492,8 +498,8 @@ ax1.legend(loc='lower right')
 ax2.legend(loc='lower right')
 ax1.set_xlim(0,85)
 ax2.set_xlim(0,85)
-ax1.set_ylim(-0.05,0.8)
-ax2.set_ylim(-0.05,0.8)
+ax1.set_ylim(-0.1,0.8)
+ax2.set_ylim(-0.1,0.8)
 ax1.set_box_aspect(1)
 ax2.set_box_aspect(1)
 ax1.text(.02, .98, 'A', horizontalalignment='left', verticalalignment='top', transform=ax1.transAxes, fontsize=14, fontweight='bold')
