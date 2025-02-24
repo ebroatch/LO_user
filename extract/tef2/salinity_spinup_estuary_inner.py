@@ -99,8 +99,8 @@ for i in range(len(gctags)):
 
 axs[0,0].set_title(r'Whole estuary mean salinity $\bar{s}$ (full year run)')
 axs[0,1].set_title(r'Inner basin mean salinity $\bar{s}$ (full year run)')
-axs[0,0].set_title(r'Whole estuary mean salinity $\bar{s}$ (four months used for analysis)')
-axs[0,1].set_title(r'Inner basin mean salinity $\bar{s}$ (four months used for analysis)')
+axs[1,0].set_title(r'Whole estuary mean salinity $\bar{s}$ (four months used for analysis)')
+axs[1,1].set_title(r'Inner basin mean salinity $\bar{s}$ (four months used for analysis)')
 axs[0,0].text(.02, .02, 'A', horizontalalignment='left', verticalalignment='bottom', transform=axs[0,0].transAxes, fontsize=14, fontweight='bold')
 axs[0,1].text(.02, .02, 'B', horizontalalignment='left', verticalalignment='bottom', transform=axs[0,1].transAxes, fontsize=14, fontweight='bold')
 axs[1,0].text(.02, .98, 'C', horizontalalignment='left', verticalalignment='top', transform=axs[1,0].transAxes, fontsize=14, fontweight='bold')
