@@ -252,6 +252,8 @@ gctags=['sill5km_c0', 'sill10km_c0', 'sill20kmdeep_c0', 'sill40km_c0', 'sill80km
 gtagexs=['sill5km_t0_xa0', 'sill10km_t2_xa0', 'sill20kmdeep_t2_xa0', 'sill40km_t2_xa0', 'sill80km_t2_xa0']
 out_dir0 = Ldir['LOo'] / 'extract' / Ldir['gtagex'] / 'tef2'
 tef2_dir = Ldir['LOo'] / 'extract' / 'tef2'
+Ldir['ds0']='2020.09.01'
+Ldir['ds1']='2020.12.31'
 # take a subset of the data so that we are averaging over an integer number of spring neap cycles at the end
 # use 7 spring neap cycles, starting at index 257 and going to 2741 - these are the peaks in the 5km Qprism but similar for the other models
 start_avg_ind = 257
