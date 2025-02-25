@@ -424,6 +424,6 @@ ax1.set_box_aspect(1)
 ax2.set_box_aspect(1)
 ax1.text(.02, .98, 'A', horizontalalignment='left', verticalalignment='top', transform=ax1.transAxes, fontsize=14, fontweight='bold')
 ax2.text(.02, .98, 'B', horizontalalignment='left', verticalalignment='top', transform=ax2.transAxes, fontsize=14, fontweight='bold')
-fn_fig = Ldir['LOo'] / 'plots' / 'particle_timescales_compare.png'
+fn_fig = Ldir['LOo'] / 'plots' / 'particle_flushing_timescales_compare.png'
 plt.savefig(fn_fig)
 plt.close()
