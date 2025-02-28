@@ -214,7 +214,7 @@ ax2.plot(lon[-1,:], lat[-1,:], '*', color='tab:grey', alpha=1, markeredgecolor='
 #         ax.set_xlabel('Time (days)')
 
 #plt.show()
-figname = 'tplot_basintrackmap_tracker2_'+ gtx_name.split('_')[0]+'.png'
+figname = 'tplot_trackmap_tracker2_'+ gtx_name.split('_')[0]+'.png'
 fn_fig = Ldir['LOo'] / 'plots' / figname
 plt.savefig(fn_fig)
 #plt.show()
