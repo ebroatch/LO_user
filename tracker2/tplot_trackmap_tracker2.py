@@ -39,7 +39,7 @@ maskr = dsg.mask_rho.values
 #
 
 # # subsample output for plotting #SKIP SUBSAMPLING
-npmax = 250 # max number of points to plot
+npmax = 400 # max number of points to plot
 step = max(1,int(np.floor(NP/npmax))) #use same for both assuming approx equal number of particles in each basin
 # sillmid = llxyfun.x2lon(44e3,0,45)
 # lon1 = dsr.lon.where((dsr.lon.sel(Time=0)<sillmid),drop=True).values[:,::step]
