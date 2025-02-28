@@ -668,17 +668,20 @@ def P_sect_uw_quiver_eb(in_dict):
     pfun.start_plot(fs=fs, figsize=(15,7)) #make smaller for paper
     fig = plt.figure()
     ds = xr.open_dataset(in_dict['fn'])
-    # make u_rho #and add w_rho
-    u_rho = ds.salt * np.nan
-    u = ds.u.values
-    u_rho[:,:,:,1:-1] = (u[:,:,:,1:]+u[:,:,:,:-1])/2
-    ds['u_rho']=u_rho
+    # make u_rho #and add w_rho #maybe can skip this??
+    # u_rho = ds.salt * np.nan
+    # u = ds.u.values
+    # u_rho[:,:,:,1:-1] = (u[:,:,:,1:]+u[:,:,:,:-1])/2
+    # ds['u_rho']=u_rho
 
     # PLOT CODE
-    vn = 'u_rho'
-    if vn == 'u_rho':
+    # vn = 'u_rho'
+    # if vn == 'u_rho':
+    #     pinfo.cmap_dict[vn] = cm.balance
+    #     pinfo.fac_dict[vn] = 1
+    vn = 'u'
+    if vn == 'u':
         pinfo.cmap_dict[vn] = cm.balance
-        pinfo.fac_dict[vn] = 1
 
     # GET DATA
     G, S, T = zrfun.get_basic_info(in_dict['fn'])
