@@ -317,7 +317,7 @@ ax2.set_title('Inner basin')
 ax1.grid(True)
 ax2.grid(True)
 ax1.legend(loc='lower right')
-ax2.legend(loc='lower right')
+# ax2.legend(loc='lower right')
 ax1.set_xlim(0,85)
 ax2.set_xlim(0,85)
 ax1.set_ylim(0,180) #set these once we see the results
