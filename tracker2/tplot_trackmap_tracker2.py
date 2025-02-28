@@ -39,7 +39,7 @@ maskr = dsg.mask_rho.values
 #
 
 # # subsample output for plotting #SKIP SUBSAMPLING
-npmax = 175 # max number of points to plot
+npmax = 250 # max number of points to plot
 step = max(1,int(np.floor(NP/npmax))) #use same for both assuming approx equal number of particles in each basin
 # sillmid = llxyfun.x2lon(44e3,0,45)
 # lon1 = dsr.lon.where((dsr.lon.sel(Time=0)<sillmid),drop=True).values[:,::step]
@@ -186,7 +186,7 @@ ax.text(.02, .02, '20km sill model', horizontalalignment='left', verticalalignme
 # ax.plot(lon2[::2], lat2[::2], '-', color='tab:pink', linewidth=.2)
 # ax2.plot(lon1[::2], lat1[::2], '-', color='tab:cyan', linewidth=.2) #DON'T PLOT LINES FOR NOW #comment out to skip lines
 # ax2.plot(lon2[::2], lat2[::2], '-', color='tab:pink', linewidth=.2)
-ax.plot(lon, lat, '-', color='k', linewidth=.2) #black lines
+ax.plot(lon, lat, '-', color='k', linewidth=.1) #black lines
 # ax2.plot(lon, lat, '-', color='k', linewidth=.2)
 # ax.plot(lon[0,:], lat[0,:], 'og', alpha=.3)
 # ax.plot(lon[-1,:], lat[-1,:], 'or', alpha=.3)
