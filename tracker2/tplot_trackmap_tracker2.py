@@ -39,7 +39,7 @@ maskr = dsg.mask_rho.values
 #
 
 # # subsample output for plotting #SKIP SUBSAMPLING
-npmax = 200 # max number of points to plot
+npmax = 150 # max number of points to plot
 step = max(1,int(np.floor(NP/npmax))) #use same for both assuming approx equal number of particles in each basin
 # sillmid = llxyfun.x2lon(44e3,0,45)
 # lon1 = dsr.lon.where((dsr.lon.sel(Time=0)<sillmid),drop=True).values[:,::step]
@@ -142,6 +142,7 @@ plt.close('all')
 # pfun.start_plot(figsize=(8,10))
 # fig = plt.figure()
 fig, [ax,ax2] = plt.subplots(2,1,figsize=(8,10),gridspec_kw={'height_ratios': [8.33,1]})
+fig, ax = plt.subplots(1,1,figsize=(10,10))
 
 # MAP
 # set domain limits
@@ -163,24 +164,22 @@ zm = -np.ma.masked_where(maskr==0, hh)
 #     cmap='bone')
 # plt.pcolormesh(lonp, latp, zm, vmin=-300, vmax=0,
     # cmap='Spectral_r',alpha=0.3)
-ax.pcolormesh(lonp, latp, zm, vmin=-300, vmax=0,
-    cmap='Spectral_r')
-ax2.pcolormesh(lonp, latp, zm, vmin=-300, vmax=0,
-    cmap='Spectral_r')
+ax.pcolormesh(lonp, latp, zm, vmin=-300, vmax=0, cmap='Spectral_r')
+# ax2.pcolormesh(lonp, latp, zm, vmin=-300, vmax=0, cmap='Spectral_r')
 # ax.axis(aa)
-ax.set_ylim(44.5,47)
-ax.set_xlim(-1.5,1.5)
-ax2.set_ylim(44.9,45.1)
-ax2.set_xlim(-0.5,1.5)
+ax.set_ylim(43,47)
+ax.set_xlim(-4,1.5)
+# ax2.set_ylim(44.9,45.1)
+# ax2.set_xlim(-0.5,1.5)
 pfun.dar(ax)
-pfun.dar(ax2)
+# pfun.dar(ax2)
 ax.set_xlabel('Longitude')
 ax.set_ylabel('Latitude')
-ax2.set_xlabel('Longitude')
-ax2.set_ylabel('Latitude')
+# ax2.set_xlabel('Longitude')
+# ax2.set_ylabel('Latitude')
 # ax.set_title(exp_name.strip('/'))
 # ax.text(.02, .98, exp_name.strip('/'), horizontalalignment='left', verticalalignment='top', transform=ax.transAxes)
-ax.text(.02, .98, '20km sill model', horizontalalignment='left', verticalalignment='top', transform=ax.transAxes)
+ax.text(.02, .02, '20km sill model', horizontalalignment='left', verticalalignment='bottom', transform=ax.transAxes)
 # add the tracks (packed [time, particle])
 # regular spaghetti plots
 # ax.plot(lon1[::2], lat1[::2], '-', color='tab:cyan', linewidth=.2) #DON'T PLOT LINES FOR NOW #comment out to skip lines
@@ -188,13 +187,13 @@ ax.text(.02, .98, '20km sill model', horizontalalignment='left', verticalalignme
 # ax2.plot(lon1[::2], lat1[::2], '-', color='tab:cyan', linewidth=.2) #DON'T PLOT LINES FOR NOW #comment out to skip lines
 # ax2.plot(lon2[::2], lat2[::2], '-', color='tab:pink', linewidth=.2)
 ax.plot(lon, lat, '-', color='k', linewidth=.2) #black lines
-ax2.plot(lon, lat, '-', color='k', linewidth=.2)
+# ax2.plot(lon, lat, '-', color='k', linewidth=.2)
 # ax.plot(lon[0,:], lat[0,:], 'og', alpha=.3)
 # ax.plot(lon[-1,:], lat[-1,:], 'or', alpha=.3)
 #ax.plot(lon[0,:], lat[0,:], '.g', alpha=.3, markeredgecolor='none')
 #ax.plot(lon[-1,:], lat[-1,:], '.r', alpha=.3, markeredgecolor='none')
 ax.plot(lon[-1,:], lat[-1,:], '*', color='tab:grey', alpha=1, markeredgecolor='none')
-ax2.plot(lon[-1,:], lat[-1,:], '*', color='tab:grey', alpha=1, markeredgecolor='none')
+# ax2.plot(lon[-1,:], lat[-1,:], '*', color='tab:grey', alpha=1, markeredgecolor='none')
 
 # # time series
 # td = (ot_vec - ot_vec[0])/86400
