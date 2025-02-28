@@ -67,10 +67,13 @@ elif gtx_name.split('_')[0]=='sill80km':
     xlonlim=2.1
 
 lon1 = dsr.lon.where((dsr.lon.sel(Time=0)<sillsea),drop=True).values[:,::step]
+print('got lon for outer basin')
 lon2 = dsr.lon.where((dsr.lon.sel(Time=0)>sillland),drop=True).values[:,::step]
-lat1 = dsr.lat.where((dsr.lon.sel(Time=0)<sillland),drop=True).values[:,::step]
-lat2 = dsr.lat.where((dsr.lon.sel(Time=0)>sillsea),drop=True).values[:,::step]
-
+print('got lon for inner basin')
+lat1 = dsr.lat.where((dsr.lon.sel(Time=0)<sillsea),drop=True).values[:,::step]
+print('got lat for outer basin')
+lat2 = dsr.lat.where((dsr.lon.sel(Time=0)>sillland),drop=True).values[:,::step]
+print('got lat for inner basin')
 
 # lon = dsr.lon.values[:,::step]
 # lat = dsr.lat.values[:,::step]
