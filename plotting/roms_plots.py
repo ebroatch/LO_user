@@ -758,8 +758,6 @@ def P_sect_uw_quiver_eb(in_dict):
     # ax.clabel(cs, inline=True, fontsize=12)#, color='tab:gray')
     fig.colorbar(cs,ax=ax,label=r'$u$ [m/s]',location='bottom') #turn this on to make a plot just for the colorbar
 
-    dist_plot = (dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4
-    z_plot = (zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4
     #add quiver plot
     Q = ax.quiver(dist_plot, z_plot, sf_u, sf_w, #NEED TO SUBSAMPLE THE ARROWS!!
               angles='uv', color='k', width=0.012) # scale=2, scale_units='inches', units='inches', #NEED TO SET THE SCALE SO IT WILL BE THE SAME FOR ALL PLOTS
