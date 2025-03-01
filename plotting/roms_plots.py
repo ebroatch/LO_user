@@ -898,11 +898,14 @@ def P_sect_contour_u_eb(in_dict):
     #contour u plot
     dist_plot = (dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4
     z_plot = (zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4
-    cs = ax.contourf(dist_plot,z_plot,sf_u,
+    csf = ax.contourf(dist_plot,z_plot,sf_u,
                         levels=[-0.2,-0.18,-0.16,-0.14,-0.12,-0.1,-0.08,-0.06,-0.04,-0.02,0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2], cmap=pinfo.cmap_dict[vn],extend='both') #contour with manual vmax/vmin
     cs = ax.contour(dist_plot,z_plot,sf_u,
-                        levels=[-0.2,-0.18,-0.16,-0.14,-0.12,-0.1,-0.08,-0.06,-0.04,-0.02,0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2], colors='k') #contour with manual vmax/vmin
-    ax.clabel(cs, inline=True, fontsize=12)
+                        levels=[-0.18,-0.14,-0.1,-0.06,-0.02,0.02,0.06,0.1,0.14,0.18], colors='k',linewidths=0.5) #contour with manual vmax/vmin
+    cs2 = ax.contour(dist_plot,z_plot,sf_u,
+                        levels=[-0.2,-0.16,-0.12,-0.08,-0.04,0,0.04,0.08,0.12,0.16,0.2], colors='k',linewidths=0.5) #contour with manual vmax/vmin
+    ax.clabel(cs2, inline=True, fontsize=12)
+    # fig.colorbar(cs,ax=ax,label=r'$u$ [m/s]',location='bottom') #turn this on to make a plot just for the colorbar
     ax.set_xlabel('Distance [km]')
     ax.set_ylabel('Z [m]')
     
