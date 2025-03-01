@@ -702,15 +702,20 @@ def P_sect_uw_quiver_eb(in_dict):
     #v2, v3, dist, idist0 = pfun.get_section(ds, vn, x, y, in_dict) #old section function
     x, y, dist, dist_e, zbot, ztop, dist_se, zw_se, fld_s, lon, lat = pfun.get_sect(in_dict['fn'], vn, x_e, y_e)
 
+    #get another section with w
+    vn2 = 'w'
+    x2, y2, dist2, dist_e2, zbot2, ztop2, dist_se2, zw_se2, fld_s2, lon2, lat2 = pfun.get_sect(in_dict['fn'], vn2, x_e, y_e)
+
     # COLOR
     # scaled section data
     #sf = pinfo.fac_dict[vn] * v3['sectvarf'] #old
-    sf = pinfo.fac_dict[vn] * fld_s #new
+    sf_u = pinfo.fac_dict[vn] * fld_s #new
+    sf_w = pinfo.fac_dict[vn2] * fld_s2
 
     # now we use the scaled section as the preferred field for setting the
     # color limits of both figures in the case -avl True
     if in_dict['auto_vlims']:
-        pinfo.vlims_dict[vn] = pfun.auto_lims(sf)
+        pinfo.vlims_dict[vn] = pfun.auto_lims(sf_u)
     
     # PLOTTING
     # section
@@ -742,12 +747,17 @@ def P_sect_uw_quiver_eb(in_dict):
     vmax = 0.1
     # cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:], vmin=vmin, vmax=vmax, cmap=pinfo.cmap_dict[vn])
     # cs = ax.pcolormesh(dist_se, zw_se, sf, vmin=vmin, vmax=vmax, cmap=pinfo.cmap_dict[vn])
-    cs = ax.contourf((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf,
+    cs = ax.contourf((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf_u,
                         levels=[-0.2,-0.18,-0.16,-0.14,-0.12,-0.1,-0.08,-0.06,-0.04,-0.02,0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2], cmap=pinfo.cmap_dict[vn],extend='both') #contour with manual vmax/vmin
 
-
     # ax.clabel(cs, inline=True, fontsize=12)#, color='tab:gray')
-    fig.colorbar(cs,ax=ax,label=r'$u$ [m/s]',location='right')
+    fig.colorbar(cs,ax=ax,label=r'$u$ [m/s]',location='bottom') #turn this on to make a plot just for the colorbar
+    
+    #add quiver plot
+    Q = ax.quiver((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4, (zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4, sf_u/1000, sf_w,
+              angles='uv', color='k', width=0.012) # scale=2, scale_units='inches', units='inches',
+    qk = ax.quiverkey(Q, 0.9, 0.1, 0.2, r'$0.2$ m/s', labelpos='E', coordinates='figure')
+
     #fig.colorbar(cs, ax=ax)
     ax.set_xlabel('Distance [km]')
     ax.set_ylabel('Z [m]')
