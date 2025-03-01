@@ -741,10 +741,12 @@ def P_sect_uw_quiver_eb(in_dict):
     vmin = -0.1
     vmax = 0.1
     # cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:], vmin=vmin, vmax=vmax, cmap=pinfo.cmap_dict[vn])
-    cs = ax.pcolormesh(dist_se, zw_se, sf, vmin=vmin, vmax=vmax, cmap=pinfo.cmap_dict[vn])
+    # cs = ax.pcolormesh(dist_se, zw_se, sf, vmin=vmin, vmax=vmax, cmap=pinfo.cmap_dict[vn])
+    cs = ax.contourf((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf,
+                        levels=[-0.2,-0.18,-0.16,-0.14,-0.12,-0.1,-0.08,-0.06,-0.04,-0.02,0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2], cmap=pinfo.cmap_dict[vn],extend='both') #contour with manual vmax/vmin
 
 
-    # ax.clabel(cs, inline=True, fontsize=12)
+    # ax.clabel(cs, inline=True, fontsize=12)#, color='tab:gray')
     fig.colorbar(cs,ax=ax,label=r'$u$ [m/s]',location='right')
     #fig.colorbar(cs, ax=ax)
     ax.set_xlabel('Distance [km]')
