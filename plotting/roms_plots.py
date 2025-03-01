@@ -743,22 +743,31 @@ def P_sect_uw_quiver_eb(in_dict):
     #                     levels=[24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29,29.5,30,30.5,31,31.5,32,32.5,33,33.5,34], colors='k') #contour with manual vmax/vmin
     #cs = ax.contourf((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf,
     #                   vmin=22, vmax=34, levels=25, cmap=pinfo.cmap_dict[vn]) #contour with manual vmax/vmin
-    vmin = -0.1
-    vmax = 0.1
+    
+    #pcolormesh u plot
+    # vmin = -0.1
+    # vmax = 0.1
     # cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:], vmin=vmin, vmax=vmax, cmap=pinfo.cmap_dict[vn])
     # cs = ax.pcolormesh(dist_se, zw_se, sf, vmin=vmin, vmax=vmax, cmap=pinfo.cmap_dict[vn])
-    cs = ax.contourf((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf_u,
+    #contour u plot
+    dist_plot = 1000*(dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4 #the plotting distance in m instead of km (need to do this for using quiver more easily)
+    z_plot = (zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4
+    cs = ax.contourf(dist_plot,z_plot,sf_u,
                         levels=[-0.2,-0.18,-0.16,-0.14,-0.12,-0.1,-0.08,-0.06,-0.04,-0.02,0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2], cmap=pinfo.cmap_dict[vn],extend='both') #contour with manual vmax/vmin
 
     # ax.clabel(cs, inline=True, fontsize=12)#, color='tab:gray')
     fig.colorbar(cs,ax=ax,label=r'$u$ [m/s]',location='bottom') #turn this on to make a plot just for the colorbar
-    
+
+    dist_plot = (dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4
+    z_plot = (zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4
     #add quiver plot
-    Q = ax.quiver((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4, (zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4, sf_u/1000, sf_w,
-              angles='uv', color='k', width=0.012) # scale=2, scale_units='inches', units='inches',
+    Q = ax.quiver(dist_plot, z_plot, sf_u, sf_w, #NEED TO SUBSAMPLE THE ARROWS!!
+              angles='uv', color='k', width=0.012) # scale=2, scale_units='inches', units='inches', #NEED TO SET THE SCALE SO IT WILL BE THE SAME FOR ALL PLOTS
     qk = ax.quiverkey(Q, 0.9, 0.1, 0.2, r'$0.2$ m/s', labelpos='E', coordinates='figure')
 
     #fig.colorbar(cs, ax=ax)
+    #fix the units on the x axis since we plotted in m
+    ax.set_xticks([0,20e3,40e3,60e3,80e3,100e3,120e3,140e3,160e3],['0','20','40','60','80','100','120','140','160'])
     ax.set_xlabel('Distance [km]')
     ax.set_ylabel('Z [m]')
     
