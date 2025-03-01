@@ -904,7 +904,7 @@ def P_sect_contour_u_eb(in_dict):
     cs = ax.contour(dist_plot,z_plot,sf_u,
                         levels=[-0.2,-0.18,-0.16,-0.14,-0.12,-0.1,-0.08,-0.06,-0.04,-0.02,0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2], colors='k',linewidths=0.3, linestyles='solid',negative_linestyles='solid') #contour with manual vmax/vmin
     # ax.clabel(cs, inline=True,levels=[-0.2,-0.16,-0.12,-0.08,-0.04,0,0.04,0.08,0.12,0.16,0.2], fontsize=8)
-    fig.colorbar(cs,ax=ax,label=r'$u$ [m/s]',location='bottom',fraction=0.05,shrink=0.6) #turn this on to make a plot just for the colorbar
+    fig.colorbar(csf,ax=ax,label=r'$u$ [m/s]',location='bottom',fraction=0.05,shrink=0.6) #turn this on to make a plot just for the colorbar
     ax.set_xlabel('Distance [km]')
     ax.set_ylabel('Z [m]')
     
