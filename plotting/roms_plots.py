@@ -810,6 +810,143 @@ def P_sect_uw_quiver_eb(in_dict):
     else:
         plt.show()
 
+def P_sect_contour_u_eb(in_dict):
+    """
+    This plots a section (distance, z) with line contours, and makes sure
+    that the color limits are identical.
+    
+    Uses the new pfun.get_sect() function.
+    """
+    # START
+    fs = 14
+    # pfun.start_plot(fs=fs, figsize=(20,9))
+    pfun.start_plot(fs=fs, figsize=(15,7)) #make smaller for paper
+    fig = plt.figure()
+    ds = xr.open_dataset(in_dict['fn'])
+    # make u_rho #and add w_rho #maybe can skip this??
+    # u_rho = ds.salt * np.nan
+    # u = ds.u.values
+    # u_rho[:,:,:,1:-1] = (u[:,:,:,1:]+u[:,:,:,:-1])/2
+    # ds['u_rho']=u_rho
+
+    # PLOT CODE
+    # vn = 'u_rho'
+    # if vn == 'u_rho':
+    #     pinfo.cmap_dict[vn] = cm.balance
+    #     pinfo.fac_dict[vn] = 1
+    vn = 'u'
+    if vn == 'u':
+        pinfo.cmap_dict[vn] = cm.balance
+
+    # GET DATA
+    G, S, T = zrfun.get_basic_info(in_dict['fn'])
+
+    # CREATE THE SECTION
+    # create track by hand
+    lon = G['lon_rho']
+    lat = G['lat_rho']
+    zdeep = -205
+    #x = np.linspace(1.1, -1, 500) #sill1
+    #x_e = np.linspace(0.45, 0.675, 100) #use less points for shorter section?
+
+    #use 2.1 for all to get consistent x-axis scaling
+    x_e = np.linspace(0, 2.1, 500) #use less points for shorter section? 1.1 for 5km model, 1.3 for 20km, 2.1 for 80km
+    #xcoast = 94.3 #sill2
+    y_e = 45 * np.ones(x_e.shape)
+
+    #v2, v3, dist, idist0 = pfun.get_section(ds, vn, x, y, in_dict) #old section function
+    x, y, dist, dist_e, zbot, ztop, dist_se, zw_se, fld_s, lon, lat = pfun.get_sect(in_dict['fn'], vn, x_e, y_e)
+
+    # COLOR
+    # scaled section data
+    #sf = pinfo.fac_dict[vn] * v3['sectvarf'] #old
+    sf_u = pinfo.fac_dict[vn] * fld_s #new
+
+    # now we use the scaled section as the preferred field for setting the
+    # color limits of both figures in the case -avl True
+    if in_dict['auto_vlims']:
+        pinfo.vlims_dict[vn] = pfun.auto_lims(sf_u)
+    
+    # PLOTTING
+    # section
+    ax = fig.add_subplot(1, 1, 1) #no map, only contour section
+    # ax.plot(dist, v2['zbot'], 'k', linewidth=2)
+    # ax.plot(dist, v2['zeta'], '-k', linewidth=2)
+    ax.plot(dist, zbot, '-k', linewidth=2)
+    ax.plot(dist, ztop, '-b', linewidth=1)
+    ax.set_xlim(dist.min(), dist.max())
+    #ax.invert_xaxis() #not sure if this needs to be changed?
+    #ax.set_xticks([0, 2, 4, 6, 8, 10, 12]) #comment out for now
+    #ax.vlines(xcoast, -200, 0, linestyles='dashed') #add coast line #don't need since zoomed in
+    ax.set_ylim(zdeep, 5)
+    # plot section
+    # svlims = pinfo.vlims_dict[vn]
+    # cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:],
+    #                    vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #old
+    # cs = ax.pcolormesh(dist_se,zw_se,sf,
+    #                    vmin=svlims[0], vmax=svlims[1], cmap=pinfo.cmap_dict[vn]) #new
+    # cs = ax.contourf((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf,
+    #                     levels=[24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29,29.5,30,30.5,31,31.5,32,32.5,33,33.5,34], cmap=pinfo.cmap_dict[vn],extend='both') #contour with manual vmax/vmin
+    # cs = ax.contour((dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4,(zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4,sf,
+    #                     levels=[24,24.5,25,25.5,26,26.5,27,27.5,28,28.5,29,29.5,30,30.5,31,31.5,32,32.5,33,33.5,34], colors='k') #contour with manual vmax/vmin
+    
+    #pcolormesh u plot
+    # vmin = -0.1
+    # vmax = 0.1
+    # cs = ax.pcolormesh(v3['distf'][1:-1,:], v3['zrf'][1:-1,:], sf[1:-1,:], vmin=vmin, vmax=vmax, cmap=pinfo.cmap_dict[vn])
+    # cs = ax.pcolormesh(dist_se, zw_se, sf, vmin=vmin, vmax=vmax, cmap=pinfo.cmap_dict[vn])
+    #contour u plot
+    dist_plot = (dist_se[:-1,:-1]+dist_se[1:,:-1]+dist_se[:-1,1:]+dist_se[1:,1:])/4
+    z_plot = (zw_se[:-1,:-1]+zw_se[1:,:-1]+zw_se[:-1,1:]+zw_se[1:,1:])/4
+    cs = ax.contourf(dist_plot,z_plot,sf_u,
+                        levels=[-0.2,-0.18,-0.16,-0.14,-0.12,-0.1,-0.08,-0.06,-0.04,-0.02,0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2], cmap=pinfo.cmap_dict[vn],extend='both') #contour with manual vmax/vmin
+    cs = ax.contour(dist_plot,z_plot,sf_u,
+                        levels=[-0.2,-0.18,-0.16,-0.14,-0.12,-0.1,-0.08,-0.06,-0.04,-0.02,0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.2], colors='k') #contour with manual vmax/vmin
+    ax.clabel(cs, inline=True, fontsize=12)
+    ax.set_xlabel('Distance [km]')
+    ax.set_ylabel('Z [m]')
+    
+    # ax.set_title('Section %s %s' % (pinfo.tstr_dict[vn],pinfo.units_dict[vn])) #no title for paper plots
+
+    #this is similar to pfun.add info, but does not change the timezone and does not include showing the grid name
+    T = zrfun.get_basic_info(in_dict['fn'], only_T=True)
+    dt = T['dt']
+    ax.text(.97, .11, dt.strftime('%Y-%m-%d'),
+            horizontalalignment='right' , verticalalignment='bottom',
+            transform=ax.transAxes, fontsize=fs,
+            bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+    ax.text(.97, .1, dt.strftime('%H:%M'),
+            horizontalalignment='right', verticalalignment='top',
+            transform=ax.transAxes, fontsize=fs,
+            bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+    #add letters for paper subplots
+    gridname=(str(in_dict['fn']).split('/')[-3]).split('_')[0]
+    if gridname=='sill5km':
+        ax.text(.03, .1, 'A',
+            horizontalalignment='left', verticalalignment='top',
+            transform=ax.transAxes, fontsize=24, fontweight='bold')#,
+            #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+    elif gridname=='sill20kmdeep':
+        ax.text(.03, .1, 'B',
+            horizontalalignment='left', verticalalignment='top',
+            transform=ax.transAxes, fontsize=24, fontweight='bold')#,
+            #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+    elif gridname=='sill80km':
+        ax.text(.03, .1, 'C',
+            horizontalalignment='left', verticalalignment='top',
+            transform=ax.transAxes, fontsize=24, fontweight='bold')#,
+            #bbox=dict(facecolor='w', edgecolor='None',alpha=.5))
+
+    fig.tight_layout()
+    # FINISH
+    ds.close()
+    pfun.end_plot()
+    if len(str(in_dict['fn_out'])) > 0:
+        plt.savefig(in_dict['fn_out'])
+        plt.close()
+    else:
+        plt.show()
+
 def P_sect_u_eb(in_dict):
     """
     This plots a map and a section (distance, z), and makes sure
