@@ -290,7 +290,7 @@ for i in range(5):
         axs[1,0].plot(ot_hours_delta/24,Qprism.to_numpy(), color='tab:gray', linewidth=2) #cut off the weird ends
         axs[1,1].plot(ot_hours_delta/24,Qprism.to_numpy(), color='tab:gray', linewidth=2)
         axs[1,2].plot(ot_hours_delta/24,Qprism.to_numpy(), color='tab:gray', linewidth=2)
-        axs[1,0].set_ylabel('$Q_{prism}$ (5km)\n$[10^{3}\ m^{3}s^{-1}]$')
+        axs[1,0].set_ylabel('$Q_{prism}$ (5km b3)\n$[10^{3}\ m^{3}s^{-1}]$')
         axs[1,0].set_yticks(ticks=[20,50,80])
         axs[1,1].set_yticks(ticks=[20,50,80])
         axs[1,2].set_yticks(ticks=[20,50,80])
@@ -426,8 +426,8 @@ handles, labels = axs[0,0].get_legend_handles_labels()
 handles_reorder = np.concatenate((handles[::2],handles[1::2]),axis=0)
 labels_reorder = np.concatenate((labels[::2],labels[1::2]),axis=0)
 axs[0,0].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2)
-axs[0,1].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2) #can reuse labels and handles because all panels have same linestyles
-axs[0,2].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2) #can reuse labels and handles because all panels have same linestyles
+# axs[0,1].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2) #can reuse labels and handles because all panels have same linestyles
+# axs[0,2].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2) #can reuse labels and handles because all panels have same linestyles
 
 axs[0,0].set_box_aspect(1)
 axs[0,1].set_box_aspect(1)
