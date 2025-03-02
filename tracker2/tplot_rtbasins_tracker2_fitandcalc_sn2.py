@@ -17,7 +17,7 @@ import datetime
 
 plt.close('all')
 # fig, [ax1,ax2,ax3] = plt.subplots(1,3,figsize=(20,6))
-fig, axs = plt.subplots(2,2,figsize=(12,8), gridspec_kw={'height_ratios': [6,1]}, sharex=True)
+fig, axs = plt.subplots(2,2,figsize=(12,7), gridspec_kw={'height_ratios': [6,1]}, sharex=True)
 
 for i in range(5):
     # Choose an experiment and release to plot.
@@ -316,6 +316,11 @@ handles_reorder = np.concatenate((handles[::2],handles[1::2]),axis=0)
 labels_reorder = np.concatenate((labels[::2],labels[1::2]),axis=0)
 axs[0,0].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2)
 
+handles2, labels2 = axs[0,1].get_legend_handles_labels()
+handles_reorder2 = np.concatenate((handles2[::2],handles2[1::2]),axis=0)
+labels_reorder2 = np.concatenate((labels2[::2],labels2[1::2]),axis=0)
+axs[0,1].legend(handles_reorder2,labels_reorder2,loc='upper right',ncol=2)
+
 # ax2.set_xlabel('Days')
 # #ax1.set_ylabel('Number of particles')
 # ax2.set_title('Particles released on sill')
@@ -344,10 +349,10 @@ axs[0,0].set_box_aspect(1)
 axs[0,1].set_box_aspect(1)
 axs[0,0].xaxis.set_tick_params(labelbottom=True) #this is so we can use sharex
 axs[0,1].xaxis.set_tick_params(labelbottom=True)
-axs[0,0].text(.02, .02, 'A', horizontalalignment='left', verticalalignment='top', transform=axs[0,0].transAxes, fontsize=14, fontweight='bold')
-axs[0,1].text(.02, .02, 'B', horizontalalignment='left', verticalalignment='top', transform=axs[0,1].transAxes, fontsize=14, fontweight='bold')
-axs[1,0].text(.02, .5, 'C', horizontalalignment='left', verticalalignment='top', transform=axs[1,0].transAxes, fontsize=14, fontweight='bold')
-axs[1,1].text(.02, .5, 'D', horizontalalignment='left', verticalalignment='top', transform=axs[1,1].transAxes, fontsize=14, fontweight='bold')
+axs[0,0].text(.02, .02, 'A', horizontalalignment='left', verticalalignment='bottom', transform=axs[0,0].transAxes, fontsize=14, fontweight='bold')
+axs[0,1].text(.02, .02, 'B', horizontalalignment='left', verticalalignment='bottom', transform=axs[0,1].transAxes, fontsize=14, fontweight='bold')
+axs[1,0].text(.02, .5, 'C', horizontalalignment='left', verticalalignment='center', transform=axs[1,0].transAxes, fontsize=14, fontweight='bold')
+axs[1,1].text(.02, .5, 'D', horizontalalignment='left', verticalalignment='center', transform=axs[1,1].transAxes, fontsize=14, fontweight='bold')
 
 
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_fitandcalc_sn2.png'
