@@ -79,7 +79,7 @@ for i in range(5):
         axs[0,1].set_ylim(0,100)
         axs[1,0].plot(ot_hours_delta/24,Qprism.to_numpy(), color='tab:gray', linewidth=2) #cut off the weird ends
         axs[1,1].plot(ot_hours_delta/24,Qprism.to_numpy(), color='tab:gray', linewidth=2)
-        axs[1,0].set_ylabel('$Q_{prism}$ (5km)\n$[10^{3}\ m^{3}s^{-1}]$')
+        axs[1,0].set_ylabel('$Q_{prism}$ (5km b3)\n$[10^{3}\ m^{3}s^{-1}]$')
         axs[1,0].set_yticks(ticks=[20,50,80])
         axs[1,1].set_yticks(ticks=[20,50,80])
         axs[1,0].set_ylim(20,80)
