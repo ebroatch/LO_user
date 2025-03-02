@@ -220,8 +220,8 @@ for i in range(5):
     axs[0,1].plot(time_hours/24, zfun.lowpass(count_start_inup_stay_inup, f='godin'), '--', color=linecolor, label=silllenlabel) 
     axs[1,0].plot(time_hours/24, zfun.lowpass(count_start_outlow_stay_out, f='godin'), color=linecolor, label=silllenlabel) 
     axs[1,0].plot(time_hours/24, zfun.lowpass(count_start_outlow_stay_outlow, f='godin'), '--', color=linecolor, label=silllenlabel) 
-    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_out, f='godin'), color=linecolor, label=silllenlabel+' in basin') 
-    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_outup, f='godin'), '--', color=linecolor, label=silllenlabel+' in layer') 
+    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_out, f='godin'), color=linecolor, label=silllenlabel+' initial basin') 
+    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_outup, f='godin'), '--', color=linecolor, label=silllenlabel+' initial depth layer') 
 
     #could try with total number of particles and/or double axis
     
@@ -324,9 +324,9 @@ handles, labels = axs[0,0].get_legend_handles_labels()
 handles_reorder = np.concatenate((handles[::2],handles[1::2]),axis=0)
 labels_reorder = np.concatenate((labels[::2],labels[1::2]),axis=0)
 axs[0,0].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2)
-axs[0,1].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2) #can reuse the labels and handles since it's the same for all panels
-axs[1,0].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2) #can reuse the labels and handles since it's the same for all panels
-axs[1,1].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2) #can reuse the labels and handles since it's the same for all panels
+# axs[0,1].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2) #can reuse the labels and handles since it's the same for all panels
+# axs[1,0].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2) #can reuse the labels and handles since it's the same for all panels
+# axs[1,1].legend(handles_reorder,labels_reorder,loc='upper right',ncol=2) #can reuse the labels and handles since it's the same for all panels
 
 # ax2.set_xlabel('Days')
 # #ax1.set_ylabel('Number of particles')
