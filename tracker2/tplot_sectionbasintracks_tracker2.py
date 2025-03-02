@@ -150,12 +150,14 @@ ax.text(-0.2, 6, silllen_plot, horizontalalignment='left', verticalalignment='bo
 # add the tracks (packed [time, particle])
 # regular spaghetti plots
 step = 40 #step for subsampling lines
-ax.plot(lon[:,::step], z[:,::step], '-', color='tab:cyan', linewidth=.1, label='Track')
 ax.plot(lon[0,:], z[0,:], '.', color='tab:blue', label='Start')
 ax.plot(lon[-1,:], z[-1,:], '*', color='b', label='End')
-ax2.plot(lon2[:,::step], z2[:,::step], '-', color='tab:pink', linewidth=.1, label='Track')
+ax.plot(lon[:,::step], z[:,::step], '-', color='tab:cyan', linewidth=.1)
+ax.plot(lon[:,0], z[:,0], '-', color='tab:cyan', linewidth=.1, label='Track') #this one is just for the legend
 ax2.plot(lon2[0,:], z2[0,:], '.', color='m', label='Start')
 ax2.plot(lon2[-1,:], z2[-1,:], '*', color='r', label='End')
+ax2.plot(lon2[:,::step], z2[:,::step], '-', color='tab:pink', linewidth=.1)
+ax2.plot(lon2[:,0], z2[:,0], '-', color='tab:pink', linewidth=.1, label='Track') #this one is just for the legend
 # ax.plot(lon[0,:], z[0,:], '.g', alpha=.3, markeredgecolor='none')
 # ax.plot(lon[-1,:], z[-1,:], '.r', alpha=.3, markeredgecolor='none')
 ax.legend(loc='lower left',bbox_to_anchor=(0,0.03))
@@ -176,8 +178,8 @@ ax2.set_ylim(-205,5)
 # ax2.set_xlim(-0.2,1.1)
 ax2.set_xlim(-0.2,xlonlim)
 ax.text(-0.2, 6, silllen_plot, horizontalalignment='left', verticalalignment='bottom')
-ax.text(-200, 1.29, 'A', horizontalalignment='right', verticalalignment='bottom', fontsize=14, fontweight='bold')
-ax2.text(-200, 1.29, 'B', horizontalalignment='right', verticalalignment='bottom', fontsize=14, fontweight='bold')
+ax.text(1.29, -200, 'A', horizontalalignment='right', verticalalignment='bottom', fontsize=14, fontweight='bold')
+ax2.text(1.29, -200, 'B', horizontalalignment='right', verticalalignment='bottom', fontsize=14, fontweight='bold')
 
 # time series
 # td = (ot_vec - ot_vec[0])/86400
