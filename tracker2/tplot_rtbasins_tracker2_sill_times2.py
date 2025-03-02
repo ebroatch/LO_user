@@ -17,7 +17,7 @@ import datetime
 
 plt.close('all')
 # fig, axs = plt.subplots(1,5,figsize=(25,5))#,sharey=True)#,gridspec_kw={'height_ratios': [6,1]})
-fig, axs = plt.subplots(1,5,figsize=(18,6),sharey=True,layout='constrained')
+fig, axs = plt.subplots(1,5,figsize=(18,6),layout='constrained')
 # fig, ax = plt.subplots(1,1,figsize=(15,8))
 inout_duration_plot=np.zeros(5)
 inin_duration_plot=np.zeros(5)
@@ -98,7 +98,7 @@ for i in range(5):
     #time data
     time_hours = dsr.Time.values
     dsr.close()
-    print('got lon_vals and time\n')
+    # print('got lon_vals and time\n')
 
     # lon_start = lon_vals[np.newaxis, 0, :] #starting longitudes of the particles
     # lon_start_in = lon_start >= sillland #boolean array for particles starting in the inner basin
@@ -144,12 +144,12 @@ for i in range(5):
     onoff_par=on_ind[1] #this gives the column/particle number that goes with the on and off times
     #get the durations that particles spend on the sill
     durations=off_times-on_times
-    print('average duration:')
-    print(np.mean(durations))
-    print('max duration:')
-    print(np.max(durations))
-    print('min duration:')
-    print(np.min(durations))
+    # print('average duration:')
+    # print(np.mean(durations))
+    # print('max duration:')
+    # print(np.max(durations))
+    # print('min duration:')
+    # print(np.min(durations))
     #debugging
     # print('particle column mismatch:')
     # print(np.count_nonzero(on_ind[1]!=off_ind[1]))
@@ -185,14 +185,14 @@ for i in range(5):
     outout_durations = outout_durations[~np.isnan(outout_durations)]
     #these are the durations for each type of visit
     #print some info
-    print('average duration in-out:')
-    print(np.mean(inout_durations))
-    print('average duration in-in:')
-    print(np.mean(inin_durations))
-    print('average duration out-in:')
-    print(np.mean(outin_durations))
-    print('average duration out-out:')
-    print(np.mean(outout_durations))
+    # print('average duration in-out:')
+    # print(np.mean(inout_durations))
+    # print('average duration in-in:')
+    # print(np.mean(inin_durations))
+    # print('average duration out-in:')
+    # print(np.mean(outin_durations))
+    # print('average duration out-out:')
+    # print(np.mean(outout_durations))
 
     #up to this point we have ignored direct transits from inner-outer or outer-inner basins
     #if the particle transits the sill in less than 1 hour, it may not be recorded on the sill in the hourly track file
@@ -202,17 +202,17 @@ for i in range(5):
     direct_outin_code = +3
     direct_inout_count = np.sum(region_codes_transition==direct_inout_code) #only matters for the 5km model
     direct_outin_count = np.sum(region_codes_transition==direct_outin_code)
-    print('\nnumber of in->out direct: ')
-    print(direct_inout_count)
-    print('\nnumber of out->in direct: ')
-    print(direct_outin_count)
+    # print('\nnumber of in->out direct: ')
+    # print(direct_inout_count)
+    # print('\nnumber of out->in direct: ')
+    # print(direct_outin_count)
     #append these <1h transits to the durations as zeros
     inout_durations_full = np.concatenate((inout_durations,np.zeros(direct_inout_count)))
     outin_durations_full = np.concatenate((outin_durations,np.zeros(direct_outin_count)))
-    print('average duration in-out including direct:')
-    print(np.mean(inout_durations_full))
-    print('average duration out-in including direct:')
-    print(np.mean(outin_durations_full))
+    # print('average duration in-out including direct:')
+    # print(np.mean(inout_durations_full))
+    # print('average duration out-in including direct:')
+    # print(np.mean(outin_durations_full))
     
     #save some values for plotting later
     inout_duration_plot[i]=np.mean(inout_durations_full)
@@ -229,10 +229,10 @@ for i in range(5):
     hist_outout,binedges_outout = np.histogram(outout_durations,bins=binlist,density=True)
     hist_inout,binedges_inout = np.histogram(inout_durations,bins=binlist,density=True)
     hist_outin,binedges_outin = np.histogram(outin_durations,bins=binlist,density=True)
-    axs[i].plot(bincenters,hist_inin,lw=2,color='tab:pink',label='Inner basin reflux')
-    axs[i].plot(bincenters,hist_outout,lw=2,color='tab:blue',label='Outer basin reflux')
-    axs[i].plot(bincenters,hist_inout,lw=2,color=plt.cm.tab20(13),label='Efflux from inner basin')
-    axs[i].plot(bincenters,hist_outin,lw=2,color=plt.cm.tab20(19),label='Efflux from outer basin')
+    axs[i].plot(bincenters,hist_inin,lw=2,color='m',label='Return to inner basin')
+    axs[i].plot(bincenters,hist_outout,lw=2,color='tab:blue',label='Return to outer basin')
+    axs[i].plot(bincenters,hist_inout,lw=2,color=plt.cm.tab20(13),label='Transit from inner basin')
+    axs[i].plot(bincenters,hist_outin,lw=2,color=plt.cm.tab20(19),label='Transit from outer basin')
     # axs[i].hist(inin_durations,bins=binlist,histtype='step',color='tab:pink',label='Inner basin reflux')
     # axs[i].hist(outout_durations,bins=binlist,histtype='step',color='tab:blue',label='Outer basin reflux')
     # axs[i].hist(inout_durations,bins=binlist,histtype='step',color=plt.cm.tab20(13),label='Efflux from inner basin')
@@ -602,10 +602,10 @@ plt.close()
 
 #ANOTHER FIGURE WITH THE AVERAGES ALL IN ONE PLOT
 fig, ax = plt.subplots(1,1,figsize=(6,6))
-ax.plot(silllens_plot,inin_duration_plot,marker='o',c='tab:pink',ls='-',label=r'Returning to inner basin')
-ax.plot(silllens_plot,outout_duration_plot,marker='o',c='tab:cyan',ls='-',label=r'Returning to outer basin')
-ax.plot(silllens_plot,inout_duration_plot,marker='o',c=plt.cm.tab20(13),ls='--',label=r'Transiting from inner basin')
-ax.plot(silllens_plot,outin_duration_plot,marker='o',c=plt.cm.tab20(19),ls='--',label=r'Transiting from outer basin')
+ax.plot(silllens_plot,inin_duration_plot,marker='o',c='m',ls='-',label=r'Return to inner basin')
+ax.plot(silllens_plot,outout_duration_plot,marker='o',c='tab:blue',ls='-',label=r'Return to outer basin')
+ax.plot(silllens_plot,inout_duration_plot,marker='o',c=plt.cm.tab20(13),ls='-',label=r'Transit from inner basin')
+ax.plot(silllens_plot,outin_duration_plot,marker='o',c=plt.cm.tab20(19),ls='-',label=r'Transit from outer basin')
 ax.plot(silllens_plot,all_duration_plot,marker='o',c='tab:gray',ls=':',label=r'All visits to sill')
 ax.set_xlabel('Sill length [km]')
 ax.set_ylabel('Average duration on sill [h]')
