@@ -213,14 +213,32 @@ for i in range(5):
     #SCATTER PLOT OF DISTANCE VS DURATION
     # axs2[i].scatter(outout_durations,outout_dist_reached,marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin',zorder=2)
     # axs2[i].scatter(inin_durations,inin_dist_reached,marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin',zorder=1)
-    axs2[i].scatter(inin_durations[0::4],inin_dist_reached[0::4],marker='.',color='tab:pink',alpha=0.1)
-    axs2[i].scatter(outout_durations[0::4],outout_dist_reached[0::4],marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin') #try to mix the two scatters together
-    axs2[i].scatter(inin_durations[1::4],inin_dist_reached[1::4],marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
-    axs2[i].scatter(outout_durations[1::4],outout_dist_reached[1::4],marker='.',color='tab:cyan',alpha=0.1) #don't repeat labels
-    axs2[i].scatter(inin_durations[2::4],inin_dist_reached[2::4],marker='.',color='tab:pink',alpha=0.1)
-    axs2[i].scatter(outout_durations[2::4],outout_dist_reached[2::4],marker='.',color='tab:cyan',alpha=0.1) #don't repeat labels
-    axs2[i].scatter(inin_durations[3::4],inin_dist_reached[3::4],marker='.',color='tab:pink',alpha=0.1)
-    axs2[i].scatter(outout_durations[3::4],outout_dist_reached[3::4],marker='.',color='tab:cyan',alpha=0.1) #don't repeat labels
+
+    # axs2[i].scatter(inin_durations[0::4],inin_dist_reached[0::4],marker='.',color='tab:pink',alpha=0.1)
+    # axs2[i].scatter(outout_durations[0::4],outout_dist_reached[0::4],marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin') #try to mix the two scatters together
+    # axs2[i].scatter(inin_durations[1::4],inin_dist_reached[1::4],marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
+    # axs2[i].scatter(outout_durations[1::4],outout_dist_reached[1::4],marker='.',color='tab:cyan',alpha=0.1) #don't repeat labels
+    # axs2[i].scatter(inin_durations[2::4],inin_dist_reached[2::4],marker='.',color='tab:pink',alpha=0.1)
+    # axs2[i].scatter(outout_durations[2::4],outout_dist_reached[2::4],marker='.',color='tab:cyan',alpha=0.1) #don't repeat labels
+    # axs2[i].scatter(inin_durations[3::4],inin_dist_reached[3::4],marker='.',color='tab:pink',alpha=0.1)
+    # axs2[i].scatter(outout_durations[3::4],outout_dist_reached[3::4],marker='.',color='tab:cyan',alpha=0.1) #don't repeat labels
+
+    numscatter_in = len(inin_durations)
+    numscatter_out = len(outout_durations)
+    if numscatter_in>numscatter_out:
+        axs2[i].scatter(outout_durations[0],outout_dist_reached[0],marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin') #this is just for the legend label
+        axs2[i].scatter(inin_durations[numscatter_out:],inin_dist_reached[numscatter_out:],marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
+        for j in range(numscatter_out):
+            axs2[i].scatter(outout_durations[j],outout_dist_reached[j],marker='.',color='tab:cyan',alpha=0.1)
+            axs2[i].scatter(inin_durations[j],inin_dist_reached[j],marker='.',color='tab:pink',alpha=0.1)
+    elif numscatter_out>numscatter_in:
+        axs2[i].scatter(outout_durations[numscatter_in:],outout_dist_reached[numscatter_in:],marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin') #this is just for the legend label
+        axs2[i].scatter(inin_durations[0],inin_dist_reached[0],marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
+        for j in range(numscatter_in):
+            axs2[i].scatter(outout_durations[j],outout_dist_reached[j],marker='.',color='tab:cyan',alpha=0.1)
+            axs2[i].scatter(inin_durations[j],inin_dist_reached[j],marker='.',color='tab:pink',alpha=0.1)
+    else:
+        print('scatter problem!!!!')
 
     
 
@@ -776,10 +794,10 @@ plt.close('all')
 # fig, ax = plt.subplots(1,1,figsize=(15,8))
 fig, ax = plt.subplots(1,1,figsize=(6,6))
 axtwin = ax.twinx()
-# axtwin.plot(silllens_plot,outout_duration_plot,marker='^',c='tab:blue',ls=':',label=r'Duration (return to outer basin)')
-# axtwin.plot(silllens_plot,inin_duration_plot,marker='^',c='m',ls=':',label=r'Duration (return to inner basin)')
-ax.plot(silllens_plot,outout_duration_plot/1.5,marker='^',c='tab:blue',ls=':',label=r'Duration (return to outer basin)',zorder=1) #sneaky trick to fix zorder (CANNOT CHANGE AXIS LIMITS)
-ax.plot(silllens_plot,inin_duration_plot/1.5,marker='^',c='m',ls=':',label=r'Duration (return to inner basin)',zorder=1)
+axtwin.plot(silllens_plot,outout_duration_plot,marker='^',c='tab:blue',ls=':',label=r'Duration (return to outer basin)')
+axtwin.plot(silllens_plot,inin_duration_plot,marker='^',c='m',ls=':',label=r'Duration (return to inner basin)')
+# ax.plot(silllens_plot,outout_duration_plot/1.5,marker='^',c='tab:blue',ls=':',label=r'Duration (return to outer basin)',zorder=1) #sneaky trick to fix zorder (CANNOT CHANGE AXIS LIMITS)
+# ax.plot(silllens_plot,inin_duration_plot/1.5,marker='^',c='m',ls=':',label=r'Duration (return to inner basin)',zorder=1)
 ax.plot(silllens_plot,outout_dist_plot,marker='o',c='tab:cyan',ls='-',label=r'Distance reached  (return to outer basin)',zorder=2)
 ax.plot(silllens_plot,inin_dist_plot,marker='o',c='tab:pink',ls='-',label=r'Distance reached (return to inner basin)',zorder=2)
 
@@ -787,8 +805,8 @@ ax.set_xlabel('Sill length [km]')
 ax.set_ylabel('Average distance reached on sill [km]')
 axtwin.set_ylabel('Average duration on sill [h]')
 ax.set_xlim(0,85) 
-ax.set_ylim(0,12) #DO NOT CHANGE OR MUST CHANGE PLOTTING COMMANDS!!
-axtwin.set_ylim(0,18) #DO NOT CHANGE OR MUST CHANGE PLOTTING COMMANDS!!
+ax.set_ylim(0,12) 
+axtwin.set_ylim(0,18) 
 axtwin.set_yticks([0,3,6,9,12,15,18])
 # ax.set_title('Extent along sill reached by refluxed particles')
 ax.grid(True)
