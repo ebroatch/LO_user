@@ -350,7 +350,7 @@ axs[1,0].text(.02, .5, 'C', horizontalalignment='left', verticalalignment='top',
 axs[1,1].text(.02, .5, 'D', horizontalalignment='left', verticalalignment='top', transform=axs[1,1].transAxes, fontsize=14, fontweight='bold')
 
 
-fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_fitandcalc_sn.png'
+fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_fitandcalc_sn2.png'
 plt.savefig(fn_fig)
 plt.close()
 #plt.show()
