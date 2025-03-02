@@ -214,31 +214,39 @@ for i in range(5):
     # axs2[i].scatter(outout_durations,outout_dist_reached,marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin',zorder=2)
     # axs2[i].scatter(inin_durations,inin_dist_reached,marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin',zorder=1)
 
+    numscatter=100
+    for j in range(numscatter):
+        if j==0:
+            axs2[i].scatter(outout_durations[j::numscatter],outout_dist_reached[j::numscatter],marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin') #try to mix the two scatters together
+            axs2[i].scatter(inin_durations[j::numscatter],inin_dist_reached[j::numscatter],marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
+        else:
+            axs2[i].scatter(outout_durations[j::numscatter],outout_dist_reached[j::numscatter],marker='.',color='tab:cyan',alpha=0.1) #only label once
+            axs2[i].scatter(inin_durations[j::numscatter],inin_dist_reached[j::numscatter],marker='.',color='tab:pink',alpha=0.1)
+
     # axs2[i].scatter(inin_durations[0::4],inin_dist_reached[0::4],marker='.',color='tab:pink',alpha=0.1)
-    # axs2[i].scatter(outout_durations[0::4],outout_dist_reached[0::4],marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin') #try to mix the two scatters together
-    # axs2[i].scatter(inin_durations[1::4],inin_dist_reached[1::4],marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
+
     # axs2[i].scatter(outout_durations[1::4],outout_dist_reached[1::4],marker='.',color='tab:cyan',alpha=0.1) #don't repeat labels
     # axs2[i].scatter(inin_durations[2::4],inin_dist_reached[2::4],marker='.',color='tab:pink',alpha=0.1)
     # axs2[i].scatter(outout_durations[2::4],outout_dist_reached[2::4],marker='.',color='tab:cyan',alpha=0.1) #don't repeat labels
     # axs2[i].scatter(inin_durations[3::4],inin_dist_reached[3::4],marker='.',color='tab:pink',alpha=0.1)
     # axs2[i].scatter(outout_durations[3::4],outout_dist_reached[3::4],marker='.',color='tab:cyan',alpha=0.1) #don't repeat labels
 
-    numscatter_in = len(inin_durations)
-    numscatter_out = len(outout_durations)
-    if numscatter_in>numscatter_out:
-        axs2[i].scatter(outout_durations[0],outout_dist_reached[0],marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin') #this is just for the legend label
-        axs2[i].scatter(inin_durations[numscatter_out:],inin_dist_reached[numscatter_out:],marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
-        for j in range(numscatter_out):
-            axs2[i].scatter(outout_durations[j],outout_dist_reached[j],marker='.',color='tab:cyan',alpha=0.1)
-            axs2[i].scatter(inin_durations[j],inin_dist_reached[j],marker='.',color='tab:pink',alpha=0.1)
-    elif numscatter_out>numscatter_in:
-        axs2[i].scatter(outout_durations[numscatter_in:],outout_dist_reached[numscatter_in:],marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin') #this is just for the legend label
-        axs2[i].scatter(inin_durations[0],inin_dist_reached[0],marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
-        for j in range(numscatter_in):
-            axs2[i].scatter(outout_durations[j],outout_dist_reached[j],marker='.',color='tab:cyan',alpha=0.1)
-            axs2[i].scatter(inin_durations[j],inin_dist_reached[j],marker='.',color='tab:pink',alpha=0.1)
-    else:
-        print('scatter problem!!!!')
+    # numscatter_in = len(inin_durations)
+    # numscatter_out = len(outout_durations)
+    # if numscatter_in>numscatter_out:
+    #     axs2[i].scatter(outout_durations[0],outout_dist_reached[0],marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin') #this is just for the legend label
+    #     axs2[i].scatter(inin_durations[numscatter_out:],inin_dist_reached[numscatter_out:],marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
+    #     for j in range(numscatter_out):
+    #         axs2[i].scatter(outout_durations[j],outout_dist_reached[j],marker='.',color='tab:cyan',alpha=0.1)
+    #         axs2[i].scatter(inin_durations[j],inin_dist_reached[j],marker='.',color='tab:pink',alpha=0.1)
+    # elif numscatter_out>numscatter_in:
+    #     axs2[i].scatter(outout_durations[numscatter_in:],outout_dist_reached[numscatter_in:],marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin') #this is just for the legend label
+    #     axs2[i].scatter(inin_durations[0],inin_dist_reached[0],marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
+    #     for j in range(numscatter_in):
+    #         axs2[i].scatter(outout_durations[j],outout_dist_reached[j],marker='.',color='tab:cyan',alpha=0.1)
+    #         axs2[i].scatter(inin_durations[j],inin_dist_reached[j],marker='.',color='tab:pink',alpha=0.1)
+    # else:
+    #     print('scatter problem!!!!')
 
     
 
