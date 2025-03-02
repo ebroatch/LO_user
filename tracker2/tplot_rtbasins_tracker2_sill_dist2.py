@@ -211,8 +211,17 @@ for i in range(5):
 
 
     #SCATTER PLOT OF DISTANCE VS DURATION
-    axs2[i].scatter(outout_durations,outout_dist_reached,marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin',zorder=2)
-    axs2[i].scatter(inin_durations,inin_dist_reached,marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin',zorder=1)
+    # axs2[i].scatter(outout_durations,outout_dist_reached,marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin',zorder=2)
+    # axs2[i].scatter(inin_durations,inin_dist_reached,marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin',zorder=1)
+    axs2[i].scatter(outout_durations[0::4],outout_dist_reached[0::4],marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin') #try to mix the two scatters together
+    axs2[i].scatter(inin_durations[0::4],inin_dist_reached[0::4],marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
+    axs2[i].scatter(outout_durations[1::4],outout_dist_reached[1::4],marker='.',color='tab:cyan',alpha=0.1) #don't repeat labels
+    axs2[i].scatter(inin_durations[1::4],inin_dist_reached[1::4],marker='.',color='tab:pink',alpha=0.1)
+    axs2[i].scatter(outout_durations[2::4],outout_dist_reached[2::4],marker='.',color='tab:cyan',alpha=0.1) #don't repeat labels
+    axs2[i].scatter(inin_durations[2::4],inin_dist_reached[2::4],marker='.',color='tab:pink',alpha=0.1)
+    axs2[i].scatter(outout_durations[3::4],outout_dist_reached[3::4],marker='.',color='tab:cyan',alpha=0.1) #don't repeat labels
+    axs2[i].scatter(inin_durations[3::4],inin_dist_reached[3::4],marker='.',color='tab:pink',alpha=0.1)
+    
 
     # durbinmax=np.max(durations)
     # durbinlist=np.arange(-0.5,durbinmax+1.5,1)
@@ -756,7 +765,7 @@ axs2[2].text(.98, .02, 'C', horizontalalignment='right', verticalalignment='bott
 axs2[3].text(.98, .02, 'D', horizontalalignment='right', verticalalignment='bottom', transform=axs2[3].transAxes, fontsize=14, fontweight='bold')
 axs2[4].text(.98, .02, 'E', horizontalalignment='right', verticalalignment='bottom', transform=axs2[4].transAxes, fontsize=14, fontweight='bold')
 axs2[4].legend(loc='lower right',bbox_to_anchor=(0.92,0))
-fig2.suptitle('Particle distance reached by duration spent on sill')
+# fig2.suptitle('Particle distance reached by duration spent on sill')
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_dist_scatter2.png' #UNCOMMENT TO PLOT
 fig2.savefig(fn_fig)
 
@@ -764,8 +773,8 @@ plt.close('all')
 
 #ANOTHER FIGURE WITH THE AVERAGES ALL IN ONE PLOT
 # fig, ax = plt.subplots(1,1,figsize=(15,8))
-fig, ax = plt.subplots(1,1,figsize=(6,6))
-axtwin = ax.twinx()
+fig, axtwin = plt.subplots(1,1,figsize=(6,6))
+ax = axtwin.twinx()
 axtwin.plot(silllens_plot,outout_duration_plot,marker='^',c='tab:blue',ls=':',label=r'Duration (return to outer basin)')
 axtwin.plot(silllens_plot,inin_duration_plot,marker='^',c='m',ls=':',label=r'Duration (return to inner basin)')
 ax.plot(silllens_plot,outout_dist_plot,marker='o',c='tab:cyan',ls='-',label=r'Distance reached  (return to outer basin)')
@@ -785,8 +794,8 @@ lines2, labels2 = axtwin.get_legend_handles_labels()
 axtwin.legend(lines + lines2, labels + labels2, loc='lower right')
 ax.set_box_aspect(1)
 
-ax.set_zorder(axtwin.get_zorder()+1) #try to put distances in front
-ax.patch.set_visible(False)
+ax.yaxis.tick_right() #because we swapped the regular and twin axis for the zorder
+axtwin.yaxis.tick_left()
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_dist_avg2.png' #UNCOMMENT TO PLOT
 fig.savefig(fn_fig)
 plt.close()
