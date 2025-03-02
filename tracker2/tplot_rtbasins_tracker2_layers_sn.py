@@ -220,8 +220,8 @@ for i in range(5):
     axs[0,1].plot(time_hours/24, zfun.lowpass(count_start_inup_stay_inup, f='godin'), '--', color=linecolor, label=silllenlabel) 
     axs[1,0].plot(time_hours/24, zfun.lowpass(count_start_outlow_stay_out, f='godin'), color=linecolor, label=silllenlabel) 
     axs[1,0].plot(time_hours/24, zfun.lowpass(count_start_outlow_stay_outlow, f='godin'), '--', color=linecolor, label=silllenlabel) 
-    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_out, f='godin'), color=linecolor, label=silllenlabel+' initial basin') 
-    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_outup, f='godin'), '--', color=linecolor, label=silllenlabel+' initial depth layer') 
+    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_out, f='godin'), color=linecolor, label=silllenlabel+' basin') 
+    axs[0,0].plot(time_hours/24, zfun.lowpass(count_start_outup_stay_outup, f='godin'), '--', color=linecolor, label=silllenlabel+' depth layer') 
 
     #could try with total number of particles and/or double axis
     
