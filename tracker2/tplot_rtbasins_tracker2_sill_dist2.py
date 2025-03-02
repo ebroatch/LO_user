@@ -211,8 +211,8 @@ for i in range(5):
 
 
     #SCATTER PLOT OF DISTANCE VS DURATION
-    axs2[i].scatter(outout_durations,outout_dist_reached,marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin')
-    axs2[i].scatter(inin_durations,inin_dist_reached,marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
+    axs2[i].scatter(outout_durations,outout_dist_reached,marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin',zorder=2)
+    axs2[i].scatter(inin_durations,inin_dist_reached,marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin',zorder=1)
 
     # durbinmax=np.max(durations)
     # durbinlist=np.arange(-0.5,durbinmax+1.5,1)
@@ -784,6 +784,9 @@ lines, labels = ax.get_legend_handles_labels()
 lines2, labels2 = axtwin.get_legend_handles_labels()
 axtwin.legend(lines + lines2, labels + labels2, loc='lower right')
 ax.set_box_aspect(1)
+
+ax.set_zorder(axtwin.get_zorder()+1) #try to put distances in front
+ax.patch.set_visible(False)
 fn_fig = Ldir['LOo'] / 'plots' / 'tplot_rtbasins_tracker2_sill_dist_avg2.png' #UNCOMMENT TO PLOT
 fig.savefig(fn_fig)
 plt.close()
