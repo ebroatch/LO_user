@@ -220,8 +220,9 @@ for i in range(5):
             axs2[i].scatter(outout_durations[j::numscatter],outout_dist_reached[j::numscatter],marker='.',color='tab:cyan',alpha=0.1,label='Return to outer basin') #try to mix the two scatters together
             axs2[i].scatter(inin_durations[j::numscatter],inin_dist_reached[j::numscatter],marker='.',color='tab:pink',alpha=0.1,label='Return to inner basin')
         else:
-            axs2[i].scatter(outout_durations[j::numscatter],outout_dist_reached[j::numscatter],marker='.',color='tab:cyan',alpha=0.1) #only label once
             axs2[i].scatter(inin_durations[j::numscatter],inin_dist_reached[j::numscatter],marker='.',color='tab:pink',alpha=0.1)
+            axs2[i].scatter(outout_durations[j::numscatter],outout_dist_reached[j::numscatter],marker='.',color='tab:cyan',alpha=0.1) #only label once
+
 
     # axs2[i].scatter(inin_durations[0::4],inin_dist_reached[0::4],marker='.',color='tab:pink',alpha=0.1)
 
