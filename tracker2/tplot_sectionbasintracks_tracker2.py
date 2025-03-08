@@ -144,7 +144,7 @@ ax.set_ylabel('z')
 ax2.set_ylabel('z')
 # ax.set_title('Tracks starting at 45 degree latitude')
 ax.set_title('Particles released along centerline of outer basin')
-ax.set_title('Particles released along centerline of inner basin')
+ax2.set_title('Particles released along centerline of inner basin')
 ax.text(-0.2, 6, silllen_plot, horizontalalignment='left', verticalalignment='bottom')
 
 # add the tracks (packed [time, particle])
