@@ -401,17 +401,18 @@ fig, [ax1,ax2] = plt.subplots(1,2,figsize=(12,6))
 # fig, [ax1,ax2] = plt.subplots(1,2,figsize=(8,5))
 
 #plot in an order that puts flushing time at the back
-#new linestyles (2.65,(3.7, 1.6))
+#new linestyles
+#for offset dashed use (2.65,(3.7, 1.6))
 ax1.plot(silllens_plot,flushing_est_days,c='teal',marker='o',ls=':',label='Flushing time')
-ax1.plot(silllens_plot,residence_est_days,c=plt.cm.tab20b(14),marker='o',ls=(2.65,(3.7, 1.6)),label='Average strict residence time') #this linestyle is same dashes but offset
-ax1.plot(silllens_plot,exposure_est_days,c='tab:brown',marker='o',label='Average exposure time')
+ax1.plot(silllens_plot,residence_est_days,c=plt.cm.tab20b(14),marker='o',ls='--',label='Average strict residence time') #this linestyle is same dashes but offset
 ax1.plot(silllens_plot,efold_noreentry_est_days,c=plt.cm.tab20b(10),marker='o',ls='--',label='e-folding time (no reentry)')
+ax1.plot(silllens_plot,exposure_est_days,c='tab:brown',marker='o',label='Average exposure time')
 ax1.plot(silllens_plot,efold_est_days,c=plt.cm.tab20b(4),marker='o',label='e-folding time')
 
 ax2.plot(silllens_plot,flushing_inner_days,c='teal',marker='o',label='Flushing time',ls=':') #teal
-ax2.plot(silllens_plot,residence_inner_days,c=plt.cm.tab20b(14),marker='o',ls=(2.65,(3.7, 1.6)),label='Average strict residence time') #red
-ax2.plot(silllens_plot,exposure_inner_days,c='tab:brown',marker='o',label='Average exposure time') #brown
+ax2.plot(silllens_plot,residence_inner_days,c=plt.cm.tab20b(14),marker='o',ls='--',label='Average strict residence time') #red
 ax2.plot(silllens_plot,efold_noreentry_inner_days,c=plt.cm.tab20b(10),marker='o',ls='--',label='e-folding time (no reentry)') #yellow
+ax2.plot(silllens_plot,exposure_inner_days,c='tab:brown',marker='o',label='Average exposure time') #brown
 ax2.plot(silllens_plot,efold_inner_days,c=plt.cm.tab20b(4),marker='o',label='e-folding time') #green
 
 
