@@ -1320,7 +1320,7 @@ def P_saltmap_eb(in_dict):
     aa1 = [-2, 0, 44.5, 46.5]
     # aa2 = [-4, 4, 43, 47] #sill1
     aa2 = [-4, 2, 43, 47] #sill2
-    aa3 = [-0.2, 1.2, 44.9, 45.1]
+    aa3 = [-0.2, 1.3, 44.9, 45.1]
     # find aspect ratio of the map
     # AR is the aspect ratio of the map: Vertical/Horizontal
     # AR = (aa[3] - aa[2]) / (np.sin(np.pi*aa[2]/180)*(aa[1] - aa[0]))
